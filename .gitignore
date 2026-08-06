@@ -21,3 +21,9 @@ raw_videos/
 
 # Log Dosyaları
 *.log
+# Dataset ve Videolar
+dataset/raw_videos/*
+dataset/frames/*
+dataset/vector_db/*
+!dataset/raw_videos/.gitkeep
+!dataset/frames/.gitkeep

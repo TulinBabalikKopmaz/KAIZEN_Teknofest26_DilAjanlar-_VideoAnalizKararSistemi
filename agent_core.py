@@ -20,11 +20,13 @@ __all__ = [
 ]
 
 if __name__ == "__main__":
-    from main import run_pipeline
+    import asyncio
     import json
 
+    from graph_pipeline import run_pipeline
+
     print("Gerçek VLM Entegrasyonlu Ajan Başlatılıyor...")
-    print("(Not: Tercih edilen giriş noktası artık main.py)")
-    output = run_pipeline()
+    print("(Not: E2E giriş noktası main.py; LangGraph için graph_pipeline.py)")
+    output = asyncio.run(run_pipeline())
     print("\n=== FINAL AJAN ÇIKTI (JSON) ===")
     print(json.dumps(output, indent=4, ensure_ascii=False))
