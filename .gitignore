@@ -1,0 +1,23 @@
+# Python Cache
+__pycache__/
+*.py[cod]
+*Zone.Identifier
+
+# Dataset, Görüntü ve Videolar
+keyframes/
+dataset/
+raw_videos/
+*.mp4
+*.avi
+*.jpg
+*.jpeg
+*.png
+
+# Model Ağırlıkları
+*.pt
+*.onnx
+*.weights
+*.safetensors
+
+# Log Dosyaları
+*.log
