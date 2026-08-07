@@ -31,7 +31,10 @@ def build_workflow() -> Any:
     return workflow.compile()
 
 
-async def run_pipeline(keyframes: list[str] | None = None) -> dict[str, Any]:
+async def run_pipeline(
+    keyframes: list[str] | None = None,
+    trigger_reason: str = "",
+) -> dict[str, Any]:
     """Pipeline'ı çalıştırır ve final JSON çıktısını döner."""
     if keyframes is None:
         keyframes = sorted(glob.glob("keyframes/*.jpg"))
@@ -41,6 +44,8 @@ async def run_pipeline(keyframes: list[str] | None = None) -> dict[str, Any]:
         "analysis_result": {},
         "risk_level": "",
         "recommended_actions": [],
+        "rag_context": "",
+        "trigger_reason": trigger_reason,
     }
 
     app = build_workflow()
@@ -51,6 +56,8 @@ async def run_pipeline(keyframes: list[str] | None = None) -> dict[str, Any]:
         "olay_ozeti": final_state["analysis_result"].get("event"),
         "risk_seviyesi": final_state["risk_level"],
         "onerilen_aksiyonlar": final_state["recommended_actions"],
+        "isg_kanun_maddeleri": final_state.get("rag_context", ""),
+        "tetik_sebebi": final_state.get("trigger_reason", trigger_reason),
     }
 
 

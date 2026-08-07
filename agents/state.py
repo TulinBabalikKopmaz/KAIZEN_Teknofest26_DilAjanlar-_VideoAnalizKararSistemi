@@ -10,3 +10,5 @@ class AgentState(TypedDict):
     analysis_result: dict
     risk_level: str
     recommended_actions: List[str]
+    rag_context: str
+    trigger_reason: str

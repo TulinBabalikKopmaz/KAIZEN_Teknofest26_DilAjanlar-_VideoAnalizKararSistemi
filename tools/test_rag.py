@@ -49,6 +49,8 @@ def build_mock_state() -> AgentState:
         },
         "risk_level": MOCK_RISK_LEVEL,
         "recommended_actions": [],
+        "rag_context": "",
+        "trigger_reason": "",
     }
 
 

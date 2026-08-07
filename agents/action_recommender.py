@@ -115,7 +115,8 @@ async def action_recommender_tool(state: AgentState) -> dict[str, Any]:
             "recommended_actions": [
                 "Sistemi standart şekilde izlemeye devam et",
                 "Periyodik kontrolleri sürdür",
-            ]
+            ],
+            "rag_context": "",
         }
 
     rag_query = f"{event_text} Risk seviyesi: {risk}".strip()
@@ -161,4 +162,7 @@ async def action_recommender_tool(state: AgentState) -> dict[str, Any]:
         print(f"API Hatası (Action Recommender): {e}")
         actions = ["Sistem operatörünü manuel inceleme için uyar!"]
 
-    return {"recommended_actions": actions}
+    return {
+        "recommended_actions": actions,
+        "rag_context": retrieved_texts,
+    }
