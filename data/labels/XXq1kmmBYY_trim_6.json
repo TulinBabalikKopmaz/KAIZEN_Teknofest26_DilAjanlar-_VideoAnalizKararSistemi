@@ -1,0 +1,23 @@
+{
+  "video_id": "XXq1kmmBYY_trim_6",
+  "filename": "_XXq1kmmBYY_trim_6.mp4",
+  "category": "accident",
+  "duration_sec": 7.0,
+  "status": "auto",
+  "labeled_by": "qwen:qwen2.5vl:7b",
+  "summary": "Operatörlerin iş yerinde normal bir durum.",
+  "events": [
+    {
+      "time": "00:05",
+      "time_end": "00:05",
+      "event": "Operatörlerin iş yerinde normal bir durum.",
+      "event_type": "normal",
+      "severity": "düşük"
+    }
+  ],
+  "risk": "Düşük",
+  "actions": [
+    "Rutin izlemeye devam et"
+  ],
+  "notes": "Otomatik taslak. Gold değil; Streamlit'te kontrol edin."
+}

@@ -1,0 +1,13 @@
+{
+  "summary": "Operatör, platformda duruyor.",
+  "events": [
+    {
+      "time": "00:00",
+      "event": "Operatör platformda duruyor"
+    }
+  ],
+  "risk": "Düşük",
+  "actions": [
+    "Rutin izlemeye devam et"
+  ]
+}

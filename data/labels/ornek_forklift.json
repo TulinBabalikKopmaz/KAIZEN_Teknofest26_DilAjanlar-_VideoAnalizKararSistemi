@@ -1,0 +1,38 @@
+{
+  "video_id": "ornek_forklift",
+  "filename": "ornek_forklift.mp4",
+  "category": "accident",
+  "duration_sec": 45,
+  "status": "gold",
+  "labeled_by": "human",
+  "summary": "Videoda forklift kazası ve yaralanma riski gözlenmiştir.",
+  "events": [
+    {
+      "time": "00:15",
+      "time_end": "00:18",
+      "event": "Forklift devrildi",
+      "event_type": "kaza",
+      "severity": "yuksek"
+    },
+    {
+      "time": "00:20",
+      "time_end": "00:28",
+      "event": "Yerde hareketsiz kişi",
+      "event_type": "kaza",
+      "severity": "yuksek"
+    },
+    {
+      "time": "00:35",
+      "time_end": "",
+      "event": "Personel toplanması",
+      "event_type": "mudahale",
+      "severity": "orta"
+    }
+  ],
+  "risk": "Yüksek",
+  "actions": [
+    "Sağlık ekibini çağır",
+    "Alanı güvenlik altına al"
+  ],
+  "notes": "Şartnamedeki örnek senaryo. Gerçek video değil."
+}

@@ -1,0 +1,13 @@
+{
+  "summary": "Gara önünde bir kişi yerde yatıyor.",
+  "events": [
+    {
+      "time": "00:05",
+      "event": "bir kişi gara önünde yerde yatıyor"
+    }
+  ],
+  "risk": "Düşük",
+  "actions": [
+    "rutin izlemeye devam et"
+  ]
+}

@@ -1,0 +1,23 @@
+{
+  "video_id": "accident_bef38a0ce2",
+  "filename": "Beylikdüzü.anlık - Beylikdüzü Yeşil Flamingo Sitesi’nde yaşanan, Aydın Dirikolu’nun (61)... [2088241217045774336].mp4",
+  "category": "accident",
+  "duration_sec": 14.53,
+  "status": "auto",
+  "labeled_by": "qwen:qwen2.5vl:7b",
+  "summary": "Gara önünde bir kişi yerde yatıyor.",
+  "events": [
+    {
+      "time": "00:05",
+      "time_end": "00:10",
+      "event": "bir kişi gara önünde yerde yatıyor",
+      "event_type": "normal",
+      "severity": "düşük"
+    }
+  ],
+  "risk": "Düşük",
+  "actions": [
+    "rutin izlemeye devam et"
+  ],
+  "notes": "Otomatik taslak. Gold değil; Streamlit'te kontrol edin."
+}

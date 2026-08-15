@@ -1,0 +1,14 @@
+{
+  "summary": "Kişinin kıyafetinin yandığı tespit edilmiştir.",
+  "events": [
+    {
+      "time": "00:03",
+      "event": "Kişinin kıyafetinin yandığı tespit edilmiştir."
+    }
+  ],
+  "risk": "Yüksek",
+  "actions": [
+    "Sağlık ekibi ve itfaiye çağır.",
+    "Alanı güvene al."
+  ]
+}

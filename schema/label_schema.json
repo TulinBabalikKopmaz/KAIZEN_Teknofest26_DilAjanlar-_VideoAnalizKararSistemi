@@ -1,0 +1,58 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "TEKNOFEST 2026 Video Gold Label",
+  "description": "Şartnamedeki mock JSON + değerlendirme için gerekli ek alanlar.",
+  "type": "object",
+  "required": ["video_id", "filename", "category", "summary", "events", "risk", "actions"],
+  "properties": {
+    "video_id": { "type": "string" },
+    "filename": { "type": "string" },
+    "category": {
+      "type": "string",
+      "enum": ["normal", "near_miss", "accident"]
+    },
+    "duration_sec": { "type": "number" },
+    "status": {
+      "type": "string",
+      "enum": ["auto", "in_review", "gold"]
+    },
+    "labeled_by": { "type": "string" },
+    "summary": { "type": "string" },
+    "events": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["time", "event"],
+        "properties": {
+          "time": {
+            "type": "string",
+            "pattern": "^[0-9]{2}:[0-9]{2}$",
+            "description": "MM:SS, şartname örneği ile aynı"
+          },
+          "time_end": {
+            "type": "string",
+            "pattern": "^[0-9]{2}:[0-9]{2}$"
+          },
+          "event": { "type": "string" },
+          "event_type": {
+            "type": "string",
+            "enum": ["normal", "near_miss", "kaza", "risk", "mudahale", "diger"]
+          },
+          "severity": {
+            "type": "string",
+            "enum": ["dusuk", "orta", "yuksek"]
+          }
+        }
+      }
+    },
+    "risk": {
+      "type": "string",
+      "enum": ["Düşük", "Orta", "Yüksek"]
+    },
+    "actions": {
+      "type": "array",
+      "items": { "type": "string" }
+    },
+    "notes": { "type": "string" }
+  }
+}

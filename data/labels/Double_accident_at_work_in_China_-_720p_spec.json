@@ -1,0 +1,14 @@
+{
+  "summary": "İşçi, robot tarafından taşılan malzemenin altında duruyor.",
+  "events": [
+    {
+      "time": "00:19",
+      "event": "İşçi, robot tarafından taşılan malzemenin altında duruyor"
+    }
+  ],
+  "risk": "Orta",
+  "actions": [
+    "Robot hareketini durdurun",
+    "İşçiyi malzemenin altından çıkartın"
+  ]
+}

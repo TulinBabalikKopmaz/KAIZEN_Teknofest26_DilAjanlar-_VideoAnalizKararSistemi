@@ -1,0 +1,13 @@
+{
+  "summary": "Çalışan elinde yük varken dengesi kaybetti ve yüksekten düştü",
+  "events": [
+    {
+      "time": "00:03",
+      "event": "Çalışan elinde yük varken dengesi kaybetti ve yüksekten düştü"
+    }
+  ],
+  "risk": "Orta",
+  "actions": [
+    "Sağlık ekibi çağır"
+  ]
+}

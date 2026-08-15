@@ -1,0 +1,13 @@
+{
+  "summary": "Operatör dengesini kaybedip düşüyor. Operatörün üstüne araba düşüyor. İnsanlar yardıma geliyor.",
+  "events": [
+    {
+      "time": "00:04",
+      "event": "Operatörün üstüne araba düştü."
+    }
+  ],
+  "risk": "Yüksek",
+  "actions": [
+    "Sağlık ekibi çağırın."
+  ]
+}

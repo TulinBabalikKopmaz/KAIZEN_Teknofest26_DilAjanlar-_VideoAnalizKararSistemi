@@ -1,0 +1,24 @@
+{
+  "video_id": "2uuwpx1ykPQ_trim_0",
+  "filename": "2uuwpx1ykPQ_trim_0.mp4",
+  "category": "accident",
+  "duration_sec": 5.0,
+  "labeled_by": "human",
+  "summary": "Kişinin kıyafetinin yandığı tespit edilmiştir.",
+  "events": [
+    {
+      "time": "00:03",
+      "time_end": "00:05",
+      "event": "Kişinin kıyafetinin yandığı tespit edilmiştir.",
+      "event_type": "kaza",
+      "severity": "yuksek"
+    }
+  ],
+  "risk": "Yüksek",
+  "actions": [
+    "Sağlık ekibi ve itfaiye çağır.",
+    "Alanı güvene al."
+  ],
+  "notes": "",
+  "status": "gold"
+}

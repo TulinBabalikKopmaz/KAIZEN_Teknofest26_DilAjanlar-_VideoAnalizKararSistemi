@@ -1,0 +1,23 @@
+{
+  "video_id": "-BzGMvclD88_trim_1",
+  "filename": "-BzGMvclD88_trim_1.mp4",
+  "category": "accident",
+  "duration_sec": null,
+  "labeled_by": "human",
+  "summary": "Çalışan elinde yük varken dengesi kaybetti ve yüksekten düştü",
+  "events": [
+    {
+      "time": "00:03",
+      "time_end": "00:04",
+      "event": "Çalışan elinde yük varken dengesi kaybetti ve yüksekten düştü",
+      "event_type": "kaza",
+      "severity": "orta"
+    }
+  ],
+  "risk": "Orta",
+  "actions": [
+    "Sağlık ekibi çağır"
+  ],
+  "notes": "",
+  "status": "gold"
+}

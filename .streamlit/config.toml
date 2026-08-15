@@ -1,0 +1,9 @@
+[server]
+# 0.0.0.0: LAN ve HTTPS tünel (localtunnel/ngrok) için; 127.0.0.1 dışarıdan bağlanmayı keser.
+address = "0.0.0.0"
+port = 8501
+headless = true
+# Tünelde public Origin/Host localhost ile eşleşmez; Streamlit CORS/XSRF websocket'i keser.
+# Küçük takım aracı (auth yok) — URL'yi yalnızca takım arkadaşıyla paylaşın.
+enableCORS = false
+enableXsrfProtection = false

@@ -1,0 +1,13 @@
+{
+  "summary": "Çalışanın taşıdığı yük devrildi. Çalışanın yüksekten düşmesine sebep oldu.",
+  "events": [
+    {
+      "time": "00:04",
+      "event": "Çalışan yükü devirdi. Çalışan yüksekten düştü."
+    }
+  ],
+  "risk": "Orta",
+  "actions": [
+    "Sağlık ekibi çağır."
+  ]
+}

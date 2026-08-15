@@ -1,0 +1,13 @@
+{
+  "summary": "İşletme içindeki yük taşımak için kullanılan forkliftlerin normal bir şekilde hareket ediyor.",
+  "events": [
+    {
+      "time": "00:00",
+      "event": "İşletme içindeki yük taşımak için kullanılan forkliftlerin normal bir şekilde hareket ediyor."
+    }
+  ],
+  "risk": "Düşük",
+  "actions": [
+    "Rutin izlemeye devam et"
+  ]
+}

@@ -1,0 +1,23 @@
+{
+  "video_id": "6AISVvob4C0_trim_7",
+  "filename": "6AISVvob4C0_trim_7.mp4",
+  "category": "accident",
+  "duration_sec": 6.0,
+  "status": "auto",
+  "labeled_by": "qwen:qwen2.5vl:7b",
+  "summary": "Operatör, platformda duruyor.",
+  "events": [
+    {
+      "time": "00:00",
+      "time_end": "00:04",
+      "event": "Operatör platformda duruyor",
+      "event_type": "normal",
+      "severity": "düşük"
+    }
+  ],
+  "risk": "Düşük",
+  "actions": [
+    "Rutin izlemeye devam et"
+  ],
+  "notes": "Otomatik taslak. Gold değil; Streamlit'te kontrol edin."
+}

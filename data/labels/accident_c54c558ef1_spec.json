@@ -1,0 +1,14 @@
+{
+  "summary": "Operatör, yükü taşıyan paleti kontrol ederken forkliftin önünden geçer.",
+  "events": [
+    {
+      "time": "00:04",
+      "event": "Operatör, paleti kontrol ederken forkliftin önünden geçer"
+    }
+  ],
+  "risk": "Orta",
+  "actions": [
+    "Operatör, forkliftin önünden geçerken dikkatli olmalı",
+    "Rutin izlemeye devam et"
+  ]
+}

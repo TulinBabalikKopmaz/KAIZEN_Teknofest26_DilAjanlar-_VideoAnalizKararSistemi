@@ -1,0 +1,14 @@
+{
+  "summary": "Binadan duman ve alevler yükseliyor. Yangın olabilir",
+  "events": [
+    {
+      "time": "00:01",
+      "event": "Binadan duman ve alevler yükseliyor. "
+    }
+  ],
+  "risk": "Yüksek",
+  "actions": [
+    "Sağlık ekibi ve itfaiyeye haber ver.",
+    "Alanı güvene al."
+  ]
+}

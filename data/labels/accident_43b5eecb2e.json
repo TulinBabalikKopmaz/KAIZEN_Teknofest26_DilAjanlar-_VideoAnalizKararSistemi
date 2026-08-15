@@ -1,0 +1,23 @@
+{
+  "video_id": "accident_43b5eecb2e",
+  "filename": "3XOG - Workplace accidents happen all the time! All we can do is try learn f... [1615153821189013504].mp4",
+  "category": "accident",
+  "duration_sec": 10.87,
+  "labeled_by": "human",
+  "summary": "Operatör dengesini kaybedip düşüyor. Operatörün üstüne araba düşüyor. İnsanlar yardıma geliyor.",
+  "events": [
+    {
+      "time": "00:04",
+      "time_end": "00:07",
+      "event": "Operatörün üstüne araba düştü.",
+      "event_type": "risk",
+      "severity": "yuksek"
+    }
+  ],
+  "risk": "Yüksek",
+  "actions": [
+    "Sağlık ekibi çağırın."
+  ],
+  "notes": "",
+  "status": "gold"
+}
