@@ -11,6 +11,7 @@ data/videos/**
 !data/videos/**/.gitkeep
 data/frames/
 data/labels/*_auto.json
+data/labels/_auto_label_log.txt
 data/incoming/
 *.zip
 .streamlit/secrets.toml
