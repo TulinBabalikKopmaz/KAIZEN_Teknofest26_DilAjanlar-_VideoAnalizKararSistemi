@@ -1,17 +1,42 @@
 .venv/
 __pycache__/
-*.pyc
+*.py[cod]
 .DS_Store
 .env
+*Zone.Identifier
+
+# Etiketleme pipeline videoları
 data/videos/**
 !data/videos/**/
 !data/videos/**/.gitkeep
 data/frames/
 data/labels/*_auto.json
 data/labels/_auto_label_log.txt
+.streamlit/secrets.toml
+
+# Dataset, görüntü ve videolar
+keyframes/
+dataset/
+raw_videos/
 *.mp4
 *.mov
 *.avi
 *.mkv
 *.webm
-.streamlit/secrets.toml
+*.jpg
+*.jpeg
+*.png
+
+# Model ağırlıkları
+*.pt
+*.onnx
+*.weights
+*.safetensors
+
+# Log
+*.log
+dataset/raw_videos/*
+dataset/frames/*
+dataset/vector_db/*
+!dataset/raw_videos/.gitkeep
+!dataset/frames/.gitkeep
