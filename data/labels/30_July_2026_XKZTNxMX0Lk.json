@@ -1,0 +1,23 @@
+{
+  "video_id": "30_July_2026_XKZTNxMX0Lk",
+  "filename": "30 July 2026 [XKZTNxMX0Lk].mp4",
+  "category": "normal",
+  "duration_sec": null,
+  "labeled_by": "human",
+  "summary": "Çalışan rutin aktivitesini sürdürüyor. Normal gözüküyor.",
+  "events": [
+    {
+      "time": "00:00",
+      "time_end": "",
+      "event": "Çalışan rutin aktivitesini sürdürüyor.",
+      "event_type": "normal",
+      "severity": "dusuk"
+    }
+  ],
+  "risk": "Düşük",
+  "actions": [
+    "Rutin izlemeye devam et."
+  ],
+  "notes": "",
+  "status": "gold"
+}

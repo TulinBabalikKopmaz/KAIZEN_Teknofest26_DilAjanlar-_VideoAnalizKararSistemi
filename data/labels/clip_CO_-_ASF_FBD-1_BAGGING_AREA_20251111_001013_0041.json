@@ -1,0 +1,23 @@
+{
+  "video_id": "clip_CO_-_ASF_FBD-1_BAGGING_AREA_20251111_001013_0041",
+  "filename": "clip_CO_-_ASF_FBD-1_BAGGING_AREA_20251111_001013_0041.mp4",
+  "category": "normal",
+  "duration_sec": null,
+  "labeled_by": "human",
+  "summary": "Çalışanlar rutin aktivitesini sürdürüyor. Normal gözüküyor.",
+  "events": [
+    {
+      "time": "00:00",
+      "time_end": "",
+      "event": "Çalışan rutin aktivitesini sürdürüyor.",
+      "event_type": "normal",
+      "severity": "dusuk"
+    }
+  ],
+  "risk": "Düşük",
+  "actions": [
+    "Rutin izlemeye devam et."
+  ],
+  "notes": "",
+  "status": "gold"
+}

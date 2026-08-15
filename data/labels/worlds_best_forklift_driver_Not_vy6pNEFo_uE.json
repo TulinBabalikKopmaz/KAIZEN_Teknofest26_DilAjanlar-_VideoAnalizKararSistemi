@@ -1,0 +1,24 @@
+{
+  "video_id": "worlds_best_forklift_driver_Not_vy6pNEFo_uE",
+  "filename": "worlds best forklift driver, Not!!! [vy6pNEFo_uE].mp4",
+  "category": "accident",
+  "duration_sec": 30.52,
+  "status": "auto",
+  "labeled_by": "qwen:qwen2.5vl:7b",
+  "summary": "Forklift driver loses control, causing a large explosion.",
+  "events": [
+    {
+      "time": "00:10",
+      "time_end": "00:20",
+      "event": "Forklift driver loses control",
+      "event_type": "kaza",
+      "severity": "yuksek"
+    }
+  ],
+  "risk": "Yüksek",
+  "actions": [
+    "Forklift driver should immediately stop the forklift and check for injuries.",
+    "Ensure all workers are evacuated from the area."
+  ],
+  "notes": "Otomatik taslak. Gold değil; Streamlit'te kontrol edin."
+}

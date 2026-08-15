@@ -1,9 +1,9 @@
 {
-  "summary": "Operatör dengesini kaybedip düşüyor. Operatörün üstüne araba düşüyor. İnsanlar yardıma geliyor.",
+  "summary": "Çalışan dengesini kaybedip düşüyor. Çalışanın üstüne araba düşüyor. İnsanlar yardıma geliyor.",
   "events": [
     {
       "time": "00:04",
-      "event": "Operatörün üstüne araba düştü."
+      "event": "Çalışan arabanın altında kaldı."
     }
   ],
   "risk": "Yüksek",

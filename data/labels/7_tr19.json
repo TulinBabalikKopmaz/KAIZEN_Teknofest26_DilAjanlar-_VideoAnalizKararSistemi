@@ -1,0 +1,23 @@
+{
+  "video_id": "7_tr19",
+  "filename": "7_tr19.mp4",
+  "category": "normal",
+  "duration_sec": null,
+  "labeled_by": "human",
+  "summary": "Çalışan rutin aktivitesini sürdürüyor. Normal gözüküyor.",
+  "events": [
+    {
+      "time": "00:00",
+      "time_end": "",
+      "event": "Çalışan forklift sürüyor",
+      "event_type": "normal",
+      "severity": "dusuk"
+    }
+  ],
+  "risk": "Düşük",
+  "actions": [
+    "Rutin izlemeye devam et."
+  ],
+  "notes": "",
+  "status": "gold"
+}

@@ -1,0 +1,23 @@
+{
+  "video_id": "forklift_guy_was_chilling_when_a_woman_attacks_his_forks_s-UHzuOh3B4",
+  "filename": "forklift guy was chilling when a woman attacks his forks [s-UHzuOh3B4].mp4",
+  "category": "accident",
+  "duration_sec": 4.63,
+  "labeled_by": "human",
+  "summary": "kişi bisiklet sürerken forklifte çarpıp düşüyor.",
+  "events": [
+    {
+      "time": "00:02",
+      "time_end": "00:04",
+      "event": "kişi forklifte çarpıp yere düşüyor.",
+      "event_type": "normal",
+      "severity": "yuksek"
+    }
+  ],
+  "risk": "Yüksek",
+  "actions": [
+    "sağlık ekibi çağır."
+  ],
+  "notes": "Otomatik taslak. Gold değil; Streamlit'te kontrol edin.",
+  "status": "gold"
+}

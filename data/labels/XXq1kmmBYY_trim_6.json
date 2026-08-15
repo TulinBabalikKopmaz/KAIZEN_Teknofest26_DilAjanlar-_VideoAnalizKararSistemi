@@ -3,21 +3,21 @@
   "filename": "_XXq1kmmBYY_trim_6.mp4",
   "category": "accident",
   "duration_sec": 7.0,
-  "status": "auto",
-  "labeled_by": "qwen:qwen2.5vl:7b",
-  "summary": "Operatörlerin iş yerinde normal bir durum.",
+  "labeled_by": "human",
+  "summary": "Forklift tavandan sarkan maddeye çarpıyor ve tavan çöküyor.",
   "events": [
     {
-      "time": "00:05",
-      "time_end": "00:05",
-      "event": "Operatörlerin iş yerinde normal bir durum.",
-      "event_type": "normal",
-      "severity": "düşük"
+      "time": "00:03",
+      "time_end": "00:06",
+      "event": "duvar çöküyor ve çalışan enkaz altında kalıyor.",
+      "event_type": "kaza",
+      "severity": "yuksek"
     }
   ],
-  "risk": "Düşük",
+  "risk": "Yüksek",
   "actions": [
-    "Rutin izlemeye devam et"
+    "sağlık ekibi çağır."
   ],
-  "notes": "Otomatik taslak. Gold değil; Streamlit'te kontrol edin."
+  "notes": "",
+  "status": "gold"
 }

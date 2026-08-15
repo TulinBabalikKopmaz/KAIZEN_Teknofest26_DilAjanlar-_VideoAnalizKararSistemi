@@ -1,0 +1,23 @@
+{
+  "video_id": "clip_Tippler_3_4_WT4_EMPTY_SIDE_20260403_001811_0046",
+  "filename": "clip_Tippler_3&4_WT4_EMPTY_SIDE_20260403_001811_0046.mp4",
+  "category": "normal",
+  "duration_sec": null,
+  "labeled_by": "human",
+  "summary": "Çalışanlar rutin aktivitesini sürdürüyor. Normal gözüküyor.",
+  "events": [
+    {
+      "time": "00:00",
+      "time_end": "",
+      "event": "Çalışanlar rutin aktivitesini sürdürüyor. ",
+      "event_type": "normal",
+      "severity": "dusuk"
+    }
+  ],
+  "risk": "Düşük",
+  "actions": [
+    "Rutin izlemeye devam et."
+  ],
+  "notes": "",
+  "status": "gold"
+}

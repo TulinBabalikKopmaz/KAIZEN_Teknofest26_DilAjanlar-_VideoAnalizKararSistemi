@@ -4,12 +4,12 @@
   "category": "accident",
   "duration_sec": 10.87,
   "labeled_by": "human",
-  "summary": "Operatör dengesini kaybedip düşüyor. Operatörün üstüne araba düşüyor. İnsanlar yardıma geliyor.",
+  "summary": "Çalışan dengesini kaybedip düşüyor. Çalışanın üstüne araba düşüyor. İnsanlar yardıma geliyor.",
   "events": [
     {
       "time": "00:04",
       "time_end": "00:07",
-      "event": "Operatörün üstüne araba düştü.",
+      "event": "Çalışan arabanın altında kaldı.",
       "event_type": "risk",
       "severity": "yuksek"
     }

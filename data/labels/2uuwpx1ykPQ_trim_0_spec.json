@@ -3,7 +3,7 @@
   "events": [
     {
       "time": "00:03",
-      "event": "Kişinin kıyafetinin yandığı tespit edilmiştir."
+      "event": "Kişinin kıyafeti yanmaya başladı. Kişi kaçmaya çalışıyor."
     }
   ],
   "risk": "Yüksek",

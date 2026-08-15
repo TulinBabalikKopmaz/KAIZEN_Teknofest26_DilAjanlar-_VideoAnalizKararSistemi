@@ -1,0 +1,24 @@
+{
+  "video_id": "Insane_Near-Death_Accident_On_Construction_Site_cFpbTOOLcek",
+  "filename": "Insane Near-Death Accident On Construction Site! [cFpbTOOLcek].mp4",
+  "category": "accident",
+  "duration_sec": 35.89,
+  "status": "auto",
+  "labeled_by": "qwen:qwen2.5vl:7b",
+  "summary": "İşçilerin arasına düşen taşlar ve çöp nedeniyle tehlikeli bir durum oluştu.",
+  "events": [
+    {
+      "time": "00:12",
+      "time_end": "00:24",
+      "event": "Taşlar ve çöp düşmesi",
+      "event_type": "kaza",
+      "severity": "yuksek"
+    }
+  ],
+  "risk": "Yüksek",
+  "actions": [
+    "İşçileri güvenli bir yerde toplayın",
+    "Çöpleri ve taşları toplayın"
+  ],
+  "notes": "Otomatik taslak. Gold değil; Streamlit'te kontrol edin."
+}

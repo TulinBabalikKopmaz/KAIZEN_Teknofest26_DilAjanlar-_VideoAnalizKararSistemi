@@ -1,0 +1,13 @@
+{
+  "summary": "Alev var ama normal gözüküyor.",
+  "events": [
+    {
+      "time": "00:00",
+      "event": "Alevler var ama normal gözüküyor."
+    }
+  ],
+  "risk": "Düşük",
+  "actions": [
+    "Rutin izlemeye devam et."
+  ]
+}

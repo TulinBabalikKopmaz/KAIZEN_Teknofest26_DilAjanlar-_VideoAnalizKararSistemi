@@ -103,7 +103,7 @@ st.caption(
     "Bu kayıtlar sonra yapay zekâyı ölçmek için cevap anahtarı olacak."
 )
 
-with st.expander("Bu ekranda ne yapıyorum? (ilk kez okuyun)", expanded=True):
+with st.expander("Bu ekranda ne yapıyorum? (ilk kez okuyun)", expanded=False):
     st.markdown(
         """
 1. Soldan bir video seçin, oynatın.
@@ -133,25 +133,51 @@ Videolarınızı Finder ile şu üç klasöre kopyalayın, sonra bu sayfayı yen
     st.code(str(VIDEO_ROOT), language="text")
     st.stop()
 
-names = [f"{p.parent.name} / {p.name}" for p in videos]
-choice = st.sidebar.selectbox("Hangi videoyu etiketliyorum?", names)
-video = videos[names.index(choice)]
+def video_status(path: Path) -> str:
+    p = LABEL_ROOT / f"{safe_id(path)}.json"
+    if not p.exists():
+        return "yok"
+    try:
+        return json.loads(p.read_text(encoding="utf-8")).get("status") or "yok"
+    except json.JSONDecodeError:
+        return "yok"
+
+
+st.sidebar.markdown("### Filtre")
+cat_filter = st.sidebar.selectbox(
+    "Kategori",
+    ["hepsi", "accident", "near_miss", "normal"],
+    format_func=lambda x: {
+        "hepsi": "Hepsi",
+        "accident": "Kaza",
+        "near_miss": "Near miss",
+        "normal": "Normal",
+    }[x],
+)
+only_gold = st.sidebar.checkbox("Sadece gold (birleşik cevap anahtarı)", value=True)
+
+filtered = videos
+if cat_filter != "hepsi":
+    filtered = [v for v in filtered if v.parent.name == cat_filter]
+if only_gold:
+    filtered = [v for v in filtered if video_status(v) == "gold"]
+
+if not filtered:
+    st.warning("Bu filtreye uyan video yok. Soldaki filtreyi genişletin.")
+    st.stop()
+
+names = [f"{p.parent.name} / {p.name}" for p in filtered]
+choice = st.sidebar.selectbox("Hangi videoyu inceliyorum?", names)
+video = filtered[names.index(choice)]
 label = load_label(video)
 
 saved = sum(1 for v in videos if (LABEL_ROOT / f"{safe_id(v)}.json").exists())
-gold = 0
-for v in videos:
-    p = LABEL_ROOT / f"{safe_id(v)}.json"
-    if p.exists() and json.loads(p.read_text(encoding="utf-8")).get("status") == "gold":
-        gold += 1
+gold = sum(1 for v in videos if video_status(v) == "gold")
 
 st.sidebar.markdown("### İlerleme")
-st.sidebar.metric("En az bir kez kaydedilen", f"{saved} / {len(videos)}")
+st.sidebar.metric("Listede görünen", f"{len(filtered)}")
 st.sidebar.metric("Gold (onaylı cevap anahtarı)", f"{gold} / {len(videos)}")
-st.sidebar.info(
-    "Gold sayısı 70'e yaklaşınca etiketleme bitmiş demektir. "
-    "Taslaklar henüz cevap anahtarı sayılmaz."
-)
+st.sidebar.info("Birleşik gold: sizin kazalarınız + Mustafa'nın normal/near miss kayıtları.")
 
 left, right = st.columns([1.15, 1])
 

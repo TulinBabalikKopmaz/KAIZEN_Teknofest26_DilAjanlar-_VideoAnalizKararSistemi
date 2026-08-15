@@ -1,0 +1,14 @@
+{
+  "summary": "Taşınan yükten çıkan bir parça çalışanın üstüne düştü. Çalışan parçanın altında kalmaktan son anda kurtuldu.",
+  "events": [
+    {
+      "time": "00:24",
+      "event": "Çalışan düşen parçadan son anda kaçtı"
+    }
+  ],
+  "risk": "Orta",
+  "actions": [
+    "Alanı güvene al.",
+    "İzlemeye devam et."
+  ]
+}

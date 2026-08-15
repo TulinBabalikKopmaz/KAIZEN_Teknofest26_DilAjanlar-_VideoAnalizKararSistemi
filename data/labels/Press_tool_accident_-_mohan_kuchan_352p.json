@@ -1,0 +1,30 @@
+{
+  "video_id": "Press_tool_accident_-_mohan_kuchan_352p",
+  "filename": "Press tool accident - mohan kuchan (352p).mp4",
+  "category": "accident",
+  "duration_sec": 36.69,
+  "labeled_by": "human",
+  "summary": "Çalışanın kafasına yük düşüyor.",
+  "events": [
+    {
+      "time": "00:18",
+      "time_end": "00:20",
+      "event": "İşçinin kafasına yük düştü.",
+      "event_type": "kaza",
+      "severity": "yuksek"
+    },
+    {
+      "time": "00:22",
+      "time_end": "00:36",
+      "event": "Diğer işçiler yardımcı oluyor.",
+      "event_type": "mudahale",
+      "severity": "orta"
+    }
+  ],
+  "risk": "Yüksek",
+  "actions": [
+    "Sağlık ekibi çağır."
+  ],
+  "notes": "",
+  "status": "gold"
+}

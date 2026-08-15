@@ -1,0 +1,14 @@
+{
+  "summary": "Forklift driver loses control, causing a large explosion.",
+  "events": [
+    {
+      "time": "00:10",
+      "event": "Forklift driver loses control"
+    }
+  ],
+  "risk": "Yüksek",
+  "actions": [
+    "Forklift driver should immediately stop the forklift and check for injuries.",
+    "Ensure all workers are evacuated from the area."
+  ]
+}

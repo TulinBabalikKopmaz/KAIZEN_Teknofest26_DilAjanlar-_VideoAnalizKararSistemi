@@ -1,0 +1,14 @@
+{
+  "summary": "Forklift parçası kopuyor. forklift kontrolden çıkıyor ve geri geri giderek çarpıyor.",
+  "events": [
+    {
+      "time": "00:02",
+      "event": "orklift kontrolden çıkıyor ve geri geri giderek çarpıyor"
+    }
+  ],
+  "risk": "Yüksek",
+  "actions": [
+    "Operatörün durumu kontrol edilmesi",
+    "Yükleyici aracının kontrol edilmesi"
+  ]
+}

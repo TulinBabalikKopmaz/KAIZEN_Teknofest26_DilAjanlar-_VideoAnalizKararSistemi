@@ -1,0 +1,13 @@
+{
+  "summary": "İşçinin üzerine duvar çöküyor. duvarın üzerindeki işçilerde düşüyor.",
+  "events": [
+    {
+      "time": "00:05",
+      "event": "işçiler enkaz altında kaldı."
+    }
+  ],
+  "risk": "Yüksek",
+  "actions": [
+    "sağlık ekibi çağır."
+  ]
+}

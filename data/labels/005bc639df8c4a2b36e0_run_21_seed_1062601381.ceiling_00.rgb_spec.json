@@ -1,0 +1,13 @@
+{
+  "summary": "Forklift çalışanın çok yakınından geçti. Neredeyse temas edeceklerdi.",
+  "events": [
+    {
+      "time": "00:03",
+      "event": "Forklift çalışanın çok yakınından geçti"
+    }
+  ],
+  "risk": "Orta",
+  "actions": [
+    "alanı kontrol etmeye devam et"
+  ]
+}

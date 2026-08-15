@@ -1,0 +1,23 @@
+{
+  "video_id": "clip_CRM_WORK_SHOP_20260403_000215_0009",
+  "filename": "clip_CRM_WORK_SHOP_20260403_000215_0009.mp4",
+  "category": "normal",
+  "duration_sec": null,
+  "labeled_by": "human",
+  "summary": "Çalışanlar rutin aktivitesini sürdürüyor. Normal gözüküyor.",
+  "events": [
+    {
+      "time": "00:00",
+      "time_end": "",
+      "event": "Çalışanlar rutin aktivitesini sürdürüyor.",
+      "event_type": "normal",
+      "severity": "dusuk"
+    }
+  ],
+  "risk": "Düşük",
+  "actions": [
+    "Rutin izlemeye devam et."
+  ],
+  "notes": "",
+  "status": "gold"
+}

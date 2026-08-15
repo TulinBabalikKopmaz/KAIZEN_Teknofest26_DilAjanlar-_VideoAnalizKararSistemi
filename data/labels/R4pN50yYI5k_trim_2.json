@@ -3,21 +3,21 @@
   "filename": "R4pN50yYI5k_trim_2.mp4",
   "category": "accident",
   "duration_sec": 6.01,
-  "status": "auto",
-  "labeled_by": "qwen:qwen2.5vl:7b",
-  "summary": "İşletme içindeki yük taşımak için kullanılan forkliftlerin normal bir şekilde hareket ediyor.",
+  "labeled_by": "human",
+  "summary": "Forklift raf sistemine çarpıyor ve raflar devriliyor.",
   "events": [
     {
-      "time": "00:00",
-      "time_end": "00:04",
-      "event": "İşletme içindeki yük taşımak için kullanılan forkliftlerin normal bir şekilde hareket ediyor.",
+      "time": "00:03",
+      "time_end": "00:06",
+      "event": "Forklift raf sistemine çarpıyor ve raflar devriliyor.",
       "event_type": "normal",
-      "severity": "düşük"
+      "severity": "yuksek"
     }
   ],
-  "risk": "Düşük",
+  "risk": "Yüksek",
   "actions": [
-    "Rutin izlemeye devam et"
+    "Sağlık ekibi çağır."
   ],
-  "notes": "Otomatik taslak. Gold değil; Streamlit'te kontrol edin."
+  "notes": "",
+  "status": "gold"
 }

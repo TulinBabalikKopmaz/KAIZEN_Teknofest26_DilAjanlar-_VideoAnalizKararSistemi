@@ -1,0 +1,17 @@
+{
+  "summary": "Çalışan rutin aktivitesini sürdürüyor. Normal gözüküyor.",
+  "events": [
+    {
+      "time": "00:00",
+      "event": "Çalışan rutin aktivitesini sürdürüyor."
+    },
+    {
+      "time": "00:51",
+      "event": "Çalışan forklift sürüyor"
+    }
+  ],
+  "risk": "Düşük",
+  "actions": [
+    "Rutin izlemeye devam et."
+  ]
+}

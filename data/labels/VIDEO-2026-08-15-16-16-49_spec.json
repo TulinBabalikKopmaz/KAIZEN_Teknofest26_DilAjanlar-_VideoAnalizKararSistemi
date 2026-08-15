@@ -1,0 +1,17 @@
+{
+  "summary": "İşçilerin üzerine yüksekten tahta gibi yabancı maddeler düşüyor.",
+  "events": [
+    {
+      "time": "00:08",
+      "event": "yüksekten tahtalar düştü ve çalışanlar yere yığıldı."
+    },
+    {
+      "time": "00:17",
+      "event": "çalışanlar yaralı kişiye yardım etmek için toplandı."
+    }
+  ],
+  "risk": "Yüksek",
+  "actions": [
+    "Sağlık ekibi çağır."
+  ]
+}

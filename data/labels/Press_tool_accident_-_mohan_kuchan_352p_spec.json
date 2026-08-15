@@ -1,0 +1,17 @@
+{
+  "summary": "Çalışanın kafasına yük düşüyor.",
+  "events": [
+    {
+      "time": "00:18",
+      "event": "İşçinin kafasına yük düştü."
+    },
+    {
+      "time": "00:22",
+      "event": "Diğer işçiler yardımcı oluyor."
+    }
+  ],
+  "risk": "Yüksek",
+  "actions": [
+    "Sağlık ekibi çağır."
+  ]
+}

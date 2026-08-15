@@ -1,0 +1,30 @@
+{
+  "video_id": "ClearPix_Camera_Warehouse_Dock_G8z74loJO7U",
+  "filename": "ClearPix Camera Warehouse Dock [G8z74loJO7U].mp4",
+  "category": "normal",
+  "duration_sec": null,
+  "labeled_by": "human",
+  "summary": "Çalışan rutin aktivitesini sürdürüyor. Normal gözüküyor.",
+  "events": [
+    {
+      "time": "00:00",
+      "time_end": "",
+      "event": "Çalışan rutin aktivitesini sürdürüyor.",
+      "event_type": "normal",
+      "severity": "dusuk"
+    },
+    {
+      "time": "00:51",
+      "time_end": "00:58",
+      "event": "Çalışan forklift sürüyor",
+      "event_type": "normal",
+      "severity": "dusuk"
+    }
+  ],
+  "risk": "Düşük",
+  "actions": [
+    "Rutin izlemeye devam et."
+  ],
+  "notes": "",
+  "status": "gold"
+}

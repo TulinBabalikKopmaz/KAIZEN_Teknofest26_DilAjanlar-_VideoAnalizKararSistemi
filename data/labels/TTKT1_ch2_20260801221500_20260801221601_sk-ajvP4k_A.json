@@ -1,0 +1,23 @@
+{
+  "video_id": "TTKT1_ch2_20260801221500_20260801221601_sk-ajvP4k_A",
+  "filename": "TTKT1 ch2 20260801221500 20260801221601 [sk-ajvP4k_A].mp4",
+  "category": "normal",
+  "duration_sec": null,
+  "labeled_by": "human",
+  "summary": "Çalışan rutin aktivitesini sürdürüyor. Normal gözüküyor.",
+  "events": [
+    {
+      "time": "00:00",
+      "time_end": "",
+      "event": "Çalışan rutin aktivitesini sürdürüyor.",
+      "event_type": "normal",
+      "severity": "dusuk"
+    }
+  ],
+  "risk": "Düşük",
+  "actions": [
+    "Rutin izlemeye devam et."
+  ],
+  "notes": "",
+  "status": "gold"
+}

@@ -1,0 +1,13 @@
+{
+  "summary": "kişi bisiklet sürerken forklifte çarpıp düşüyor.",
+  "events": [
+    {
+      "time": "00:02",
+      "event": "kişi forklifte çarpıp yere düşüyor."
+    }
+  ],
+  "risk": "Yüksek",
+  "actions": [
+    "sağlık ekibi çağır."
+  ]
+}

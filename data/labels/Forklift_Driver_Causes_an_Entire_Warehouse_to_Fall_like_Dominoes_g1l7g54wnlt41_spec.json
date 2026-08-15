@@ -1,0 +1,13 @@
+{
+  "summary": "Bir forklift, depo içindeki raf sistemini devirerek çöktü.",
+  "events": [
+    {
+      "time": "00:32",
+      "event": "Depo raf sistemi devrildi ve çöktü"
+    }
+  ],
+  "risk": "Yüksek",
+  "actions": [
+    "Sağlık ekibi çağırın."
+  ]
+}

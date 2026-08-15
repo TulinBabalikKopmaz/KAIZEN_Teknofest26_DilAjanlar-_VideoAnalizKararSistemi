@@ -1,0 +1,14 @@
+{
+  "summary": "forklift devriliyor. bir kişi forkliftin altında kalıyor",
+  "events": [
+    {
+      "time": "00:12",
+      "event": "froklift devriliyor. çalışanlar altında kalıyor."
+    }
+  ],
+  "risk": "Yüksek",
+  "actions": [
+    "kişiyi kontrol et",
+    "sağlık ekibi çağır"
+  ]
+}

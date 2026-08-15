@@ -1,0 +1,14 @@
+{
+  "summary": "Operatör, yüklenen malzemenin düşmesini önler.",
+  "events": [
+    {
+      "time": "00:02",
+      "event": "Operatör, malzemenin düşmesini önler"
+    }
+  ],
+  "risk": "Orta",
+  "actions": [
+    "Operatörün dikkatini çekmek",
+    "Malzemenin güvenli bir şekilde yüklenmesi"
+  ]
+}

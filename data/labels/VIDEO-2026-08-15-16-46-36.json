@@ -1,0 +1,24 @@
+{
+  "video_id": "VIDEO-2026-08-15-16-46-36",
+  "filename": "VIDEO-2026-08-15-16-46-36.mp4",
+  "category": "accident",
+  "duration_sec": null,
+  "labeled_by": "human",
+  "summary": "forklift raf sistemine çarpıyor ve raflar devriliyor. çalışan altında kalıyor.",
+  "events": [
+    {
+      "time": "00:12",
+      "time_end": "00:26",
+      "event": "forklift çarpıyor, raflar devriliyor ve çalışan enkaz altında kalıyor.",
+      "event_type": "kaza",
+      "severity": "yuksek"
+    }
+  ],
+  "risk": "Yüksek",
+  "actions": [
+    "sağlık ekibi çağır.",
+    "alanı güvene al"
+  ],
+  "notes": "",
+  "status": "gold"
+}

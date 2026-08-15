@@ -1,0 +1,1004 @@
+[
+  {
+    "video_id": "-BzGMvclD88_trim_1",
+    "filename": "-BzGMvclD88_trim_1.mp4",
+    "category": "accident",
+    "duration_sec": null,
+    "labeled_by": "human",
+    "summary": "Çalışan elinde yük varken dengesi kaybetti ve yüksekten düştü",
+    "events": [
+      {
+        "time": "00:03",
+        "time_end": "00:04",
+        "event": "Çalışan yüksekten düştü ve hareketsiz yatıyor.",
+        "event_type": "kaza",
+        "severity": "orta"
+      }
+    ],
+    "risk": "Yüksek",
+    "actions": [
+      "Sağlık ekibi çağır"
+    ],
+    "notes": "",
+    "status": "gold",
+    "_source_file": "-BzGMvclD88_trim_1.json",
+    "_source_dir": "/Users/zehraguler/Projects/teknofest-video-ajan/data/labels"
+  },
+  {
+    "video_id": "1s2Tcqr3Rgg_trim_87",
+    "filename": "1s2Tcqr3Rgg_trim_87.mp4",
+    "category": "accident",
+    "duration_sec": null,
+    "labeled_by": "human",
+    "summary": "Binadan duman ve alevler yükseliyor. Yangın olabilir",
+    "events": [
+      {
+        "time": "00:01",
+        "time_end": "00:06",
+        "event": "Binadan duman ve alevler yükseliyor. ",
+        "event_type": "kaza",
+        "severity": "yuksek"
+      }
+    ],
+    "risk": "Yüksek",
+    "actions": [
+      "Sağlık ekibi ve itfaiyeye haber ver.",
+      "Alanı güvene al."
+    ],
+    "notes": "",
+    "status": "gold",
+    "_source_file": "1s2Tcqr3Rgg_trim_87.json",
+    "_source_dir": "/Users/zehraguler/Projects/teknofest-video-ajan/data/labels"
+  },
+  {
+    "video_id": "2uuwpx1ykPQ_trim_0",
+    "filename": "2uuwpx1ykPQ_trim_0.mp4",
+    "category": "accident",
+    "duration_sec": 5.0,
+    "labeled_by": "human",
+    "summary": "Kişinin kıyafetinin yandığı tespit edilmiştir.",
+    "events": [
+      {
+        "time": "00:03",
+        "time_end": "00:05",
+        "event": "Kişinin kıyafeti yanmaya başladı. Kişi kaçmaya çalışıyor.",
+        "event_type": "kaza",
+        "severity": "yuksek"
+      }
+    ],
+    "risk": "Yüksek",
+    "actions": [
+      "Sağlık ekibi ve itfaiye çağır.",
+      "Alanı güvene al."
+    ],
+    "notes": "",
+    "status": "gold",
+    "_source_file": "2uuwpx1ykPQ_trim_0.json",
+    "_source_dir": "/Users/zehraguler/Projects/teknofest-video-ajan/data/labels"
+  },
+  {
+    "video_id": "accident_c242306419",
+    "filename": "3XOG - Another workplace accident resulting in a crazy faceplant 😅 #StaySafe... [1617839956331823104].mp4",
+    "category": "accident",
+    "duration_sec": null,
+    "labeled_by": "human",
+    "summary": "Çalışanın taşıdığı yük devrildi. Çalışanın yüksekten düşmesine sebep oldu.",
+    "events": [
+      {
+        "time": "00:04",
+        "time_end": "00:06",
+        "event": "Çalışan yüksekten düştü ve yere yığıldı.",
+        "event_type": "kaza",
+        "severity": "orta"
+      }
+    ],
+    "risk": "Yüksek",
+    "actions": [
+      "Sağlık ekibi çağır."
+    ],
+    "notes": "",
+    "status": "gold",
+    "_source_file": "accident_c242306419.json",
+    "_source_dir": "/Users/zehraguler/Projects/teknofest-video-ajan/data/labels"
+  },
+  {
+    "video_id": "accident_43b5eecb2e",
+    "filename": "3XOG - Workplace accidents happen all the time! All we can do is try learn f... [1615153821189013504].mp4",
+    "category": "accident",
+    "duration_sec": 10.87,
+    "labeled_by": "human",
+    "summary": "Çalışan dengesini kaybedip düşüyor. Çalışanın üstüne araba düşüyor. İnsanlar yardıma geliyor.",
+    "events": [
+      {
+        "time": "00:04",
+        "time_end": "00:07",
+        "event": "Çalışan arabanın altında kaldı.",
+        "event_type": "risk",
+        "severity": "yuksek"
+      }
+    ],
+    "risk": "Yüksek",
+    "actions": [
+      "Sağlık ekibi çağırın."
+    ],
+    "notes": "",
+    "status": "gold",
+    "_source_file": "accident_43b5eecb2e.json",
+    "_source_dir": "/Users/zehraguler/Projects/teknofest-video-ajan/data/labels"
+  },
+  {
+    "video_id": "6AISVvob4C0_trim_7",
+    "filename": "6AISVvob4C0_trim_7.mp4",
+    "category": "accident",
+    "duration_sec": 6.0,
+    "labeled_by": "human",
+    "summary": "Çalışan merdivenden çıkıyor. Merdiven kayıyor ve çalışan yüksekten düşüyor.",
+    "events": [
+      {
+        "time": "00:04",
+        "time_end": "00:06",
+        "event": "Çalışan yüksekten düştü.",
+        "event_type": "kaza",
+        "severity": "orta"
+      }
+    ],
+    "risk": "Yüksek",
+    "actions": [
+      "Sağlık ekibi çağır.",
+      "Çalışanın durumunu kontrol et."
+    ],
+    "notes": "",
+    "status": "gold",
+    "_source_file": "6AISVvob4C0_trim_7.json",
+    "_source_dir": "/Users/zehraguler/Projects/teknofest-video-ajan/data/labels"
+  },
+  {
+    "video_id": "accident_c54c558ef1",
+    "filename": "Aykırı - İş kazası güvenlik kamerasında.  Fabrikada, forklift sürücüsü işçiye ... [1972267097397854208].mp4",
+    "category": "accident",
+    "duration_sec": 10.67,
+    "labeled_by": "human",
+    "summary": "Çalışan, yükü taşıyan palete çarpıyor. Çalışanın ayağı yükün altında kalıyor.",
+    "events": [
+      {
+        "time": "00:01",
+        "time_end": "00:08",
+        "event": "Çalışanın ayağı yükün altında kaldı. ",
+        "event_type": "kaza",
+        "severity": "orta"
+      }
+    ],
+    "risk": "Yüksek",
+    "actions": [
+      "Sağlık ekibi çağır.",
+      "Çalışanın durumunu kontrol et."
+    ],
+    "notes": "",
+    "status": "gold",
+    "_source_file": "accident_c54c558ef1.json",
+    "_source_dir": "/Users/zehraguler/Projects/teknofest-video-ajan/data/labels"
+  },
+  {
+    "video_id": "accident_bef38a0ce2",
+    "filename": "Beylikdüzü.anlık - Beylikdüzü Yeşil Flamingo Sitesi’nde yaşanan, Aydın Dirikolu’nun (61)... [2088241217045774336].mp4",
+    "category": "accident",
+    "duration_sec": 14.53,
+    "labeled_by": "human",
+    "summary": "Çalışan yüksekten yere düşüyor. Çalışan yerde hareketsiz yatıyor.",
+    "events": [
+      {
+        "time": "00:03",
+        "time_end": "00:06",
+        "event": "Çalışan yüksekten yere düştü.",
+        "event_type": "kaza",
+        "severity": "yuksek"
+      }
+    ],
+    "risk": "Yüksek",
+    "actions": [
+      "Sağlık ekibi çağır."
+    ],
+    "notes": "",
+    "status": "gold",
+    "_source_file": "accident_bef38a0ce2.json",
+    "_source_dir": "/Users/zehraguler/Projects/teknofest-video-ajan/data/labels"
+  },
+  {
+    "video_id": "accident_0f6d0af3d7",
+    "filename": "Dude at my work slammed into a pole with a forklift and bent the blad... [hzvtKncHvyQ].mp4",
+    "category": "accident",
+    "duration_sec": 9.5,
+    "labeled_by": "human",
+    "summary": "Kazada forklift, bir direğe çarptı.",
+    "events": [
+      {
+        "time": "00:03",
+        "time_end": "00:06",
+        "event": "Forklift çarptı",
+        "event_type": "kaza",
+        "severity": "yuksek"
+      }
+    ],
+    "risk": "Yüksek",
+    "actions": [
+      "Forklift kontrol edin.",
+      "Yaralı varsa yardım sağlayın."
+    ],
+    "notes": "",
+    "status": "gold",
+    "_source_file": "accident_0f6d0af3d7.json",
+    "_source_dir": "/Users/zehraguler/Projects/teknofest-video-ajan/data/labels"
+  },
+  {
+    "video_id": "Dumb_ass_fork_lift_driver_rofl_G4g4RN3AFD8",
+    "filename": "Dumb ass fork lift driver rofl [G4g4RN3AFD8].mp4",
+    "category": "accident",
+    "duration_sec": 32.93,
+    "labeled_by": "human",
+    "summary": "Kazada forklift devrildi ve yükü yere düşürdü.",
+    "events": [
+      {
+        "time": "00:10",
+        "time_end": "00:15",
+        "event": "Forklift devrildi ve çalışan düştü.",
+        "event_type": "kaza",
+        "severity": "yuksek"
+      }
+    ],
+    "risk": "Yüksek",
+    "actions": [
+      "Forklift kontrol edin.",
+      "İşçi güvenli bir şekilde insin."
+    ],
+    "notes": "",
+    "status": "gold",
+    "_source_file": "Dumb_ass_fork_lift_driver_rofl_G4g4RN3AFD8.json",
+    "_source_dir": "/Users/zehraguler/Projects/teknofest-video-ajan/data/labels"
+  },
+  {
+    "video_id": "Forklift_Accident_na3Bzrmljd0",
+    "filename": "Forklift Accident [na3Bzrmljd0].mp4",
+    "category": "accident",
+    "duration_sec": 98.37,
+    "labeled_by": "human",
+    "summary": "Forklift çarptı ve yükü ve raf sistemi çöktü.",
+    "events": [
+      {
+        "time": "00:37",
+        "time_end": "00:50",
+        "event": "Raf sistemi çalışanın üzerine devrildi.",
+        "event_type": "kaza",
+        "severity": "yuksek"
+      }
+    ],
+    "risk": "Yüksek",
+    "actions": [
+      "Sağlık ekibi çağırın."
+    ],
+    "notes": "",
+    "status": "gold",
+    "_source_file": "Forklift_Accident_na3Bzrmljd0.json",
+    "_source_dir": "/Users/zehraguler/Projects/teknofest-video-ajan/data/labels"
+  },
+  {
+    "video_id": "Forklift_Driver_Causes_an_Entire_Warehouse_to_Fall_like_Dominoes_g1l7g54wnlt41",
+    "filename": "Forklift Driver Causes an Entire Warehouse to Fall like Dominoes [g1l7g54wnlt41].mp4",
+    "category": "accident",
+    "duration_sec": 62.28,
+    "labeled_by": "human",
+    "summary": "Bir forklift, depo içindeki raf sistemini devirerek çöktü.",
+    "events": [
+      {
+        "time": "00:32",
+        "time_end": "00:52",
+        "event": "Depo raf sistemi devrildi ve çöktü",
+        "event_type": "kaza",
+        "severity": "yuksek"
+      }
+    ],
+    "risk": "Yüksek",
+    "actions": [
+      "Sağlık ekibi çağırın."
+    ],
+    "notes": "",
+    "status": "gold",
+    "_source_file": "Forklift_Driver_Causes_an_Entire_Warehouse_to_Fall_like_Dominoes_g1l7g54wnlt41.json",
+    "_source_dir": "/Users/zehraguler/Projects/teknofest-video-ajan/data/labels"
+  },
+  {
+    "video_id": "Forklift_Safety_Fail_Near_Miss_Caught_on_Camera_HSE_Daily_dNrjH3a9E4k",
+    "filename": "Forklift Safety Fail： Near Miss Caught on Camera 🚧 ｜ HSE Daily [dNrjH3a9E4k].mp4",
+    "category": "accident",
+    "duration_sec": 17.03,
+    "labeled_by": "human",
+    "summary": "Kapalı kamyonun yükü çalışanın üstüne düştü.",
+    "events": [
+      {
+        "time": "00:06",
+        "time_end": "00:11",
+        "event": "Çalışanın kafasına kamyondan yük düştü.",
+        "event_type": "risk",
+        "severity": "orta"
+      }
+    ],
+    "risk": "Yüksek",
+    "actions": [
+      "Sağlık ekibi çağır"
+    ],
+    "notes": "",
+    "status": "gold",
+    "_source_file": "Forklift_Safety_Fail_Near_Miss_Caught_on_Camera_HSE_Daily_dNrjH3a9E4k.json",
+    "_source_dir": "/Users/zehraguler/Projects/teknofest-video-ajan/data/labels"
+  },
+  {
+    "video_id": "accident_8e16c30e1a",
+    "filename": "HPDC Die casting machine accident (Hydraulic core hose connection removed) [aG0wEiV4XX0].mp4",
+    "category": "accident",
+    "duration_sec": 35.43,
+    "labeled_by": "human",
+    "summary": "İş yerindeki makine patladı. Alevler yükseldi. Ve yanmaya devam etti.",
+    "events": [
+      {
+        "time": "00:08",
+        "time_end": "00:35",
+        "event": "Makine patladı ve yangın çıktı.",
+        "event_type": "kaza",
+        "severity": "yuksek"
+      }
+    ],
+    "risk": "Yüksek",
+    "actions": [
+      "Makineyi kapatın",
+      "Yaralıların yardımına koşun",
+      "Sağlık ekibi çağırın",
+      "İtfaiye çağırın"
+    ],
+    "notes": "",
+    "status": "gold",
+    "_source_file": "accident_8e16c30e1a.json",
+    "_source_dir": "/Users/zehraguler/Projects/teknofest-video-ajan/data/labels"
+  },
+  {
+    "video_id": "accident_60c5c4a652",
+    "filename": "Hate Detector 🔍 - A tragic industrial accident occurred at Pramukh Industries in the GI... [2062441335727284224].mp4",
+    "category": "accident",
+    "duration_sec": 14.2,
+    "labeled_by": "human",
+    "summary": "İşçinin üzerine ağır yük düşüyor.",
+    "events": [
+      {
+        "time": "00:09",
+        "time_end": "00:10",
+        "event": "İşçi ağır yükün altında kaldı.",
+        "event_type": "kaza",
+        "severity": "yuksek"
+      }
+    ],
+    "risk": "Yüksek",
+    "actions": [
+      "sağlık ekibi çağır."
+    ],
+    "notes": "",
+    "status": "gold",
+    "_source_file": "accident_60c5c4a652.json",
+    "_source_dir": "/Users/zehraguler/Projects/teknofest-video-ajan/data/labels"
+  },
+  {
+    "video_id": "accident_6b131867be",
+    "filename": "İZMİR’İN NABZI - İZMİR’DE FECİ İŞ KAZASI： İSKELE BÖYLE ÇÖKTÜ!  İzmir’in Balçova ilçesi... [2079890562375634944].mp4",
+    "category": "accident",
+    "duration_sec": 25.13,
+    "labeled_by": "human",
+    "summary": "İşçinin üzerine duvar çöküyor. duvarın üzerindeki işçilerde düşüyor.",
+    "events": [
+      {
+        "time": "00:05",
+        "time_end": "00:12",
+        "event": "işçiler enkaz altında kaldı.",
+        "event_type": "kaza",
+        "severity": "yuksek"
+      }
+    ],
+    "risk": "Yüksek",
+    "actions": [
+      "sağlık ekibi çağır."
+    ],
+    "notes": "",
+    "status": "gold",
+    "_source_file": "accident_6b131867be.json",
+    "_source_dir": "/Users/zehraguler/Projects/teknofest-video-ajan/data/labels"
+  },
+  {
+    "video_id": "LiveLeak_Work_accident_in_Supermarket_-_Liveleak_198p",
+    "filename": "LiveLeak Work accident in Supermarket - Liveleak (198p).mp4",
+    "category": "accident",
+    "duration_sec": 21.97,
+    "labeled_by": "human",
+    "summary": "Merdiven kayıyor ve işçi yüksekten düşüyor.",
+    "events": [
+      {
+        "time": "00:12",
+        "time_end": "00:14",
+        "event": "İşçi merdivenden düştü.",
+        "event_type": "kaza",
+        "severity": "yuksek"
+      }
+    ],
+    "risk": "Yüksek",
+    "actions": [
+      "Sağlık ekibi çağır."
+    ],
+    "notes": "Görüntü kalitesi düşük ve çekim hareketli.",
+    "status": "gold",
+    "_source_file": "LiveLeak_Work_accident_in_Supermarket_-_Liveleak_198p.json",
+    "_source_dir": "/Users/zehraguler/Projects/teknofest-video-ajan/data/labels"
+  },
+  {
+    "video_id": "Press_tool_accident_-_mohan_kuchan_352p",
+    "filename": "Press tool accident - mohan kuchan (352p).mp4",
+    "category": "accident",
+    "duration_sec": 36.69,
+    "labeled_by": "human",
+    "summary": "Çalışanın kafasına yük düşüyor.",
+    "events": [
+      {
+        "time": "00:18",
+        "time_end": "00:20",
+        "event": "İşçinin kafasına yük düştü.",
+        "event_type": "kaza",
+        "severity": "yuksek"
+      },
+      {
+        "time": "00:22",
+        "time_end": "00:36",
+        "event": "Diğer işçiler yardımcı oluyor.",
+        "event_type": "mudahale",
+        "severity": "orta"
+      }
+    ],
+    "risk": "Yüksek",
+    "actions": [
+      "Sağlık ekibi çağır."
+    ],
+    "notes": "",
+    "status": "gold",
+    "_source_file": "Press_tool_accident_-_mohan_kuchan_352p.json",
+    "_source_dir": "/Users/zehraguler/Projects/teknofest-video-ajan/data/labels"
+  },
+  {
+    "video_id": "R4pN50yYI5k_trim_2",
+    "filename": "R4pN50yYI5k_trim_2.mp4",
+    "category": "accident",
+    "duration_sec": 6.01,
+    "labeled_by": "human",
+    "summary": "Forklift raf sistemine çarpıyor ve raflar devriliyor.",
+    "events": [
+      {
+        "time": "00:03",
+        "time_end": "00:06",
+        "event": "Forklift raf sistemine çarpıyor ve raflar devriliyor.",
+        "event_type": "normal",
+        "severity": "yuksek"
+      }
+    ],
+    "risk": "Yüksek",
+    "actions": [
+      "Sağlık ekibi çağır."
+    ],
+    "notes": "",
+    "status": "gold",
+    "_source_file": "R4pN50yYI5k_trim_2.json",
+    "_source_dir": "/Users/zehraguler/Projects/teknofest-video-ajan/data/labels"
+  },
+  {
+    "video_id": "accident_f6e64d87ca",
+    "filename": "The Public Record - https：⧸⧸t.co⧸19h6ftihJO  🚨 BREAKING NEWS ｜ SOCIAL MEDIA • Workplace S... [2042443212972048390].mp4",
+    "category": "accident",
+    "duration_sec": 45.0,
+    "labeled_by": "human",
+    "summary": "Çalışanın üzerine ağır yük devriliyor.",
+    "events": [
+      {
+        "time": "00:06",
+        "time_end": "00:10",
+        "event": "Yük işçinin üzerine düşüyor.",
+        "event_type": "kaza",
+        "severity": "yuksek"
+      },
+      {
+        "time": "00:12",
+        "time_end": "00:45",
+        "event": "işçiler yükleri işçinin üzerinden alıyor",
+        "event_type": "mudahale",
+        "severity": "yuksek"
+      }
+    ],
+    "risk": "Yüksek",
+    "actions": [
+      "Sağlık ekibi çağır."
+    ],
+    "notes": "",
+    "status": "gold",
+    "_source_file": "accident_f6e64d87ca.json",
+    "_source_dir": "/Users/zehraguler/Projects/teknofest-video-ajan/data/labels"
+  },
+  {
+    "video_id": "VIDEO-2026-08-15-16-16-49",
+    "filename": "VIDEO-2026-08-15-16-16-49.mp4",
+    "category": "accident",
+    "duration_sec": null,
+    "labeled_by": "human",
+    "summary": "İşçilerin üzerine yüksekten tahta gibi yabancı maddeler düşüyor.",
+    "events": [
+      {
+        "time": "00:08",
+        "time_end": "00:12",
+        "event": "yüksekten tahtalar düştü ve çalışanlar yere yığıldı.",
+        "event_type": "kaza",
+        "severity": "yuksek"
+      },
+      {
+        "time": "00:17",
+        "time_end": "00:24",
+        "event": "çalışanlar yaralı kişiye yardım etmek için toplandı.",
+        "event_type": "mudahale",
+        "severity": "orta"
+      }
+    ],
+    "risk": "Orta",
+    "actions": [
+      "Sağlık ekibi çağır."
+    ],
+    "notes": "",
+    "status": "gold",
+    "_source_file": "VIDEO-2026-08-15-16-16-49.json",
+    "_source_dir": "/Users/zehraguler/Projects/teknofest-video-ajan/data/labels"
+  },
+  {
+    "video_id": "VIDEO-2026-08-15-16-46-36",
+    "filename": "VIDEO-2026-08-15-16-46-36.mp4",
+    "category": "accident",
+    "duration_sec": null,
+    "labeled_by": "human",
+    "summary": "forklift raf sistemine çarpıyor ve raflar devriliyor. çalışan altında kalıyor.",
+    "events": [
+      {
+        "time": "00:12",
+        "time_end": "00:26",
+        "event": "forklift çarpıyor, raflar devriliyor ve çalışan enkaz altında kalıyor.",
+        "event_type": "kaza",
+        "severity": "yuksek"
+      }
+    ],
+    "risk": "Yüksek",
+    "actions": [
+      "sağlık ekibi çağır.",
+      "alanı güvene al"
+    ],
+    "notes": "",
+    "status": "gold",
+    "_source_file": "VIDEO-2026-08-15-16-46-36.json",
+    "_source_dir": "/Users/zehraguler/Projects/teknofest-video-ajan/data/labels"
+  },
+  {
+    "video_id": "ZNOHrOs9VMA_trim_1",
+    "filename": "ZNOHrOs9VMA_trim_1.mp4",
+    "category": "accident",
+    "duration_sec": 8.0,
+    "labeled_by": "human",
+    "summary": "Forklift motoru patladı ve alev aldı. İçerisindeki işçi yanıyor.",
+    "events": [
+      {
+        "time": "00:02",
+        "time_end": "00:08",
+        "event": "Patlama oldu ve yangın çıktı",
+        "event_type": "kaza",
+        "severity": "yuksek"
+      }
+    ],
+    "risk": "Yüksek",
+    "actions": [
+      "Acil durum ekiplerini çağır",
+      "Yaralıları ilk yardım yapın"
+    ],
+    "notes": "",
+    "status": "gold",
+    "_source_file": "ZNOHrOs9VMA_trim_1.json",
+    "_source_dir": "/Users/zehraguler/Projects/teknofest-video-ajan/data/labels"
+  },
+  {
+    "video_id": "2tSBxyAwLs_trim_52",
+    "filename": "_2tSBxyAwLs_trim_52.mp4",
+    "category": "accident",
+    "duration_sec": 8.01,
+    "labeled_by": "human",
+    "summary": "Forklift parçası kopuyor. forklift kontrolden çıkıyor ve geri geri giderek çarpıyor.",
+    "events": [
+      {
+        "time": "00:02",
+        "time_end": "00:08",
+        "event": "orklift kontrolden çıkıyor ve geri geri giderek çarpıyor",
+        "event_type": "kaza",
+        "severity": "yuksek"
+      }
+    ],
+    "risk": "Yüksek",
+    "actions": [
+      "Operatörün durumu kontrol edilmesi",
+      "Yükleyici aracının kontrol edilmesi"
+    ],
+    "notes": "",
+    "status": "gold",
+    "_source_file": "2tSBxyAwLs_trim_52.json",
+    "_source_dir": "/Users/zehraguler/Projects/teknofest-video-ajan/data/labels"
+  },
+  {
+    "video_id": "XXq1kmmBYY_trim_6",
+    "filename": "_XXq1kmmBYY_trim_6.mp4",
+    "category": "accident",
+    "duration_sec": 7.0,
+    "labeled_by": "human",
+    "summary": "Forklift tavandan sarkan maddeye çarpıyor ve tavan çöküyor.",
+    "events": [
+      {
+        "time": "00:03",
+        "time_end": "00:06",
+        "event": "duvar çöküyor ve çalışan enkaz altında kalıyor.",
+        "event_type": "kaza",
+        "severity": "yuksek"
+      }
+    ],
+    "risk": "Yüksek",
+    "actions": [
+      "sağlık ekibi çağır."
+    ],
+    "notes": "",
+    "status": "gold",
+    "_source_file": "XXq1kmmBYY_trim_6.json",
+    "_source_dir": "/Users/zehraguler/Projects/teknofest-video-ajan/data/labels"
+  },
+  {
+    "video_id": "forklift_guy_was_chilling_when_a_woman_attacks_his_forks_s-UHzuOh3B4",
+    "filename": "forklift guy was chilling when a woman attacks his forks [s-UHzuOh3B4].mp4",
+    "category": "accident",
+    "duration_sec": 4.63,
+    "labeled_by": "human",
+    "summary": "kişi bisiklet sürerken forklifte çarpıp düşüyor.",
+    "events": [
+      {
+        "time": "00:02",
+        "time_end": "00:04",
+        "event": "kişi forklifte çarpıp yere düşüyor.",
+        "event_type": "normal",
+        "severity": "yuksek"
+      }
+    ],
+    "risk": "Yüksek",
+    "actions": [
+      "sağlık ekibi çağır."
+    ],
+    "notes": "Otomatik taslak. Gold değil; Streamlit'te kontrol edin.",
+    "status": "gold",
+    "_source_file": "forklift_guy_was_chilling_when_a_woman_attacks_his_forks_s-UHzuOh3B4.json",
+    "_source_dir": "/Users/zehraguler/Projects/teknofest-video-ajan/data/labels"
+  },
+  {
+    "video_id": "accident_1f276688a2",
+    "filename": "sunil kumar rana - ⚠️ A routine warehouse task turned dangerous when an overloaded forkl... [2063292024804327424].mp4",
+    "category": "accident",
+    "duration_sec": null,
+    "labeled_by": "human",
+    "summary": "forklift devriliyor. bir kişi forkliftin altında kalıyor",
+    "events": [
+      {
+        "time": "00:12",
+        "time_end": "00:16",
+        "event": "froklift devriliyor. çalışanlar altında kalıyor.",
+        "event_type": "kaza",
+        "severity": "yuksek"
+      }
+    ],
+    "risk": "Yüksek",
+    "actions": [
+      "kişiyi kontrol et",
+      "sağlık ekibi çağır"
+    ],
+    "notes": "",
+    "status": "gold",
+    "_source_file": "accident_1f276688a2.json",
+    "_source_dir": "/Users/zehraguler/Projects/teknofest-video-ajan/data/labels"
+  },
+  {
+    "video_id": "001e53453441935632ae_run_1_seed_1288693302.ceiling_00.rgb",
+    "filename": "001e53453441935632ae_run_1_seed_1288693302.ceiling_00.rgb.mp4",
+    "category": "near_miss",
+    "duration_sec": 10.0,
+    "labeled_by": "human",
+    "summary": "Forklift çalışanın çok yakınından geçti. Neredeyse temas edeceklerdi.",
+    "events": [
+      {
+        "time": "00:03",
+        "time_end": "00:04",
+        "event": "forklift çalışanın çok yakınından geçti.",
+        "event_type": "near_miss",
+        "severity": "orta"
+      }
+    ],
+    "risk": "Orta",
+    "actions": [
+      "Alanı güvene al",
+      "izlemeye devam et"
+    ],
+    "notes": "",
+    "status": "gold",
+    "_source_file": "001e53453441935632ae_run_1_seed_1288693302.ceiling_00.rgb.json",
+    "_source_dir": "/Users/zehraguler/Projects/teknofest-video-ajan/data/labels"
+  },
+  {
+    "video_id": "001e53453441935632ae_run_1_seed_1288693302.ceiling_01.rgb",
+    "filename": "001e53453441935632ae_run_1_seed_1288693302.ceiling_01.rgb.mp4",
+    "category": "near_miss",
+    "duration_sec": 10.0,
+    "labeled_by": "human",
+    "summary": "Forklift çalışanın çok yakınından geçti. Neredeyse temas edeceklerdi.",
+    "events": [
+      {
+        "time": "00:02",
+        "time_end": "00:04",
+        "event": "Forklift çalışanın çok yakınından geçti. ",
+        "event_type": "near_miss",
+        "severity": "düşük"
+      }
+    ],
+    "risk": "Düşük",
+    "actions": [
+      "Rutin izlemeye devam et"
+    ],
+    "notes": "Otomatik taslak. Gold değil; Streamlit'te kontrol edin.",
+    "status": "gold",
+    "_source_file": "001e53453441935632ae_run_1_seed_1288693302.ceiling_01.rgb.json",
+    "_source_dir": "/Users/zehraguler/Projects/teknofest-video-ajan/data/labels"
+  },
+  {
+    "video_id": "005bc639df8c4a2b36e0_run_21_seed_1062601381.ceiling_00.rgb",
+    "filename": "005bc639df8c4a2b36e0_run_21_seed_1062601381.ceiling_00.rgb.mp4",
+    "category": "near_miss",
+    "duration_sec": 10.0,
+    "labeled_by": "human",
+    "summary": "Forklift çalışanın çok yakınından geçti. Neredeyse temas edeceklerdi.",
+    "events": [
+      {
+        "time": "00:03",
+        "time_end": "00:04",
+        "event": "Forklift çalışanın çok yakınından geçti",
+        "event_type": "near_miss",
+        "severity": "orta"
+      }
+    ],
+    "risk": "Orta",
+    "actions": [
+      "alanı kontrol etmeye devam et"
+    ],
+    "notes": "",
+    "status": "gold",
+    "_source_file": "005bc639df8c4a2b36e0_run_21_seed_1062601381.ceiling_00.rgb.json",
+    "_source_dir": "/Users/zehraguler/Projects/teknofest-video-ajan/data/labels"
+  },
+  {
+    "video_id": "00e0991fbc61ad24102b_run_4_seed_1246964153.ceiling_00.rgb",
+    "filename": "00e0991fbc61ad24102b_run_4_seed_1246964153.ceiling_00.rgb.mp4",
+    "category": "near_miss",
+    "duration_sec": 10.0,
+    "labeled_by": "human",
+    "summary": "Forklift çalışanın çok yakınından geçti. Neredeyse temas edeceklerdi.",
+    "events": [
+      {
+        "time": "00:03",
+        "time_end": "00:06",
+        "event": "Forklift çalışanın çok yakınından geçti. ",
+        "event_type": "near_miss",
+        "severity": "orta"
+      }
+    ],
+    "risk": "Orta",
+    "actions": [
+      "Rutin izlemeye devam et"
+    ],
+    "notes": "",
+    "status": "gold",
+    "_source_file": "00e0991fbc61ad24102b_run_4_seed_1246964153.ceiling_00.rgb.json",
+    "_source_dir": "/Users/zehraguler/Projects/teknofest-video-ajan/data/labels"
+  },
+  {
+    "video_id": "00f2bbb80d7badad0134_run_25_seed_750796930.ceiling_00.rgb",
+    "filename": "00f2bbb80d7badad0134_run_25_seed_750796930.ceiling_00.rgb.mp4",
+    "category": "near_miss",
+    "duration_sec": 10.0,
+    "labeled_by": "human",
+    "summary": "Forklift çalışanın çok yakınından geçti. Neredeyse temas edeceklerdi.",
+    "events": [
+      {
+        "time": "00:02",
+        "time_end": "00:03",
+        "event": "Forklift çalışanın çok yakınından geçti. ",
+        "event_type": "near_miss",
+        "severity": "orta"
+      },
+      {
+        "time": "00:06",
+        "time_end": "00:07",
+        "event": "Forklift çalışanın çok yakınından geçti. ",
+        "event_type": "near_miss",
+        "severity": "orta"
+      }
+    ],
+    "risk": "Düşük",
+    "actions": [
+      "Rutin izlemeye devam et"
+    ],
+    "notes": "",
+    "status": "gold",
+    "_source_file": "00f2bbb80d7badad0134_run_25_seed_750796930.ceiling_00.rgb.json",
+    "_source_dir": "/Users/zehraguler/Projects/teknofest-video-ajan/data/labels"
+  },
+  {
+    "video_id": "01021d3989e38beb3395_run_10_seed_213384163.ceiling_00.rgb",
+    "filename": "01021d3989e38beb3395_run_10_seed_213384163.ceiling_00.rgb.mp4",
+    "category": "near_miss",
+    "duration_sec": 10.0,
+    "labeled_by": "human",
+    "summary": "Forklift çalışanın çok yakınından geçti. Neredeyse temas edeceklerdi.",
+    "events": [
+      {
+        "time": "00:04",
+        "time_end": "00:07",
+        "event": "Forklift çalışanın çok yakınından geçti. ",
+        "event_type": "near_miss",
+        "severity": "orta"
+      }
+    ],
+    "risk": "Orta",
+    "actions": [
+      "Rutin izlemeye devam et"
+    ],
+    "notes": "",
+    "status": "gold",
+    "_source_file": "01021d3989e38beb3395_run_10_seed_213384163.ceiling_00.rgb.json",
+    "_source_dir": "/Users/zehraguler/Projects/teknofest-video-ajan/data/labels"
+  },
+  {
+    "video_id": "0137e00c677a4118e887_run_2_seed_1276653305.ceiling_00.rgb",
+    "filename": "0137e00c677a4118e887_run_2_seed_1276653305.ceiling_00.rgb.mp4",
+    "category": "near_miss",
+    "duration_sec": 10.0,
+    "labeled_by": "human",
+    "summary": "Forklift çalışanın çok yakınından geçti. Neredeyse temas edeceklerdi.",
+    "events": [
+      {
+        "time": "00:03",
+        "time_end": "00:04",
+        "event": "Forklift çalışanın çok yakınından geçti.",
+        "event_type": "near_miss",
+        "severity": "orta"
+      },
+      {
+        "time": "00:07",
+        "time_end": "00:08",
+        "event": "Forklift çalışanın çok yakınından geçti.",
+        "event_type": "near_miss",
+        "severity": "orta"
+      }
+    ],
+    "risk": "Düşük",
+    "actions": [
+      "Rutin izlemeye devam et"
+    ],
+    "notes": "",
+    "status": "gold",
+    "_source_file": "0137e00c677a4118e887_run_2_seed_1276653305.ceiling_00.rgb.json",
+    "_source_dir": "/Users/zehraguler/Projects/teknofest-video-ajan/data/labels"
+  },
+  {
+    "video_id": "014f5a0f9461dfae29d5_run_13_seed_587824276.ceiling_00.rgb",
+    "filename": "014f5a0f9461dfae29d5_run_13_seed_587824276.ceiling_00.rgb.mp4",
+    "category": "near_miss",
+    "duration_sec": 10.0,
+    "labeled_by": "human",
+    "summary": "Forklift çalışanın çok yakınından geçti.Neredeyse temas edeceklerdi.",
+    "events": [
+      {
+        "time": "00:03",
+        "time_end": "00:04",
+        "event": "Forklift çalışanın çok yakınından geçti",
+        "event_type": "near_miss",
+        "severity": "orta"
+      }
+    ],
+    "risk": "Düşük",
+    "actions": [
+      "rutin izlemeye devam et",
+      "alanı güvene al"
+    ],
+    "notes": "",
+    "status": "gold",
+    "_source_file": "014f5a0f9461dfae29d5_run_13_seed_587824276.ceiling_00.rgb.json",
+    "_source_dir": "/Users/zehraguler/Projects/teknofest-video-ajan/data/labels"
+  },
+  {
+    "video_id": "016c1396912bfc432997_run_3_seed_1053328212.ceiling_00.rgb",
+    "filename": "016c1396912bfc432997_run_3_seed_1053328212.ceiling_00.rgb.mp4",
+    "category": "near_miss",
+    "duration_sec": 10.0,
+    "labeled_by": "human",
+    "summary": "Forklift çalışanın çok yakınından geçti. Neredeyse temas edeceklerdi.",
+    "events": [
+      {
+        "time": "00:02",
+        "time_end": "00:03",
+        "event": "Forklift çalışanın çok yakınından geçti",
+        "event_type": "near_miss",
+        "severity": "orta"
+      }
+    ],
+    "risk": "Orta",
+    "actions": [
+      "Rutin izlemeye devam et"
+    ],
+    "notes": "",
+    "status": "gold",
+    "_source_file": "016c1396912bfc432997_run_3_seed_1053328212.ceiling_00.rgb.json",
+    "_source_dir": "/Users/zehraguler/Projects/teknofest-video-ajan/data/labels"
+  },
+  {
+    "video_id": "018461e5b5cf7a482d3f_run_7_seed_659607876.ceiling_00.rgb",
+    "filename": "018461e5b5cf7a482d3f_run_7_seed_659607876.ceiling_00.rgb.mp4",
+    "category": "near_miss",
+    "duration_sec": 10.0,
+    "labeled_by": "human",
+    "summary": "Forklift çalışanın çok yakınından geçti. Neredeyse temas edeceklerdi.",
+    "events": [
+      {
+        "time": "00:05",
+        "time_end": "00:07",
+        "event": "Forklift çalışanın çok yakınından geçti. ",
+        "event_type": "normal",
+        "severity": "orta"
+      }
+    ],
+    "risk": "Düşük",
+    "actions": [
+      "rutin izlemeye devam et",
+      "alanı güvene al"
+    ],
+    "notes": "",
+    "status": "gold",
+    "_source_file": "018461e5b5cf7a482d3f_run_7_seed_659607876.ceiling_00.rgb.json",
+    "_source_dir": "/Users/zehraguler/Projects/teknofest-video-ajan/data/labels"
+  },
+  {
+    "video_id": "019b03676f77ba21f644_run_5_seed_946900070.ceiling_00.rgb",
+    "filename": "019b03676f77ba21f644_run_5_seed_946900070.ceiling_00.rgb.mp4",
+    "category": "near_miss",
+    "duration_sec": 10.0,
+    "labeled_by": "human",
+    "summary": "Forklift çalışanın çok yakınından geçti. Neredeyse temas edeceklerdi.",
+    "events": [
+      {
+        "time": "00:05",
+        "time_end": "00:07",
+        "event": "Forklift çalışanın çok yakınından geçti. ",
+        "event_type": "near_miss",
+        "severity": "orta"
+      }
+    ],
+    "risk": "Orta",
+    "actions": [
+      "rutin izlemeye devam et",
+      "alanı güvene al"
+    ],
+    "notes": "",
+    "status": "gold",
+    "_source_file": "019b03676f77ba21f644_run_5_seed_946900070.ceiling_00.rgb.json",
+    "_source_dir": "/Users/zehraguler/Projects/teknofest-video-ajan/data/labels"
+  }
+]

@@ -1,5 +1,5 @@
 {
-  "summary": "Kazada forklift, bir poleye çarptı ve bıçakları bozdu.",
+  "summary": "Kazada forklift, bir direğe çarptı.",
   "events": [
     {
       "time": "00:03",
@@ -8,7 +8,7 @@
   ],
   "risk": "Yüksek",
   "actions": [
-    "Forklift kontrol edin",
-    "Yaralı varsa yardım sağlayın"
+    "Forklift kontrol edin.",
+    "Yaralı varsa yardım sağlayın."
   ]
 }

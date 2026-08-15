@@ -1,0 +1,26 @@
+{
+  "video_id": "accident_8e16c30e1a",
+  "filename": "HPDC Die casting machine accident (Hydraulic core hose connection removed) [aG0wEiV4XX0].mp4",
+  "category": "accident",
+  "duration_sec": 35.43,
+  "labeled_by": "human",
+  "summary": "İş yerindeki makine patladı. Alevler yükseldi. Ve yanmaya devam etti.",
+  "events": [
+    {
+      "time": "00:08",
+      "time_end": "00:35",
+      "event": "Makine patladı ve yangın çıktı.",
+      "event_type": "kaza",
+      "severity": "yuksek"
+    }
+  ],
+  "risk": "Yüksek",
+  "actions": [
+    "Makineyi kapatın",
+    "Yaralıların yardımına koşun",
+    "Sağlık ekibi çağırın",
+    "İtfaiye çağırın"
+  ],
+  "notes": "",
+  "status": "gold"
+}

@@ -1,13 +1,13 @@
 {
-  "summary": "Operatörlerin iş yerinde normal bir durum.",
+  "summary": "Forklift tavandan sarkan maddeye çarpıyor ve tavan çöküyor.",
   "events": [
     {
-      "time": "00:05",
-      "event": "Operatörlerin iş yerinde normal bir durum."
+      "time": "00:03",
+      "event": "duvar çöküyor ve çalışan enkaz altında kalıyor."
     }
   ],
-  "risk": "Düşük",
+  "risk": "Yüksek",
   "actions": [
-    "Rutin izlemeye devam et"
+    "sağlık ekibi çağır."
   ]
 }

@@ -9,12 +9,12 @@
     {
       "time": "00:03",
       "time_end": "00:04",
-      "event": "Çalışan elinde yük varken dengesi kaybetti ve yüksekten düştü",
+      "event": "Çalışan yüksekten düştü ve hareketsiz yatıyor.",
       "event_type": "kaza",
       "severity": "orta"
     }
   ],
-  "risk": "Orta",
+  "risk": "Yüksek",
   "actions": [
     "Sağlık ekibi çağır"
   ],

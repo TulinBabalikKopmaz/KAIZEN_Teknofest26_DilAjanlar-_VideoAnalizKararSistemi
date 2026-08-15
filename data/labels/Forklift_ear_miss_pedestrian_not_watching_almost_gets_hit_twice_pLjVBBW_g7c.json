@@ -1,0 +1,24 @@
+{
+  "video_id": "Forklift_ear_miss_pedestrian_not_watching_almost_gets_hit_twice_pLjVBBW_g7c",
+  "filename": "Forklift ear miss pedestrian not watching almost gets hit twice [pLjVBBW_g7c].mp4",
+  "category": "near_miss",
+  "duration_sec": null,
+  "labeled_by": "human",
+  "summary": "Forklift çalışanın çok yakınından geçti. Neredeyse temas edeceklerdi.",
+  "events": [
+    {
+      "time": "00:08",
+      "time_end": "00:12",
+      "event": "Forklift çalışanın çok yakınından geçti. ",
+      "event_type": "near_miss",
+      "severity": "orta"
+    }
+  ],
+  "risk": "Orta",
+  "actions": [
+    "Alanı güvene al.",
+    "İzlemeye devam et."
+  ],
+  "notes": "",
+  "status": "gold"
+}

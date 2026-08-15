@@ -1,0 +1,1102 @@
+HATA 3XOG - Another workplace accident resulting in a crazy faceplant 😅 #StaySafe... [1617839956331823104].mp4: Error code: 400 - {'error': {'message': '{"error":{"code":400,"message":"request (6816 tokens) exceeds the available context size (4096 tokens), try increasing it","type":"exceed_context_size_error","n_prompt_tokens":6816,"n_ctx":4096}}', 'type': 'invalid_request_error', 'param': None, 'code': None}}
+Traceback (most recent call last):
+  File "/Users/zehraguler/Projects/teknofest-video-ajan/scripts/auto_label_qwen.py", line 175, in main
+    label = label_video(client, model, video, frames_meta)
+  File "/Users/zehraguler/Projects/teknofest-video-ajan/scripts/auto_label_qwen.py", line 86, in label_video
+    response = client.chat.completions.create(
+        model=model,
+        temperature=0.1,
+        messages=[{"role": "user", "content": content}],
+    )
+  File "/Users/zehraguler/Projects/teknofest-video-ajan/.venv/lib/python3.14/site-packages/openai/_utils/_utils.py", line 298, in wrapper
+    return func(*args, **kwargs)
+  File "/Users/zehraguler/Projects/teknofest-video-ajan/.venv/lib/python3.14/site-packages/openai/resources/chat/completions/completions.py", line 1296, in create
+    return self._post(
+           ~~~~~~~~~~^
+        "/chat/completions",
+        ^^^^^^^^^^^^^^^^^^^^
+    ...<53 lines>...
+        stream_cls=Stream[ChatCompletionChunk],
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "/Users/zehraguler/Projects/teknofest-video-ajan/.venv/lib/python3.14/site-packages/openai/_base_client.py", line 1382, in post
+    return cast(ResponseT, self.request(cast_to, opts, stream=stream, stream_cls=stream_cls))
+                           ~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/zehraguler/Projects/teknofest-video-ajan/.venv/lib/python3.14/site-packages/openai/_base_client.py", line 1155, in request
+    raise self._make_status_error_from_response(err.response) from None
+openai.BadRequestError: Error code: 400 - {'error': {'message': '{"error":{"code":400,"message":"request (6816 tokens) exceeds the available context size (4096 tokens), try increasing it","type":"exceed_context_size_error","n_prompt_tokens":6816,"n_ctx":4096}}', 'type': 'invalid_request_error', 'param': None, 'code': None}}
+
+HATA 3XOG - Workplace accidents happen all the time! All we can do is try learn f... [1615153821189013504].mp4: Error code: 400 - {'error': {'message': '{"error":{"code":400,"message":"request (5859 tokens) exceeds the available context size (4096 tokens), try increasing it","type":"exceed_context_size_error","n_prompt_tokens":5859,"n_ctx":4096}}', 'type': 'invalid_request_error', 'param': None, 'code': None}}
+Traceback (most recent call last):
+  File "/Users/zehraguler/Projects/teknofest-video-ajan/scripts/auto_label_qwen.py", line 175, in main
+    label = label_video(client, model, video, frames_meta)
+  File "/Users/zehraguler/Projects/teknofest-video-ajan/scripts/auto_label_qwen.py", line 86, in label_video
+    response = client.chat.completions.create(
+        model=model,
+        temperature=0.1,
+        messages=[{"role": "user", "content": content}],
+    )
+  File "/Users/zehraguler/Projects/teknofest-video-ajan/.venv/lib/python3.14/site-packages/openai/_utils/_utils.py", line 298, in wrapper
+    return func(*args, **kwargs)
+  File "/Users/zehraguler/Projects/teknofest-video-ajan/.venv/lib/python3.14/site-packages/openai/resources/chat/completions/completions.py", line 1296, in create
+    return self._post(
+           ~~~~~~~~~~^
+        "/chat/completions",
+        ^^^^^^^^^^^^^^^^^^^^
+    ...<53 lines>...
+        stream_cls=Stream[ChatCompletionChunk],
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "/Users/zehraguler/Projects/teknofest-video-ajan/.venv/lib/python3.14/site-packages/openai/_base_client.py", line 1382, in post
+    return cast(ResponseT, self.request(cast_to, opts, stream=stream, stream_cls=stream_cls))
+                           ~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/zehraguler/Projects/teknofest-video-ajan/.venv/lib/python3.14/site-packages/openai/_base_client.py", line 1155, in request
+    raise self._make_status_error_from_response(err.response) from None
+openai.BadRequestError: Error code: 400 - {'error': {'message': '{"error":{"code":400,"message":"request (5859 tokens) exceeds the available context size (4096 tokens), try increasing it","type":"exceed_context_size_error","n_prompt_tokens":5859,"n_ctx":4096}}', 'type': 'invalid_request_error', 'param': None, 'code': None}}
+
+HATA Aykırı - İş kazası güvenlik kamerasında.  Fabrikada, forklift sürücüsü işçiye ... [1972267097397854208].mp4: Error code: 400 - {'error': {'message': '{"error":{"code":400,"message":"request (5908 tokens) exceeds the available context size (4096 tokens), try increasing it","type":"exceed_context_size_error","n_prompt_tokens":5908,"n_ctx":4096}}', 'type': 'invalid_request_error', 'param': None, 'code': None}}
+Traceback (most recent call last):
+  File "/Users/zehraguler/Projects/teknofest-video-ajan/scripts/auto_label_qwen.py", line 175, in main
+    label = label_video(client, model, video, frames_meta)
+  File "/Users/zehraguler/Projects/teknofest-video-ajan/scripts/auto_label_qwen.py", line 86, in label_video
+    response = client.chat.completions.create(
+        model=model,
+        temperature=0.1,
+        messages=[{"role": "user", "content": content}],
+    )
+  File "/Users/zehraguler/Projects/teknofest-video-ajan/.venv/lib/python3.14/site-packages/openai/_utils/_utils.py", line 298, in wrapper
+    return func(*args, **kwargs)
+  File "/Users/zehraguler/Projects/teknofest-video-ajan/.venv/lib/python3.14/site-packages/openai/resources/chat/completions/completions.py", line 1296, in create
+    return self._post(
+           ~~~~~~~~~~^
+        "/chat/completions",
+        ^^^^^^^^^^^^^^^^^^^^
+    ...<53 lines>...
+        stream_cls=Stream[ChatCompletionChunk],
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "/Users/zehraguler/Projects/teknofest-video-ajan/.venv/lib/python3.14/site-packages/openai/_base_client.py", line 1382, in post
+    return cast(ResponseT, self.request(cast_to, opts, stream=stream, stream_cls=stream_cls))
+                           ~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/zehraguler/Projects/teknofest-video-ajan/.venv/lib/python3.14/site-packages/openai/_base_client.py", line 1155, in request
+    raise self._make_status_error_from_response(err.response) from None
+openai.BadRequestError: Error code: 400 - {'error': {'message': '{"error":{"code":400,"message":"request (5908 tokens) exceeds the available context size (4096 tokens), try increasing it","type":"exceed_context_size_error","n_prompt_tokens":5908,"n_ctx":4096}}', 'type': 'invalid_request_error', 'param': None, 'code': None}}
+
+HATA Beylikdüzü.anlık - Beylikdüzü Yeşil Flamingo Sitesi’nde yaşanan, Aydın Dirikolu’nun (61)... [2088241217045774336].mp4: Error code: 400 - {'error': {'message': '{"error":{"code":400,"message":"request (7939 tokens) exceeds the available context size (4096 tokens), try increasing it","type":"exceed_context_size_error","n_prompt_tokens":7939,"n_ctx":4096}}', 'type': 'invalid_request_error', 'param': None, 'code': None}}
+Traceback (most recent call last):
+  File "/Users/zehraguler/Projects/teknofest-video-ajan/scripts/auto_label_qwen.py", line 175, in main
+    label = label_video(client, model, video, frames_meta)
+  File "/Users/zehraguler/Projects/teknofest-video-ajan/scripts/auto_label_qwen.py", line 86, in label_video
+    response = client.chat.completions.create(
+        model=model,
+        temperature=0.1,
+        messages=[{"role": "user", "content": content}],
+    )
+  File "/Users/zehraguler/Projects/teknofest-video-ajan/.venv/lib/python3.14/site-packages/openai/_utils/_utils.py", line 298, in wrapper
+    return func(*args, **kwargs)
+  File "/Users/zehraguler/Projects/teknofest-video-ajan/.venv/lib/python3.14/site-packages/openai/resources/chat/completions/completions.py", line 1296, in create
+    return self._post(
+           ~~~~~~~~~~^
+        "/chat/completions",
+        ^^^^^^^^^^^^^^^^^^^^
+    ...<53 lines>...
+        stream_cls=Stream[ChatCompletionChunk],
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "/Users/zehraguler/Projects/teknofest-video-ajan/.venv/lib/python3.14/site-packages/openai/_base_client.py", line 1382, in post
+    return cast(ResponseT, self.request(cast_to, opts, stream=stream, stream_cls=stream_cls))
+                           ~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/zehraguler/Projects/teknofest-video-ajan/.venv/lib/python3.14/site-packages/openai/_base_client.py", line 1155, in request
+    raise self._make_status_error_from_response(err.response) from None
+openai.BadRequestError: Error code: 400 - {'error': {'message': '{"error":{"code":400,"message":"request (7939 tokens) exceeds the available context size (4096 tokens), try increasing it","type":"exceed_context_size_error","n_prompt_tokens":7939,"n_ctx":4096}}', 'type': 'invalid_request_error', 'param': None, 'code': None}}
+
+HATA Double accident at work in China - 厲害了我的國 (720p).mp4: Error code: 400 - {'error': {'message': '{"error":{"code":400,"message":"request (8016 tokens) exceeds the available context size (4096 tokens), try increasing it","type":"exceed_context_size_error","n_prompt_tokens":8016,"n_ctx":4096}}', 'type': 'invalid_request_error', 'param': None, 'code': None}}
+Traceback (most recent call last):
+  File "/Users/zehraguler/Projects/teknofest-video-ajan/scripts/auto_label_qwen.py", line 175, in main
+    label = label_video(client, model, video, frames_meta)
+  File "/Users/zehraguler/Projects/teknofest-video-ajan/scripts/auto_label_qwen.py", line 86, in label_video
+    response = client.chat.completions.create(
+        model=model,
+        temperature=0.1,
+        messages=[{"role": "user", "content": content}],
+    )
+  File "/Users/zehraguler/Projects/teknofest-video-ajan/.venv/lib/python3.14/site-packages/openai/_utils/_utils.py", line 298, in wrapper
+    return func(*args, **kwargs)
+  File "/Users/zehraguler/Projects/teknofest-video-ajan/.venv/lib/python3.14/site-packages/openai/resources/chat/completions/completions.py", line 1296, in create
+    return self._post(
+           ~~~~~~~~~~^
+        "/chat/completions",
+        ^^^^^^^^^^^^^^^^^^^^
+    ...<53 lines>...
+        stream_cls=Stream[ChatCompletionChunk],
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "/Users/zehraguler/Projects/teknofest-video-ajan/.venv/lib/python3.14/site-packages/openai/_base_client.py", line 1382, in post
+    return cast(ResponseT, self.request(cast_to, opts, stream=stream, stream_cls=stream_cls))
+                           ~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/zehraguler/Projects/teknofest-video-ajan/.venv/lib/python3.14/site-packages/openai/_base_client.py", line 1155, in request
+    raise self._make_status_error_from_response(err.response) from None
+openai.BadRequestError: Error code: 400 - {'error': {'message': '{"error":{"code":400,"message":"request (8016 tokens) exceeds the available context size (4096 tokens), try increasing it","type":"exceed_context_size_error","n_prompt_tokens":8016,"n_ctx":4096}}', 'type': 'invalid_request_error', 'param': None, 'code': None}}
+
+HATA Dude at my work slammed into a pole with a forklift and bent the blad... [hzvtKncHvyQ].mp4: Error code: 400 - {'error': {'message': '{"error":{"code":400,"message":"request (4928 tokens) exceeds the available context size (4096 tokens), try increasing it","type":"exceed_context_size_error","n_prompt_tokens":4928,"n_ctx":4096}}', 'type': 'invalid_request_error', 'param': None, 'code': None}}
+Traceback (most recent call last):
+  File "/Users/zehraguler/Projects/teknofest-video-ajan/scripts/auto_label_qwen.py", line 175, in main
+    label = label_video(client, model, video, frames_meta)
+  File "/Users/zehraguler/Projects/teknofest-video-ajan/scripts/auto_label_qwen.py", line 86, in label_video
+    response = client.chat.completions.create(
+        model=model,
+        temperature=0.1,
+        messages=[{"role": "user", "content": content}],
+    )
+  File "/Users/zehraguler/Projects/teknofest-video-ajan/.venv/lib/python3.14/site-packages/openai/_utils/_utils.py", line 298, in wrapper
+    return func(*args, **kwargs)
+  File "/Users/zehraguler/Projects/teknofest-video-ajan/.venv/lib/python3.14/site-packages/openai/resources/chat/completions/completions.py", line 1296, in create
+    return self._post(
+           ~~~~~~~~~~^
+        "/chat/completions",
+        ^^^^^^^^^^^^^^^^^^^^
+    ...<53 lines>...
+        stream_cls=Stream[ChatCompletionChunk],
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "/Users/zehraguler/Projects/teknofest-video-ajan/.venv/lib/python3.14/site-packages/openai/_base_client.py", line 1382, in post
+    return cast(ResponseT, self.request(cast_to, opts, stream=stream, stream_cls=stream_cls))
+                           ~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/zehraguler/Projects/teknofest-video-ajan/.venv/lib/python3.14/site-packages/openai/_base_client.py", line 1155, in request
+    raise self._make_status_error_from_response(err.response) from None
+openai.BadRequestError: Error code: 400 - {'error': {'message': '{"error":{"code":400,"message":"request (4928 tokens) exceeds the available context size (4096 tokens), try increasing it","type":"exceed_context_size_error","n_prompt_tokens":4928,"n_ctx":4096}}', 'type': 'invalid_request_error', 'param': None, 'code': None}}
+
+HATA Dumb ass fork lift driver rofl [G4g4RN3AFD8].mp4: Error code: 400 - {'error': {'message': '{"error":{"code":400,"message":"request (7918 tokens) exceeds the available context size (4096 tokens), try increasing it","type":"exceed_context_size_error","n_prompt_tokens":7918,"n_ctx":4096}}', 'type': 'invalid_request_error', 'param': None, 'code': None}}
+Traceback (most recent call last):
+  File "/Users/zehraguler/Projects/teknofest-video-ajan/scripts/auto_label_qwen.py", line 175, in main
+    label = label_video(client, model, video, frames_meta)
+  File "/Users/zehraguler/Projects/teknofest-video-ajan/scripts/auto_label_qwen.py", line 86, in label_video
+    response = client.chat.completions.create(
+        model=model,
+        temperature=0.1,
+        messages=[{"role": "user", "content": content}],
+    )
+  File "/Users/zehraguler/Projects/teknofest-video-ajan/.venv/lib/python3.14/site-packages/openai/_utils/_utils.py", line 298, in wrapper
+    return func(*args, **kwargs)
+  File "/Users/zehraguler/Projects/teknofest-video-ajan/.venv/lib/python3.14/site-packages/openai/resources/chat/completions/completions.py", line 1296, in create
+    return self._post(
+           ~~~~~~~~~~^
+        "/chat/completions",
+        ^^^^^^^^^^^^^^^^^^^^
+    ...<53 lines>...
+        stream_cls=Stream[ChatCompletionChunk],
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "/Users/zehraguler/Projects/teknofest-video-ajan/.venv/lib/python3.14/site-packages/openai/_base_client.py", line 1382, in post
+    return cast(ResponseT, self.request(cast_to, opts, stream=stream, stream_cls=stream_cls))
+                           ~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/zehraguler/Projects/teknofest-video-ajan/.venv/lib/python3.14/site-packages/openai/_base_client.py", line 1155, in request
+    raise self._make_status_error_from_response(err.response) from None
+openai.BadRequestError: Error code: 400 - {'error': {'message': '{"error":{"code":400,"message":"request (7918 tokens) exceeds the available context size (4096 tokens), try increasing it","type":"exceed_context_size_error","n_prompt_tokens":7918,"n_ctx":4096}}', 'type': 'invalid_request_error', 'param': None, 'code': None}}
+
+HATA Forklift Accident [na3Bzrmljd0].mp4: Error code: 400 - {'error': {'message': '{"error":{"code":400,"message":"request (7912 tokens) exceeds the available context size (4096 tokens), try increasing it","type":"exceed_context_size_error","n_prompt_tokens":7912,"n_ctx":4096}}', 'type': 'invalid_request_error', 'param': None, 'code': None}}
+Traceback (most recent call last):
+  File "/Users/zehraguler/Projects/teknofest-video-ajan/scripts/auto_label_qwen.py", line 175, in main
+    label = label_video(client, model, video, frames_meta)
+  File "/Users/zehraguler/Projects/teknofest-video-ajan/scripts/auto_label_qwen.py", line 86, in label_video
+    response = client.chat.completions.create(
+        model=model,
+        temperature=0.1,
+        messages=[{"role": "user", "content": content}],
+    )
+  File "/Users/zehraguler/Projects/teknofest-video-ajan/.venv/lib/python3.14/site-packages/openai/_utils/_utils.py", line 298, in wrapper
+    return func(*args, **kwargs)
+  File "/Users/zehraguler/Projects/teknofest-video-ajan/.venv/lib/python3.14/site-packages/openai/resources/chat/completions/completions.py", line 1296, in create
+    return self._post(
+           ~~~~~~~~~~^
+        "/chat/completions",
+        ^^^^^^^^^^^^^^^^^^^^
+    ...<53 lines>...
+        stream_cls=Stream[ChatCompletionChunk],
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "/Users/zehraguler/Projects/teknofest-video-ajan/.venv/lib/python3.14/site-packages/openai/_base_client.py", line 1382, in post
+    return cast(ResponseT, self.request(cast_to, opts, stream=stream, stream_cls=stream_cls))
+                           ~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/zehraguler/Projects/teknofest-video-ajan/.venv/lib/python3.14/site-packages/openai/_base_client.py", line 1155, in request
+    raise self._make_status_error_from_response(err.response) from None
+openai.BadRequestError: Error code: 400 - {'error': {'message': '{"error":{"code":400,"message":"request (7912 tokens) exceeds the available context size (4096 tokens), try increasing it","type":"exceed_context_size_error","n_prompt_tokens":7912,"n_ctx":4096}}', 'type': 'invalid_request_error', 'param': None, 'code': None}}
+
+HATA Forklift Driver Causes an Entire Warehouse to Fall like Dominoes [g1l7g54wnlt41].mp4: Error code: 400 - {'error': {'message': '{"error":{"code":400,"message":"request (8064 tokens) exceeds the available context size (4096 tokens), try increasing it","type":"exceed_context_size_error","n_prompt_tokens":8064,"n_ctx":4096}}', 'type': 'invalid_request_error', 'param': None, 'code': None}}
+Traceback (most recent call last):
+  File "/Users/zehraguler/Projects/teknofest-video-ajan/scripts/auto_label_qwen.py", line 175, in main
+    label = label_video(client, model, video, frames_meta)
+  File "/Users/zehraguler/Projects/teknofest-video-ajan/scripts/auto_label_qwen.py", line 86, in label_video
+    response = client.chat.completions.create(
+        model=model,
+        temperature=0.1,
+        messages=[{"role": "user", "content": content}],
+    )
+  File "/Users/zehraguler/Projects/teknofest-video-ajan/.venv/lib/python3.14/site-packages/openai/_utils/_utils.py", line 298, in wrapper
+    return func(*args, **kwargs)
+  File "/Users/zehraguler/Projects/teknofest-video-ajan/.venv/lib/python3.14/site-packages/openai/resources/chat/completions/completions.py", line 1296, in create
+    return self._post(
+           ~~~~~~~~~~^
+        "/chat/completions",
+        ^^^^^^^^^^^^^^^^^^^^
+    ...<53 lines>...
+        stream_cls=Stream[ChatCompletionChunk],
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "/Users/zehraguler/Projects/teknofest-video-ajan/.venv/lib/python3.14/site-packages/openai/_base_client.py", line 1382, in post
+    return cast(ResponseT, self.request(cast_to, opts, stream=stream, stream_cls=stream_cls))
+                           ~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/zehraguler/Projects/teknofest-video-ajan/.venv/lib/python3.14/site-packages/openai/_base_client.py", line 1155, in request
+    raise self._make_status_error_from_response(err.response) from None
+openai.BadRequestError: Error code: 400 - {'error': {'message': '{"error":{"code":400,"message":"request (8064 tokens) exceeds the available context size (4096 tokens), try increasing it","type":"exceed_context_size_error","n_prompt_tokens":8064,"n_ctx":4096}}', 'type': 'invalid_request_error', 'param': None, 'code': None}}
+
+HATA Forklift Safety Fail： Near Miss Caught on Camera 🚧 ｜ HSE Daily [dNrjH3a9E4k].mp4: Error code: 400 - {'error': {'message': '{"error":{"code":400,"message":"request (8125 tokens) exceeds the available context size (4096 tokens), try increasing it","type":"exceed_context_size_error","n_prompt_tokens":8125,"n_ctx":4096}}', 'type': 'invalid_request_error', 'param': None, 'code': None}}
+Traceback (most recent call last):
+  File "/Users/zehraguler/Projects/teknofest-video-ajan/scripts/auto_label_qwen.py", line 175, in main
+    label = label_video(client, model, video, frames_meta)
+  File "/Users/zehraguler/Projects/teknofest-video-ajan/scripts/auto_label_qwen.py", line 86, in label_video
+    response = client.chat.completions.create(
+        model=model,
+        temperature=0.1,
+        messages=[{"role": "user", "content": content}],
+    )
+  File "/Users/zehraguler/Projects/teknofest-video-ajan/.venv/lib/python3.14/site-packages/openai/_utils/_utils.py", line 298, in wrapper
+    return func(*args, **kwargs)
+  File "/Users/zehraguler/Projects/teknofest-video-ajan/.venv/lib/python3.14/site-packages/openai/resources/chat/completions/completions.py", line 1296, in create
+    return self._post(
+           ~~~~~~~~~~^
+        "/chat/completions",
+        ^^^^^^^^^^^^^^^^^^^^
+    ...<53 lines>...
+        stream_cls=Stream[ChatCompletionChunk],
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "/Users/zehraguler/Projects/teknofest-video-ajan/.venv/lib/python3.14/site-packages/openai/_base_client.py", line 1382, in post
+    return cast(ResponseT, self.request(cast_to, opts, stream=stream, stream_cls=stream_cls))
+                           ~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/zehraguler/Projects/teknofest-video-ajan/.venv/lib/python3.14/site-packages/openai/_base_client.py", line 1155, in request
+    raise self._make_status_error_from_response(err.response) from None
+openai.BadRequestError: Error code: 400 - {'error': {'message': '{"error":{"code":400,"message":"request (8125 tokens) exceeds the available context size (4096 tokens), try increasing it","type":"exceed_context_size_error","n_prompt_tokens":8125,"n_ctx":4096}}', 'type': 'invalid_request_error', 'param': None, 'code': None}}
+
+HATA HPDC Die casting machine accident (Hydraulic core hose connection removed) [aG0wEiV4XX0].mp4: Error code: 400 - {'error': {'message': '{"error":{"code":400,"message":"request (8065 tokens) exceeds the available context size (4096 tokens), try increasing it","type":"exceed_context_size_error","n_prompt_tokens":8065,"n_ctx":4096}}', 'type': 'invalid_request_error', 'param': None, 'code': None}}
+Traceback (most recent call last):
+  File "/Users/zehraguler/Projects/teknofest-video-ajan/scripts/auto_label_qwen.py", line 175, in main
+    label = label_video(client, model, video, frames_meta)
+  File "/Users/zehraguler/Projects/teknofest-video-ajan/scripts/auto_label_qwen.py", line 86, in label_video
+    response = client.chat.completions.create(
+        model=model,
+        temperature=0.1,
+        messages=[{"role": "user", "content": content}],
+    )
+  File "/Users/zehraguler/Projects/teknofest-video-ajan/.venv/lib/python3.14/site-packages/openai/_utils/_utils.py", line 298, in wrapper
+    return func(*args, **kwargs)
+  File "/Users/zehraguler/Projects/teknofest-video-ajan/.venv/lib/python3.14/site-packages/openai/resources/chat/completions/completions.py", line 1296, in create
+    return self._post(
+           ~~~~~~~~~~^
+        "/chat/completions",
+        ^^^^^^^^^^^^^^^^^^^^
+    ...<53 lines>...
+        stream_cls=Stream[ChatCompletionChunk],
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "/Users/zehraguler/Projects/teknofest-video-ajan/.venv/lib/python3.14/site-packages/openai/_base_client.py", line 1382, in post
+    return cast(ResponseT, self.request(cast_to, opts, stream=stream, stream_cls=stream_cls))
+                           ~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/zehraguler/Projects/teknofest-video-ajan/.venv/lib/python3.14/site-packages/openai/_base_client.py", line 1155, in request
+    raise self._make_status_error_from_response(err.response) from None
+openai.BadRequestError: Error code: 400 - {'error': {'message': '{"error":{"code":400,"message":"request (8065 tokens) exceeds the available context size (4096 tokens), try increasing it","type":"exceed_context_size_error","n_prompt_tokens":8065,"n_ctx":4096}}', 'type': 'invalid_request_error', 'param': None, 'code': None}}
+
+HATA Hate Detector 🔍 - A tragic industrial accident occurred at Pramukh Industries in the GI... [2062441335727284224].mp4: Error code: 400 - {'error': {'message': '{"error":{"code":400,"message":"request (8212 tokens) exceeds the available context size (4096 tokens), try increasing it","type":"exceed_context_size_error","n_prompt_tokens":8212,"n_ctx":4096}}', 'type': 'invalid_request_error', 'param': None, 'code': None}}
+Traceback (most recent call last):
+  File "/Users/zehraguler/Projects/teknofest-video-ajan/scripts/auto_label_qwen.py", line 175, in main
+    label = label_video(client, model, video, frames_meta)
+  File "/Users/zehraguler/Projects/teknofest-video-ajan/scripts/auto_label_qwen.py", line 86, in label_video
+    response = client.chat.completions.create(
+        model=model,
+        temperature=0.1,
+        messages=[{"role": "user", "content": content}],
+    )
+  File "/Users/zehraguler/Projects/teknofest-video-ajan/.venv/lib/python3.14/site-packages/openai/_utils/_utils.py", line 298, in wrapper
+    return func(*args, **kwargs)
+  File "/Users/zehraguler/Projects/teknofest-video-ajan/.venv/lib/python3.14/site-packages/openai/resources/chat/completions/completions.py", line 1296, in create
+    return self._post(
+           ~~~~~~~~~~^
+        "/chat/completions",
+        ^^^^^^^^^^^^^^^^^^^^
+    ...<53 lines>...
+        stream_cls=Stream[ChatCompletionChunk],
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "/Users/zehraguler/Projects/teknofest-video-ajan/.venv/lib/python3.14/site-packages/openai/_base_client.py", line 1382, in post
+    return cast(ResponseT, self.request(cast_to, opts, stream=stream, stream_cls=stream_cls))
+                           ~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/zehraguler/Projects/teknofest-video-ajan/.venv/lib/python3.14/site-packages/openai/_base_client.py", line 1155, in request
+    raise self._make_status_error_from_response(err.response) from None
+openai.BadRequestError: Error code: 400 - {'error': {'message': '{"error":{"code":400,"message":"request (8212 tokens) exceeds the available context size (4096 tokens), try increasing it","type":"exceed_context_size_error","n_prompt_tokens":8212,"n_ctx":4096}}', 'type': 'invalid_request_error', 'param': None, 'code': None}}
+
+HATA Insane Near-Death Accident On Construction Site! [cFpbTOOLcek].mp4: Error code: 400 - {'error': {'message': '{"error":{"code":400,"message":"request (8057 tokens) exceeds the available context size (4096 tokens), try increasing it","type":"exceed_context_size_error","n_prompt_tokens":8057,"n_ctx":4096}}', 'type': 'invalid_request_error', 'param': None, 'code': None}}
+Traceback (most recent call last):
+  File "/Users/zehraguler/Projects/teknofest-video-ajan/scripts/auto_label_qwen.py", line 175, in main
+    label = label_video(client, model, video, frames_meta)
+  File "/Users/zehraguler/Projects/teknofest-video-ajan/scripts/auto_label_qwen.py", line 86, in label_video
+    response = client.chat.completions.create(
+        model=model,
+        temperature=0.1,
+        messages=[{"role": "user", "content": content}],
+    )
+  File "/Users/zehraguler/Projects/teknofest-video-ajan/.venv/lib/python3.14/site-packages/openai/_utils/_utils.py", line 298, in wrapper
+    return func(*args, **kwargs)
+  File "/Users/zehraguler/Projects/teknofest-video-ajan/.venv/lib/python3.14/site-packages/openai/resources/chat/completions/completions.py", line 1296, in create
+    return self._post(
+           ~~~~~~~~~~^
+        "/chat/completions",
+        ^^^^^^^^^^^^^^^^^^^^
+    ...<53 lines>...
+        stream_cls=Stream[ChatCompletionChunk],
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "/Users/zehraguler/Projects/teknofest-video-ajan/.venv/lib/python3.14/site-packages/openai/_base_client.py", line 1382, in post
+    return cast(ResponseT, self.request(cast_to, opts, stream=stream, stream_cls=stream_cls))
+                           ~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/zehraguler/Projects/teknofest-video-ajan/.venv/lib/python3.14/site-packages/openai/_base_client.py", line 1155, in request
+    raise self._make_status_error_from_response(err.response) from None
+openai.BadRequestError: Error code: 400 - {'error': {'message': '{"error":{"code":400,"message":"request (8057 tokens) exceeds the available context size (4096 tokens), try increasing it","type":"exceed_context_size_error","n_prompt_tokens":8057,"n_ctx":4096}}', 'type': 'invalid_request_error', 'param': None, 'code': None}}
+
+HATA İZMİR’İN NABZI - İZMİR’DE FECİ İŞ KAZASI： İSKELE BÖYLE ÇÖKTÜ!  İzmir’in Balçova ilçesi... [2079890562375634944].mp4: Error code: 400 - {'error': {'message': '{"error":{"code":400,"message":"request (8197 tokens) exceeds the available context size (4096 tokens), try increasing it","type":"exceed_context_size_error","n_prompt_tokens":8197,"n_ctx":4096}}', 'type': 'invalid_request_error', 'param': None, 'code': None}}
+Traceback (most recent call last):
+  File "/Users/zehraguler/Projects/teknofest-video-ajan/scripts/auto_label_qwen.py", line 175, in main
+    label = label_video(client, model, video, frames_meta)
+  File "/Users/zehraguler/Projects/teknofest-video-ajan/scripts/auto_label_qwen.py", line 86, in label_video
+    response = client.chat.completions.create(
+        model=model,
+        temperature=0.1,
+        messages=[{"role": "user", "content": content}],
+    )
+  File "/Users/zehraguler/Projects/teknofest-video-ajan/.venv/lib/python3.14/site-packages/openai/_utils/_utils.py", line 298, in wrapper
+    return func(*args, **kwargs)
+  File "/Users/zehraguler/Projects/teknofest-video-ajan/.venv/lib/python3.14/site-packages/openai/resources/chat/completions/completions.py", line 1296, in create
+    return self._post(
+           ~~~~~~~~~~^
+        "/chat/completions",
+        ^^^^^^^^^^^^^^^^^^^^
+    ...<53 lines>...
+        stream_cls=Stream[ChatCompletionChunk],
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "/Users/zehraguler/Projects/teknofest-video-ajan/.venv/lib/python3.14/site-packages/openai/_base_client.py", line 1382, in post
+    return cast(ResponseT, self.request(cast_to, opts, stream=stream, stream_cls=stream_cls))
+                           ~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/zehraguler/Projects/teknofest-video-ajan/.venv/lib/python3.14/site-packages/openai/_base_client.py", line 1155, in request
+    raise self._make_status_error_from_response(err.response) from None
+openai.BadRequestError: Error code: 400 - {'error': {'message': '{"error":{"code":400,"message":"request (8197 tokens) exceeds the available context size (4096 tokens), try increasing it","type":"exceed_context_size_error","n_prompt_tokens":8197,"n_ctx":4096}}', 'type': 'invalid_request_error', 'param': None, 'code': None}}
+
+HATA LiveLeak Work accident in Supermarket - Liveleak (198p).mp4: Error code: 400 - {'error': {'message': '{"error":{"code":400,"message":"request (8057 tokens) exceeds the available context size (4096 tokens), try increasing it","type":"exceed_context_size_error","n_prompt_tokens":8057,"n_ctx":4096}}', 'type': 'invalid_request_error', 'param': None, 'code': None}}
+Traceback (most recent call last):
+  File "/Users/zehraguler/Projects/teknofest-video-ajan/scripts/auto_label_qwen.py", line 175, in main
+    label = label_video(client, model, video, frames_meta)
+  File "/Users/zehraguler/Projects/teknofest-video-ajan/scripts/auto_label_qwen.py", line 86, in label_video
+    response = client.chat.completions.create(
+        model=model,
+        temperature=0.1,
+        messages=[{"role": "user", "content": content}],
+    )
+  File "/Users/zehraguler/Projects/teknofest-video-ajan/.venv/lib/python3.14/site-packages/openai/_utils/_utils.py", line 298, in wrapper
+    return func(*args, **kwargs)
+  File "/Users/zehraguler/Projects/teknofest-video-ajan/.venv/lib/python3.14/site-packages/openai/resources/chat/completions/completions.py", line 1296, in create
+    return self._post(
+           ~~~~~~~~~~^
+        "/chat/completions",
+        ^^^^^^^^^^^^^^^^^^^^
+    ...<53 lines>...
+        stream_cls=Stream[ChatCompletionChunk],
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "/Users/zehraguler/Projects/teknofest-video-ajan/.venv/lib/python3.14/site-packages/openai/_base_client.py", line 1382, in post
+    return cast(ResponseT, self.request(cast_to, opts, stream=stream, stream_cls=stream_cls))
+                           ~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/zehraguler/Projects/teknofest-video-ajan/.venv/lib/python3.14/site-packages/openai/_base_client.py", line 1155, in request
+    raise self._make_status_error_from_response(err.response) from None
+openai.BadRequestError: Error code: 400 - {'error': {'message': '{"error":{"code":400,"message":"request (8057 tokens) exceeds the available context size (4096 tokens), try increasing it","type":"exceed_context_size_error","n_prompt_tokens":8057,"n_ctx":4096}}', 'type': 'invalid_request_error', 'param': None, 'code': None}}
+
+HATA Press tool accident - mohan kuchan (352p).mp4: Error code: 400 - {'error': {'message': '{"error":{"code":400,"message":"request (8054 tokens) exceeds the available context size (4096 tokens), try increasing it","type":"exceed_context_size_error","n_prompt_tokens":8054,"n_ctx":4096}}', 'type': 'invalid_request_error', 'param': None, 'code': None}}
+Traceback (most recent call last):
+  File "/Users/zehraguler/Projects/teknofest-video-ajan/scripts/auto_label_qwen.py", line 175, in main
+    label = label_video(client, model, video, frames_meta)
+  File "/Users/zehraguler/Projects/teknofest-video-ajan/scripts/auto_label_qwen.py", line 86, in label_video
+    response = client.chat.completions.create(
+        model=model,
+        temperature=0.1,
+        messages=[{"role": "user", "content": content}],
+    )
+  File "/Users/zehraguler/Projects/teknofest-video-ajan/.venv/lib/python3.14/site-packages/openai/_utils/_utils.py", line 298, in wrapper
+    return func(*args, **kwargs)
+  File "/Users/zehraguler/Projects/teknofest-video-ajan/.venv/lib/python3.14/site-packages/openai/resources/chat/completions/completions.py", line 1296, in create
+    return self._post(
+           ~~~~~~~~~~^
+        "/chat/completions",
+        ^^^^^^^^^^^^^^^^^^^^
+    ...<53 lines>...
+        stream_cls=Stream[ChatCompletionChunk],
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "/Users/zehraguler/Projects/teknofest-video-ajan/.venv/lib/python3.14/site-packages/openai/_base_client.py", line 1382, in post
+    return cast(ResponseT, self.request(cast_to, opts, stream=stream, stream_cls=stream_cls))
+                           ~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/zehraguler/Projects/teknofest-video-ajan/.venv/lib/python3.14/site-packages/openai/_base_client.py", line 1155, in request
+    raise self._make_status_error_from_response(err.response) from None
+openai.BadRequestError: Error code: 400 - {'error': {'message': '{"error":{"code":400,"message":"request (8054 tokens) exceeds the available context size (4096 tokens), try increasing it","type":"exceed_context_size_error","n_prompt_tokens":8054,"n_ctx":4096}}', 'type': 'invalid_request_error', 'param': None, 'code': None}}
+
+HATA 3XOG - Workplace accidents happen all the time! All we can do is try learn f... [1615153821189013504].mp4: Error code: 400 - {'error': {'message': '{"error":{"code":400,"message":"request (5859 tokens) exceeds the available context size (4096 tokens), try increasing it","type":"exceed_context_size_error","n_prompt_tokens":5859,"n_ctx":4096}}', 'type': 'invalid_request_error', 'param': None, 'code': None}}
+Traceback (most recent call last):
+  File "/Users/zehraguler/Projects/teknofest-video-ajan/scripts/auto_label_qwen.py", line 175, in main
+    label = label_video(client, model, video, frames_meta)
+  File "/Users/zehraguler/Projects/teknofest-video-ajan/scripts/auto_label_qwen.py", line 86, in label_video
+    response = client.chat.completions.create(
+        model=model,
+        temperature=0.1,
+        messages=[{"role": "user", "content": content}],
+    )
+  File "/Users/zehraguler/Projects/teknofest-video-ajan/.venv/lib/python3.14/site-packages/openai/_utils/_utils.py", line 298, in wrapper
+    return func(*args, **kwargs)
+  File "/Users/zehraguler/Projects/teknofest-video-ajan/.venv/lib/python3.14/site-packages/openai/resources/chat/completions/completions.py", line 1296, in create
+    return self._post(
+           ~~~~~~~~~~^
+        "/chat/completions",
+        ^^^^^^^^^^^^^^^^^^^^
+    ...<53 lines>...
+        stream_cls=Stream[ChatCompletionChunk],
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "/Users/zehraguler/Projects/teknofest-video-ajan/.venv/lib/python3.14/site-packages/openai/_base_client.py", line 1382, in post
+    return cast(ResponseT, self.request(cast_to, opts, stream=stream, stream_cls=stream_cls))
+                           ~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/zehraguler/Projects/teknofest-video-ajan/.venv/lib/python3.14/site-packages/openai/_base_client.py", line 1155, in request
+    raise self._make_status_error_from_response(err.response) from None
+openai.BadRequestError: Error code: 400 - {'error': {'message': '{"error":{"code":400,"message":"request (5859 tokens) exceeds the available context size (4096 tokens), try increasing it","type":"exceed_context_size_error","n_prompt_tokens":5859,"n_ctx":4096}}', 'type': 'invalid_request_error', 'param': None, 'code': None}}
+
+HATA The Public Record - https：⧸⧸t.co⧸19h6ftihJO  🚨 BREAKING NEWS ｜ SOCIAL MEDIA • Workplace S... [2042443212972048390].mp4: Error code: 400 - {'error': {'message': '{"error":{"code":400,"message":"request (8053 tokens) exceeds the available context size (4096 tokens), try increasing it","type":"exceed_context_size_error","n_prompt_tokens":8053,"n_ctx":4096}}', 'type': 'invalid_request_error', 'param': None, 'code': None}}
+Traceback (most recent call last):
+  File "/Users/zehraguler/Projects/teknofest-video-ajan/scripts/auto_label_qwen.py", line 175, in main
+    label = label_video(client, model, video, frames_meta)
+  File "/Users/zehraguler/Projects/teknofest-video-ajan/scripts/auto_label_qwen.py", line 86, in label_video
+    response = client.chat.completions.create(
+        model=model,
+        temperature=0.1,
+        messages=[{"role": "user", "content": content}],
+    )
+  File "/Users/zehraguler/Projects/teknofest-video-ajan/.venv/lib/python3.14/site-packages/openai/_utils/_utils.py", line 298, in wrapper
+    return func(*args, **kwargs)
+  File "/Users/zehraguler/Projects/teknofest-video-ajan/.venv/lib/python3.14/site-packages/openai/resources/chat/completions/completions.py", line 1296, in create
+    return self._post(
+           ~~~~~~~~~~^
+        "/chat/completions",
+        ^^^^^^^^^^^^^^^^^^^^
+    ...<53 lines>...
+        stream_cls=Stream[ChatCompletionChunk],
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "/Users/zehraguler/Projects/teknofest-video-ajan/.venv/lib/python3.14/site-packages/openai/_base_client.py", line 1382, in post
+    return cast(ResponseT, self.request(cast_to, opts, stream=stream, stream_cls=stream_cls))
+                           ~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/zehraguler/Projects/teknofest-video-ajan/.venv/lib/python3.14/site-packages/openai/_base_client.py", line 1155, in request
+    raise self._make_status_error_from_response(err.response) from None
+openai.BadRequestError: Error code: 400 - {'error': {'message': '{"error":{"code":400,"message":"request (8053 tokens) exceeds the available context size (4096 tokens), try increasing it","type":"exceed_context_size_error","n_prompt_tokens":8053,"n_ctx":4096}}', 'type': 'invalid_request_error', 'param': None, 'code': None}}
+
+HATA Aykırı - İş kazası güvenlik kamerasında.  Fabrikada, forklift sürücüsü işçiye ... [1972267097397854208].mp4: Error code: 400 - {'error': {'message': '{"error":{"code":400,"message":"request (5908 tokens) exceeds the available context size (4096 tokens), try increasing it","type":"exceed_context_size_error","n_prompt_tokens":5908,"n_ctx":4096}}', 'type': 'invalid_request_error', 'param': None, 'code': None}}
+Traceback (most recent call last):
+  File "/Users/zehraguler/Projects/teknofest-video-ajan/scripts/auto_label_qwen.py", line 175, in main
+    label = label_video(client, model, video, frames_meta)
+  File "/Users/zehraguler/Projects/teknofest-video-ajan/scripts/auto_label_qwen.py", line 86, in label_video
+    response = client.chat.completions.create(
+        model=model,
+        temperature=0.1,
+        messages=[{"role": "user", "content": content}],
+    )
+  File "/Users/zehraguler/Projects/teknofest-video-ajan/.venv/lib/python3.14/site-packages/openai/_utils/_utils.py", line 298, in wrapper
+    return func(*args, **kwargs)
+  File "/Users/zehraguler/Projects/teknofest-video-ajan/.venv/lib/python3.14/site-packages/openai/resources/chat/completions/completions.py", line 1296, in create
+    return self._post(
+           ~~~~~~~~~~^
+        "/chat/completions",
+        ^^^^^^^^^^^^^^^^^^^^
+    ...<53 lines>...
+        stream_cls=Stream[ChatCompletionChunk],
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "/Users/zehraguler/Projects/teknofest-video-ajan/.venv/lib/python3.14/site-packages/openai/_base_client.py", line 1382, in post
+    return cast(ResponseT, self.request(cast_to, opts, stream=stream, stream_cls=stream_cls))
+                           ~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/zehraguler/Projects/teknofest-video-ajan/.venv/lib/python3.14/site-packages/openai/_base_client.py", line 1155, in request
+    raise self._make_status_error_from_response(err.response) from None
+openai.BadRequestError: Error code: 400 - {'error': {'message': '{"error":{"code":400,"message":"request (5908 tokens) exceeds the available context size (4096 tokens), try increasing it","type":"exceed_context_size_error","n_prompt_tokens":5908,"n_ctx":4096}}', 'type': 'invalid_request_error', 'param': None, 'code': None}}
+
+HATA ZNOHrOs9VMA_trim_1.mp4: Error code: 400 - {'error': {'message': '{"error":{"code":400,"message":"request (4739 tokens) exceeds the available context size (4096 tokens), try increasing it","type":"exceed_context_size_error","n_prompt_tokens":4739,"n_ctx":4096}}', 'type': 'invalid_request_error', 'param': None, 'code': None}}
+Traceback (most recent call last):
+  File "/Users/zehraguler/Projects/teknofest-video-ajan/scripts/auto_label_qwen.py", line 175, in main
+    label = label_video(client, model, video, frames_meta)
+  File "/Users/zehraguler/Projects/teknofest-video-ajan/scripts/auto_label_qwen.py", line 86, in label_video
+    response = client.chat.completions.create(
+        model=model,
+        temperature=0.1,
+        messages=[{"role": "user", "content": content}],
+    )
+  File "/Users/zehraguler/Projects/teknofest-video-ajan/.venv/lib/python3.14/site-packages/openai/_utils/_utils.py", line 298, in wrapper
+    return func(*args, **kwargs)
+  File "/Users/zehraguler/Projects/teknofest-video-ajan/.venv/lib/python3.14/site-packages/openai/resources/chat/completions/completions.py", line 1296, in create
+    return self._post(
+           ~~~~~~~~~~^
+        "/chat/completions",
+        ^^^^^^^^^^^^^^^^^^^^
+    ...<53 lines>...
+        stream_cls=Stream[ChatCompletionChunk],
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "/Users/zehraguler/Projects/teknofest-video-ajan/.venv/lib/python3.14/site-packages/openai/_base_client.py", line 1382, in post
+    return cast(ResponseT, self.request(cast_to, opts, stream=stream, stream_cls=stream_cls))
+                           ~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/zehraguler/Projects/teknofest-video-ajan/.venv/lib/python3.14/site-packages/openai/_base_client.py", line 1155, in request
+    raise self._make_status_error_from_response(err.response) from None
+openai.BadRequestError: Error code: 400 - {'error': {'message': '{"error":{"code":400,"message":"request (4739 tokens) exceeds the available context size (4096 tokens), try increasing it","type":"exceed_context_size_error","n_prompt_tokens":4739,"n_ctx":4096}}', 'type': 'invalid_request_error', 'param': None, 'code': None}}
+
+HATA Beylikdüzü.anlık - Beylikdüzü Yeşil Flamingo Sitesi’nde yaşanan, Aydın Dirikolu’nun (61)... [2088241217045774336].mp4: Error code: 400 - {'error': {'message': '{"error":{"code":400,"message":"request (7939 tokens) exceeds the available context size (4096 tokens), try increasing it","type":"exceed_context_size_error","n_prompt_tokens":7939,"n_ctx":4096}}', 'type': 'invalid_request_error', 'param': None, 'code': None}}
+Traceback (most recent call last):
+  File "/Users/zehraguler/Projects/teknofest-video-ajan/scripts/auto_label_qwen.py", line 175, in main
+    label = label_video(client, model, video, frames_meta)
+  File "/Users/zehraguler/Projects/teknofest-video-ajan/scripts/auto_label_qwen.py", line 86, in label_video
+    response = client.chat.completions.create(
+        model=model,
+        temperature=0.1,
+        messages=[{"role": "user", "content": content}],
+    )
+  File "/Users/zehraguler/Projects/teknofest-video-ajan/.venv/lib/python3.14/site-packages/openai/_utils/_utils.py", line 298, in wrapper
+    return func(*args, **kwargs)
+  File "/Users/zehraguler/Projects/teknofest-video-ajan/.venv/lib/python3.14/site-packages/openai/resources/chat/completions/completions.py", line 1296, in create
+    return self._post(
+           ~~~~~~~~~~^
+        "/chat/completions",
+        ^^^^^^^^^^^^^^^^^^^^
+    ...<53 lines>...
+        stream_cls=Stream[ChatCompletionChunk],
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "/Users/zehraguler/Projects/teknofest-video-ajan/.venv/lib/python3.14/site-packages/openai/_base_client.py", line 1382, in post
+    return cast(ResponseT, self.request(cast_to, opts, stream=stream, stream_cls=stream_cls))
+                           ~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/zehraguler/Projects/teknofest-video-ajan/.venv/lib/python3.14/site-packages/openai/_base_client.py", line 1155, in request
+    raise self._make_status_error_from_response(err.response) from None
+openai.BadRequestError: Error code: 400 - {'error': {'message': '{"error":{"code":400,"message":"request (7939 tokens) exceeds the available context size (4096 tokens), try increasing it","type":"exceed_context_size_error","n_prompt_tokens":7939,"n_ctx":4096}}', 'type': 'invalid_request_error', 'param': None, 'code': None}}
+
+HATA _2tSBxyAwLs_trim_52.mp4: Error code: 400 - {'error': {'message': '{"error":{"code":400,"message":"request (4741 tokens) exceeds the available context size (4096 tokens), try increasing it","type":"exceed_context_size_error","n_prompt_tokens":4741,"n_ctx":4096}}', 'type': 'invalid_request_error', 'param': None, 'code': None}}
+Traceback (most recent call last):
+  File "/Users/zehraguler/Projects/teknofest-video-ajan/scripts/auto_label_qwen.py", line 175, in main
+    label = label_video(client, model, video, frames_meta)
+  File "/Users/zehraguler/Projects/teknofest-video-ajan/scripts/auto_label_qwen.py", line 86, in label_video
+    response = client.chat.completions.create(
+        model=model,
+        temperature=0.1,
+        messages=[{"role": "user", "content": content}],
+    )
+  File "/Users/zehraguler/Projects/teknofest-video-ajan/.venv/lib/python3.14/site-packages/openai/_utils/_utils.py", line 298, in wrapper
+    return func(*args, **kwargs)
+  File "/Users/zehraguler/Projects/teknofest-video-ajan/.venv/lib/python3.14/site-packages/openai/resources/chat/completions/completions.py", line 1296, in create
+    return self._post(
+           ~~~~~~~~~~^
+        "/chat/completions",
+        ^^^^^^^^^^^^^^^^^^^^
+    ...<53 lines>...
+        stream_cls=Stream[ChatCompletionChunk],
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "/Users/zehraguler/Projects/teknofest-video-ajan/.venv/lib/python3.14/site-packages/openai/_base_client.py", line 1382, in post
+    return cast(ResponseT, self.request(cast_to, opts, stream=stream, stream_cls=stream_cls))
+                           ~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/zehraguler/Projects/teknofest-video-ajan/.venv/lib/python3.14/site-packages/openai/_base_client.py", line 1155, in request
+    raise self._make_status_error_from_response(err.response) from None
+openai.BadRequestError: Error code: 400 - {'error': {'message': '{"error":{"code":400,"message":"request (4741 tokens) exceeds the available context size (4096 tokens), try increasing it","type":"exceed_context_size_error","n_prompt_tokens":4741,"n_ctx":4096}}', 'type': 'invalid_request_error', 'param': None, 'code': None}}
+
+HATA Double accident at work in China - 厲害了我的國 (720p).mp4: Error code: 400 - {'error': {'message': '{"error":{"code":400,"message":"request (8016 tokens) exceeds the available context size (4096 tokens), try increasing it","type":"exceed_context_size_error","n_prompt_tokens":8016,"n_ctx":4096}}', 'type': 'invalid_request_error', 'param': None, 'code': None}}
+Traceback (most recent call last):
+  File "/Users/zehraguler/Projects/teknofest-video-ajan/scripts/auto_label_qwen.py", line 175, in main
+    label = label_video(client, model, video, frames_meta)
+  File "/Users/zehraguler/Projects/teknofest-video-ajan/scripts/auto_label_qwen.py", line 86, in label_video
+    response = client.chat.completions.create(
+        model=model,
+        temperature=0.1,
+        messages=[{"role": "user", "content": content}],
+    )
+  File "/Users/zehraguler/Projects/teknofest-video-ajan/.venv/lib/python3.14/site-packages/openai/_utils/_utils.py", line 298, in wrapper
+    return func(*args, **kwargs)
+  File "/Users/zehraguler/Projects/teknofest-video-ajan/.venv/lib/python3.14/site-packages/openai/resources/chat/completions/completions.py", line 1296, in create
+    return self._post(
+           ~~~~~~~~~~^
+        "/chat/completions",
+        ^^^^^^^^^^^^^^^^^^^^
+    ...<53 lines>...
+        stream_cls=Stream[ChatCompletionChunk],
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "/Users/zehraguler/Projects/teknofest-video-ajan/.venv/lib/python3.14/site-packages/openai/_base_client.py", line 1382, in post
+    return cast(ResponseT, self.request(cast_to, opts, stream=stream, stream_cls=stream_cls))
+                           ~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/zehraguler/Projects/teknofest-video-ajan/.venv/lib/python3.14/site-packages/openai/_base_client.py", line 1155, in request
+    raise self._make_status_error_from_response(err.response) from None
+openai.BadRequestError: Error code: 400 - {'error': {'message': '{"error":{"code":400,"message":"request (8016 tokens) exceeds the available context size (4096 tokens), try increasing it","type":"exceed_context_size_error","n_prompt_tokens":8016,"n_ctx":4096}}', 'type': 'invalid_request_error', 'param': None, 'code': None}}
+
+HATA Dude at my work slammed into a pole with a forklift and bent the blad... [hzvtKncHvyQ].mp4: Error code: 400 - {'error': {'message': '{"error":{"code":400,"message":"request (4928 tokens) exceeds the available context size (4096 tokens), try increasing it","type":"exceed_context_size_error","n_prompt_tokens":4928,"n_ctx":4096}}', 'type': 'invalid_request_error', 'param': None, 'code': None}}
+Traceback (most recent call last):
+  File "/Users/zehraguler/Projects/teknofest-video-ajan/scripts/auto_label_qwen.py", line 175, in main
+    label = label_video(client, model, video, frames_meta)
+  File "/Users/zehraguler/Projects/teknofest-video-ajan/scripts/auto_label_qwen.py", line 86, in label_video
+    response = client.chat.completions.create(
+        model=model,
+        temperature=0.1,
+        messages=[{"role": "user", "content": content}],
+    )
+  File "/Users/zehraguler/Projects/teknofest-video-ajan/.venv/lib/python3.14/site-packages/openai/_utils/_utils.py", line 298, in wrapper
+    return func(*args, **kwargs)
+  File "/Users/zehraguler/Projects/teknofest-video-ajan/.venv/lib/python3.14/site-packages/openai/resources/chat/completions/completions.py", line 1296, in create
+    return self._post(
+           ~~~~~~~~~~^
+        "/chat/completions",
+        ^^^^^^^^^^^^^^^^^^^^
+    ...<53 lines>...
+        stream_cls=Stream[ChatCompletionChunk],
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "/Users/zehraguler/Projects/teknofest-video-ajan/.venv/lib/python3.14/site-packages/openai/_base_client.py", line 1382, in post
+    return cast(ResponseT, self.request(cast_to, opts, stream=stream, stream_cls=stream_cls))
+                           ~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/zehraguler/Projects/teknofest-video-ajan/.venv/lib/python3.14/site-packages/openai/_base_client.py", line 1155, in request
+    raise self._make_status_error_from_response(err.response) from None
+openai.BadRequestError: Error code: 400 - {'error': {'message': '{"error":{"code":400,"message":"request (4928 tokens) exceeds the available context size (4096 tokens), try increasing it","type":"exceed_context_size_error","n_prompt_tokens":4928,"n_ctx":4096}}', 'type': 'invalid_request_error', 'param': None, 'code': None}}
+
+HATA Dumb ass fork lift driver rofl [G4g4RN3AFD8].mp4: Error code: 400 - {'error': {'message': '{"error":{"code":400,"message":"request (7918 tokens) exceeds the available context size (4096 tokens), try increasing it","type":"exceed_context_size_error","n_prompt_tokens":7918,"n_ctx":4096}}', 'type': 'invalid_request_error', 'param': None, 'code': None}}
+Traceback (most recent call last):
+  File "/Users/zehraguler/Projects/teknofest-video-ajan/scripts/auto_label_qwen.py", line 175, in main
+    label = label_video(client, model, video, frames_meta)
+  File "/Users/zehraguler/Projects/teknofest-video-ajan/scripts/auto_label_qwen.py", line 86, in label_video
+    response = client.chat.completions.create(
+        model=model,
+        temperature=0.1,
+        messages=[{"role": "user", "content": content}],
+    )
+  File "/Users/zehraguler/Projects/teknofest-video-ajan/.venv/lib/python3.14/site-packages/openai/_utils/_utils.py", line 298, in wrapper
+    return func(*args, **kwargs)
+  File "/Users/zehraguler/Projects/teknofest-video-ajan/.venv/lib/python3.14/site-packages/openai/resources/chat/completions/completions.py", line 1296, in create
+    return self._post(
+           ~~~~~~~~~~^
+        "/chat/completions",
+        ^^^^^^^^^^^^^^^^^^^^
+    ...<53 lines>...
+        stream_cls=Stream[ChatCompletionChunk],
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "/Users/zehraguler/Projects/teknofest-video-ajan/.venv/lib/python3.14/site-packages/openai/_base_client.py", line 1382, in post
+    return cast(ResponseT, self.request(cast_to, opts, stream=stream, stream_cls=stream_cls))
+                           ~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/zehraguler/Projects/teknofest-video-ajan/.venv/lib/python3.14/site-packages/openai/_base_client.py", line 1155, in request
+    raise self._make_status_error_from_response(err.response) from None
+openai.BadRequestError: Error code: 400 - {'error': {'message': '{"error":{"code":400,"message":"request (7918 tokens) exceeds the available context size (4096 tokens), try increasing it","type":"exceed_context_size_error","n_prompt_tokens":7918,"n_ctx":4096}}', 'type': 'invalid_request_error', 'param': None, 'code': None}}
+
+HATA Forklift Accident [na3Bzrmljd0].mp4: Error code: 400 - {'error': {'message': '{"error":{"code":400,"message":"request (7912 tokens) exceeds the available context size (4096 tokens), try increasing it","type":"exceed_context_size_error","n_prompt_tokens":7912,"n_ctx":4096}}', 'type': 'invalid_request_error', 'param': None, 'code': None}}
+Traceback (most recent call last):
+  File "/Users/zehraguler/Projects/teknofest-video-ajan/scripts/auto_label_qwen.py", line 175, in main
+    label = label_video(client, model, video, frames_meta)
+  File "/Users/zehraguler/Projects/teknofest-video-ajan/scripts/auto_label_qwen.py", line 86, in label_video
+    response = client.chat.completions.create(
+        model=model,
+        temperature=0.1,
+        messages=[{"role": "user", "content": content}],
+    )
+  File "/Users/zehraguler/Projects/teknofest-video-ajan/.venv/lib/python3.14/site-packages/openai/_utils/_utils.py", line 298, in wrapper
+    return func(*args, **kwargs)
+  File "/Users/zehraguler/Projects/teknofest-video-ajan/.venv/lib/python3.14/site-packages/openai/resources/chat/completions/completions.py", line 1296, in create
+    return self._post(
+           ~~~~~~~~~~^
+        "/chat/completions",
+        ^^^^^^^^^^^^^^^^^^^^
+    ...<53 lines>...
+        stream_cls=Stream[ChatCompletionChunk],
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "/Users/zehraguler/Projects/teknofest-video-ajan/.venv/lib/python3.14/site-packages/openai/_base_client.py", line 1382, in post
+    return cast(ResponseT, self.request(cast_to, opts, stream=stream, stream_cls=stream_cls))
+                           ~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/zehraguler/Projects/teknofest-video-ajan/.venv/lib/python3.14/site-packages/openai/_base_client.py", line 1155, in request
+    raise self._make_status_error_from_response(err.response) from None
+openai.BadRequestError: Error code: 400 - {'error': {'message': '{"error":{"code":400,"message":"request (7912 tokens) exceeds the available context size (4096 tokens), try increasing it","type":"exceed_context_size_error","n_prompt_tokens":7912,"n_ctx":4096}}', 'type': 'invalid_request_error', 'param': None, 'code': None}}
+
+HATA Forklift Driver Causes an Entire Warehouse to Fall like Dominoes [g1l7g54wnlt41].mp4: Error code: 400 - {'error': {'message': '{"error":{"code":400,"message":"request (8064 tokens) exceeds the available context size (4096 tokens), try increasing it","type":"exceed_context_size_error","n_prompt_tokens":8064,"n_ctx":4096}}', 'type': 'invalid_request_error', 'param': None, 'code': None}}
+Traceback (most recent call last):
+  File "/Users/zehraguler/Projects/teknofest-video-ajan/scripts/auto_label_qwen.py", line 175, in main
+    label = label_video(client, model, video, frames_meta)
+  File "/Users/zehraguler/Projects/teknofest-video-ajan/scripts/auto_label_qwen.py", line 86, in label_video
+    response = client.chat.completions.create(
+        model=model,
+        temperature=0.1,
+        messages=[{"role": "user", "content": content}],
+    )
+  File "/Users/zehraguler/Projects/teknofest-video-ajan/.venv/lib/python3.14/site-packages/openai/_utils/_utils.py", line 298, in wrapper
+    return func(*args, **kwargs)
+  File "/Users/zehraguler/Projects/teknofest-video-ajan/.venv/lib/python3.14/site-packages/openai/resources/chat/completions/completions.py", line 1296, in create
+    return self._post(
+           ~~~~~~~~~~^
+        "/chat/completions",
+        ^^^^^^^^^^^^^^^^^^^^
+    ...<53 lines>...
+        stream_cls=Stream[ChatCompletionChunk],
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "/Users/zehraguler/Projects/teknofest-video-ajan/.venv/lib/python3.14/site-packages/openai/_base_client.py", line 1382, in post
+    return cast(ResponseT, self.request(cast_to, opts, stream=stream, stream_cls=stream_cls))
+                           ~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/zehraguler/Projects/teknofest-video-ajan/.venv/lib/python3.14/site-packages/openai/_base_client.py", line 1155, in request
+    raise self._make_status_error_from_response(err.response) from None
+openai.BadRequestError: Error code: 400 - {'error': {'message': '{"error":{"code":400,"message":"request (8064 tokens) exceeds the available context size (4096 tokens), try increasing it","type":"exceed_context_size_error","n_prompt_tokens":8064,"n_ctx":4096}}', 'type': 'invalid_request_error', 'param': None, 'code': None}}
+
+HATA Forklift Safety Fail： Near Miss Caught on Camera 🚧 ｜ HSE Daily [dNrjH3a9E4k].mp4: Error code: 400 - {'error': {'message': '{"error":{"code":400,"message":"request (8125 tokens) exceeds the available context size (4096 tokens), try increasing it","type":"exceed_context_size_error","n_prompt_tokens":8125,"n_ctx":4096}}', 'type': 'invalid_request_error', 'param': None, 'code': None}}
+Traceback (most recent call last):
+  File "/Users/zehraguler/Projects/teknofest-video-ajan/scripts/auto_label_qwen.py", line 175, in main
+    label = label_video(client, model, video, frames_meta)
+  File "/Users/zehraguler/Projects/teknofest-video-ajan/scripts/auto_label_qwen.py", line 86, in label_video
+    response = client.chat.completions.create(
+        model=model,
+        temperature=0.1,
+        messages=[{"role": "user", "content": content}],
+    )
+  File "/Users/zehraguler/Projects/teknofest-video-ajan/.venv/lib/python3.14/site-packages/openai/_utils/_utils.py", line 298, in wrapper
+    return func(*args, **kwargs)
+  File "/Users/zehraguler/Projects/teknofest-video-ajan/.venv/lib/python3.14/site-packages/openai/resources/chat/completions/completions.py", line 1296, in create
+    return self._post(
+           ~~~~~~~~~~^
+        "/chat/completions",
+        ^^^^^^^^^^^^^^^^^^^^
+    ...<53 lines>...
+        stream_cls=Stream[ChatCompletionChunk],
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "/Users/zehraguler/Projects/teknofest-video-ajan/.venv/lib/python3.14/site-packages/openai/_base_client.py", line 1382, in post
+    return cast(ResponseT, self.request(cast_to, opts, stream=stream, stream_cls=stream_cls))
+                           ~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/zehraguler/Projects/teknofest-video-ajan/.venv/lib/python3.14/site-packages/openai/_base_client.py", line 1155, in request
+    raise self._make_status_error_from_response(err.response) from None
+openai.BadRequestError: Error code: 400 - {'error': {'message': '{"error":{"code":400,"message":"request (8125 tokens) exceeds the available context size (4096 tokens), try increasing it","type":"exceed_context_size_error","n_prompt_tokens":8125,"n_ctx":4096}}', 'type': 'invalid_request_error', 'param': None, 'code': None}}
+
+HATA HPDC Die casting machine accident (Hydraulic core hose connection removed) [aG0wEiV4XX0].mp4: Error code: 400 - {'error': {'message': '{"error":{"code":400,"message":"request (8065 tokens) exceeds the available context size (4096 tokens), try increasing it","type":"exceed_context_size_error","n_prompt_tokens":8065,"n_ctx":4096}}', 'type': 'invalid_request_error', 'param': None, 'code': None}}
+Traceback (most recent call last):
+  File "/Users/zehraguler/Projects/teknofest-video-ajan/scripts/auto_label_qwen.py", line 175, in main
+    label = label_video(client, model, video, frames_meta)
+  File "/Users/zehraguler/Projects/teknofest-video-ajan/scripts/auto_label_qwen.py", line 86, in label_video
+    response = client.chat.completions.create(
+        model=model,
+        temperature=0.1,
+        messages=[{"role": "user", "content": content}],
+    )
+  File "/Users/zehraguler/Projects/teknofest-video-ajan/.venv/lib/python3.14/site-packages/openai/_utils/_utils.py", line 298, in wrapper
+    return func(*args, **kwargs)
+  File "/Users/zehraguler/Projects/teknofest-video-ajan/.venv/lib/python3.14/site-packages/openai/resources/chat/completions/completions.py", line 1296, in create
+    return self._post(
+           ~~~~~~~~~~^
+        "/chat/completions",
+        ^^^^^^^^^^^^^^^^^^^^
+    ...<53 lines>...
+        stream_cls=Stream[ChatCompletionChunk],
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "/Users/zehraguler/Projects/teknofest-video-ajan/.venv/lib/python3.14/site-packages/openai/_base_client.py", line 1382, in post
+    return cast(ResponseT, self.request(cast_to, opts, stream=stream, stream_cls=stream_cls))
+                           ~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/zehraguler/Projects/teknofest-video-ajan/.venv/lib/python3.14/site-packages/openai/_base_client.py", line 1155, in request
+    raise self._make_status_error_from_response(err.response) from None
+openai.BadRequestError: Error code: 400 - {'error': {'message': '{"error":{"code":400,"message":"request (8065 tokens) exceeds the available context size (4096 tokens), try increasing it","type":"exceed_context_size_error","n_prompt_tokens":8065,"n_ctx":4096}}', 'type': 'invalid_request_error', 'param': None, 'code': None}}
+
+HATA Hate Detector 🔍 - A tragic industrial accident occurred at Pramukh Industries in the GI... [2062441335727284224].mp4: Error code: 400 - {'error': {'message': '{"error":{"code":400,"message":"request (8212 tokens) exceeds the available context size (4096 tokens), try increasing it","type":"exceed_context_size_error","n_prompt_tokens":8212,"n_ctx":4096}}', 'type': 'invalid_request_error', 'param': None, 'code': None}}
+Traceback (most recent call last):
+  File "/Users/zehraguler/Projects/teknofest-video-ajan/scripts/auto_label_qwen.py", line 175, in main
+    label = label_video(client, model, video, frames_meta)
+  File "/Users/zehraguler/Projects/teknofest-video-ajan/scripts/auto_label_qwen.py", line 86, in label_video
+    response = client.chat.completions.create(
+        model=model,
+        temperature=0.1,
+        messages=[{"role": "user", "content": content}],
+    )
+  File "/Users/zehraguler/Projects/teknofest-video-ajan/.venv/lib/python3.14/site-packages/openai/_utils/_utils.py", line 298, in wrapper
+    return func(*args, **kwargs)
+  File "/Users/zehraguler/Projects/teknofest-video-ajan/.venv/lib/python3.14/site-packages/openai/resources/chat/completions/completions.py", line 1296, in create
+    return self._post(
+           ~~~~~~~~~~^
+        "/chat/completions",
+        ^^^^^^^^^^^^^^^^^^^^
+    ...<53 lines>...
+        stream_cls=Stream[ChatCompletionChunk],
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "/Users/zehraguler/Projects/teknofest-video-ajan/.venv/lib/python3.14/site-packages/openai/_base_client.py", line 1382, in post
+    return cast(ResponseT, self.request(cast_to, opts, stream=stream, stream_cls=stream_cls))
+                           ~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/zehraguler/Projects/teknofest-video-ajan/.venv/lib/python3.14/site-packages/openai/_base_client.py", line 1155, in request
+    raise self._make_status_error_from_response(err.response) from None
+openai.BadRequestError: Error code: 400 - {'error': {'message': '{"error":{"code":400,"message":"request (8212 tokens) exceeds the available context size (4096 tokens), try increasing it","type":"exceed_context_size_error","n_prompt_tokens":8212,"n_ctx":4096}}', 'type': 'invalid_request_error', 'param': None, 'code': None}}
+
+HATA Insane Near-Death Accident On Construction Site! [cFpbTOOLcek].mp4: Error code: 400 - {'error': {'message': '{"error":{"code":400,"message":"request (8057 tokens) exceeds the available context size (4096 tokens), try increasing it","type":"exceed_context_size_error","n_prompt_tokens":8057,"n_ctx":4096}}', 'type': 'invalid_request_error', 'param': None, 'code': None}}
+Traceback (most recent call last):
+  File "/Users/zehraguler/Projects/teknofest-video-ajan/scripts/auto_label_qwen.py", line 175, in main
+    label = label_video(client, model, video, frames_meta)
+  File "/Users/zehraguler/Projects/teknofest-video-ajan/scripts/auto_label_qwen.py", line 86, in label_video
+    response = client.chat.completions.create(
+        model=model,
+        temperature=0.1,
+        messages=[{"role": "user", "content": content}],
+    )
+  File "/Users/zehraguler/Projects/teknofest-video-ajan/.venv/lib/python3.14/site-packages/openai/_utils/_utils.py", line 298, in wrapper
+    return func(*args, **kwargs)
+  File "/Users/zehraguler/Projects/teknofest-video-ajan/.venv/lib/python3.14/site-packages/openai/resources/chat/completions/completions.py", line 1296, in create
+    return self._post(
+           ~~~~~~~~~~^
+        "/chat/completions",
+        ^^^^^^^^^^^^^^^^^^^^
+    ...<53 lines>...
+        stream_cls=Stream[ChatCompletionChunk],
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "/Users/zehraguler/Projects/teknofest-video-ajan/.venv/lib/python3.14/site-packages/openai/_base_client.py", line 1382, in post
+    return cast(ResponseT, self.request(cast_to, opts, stream=stream, stream_cls=stream_cls))
+                           ~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/zehraguler/Projects/teknofest-video-ajan/.venv/lib/python3.14/site-packages/openai/_base_client.py", line 1155, in request
+    raise self._make_status_error_from_response(err.response) from None
+openai.BadRequestError: Error code: 400 - {'error': {'message': '{"error":{"code":400,"message":"request (8057 tokens) exceeds the available context size (4096 tokens), try increasing it","type":"exceed_context_size_error","n_prompt_tokens":8057,"n_ctx":4096}}', 'type': 'invalid_request_error', 'param': None, 'code': None}}
+
+HATA İZMİR’İN NABZI - İZMİR’DE FECİ İŞ KAZASI： İSKELE BÖYLE ÇÖKTÜ!  İzmir’in Balçova ilçesi... [2079890562375634944].mp4: Error code: 400 - {'error': {'message': '{"error":{"code":400,"message":"request (8197 tokens) exceeds the available context size (4096 tokens), try increasing it","type":"exceed_context_size_error","n_prompt_tokens":8197,"n_ctx":4096}}', 'type': 'invalid_request_error', 'param': None, 'code': None}}
+Traceback (most recent call last):
+  File "/Users/zehraguler/Projects/teknofest-video-ajan/scripts/auto_label_qwen.py", line 175, in main
+    label = label_video(client, model, video, frames_meta)
+  File "/Users/zehraguler/Projects/teknofest-video-ajan/scripts/auto_label_qwen.py", line 86, in label_video
+    response = client.chat.completions.create(
+        model=model,
+        temperature=0.1,
+        messages=[{"role": "user", "content": content}],
+    )
+  File "/Users/zehraguler/Projects/teknofest-video-ajan/.venv/lib/python3.14/site-packages/openai/_utils/_utils.py", line 298, in wrapper
+    return func(*args, **kwargs)
+  File "/Users/zehraguler/Projects/teknofest-video-ajan/.venv/lib/python3.14/site-packages/openai/resources/chat/completions/completions.py", line 1296, in create
+    return self._post(
+           ~~~~~~~~~~^
+        "/chat/completions",
+        ^^^^^^^^^^^^^^^^^^^^
+    ...<53 lines>...
+        stream_cls=Stream[ChatCompletionChunk],
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "/Users/zehraguler/Projects/teknofest-video-ajan/.venv/lib/python3.14/site-packages/openai/_base_client.py", line 1382, in post
+    return cast(ResponseT, self.request(cast_to, opts, stream=stream, stream_cls=stream_cls))
+                           ~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/zehraguler/Projects/teknofest-video-ajan/.venv/lib/python3.14/site-packages/openai/_base_client.py", line 1155, in request
+    raise self._make_status_error_from_response(err.response) from None
+openai.BadRequestError: Error code: 400 - {'error': {'message': '{"error":{"code":400,"message":"request (8197 tokens) exceeds the available context size (4096 tokens), try increasing it","type":"exceed_context_size_error","n_prompt_tokens":8197,"n_ctx":4096}}', 'type': 'invalid_request_error', 'param': None, 'code': None}}
+
+HATA LiveLeak Work accident in Supermarket - Liveleak (198p).mp4: Error code: 400 - {'error': {'message': '{"error":{"code":400,"message":"request (8057 tokens) exceeds the available context size (4096 tokens), try increasing it","type":"exceed_context_size_error","n_prompt_tokens":8057,"n_ctx":4096}}', 'type': 'invalid_request_error', 'param': None, 'code': None}}
+Traceback (most recent call last):
+  File "/Users/zehraguler/Projects/teknofest-video-ajan/scripts/auto_label_qwen.py", line 175, in main
+    label = label_video(client, model, video, frames_meta)
+  File "/Users/zehraguler/Projects/teknofest-video-ajan/scripts/auto_label_qwen.py", line 86, in label_video
+    response = client.chat.completions.create(
+        model=model,
+        temperature=0.1,
+        messages=[{"role": "user", "content": content}],
+    )
+  File "/Users/zehraguler/Projects/teknofest-video-ajan/.venv/lib/python3.14/site-packages/openai/_utils/_utils.py", line 298, in wrapper
+    return func(*args, **kwargs)
+  File "/Users/zehraguler/Projects/teknofest-video-ajan/.venv/lib/python3.14/site-packages/openai/resources/chat/completions/completions.py", line 1296, in create
+    return self._post(
+           ~~~~~~~~~~^
+        "/chat/completions",
+        ^^^^^^^^^^^^^^^^^^^^
+    ...<53 lines>...
+        stream_cls=Stream[ChatCompletionChunk],
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "/Users/zehraguler/Projects/teknofest-video-ajan/.venv/lib/python3.14/site-packages/openai/_base_client.py", line 1382, in post
+    return cast(ResponseT, self.request(cast_to, opts, stream=stream, stream_cls=stream_cls))
+                           ~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/zehraguler/Projects/teknofest-video-ajan/.venv/lib/python3.14/site-packages/openai/_base_client.py", line 1155, in request
+    raise self._make_status_error_from_response(err.response) from None
+openai.BadRequestError: Error code: 400 - {'error': {'message': '{"error":{"code":400,"message":"request (8057 tokens) exceeds the available context size (4096 tokens), try increasing it","type":"exceed_context_size_error","n_prompt_tokens":8057,"n_ctx":4096}}', 'type': 'invalid_request_error', 'param': None, 'code': None}}
+
+HATA Press tool accident - mohan kuchan (352p).mp4: Error code: 400 - {'error': {'message': '{"error":{"code":400,"message":"request (8054 tokens) exceeds the available context size (4096 tokens), try increasing it","type":"exceed_context_size_error","n_prompt_tokens":8054,"n_ctx":4096}}', 'type': 'invalid_request_error', 'param': None, 'code': None}}
+Traceback (most recent call last):
+  File "/Users/zehraguler/Projects/teknofest-video-ajan/scripts/auto_label_qwen.py", line 175, in main
+    label = label_video(client, model, video, frames_meta)
+  File "/Users/zehraguler/Projects/teknofest-video-ajan/scripts/auto_label_qwen.py", line 86, in label_video
+    response = client.chat.completions.create(
+        model=model,
+        temperature=0.1,
+        messages=[{"role": "user", "content": content}],
+    )
+  File "/Users/zehraguler/Projects/teknofest-video-ajan/.venv/lib/python3.14/site-packages/openai/_utils/_utils.py", line 298, in wrapper
+    return func(*args, **kwargs)
+  File "/Users/zehraguler/Projects/teknofest-video-ajan/.venv/lib/python3.14/site-packages/openai/resources/chat/completions/completions.py", line 1296, in create
+    return self._post(
+           ~~~~~~~~~~^
+        "/chat/completions",
+        ^^^^^^^^^^^^^^^^^^^^
+    ...<53 lines>...
+        stream_cls=Stream[ChatCompletionChunk],
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "/Users/zehraguler/Projects/teknofest-video-ajan/.venv/lib/python3.14/site-packages/openai/_base_client.py", line 1382, in post
+    return cast(ResponseT, self.request(cast_to, opts, stream=stream, stream_cls=stream_cls))
+                           ~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/zehraguler/Projects/teknofest-video-ajan/.venv/lib/python3.14/site-packages/openai/_base_client.py", line 1155, in request
+    raise self._make_status_error_from_response(err.response) from None
+openai.BadRequestError: Error code: 400 - {'error': {'message': '{"error":{"code":400,"message":"request (8054 tokens) exceeds the available context size (4096 tokens), try increasing it","type":"exceed_context_size_error","n_prompt_tokens":8054,"n_ctx":4096}}', 'type': 'invalid_request_error', 'param': None, 'code': None}}
+
+HATA The Public Record - https：⧸⧸t.co⧸19h6ftihJO  🚨 BREAKING NEWS ｜ SOCIAL MEDIA • Workplace S... [2042443212972048390].mp4: Error code: 400 - {'error': {'message': '{"error":{"code":400,"message":"request (8053 tokens) exceeds the available context size (4096 tokens), try increasing it","type":"exceed_context_size_error","n_prompt_tokens":8053,"n_ctx":4096}}', 'type': 'invalid_request_error', 'param': None, 'code': None}}
+Traceback (most recent call last):
+  File "/Users/zehraguler/Projects/teknofest-video-ajan/scripts/auto_label_qwen.py", line 175, in main
+    label = label_video(client, model, video, frames_meta)
+  File "/Users/zehraguler/Projects/teknofest-video-ajan/scripts/auto_label_qwen.py", line 86, in label_video
+    response = client.chat.completions.create(
+        model=model,
+        temperature=0.1,
+        messages=[{"role": "user", "content": content}],
+    )
+  File "/Users/zehraguler/Projects/teknofest-video-ajan/.venv/lib/python3.14/site-packages/openai/_utils/_utils.py", line 298, in wrapper
+    return func(*args, **kwargs)
+  File "/Users/zehraguler/Projects/teknofest-video-ajan/.venv/lib/python3.14/site-packages/openai/resources/chat/completions/completions.py", line 1296, in create
+    return self._post(
+           ~~~~~~~~~~^
+        "/chat/completions",
+        ^^^^^^^^^^^^^^^^^^^^
+    ...<53 lines>...
+        stream_cls=Stream[ChatCompletionChunk],
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "/Users/zehraguler/Projects/teknofest-video-ajan/.venv/lib/python3.14/site-packages/openai/_base_client.py", line 1382, in post
+    return cast(ResponseT, self.request(cast_to, opts, stream=stream, stream_cls=stream_cls))
+                           ~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/zehraguler/Projects/teknofest-video-ajan/.venv/lib/python3.14/site-packages/openai/_base_client.py", line 1155, in request
+    raise self._make_status_error_from_response(err.response) from None
+openai.BadRequestError: Error code: 400 - {'error': {'message': '{"error":{"code":400,"message":"request (8053 tokens) exceeds the available context size (4096 tokens), try increasing it","type":"exceed_context_size_error","n_prompt_tokens":8053,"n_ctx":4096}}', 'type': 'invalid_request_error', 'param': None, 'code': None}}
+
+HATA ZNOHrOs9VMA_trim_1.mp4: Error code: 400 - {'error': {'message': '{"error":{"code":400,"message":"request (4739 tokens) exceeds the available context size (4096 tokens), try increasing it","type":"exceed_context_size_error","n_prompt_tokens":4739,"n_ctx":4096}}', 'type': 'invalid_request_error', 'param': None, 'code': None}}
+Traceback (most recent call last):
+  File "/Users/zehraguler/Projects/teknofest-video-ajan/scripts/auto_label_qwen.py", line 175, in main
+    label = label_video(client, model, video, frames_meta)
+  File "/Users/zehraguler/Projects/teknofest-video-ajan/scripts/auto_label_qwen.py", line 86, in label_video
+    response = client.chat.completions.create(
+        model=model,
+        temperature=0.1,
+        messages=[{"role": "user", "content": content}],
+    )
+  File "/Users/zehraguler/Projects/teknofest-video-ajan/.venv/lib/python3.14/site-packages/openai/_utils/_utils.py", line 298, in wrapper
+    return func(*args, **kwargs)
+  File "/Users/zehraguler/Projects/teknofest-video-ajan/.venv/lib/python3.14/site-packages/openai/resources/chat/completions/completions.py", line 1296, in create
+    return self._post(
+           ~~~~~~~~~~^
+        "/chat/completions",
+        ^^^^^^^^^^^^^^^^^^^^
+    ...<53 lines>...
+        stream_cls=Stream[ChatCompletionChunk],
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "/Users/zehraguler/Projects/teknofest-video-ajan/.venv/lib/python3.14/site-packages/openai/_base_client.py", line 1382, in post
+    return cast(ResponseT, self.request(cast_to, opts, stream=stream, stream_cls=stream_cls))
+                           ~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/zehraguler/Projects/teknofest-video-ajan/.venv/lib/python3.14/site-packages/openai/_base_client.py", line 1155, in request
+    raise self._make_status_error_from_response(err.response) from None
+openai.BadRequestError: Error code: 400 - {'error': {'message': '{"error":{"code":400,"message":"request (4739 tokens) exceeds the available context size (4096 tokens), try increasing it","type":"exceed_context_size_error","n_prompt_tokens":4739,"n_ctx":4096}}', 'type': 'invalid_request_error', 'param': None, 'code': None}}
+
+HATA _2tSBxyAwLs_trim_52.mp4: Error code: 400 - {'error': {'message': '{"error":{"code":400,"message":"request (4741 tokens) exceeds the available context size (4096 tokens), try increasing it","type":"exceed_context_size_error","n_prompt_tokens":4741,"n_ctx":4096}}', 'type': 'invalid_request_error', 'param': None, 'code': None}}
+Traceback (most recent call last):
+  File "/Users/zehraguler/Projects/teknofest-video-ajan/scripts/auto_label_qwen.py", line 175, in main
+    label = label_video(client, model, video, frames_meta)
+  File "/Users/zehraguler/Projects/teknofest-video-ajan/scripts/auto_label_qwen.py", line 86, in label_video
+    response = client.chat.completions.create(
+        model=model,
+        temperature=0.1,
+        messages=[{"role": "user", "content": content}],
+    )
+  File "/Users/zehraguler/Projects/teknofest-video-ajan/.venv/lib/python3.14/site-packages/openai/_utils/_utils.py", line 298, in wrapper
+    return func(*args, **kwargs)
+  File "/Users/zehraguler/Projects/teknofest-video-ajan/.venv/lib/python3.14/site-packages/openai/resources/chat/completions/completions.py", line 1296, in create
+    return self._post(
+           ~~~~~~~~~~^
+        "/chat/completions",
+        ^^^^^^^^^^^^^^^^^^^^
+    ...<53 lines>...
+        stream_cls=Stream[ChatCompletionChunk],
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "/Users/zehraguler/Projects/teknofest-video-ajan/.venv/lib/python3.14/site-packages/openai/_base_client.py", line 1382, in post
+    return cast(ResponseT, self.request(cast_to, opts, stream=stream, stream_cls=stream_cls))
+                           ~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/zehraguler/Projects/teknofest-video-ajan/.venv/lib/python3.14/site-packages/openai/_base_client.py", line 1155, in request
+    raise self._make_status_error_from_response(err.response) from None
+openai.BadRequestError: Error code: 400 - {'error': {'message': '{"error":{"code":400,"message":"request (4741 tokens) exceeds the available context size (4096 tokens), try increasing it","type":"exceed_context_size_error","n_prompt_tokens":4741,"n_ctx":4096}}', 'type': 'invalid_request_error', 'param': None, 'code': None}}
+
+HATA sunil kumar rana - ⚠️ A routine warehouse task turned dangerous when an overloaded forkl... [2063292024804327424].mp4: Error code: 400 - {'error': {'message': '{"error":{"code":400,"message":"request (4878 tokens) exceeds the available context size (4096 tokens), try increasing it","type":"exceed_context_size_error","n_prompt_tokens":4878,"n_ctx":4096}}', 'type': 'invalid_request_error', 'param': None, 'code': None}}
+Traceback (most recent call last):
+  File "/Users/zehraguler/Projects/teknofest-video-ajan/scripts/auto_label_qwen.py", line 176, in main
+    label = label_video(client, model, video, frames_meta)
+  File "/Users/zehraguler/Projects/teknofest-video-ajan/scripts/auto_label_qwen.py", line 86, in label_video
+    response = client.chat.completions.create(
+        model=model,
+    ...<2 lines>...
+        extra_body={"options": {"num_ctx": 16384, "num_predict": 512}},
+    )
+  File "/Users/zehraguler/Projects/teknofest-video-ajan/.venv/lib/python3.14/site-packages/openai/_utils/_utils.py", line 298, in wrapper
+    return func(*args, **kwargs)
+  File "/Users/zehraguler/Projects/teknofest-video-ajan/.venv/lib/python3.14/site-packages/openai/resources/chat/completions/completions.py", line 1296, in create
+    return self._post(
+           ~~~~~~~~~~^
+        "/chat/completions",
+        ^^^^^^^^^^^^^^^^^^^^
+    ...<53 lines>...
+        stream_cls=Stream[ChatCompletionChunk],
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "/Users/zehraguler/Projects/teknofest-video-ajan/.venv/lib/python3.14/site-packages/openai/_base_client.py", line 1382, in post
+    return cast(ResponseT, self.request(cast_to, opts, stream=stream, stream_cls=stream_cls))
+                           ~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/zehraguler/Projects/teknofest-video-ajan/.venv/lib/python3.14/site-packages/openai/_base_client.py", line 1155, in request
+    raise self._make_status_error_from_response(err.response) from None
+openai.BadRequestError: Error code: 400 - {'error': {'message': '{"error":{"code":400,"message":"request (4878 tokens) exceeds the available context size (4096 tokens), try increasing it","type":"exceed_context_size_error","n_prompt_tokens":4878,"n_ctx":4096}}', 'type': 'invalid_request_error', 'param': None, 'code': None}}
+

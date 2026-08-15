@@ -1,0 +1,23 @@
+{
+  "video_id": "accident_6b131867be",
+  "filename": "İZMİR’İN NABZI - İZMİR’DE FECİ İŞ KAZASI： İSKELE BÖYLE ÇÖKTÜ!  İzmir’in Balçova ilçesi... [2079890562375634944].mp4",
+  "category": "accident",
+  "duration_sec": 25.13,
+  "labeled_by": "human",
+  "summary": "İşçinin üzerine duvar çöküyor. duvarın üzerindeki işçilerde düşüyor.",
+  "events": [
+    {
+      "time": "00:05",
+      "time_end": "00:12",
+      "event": "işçiler enkaz altında kaldı.",
+      "event_type": "kaza",
+      "severity": "yuksek"
+    }
+  ],
+  "risk": "Yüksek",
+  "actions": [
+    "sağlık ekibi çağır."
+  ],
+  "notes": "",
+  "status": "gold"
+}

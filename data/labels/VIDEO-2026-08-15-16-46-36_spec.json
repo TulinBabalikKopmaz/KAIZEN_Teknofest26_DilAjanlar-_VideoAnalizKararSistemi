@@ -1,0 +1,14 @@
+{
+  "summary": "forklift raf sistemine çarpıyor ve raflar devriliyor. çalışan altında kalıyor.",
+  "events": [
+    {
+      "time": "00:12",
+      "event": "forklift çarpıyor, raflar devriliyor ve çalışan enkaz altında kalıyor."
+    }
+  ],
+  "risk": "Yüksek",
+  "actions": [
+    "sağlık ekibi çağır.",
+    "alanı güvene al"
+  ]
+}

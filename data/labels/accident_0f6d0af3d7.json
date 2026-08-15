@@ -3,9 +3,8 @@
   "filename": "Dude at my work slammed into a pole with a forklift and bent the blad... [hzvtKncHvyQ].mp4",
   "category": "accident",
   "duration_sec": 9.5,
-  "status": "auto",
-  "labeled_by": "qwen:qwen2.5vl:7b",
-  "summary": "Kazada forklift, bir poleye çarptı ve bıçakları bozdu.",
+  "labeled_by": "human",
+  "summary": "Kazada forklift, bir direğe çarptı.",
   "events": [
     {
       "time": "00:03",
@@ -17,8 +16,9 @@
   ],
   "risk": "Yüksek",
   "actions": [
-    "Forklift kontrol edin",
-    "Yaralı varsa yardım sağlayın"
+    "Forklift kontrol edin.",
+    "Yaralı varsa yardım sağlayın."
   ],
-  "notes": "Otomatik taslak. Gold değil; Streamlit'te kontrol edin."
+  "notes": "",
+  "status": "gold"
 }

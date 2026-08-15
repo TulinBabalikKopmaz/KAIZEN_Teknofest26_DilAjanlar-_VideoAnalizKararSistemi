@@ -1,0 +1,24 @@
+{
+  "video_id": "4GgKoR0OOw_trim_130",
+  "filename": "_4GgKoR0OOw_trim_130.mp4",
+  "category": "near_miss",
+  "duration_sec": 7.0,
+  "status": "auto",
+  "labeled_by": "qwen:qwen2.5vl:7b",
+  "summary": "Operatör, yüklenen malzemenin düşmesini önler.",
+  "events": [
+    {
+      "time": "00:02",
+      "time_end": "00:05",
+      "event": "Operatör, malzemenin düşmesini önler",
+      "event_type": "mudahale",
+      "severity": "orta"
+    }
+  ],
+  "risk": "Orta",
+  "actions": [
+    "Operatörün dikkatini çekmek",
+    "Malzemenin güvenli bir şekilde yüklenmesi"
+  ],
+  "notes": "Otomatik taslak. Gold değil; Streamlit'te kontrol edin."
+}

@@ -1,14 +1,14 @@
 {
-  "summary": "Operatör, yükü taşıyan paleti kontrol ederken forkliftin önünden geçer.",
+  "summary": "Çalışan, yükü taşıyan palete çarpıyor. Çalışanın ayağı yükün altında kalıyor.",
   "events": [
     {
-      "time": "00:04",
-      "event": "Operatör, paleti kontrol ederken forkliftin önünden geçer"
+      "time": "00:01",
+      "event": "Çalışanın ayağı yükün altında kaldı. "
     }
   ],
-  "risk": "Orta",
+  "risk": "Yüksek",
   "actions": [
-    "Operatör, forkliftin önünden geçerken dikkatli olmalı",
-    "Rutin izlemeye devam et"
+    "Sağlık ekibi çağır.",
+    "Çalışanın durumunu kontrol et."
   ]
 }

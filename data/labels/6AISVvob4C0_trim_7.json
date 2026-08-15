@@ -3,21 +3,22 @@
   "filename": "6AISVvob4C0_trim_7.mp4",
   "category": "accident",
   "duration_sec": 6.0,
-  "status": "auto",
-  "labeled_by": "qwen:qwen2.5vl:7b",
-  "summary": "Operatör, platformda duruyor.",
+  "labeled_by": "human",
+  "summary": "Çalışan merdivenden çıkıyor. Merdiven kayıyor ve çalışan yüksekten düşüyor.",
   "events": [
     {
-      "time": "00:00",
-      "time_end": "00:04",
-      "event": "Operatör platformda duruyor",
-      "event_type": "normal",
-      "severity": "düşük"
+      "time": "00:04",
+      "time_end": "00:06",
+      "event": "Çalışan yüksekten düştü.",
+      "event_type": "kaza",
+      "severity": "orta"
     }
   ],
-  "risk": "Düşük",
+  "risk": "Yüksek",
   "actions": [
-    "Rutin izlemeye devam et"
+    "Sağlık ekibi çağır.",
+    "Çalışanın durumunu kontrol et."
   ],
-  "notes": "Otomatik taslak. Gold değil; Streamlit'te kontrol edin."
+  "notes": "",
+  "status": "gold"
 }

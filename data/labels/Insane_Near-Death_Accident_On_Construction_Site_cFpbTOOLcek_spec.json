@@ -1,0 +1,14 @@
+{
+  "summary": "İşçilerin arasına düşen taşlar ve çöp nedeniyle tehlikeli bir durum oluştu.",
+  "events": [
+    {
+      "time": "00:12",
+      "event": "Taşlar ve çöp düşmesi"
+    }
+  ],
+  "risk": "Yüksek",
+  "actions": [
+    "İşçileri güvenli bir yerde toplayın",
+    "Çöpleri ve taşları toplayın"
+  ]
+}

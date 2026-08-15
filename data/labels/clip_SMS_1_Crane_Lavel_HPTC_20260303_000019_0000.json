@@ -1,0 +1,23 @@
+{
+  "video_id": "clip_SMS_1_Crane_Lavel_HPTC_20260303_000019_0000",
+  "filename": "clip_SMS_1_Crane_Lavel_HPTC_20260303_000019_0000.mp4",
+  "category": "normal",
+  "duration_sec": null,
+  "labeled_by": "human",
+  "summary": "Alev var ama normal gözüküyor.",
+  "events": [
+    {
+      "time": "00:00",
+      "time_end": "",
+      "event": "Alevler var ama normal gözüküyor.",
+      "event_type": "risk",
+      "severity": "orta"
+    }
+  ],
+  "risk": "Düşük",
+  "actions": [
+    "Rutin izlemeye devam et."
+  ],
+  "notes": "",
+  "status": "gold"
+}

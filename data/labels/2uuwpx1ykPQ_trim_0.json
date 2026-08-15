@@ -9,7 +9,7 @@
     {
       "time": "00:03",
       "time_end": "00:05",
-      "event": "Kişinin kıyafetinin yandığı tespit edilmiştir.",
+      "event": "Kişinin kıyafeti yanmaya başladı. Kişi kaçmaya çalışıyor.",
       "event_type": "kaza",
       "severity": "yuksek"
     }

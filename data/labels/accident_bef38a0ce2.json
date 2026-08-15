@@ -3,21 +3,21 @@
   "filename": "Beylikdüzü.anlık - Beylikdüzü Yeşil Flamingo Sitesi’nde yaşanan, Aydın Dirikolu’nun (61)... [2088241217045774336].mp4",
   "category": "accident",
   "duration_sec": 14.53,
-  "status": "auto",
-  "labeled_by": "qwen:qwen2.5vl:7b",
-  "summary": "Gara önünde bir kişi yerde yatıyor.",
+  "labeled_by": "human",
+  "summary": "Çalışan yüksekten yere düşüyor. Çalışan yerde hareketsiz yatıyor.",
   "events": [
     {
-      "time": "00:05",
-      "time_end": "00:10",
-      "event": "bir kişi gara önünde yerde yatıyor",
-      "event_type": "normal",
-      "severity": "düşük"
+      "time": "00:03",
+      "time_end": "00:06",
+      "event": "Çalışan yüksekten yere düştü.",
+      "event_type": "kaza",
+      "severity": "yuksek"
     }
   ],
-  "risk": "Düşük",
+  "risk": "Yüksek",
   "actions": [
-    "rutin izlemeye devam et"
+    "Sağlık ekibi çağır."
   ],
-  "notes": "Otomatik taslak. Gold değil; Streamlit'te kontrol edin."
+  "notes": "",
+  "status": "gold"
 }

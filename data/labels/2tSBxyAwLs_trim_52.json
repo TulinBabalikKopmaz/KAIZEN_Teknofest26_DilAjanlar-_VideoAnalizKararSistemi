@@ -1,0 +1,24 @@
+{
+  "video_id": "2tSBxyAwLs_trim_52",
+  "filename": "_2tSBxyAwLs_trim_52.mp4",
+  "category": "accident",
+  "duration_sec": 8.01,
+  "labeled_by": "human",
+  "summary": "Forklift parçası kopuyor. forklift kontrolden çıkıyor ve geri geri giderek çarpıyor.",
+  "events": [
+    {
+      "time": "00:02",
+      "time_end": "00:08",
+      "event": "orklift kontrolden çıkıyor ve geri geri giderek çarpıyor",
+      "event_type": "kaza",
+      "severity": "yuksek"
+    }
+  ],
+  "risk": "Yüksek",
+  "actions": [
+    "Operatörün durumu kontrol edilmesi",
+    "Yükleyici aracının kontrol edilmesi"
+  ],
+  "notes": "",
+  "status": "gold"
+}

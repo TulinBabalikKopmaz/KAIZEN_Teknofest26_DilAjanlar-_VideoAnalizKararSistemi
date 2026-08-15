@@ -1,13 +1,14 @@
 {
-  "summary": "Operatör, platformda duruyor.",
+  "summary": "Çalışan merdivenden çıkıyor. Merdiven kayıyor ve çalışan yüksekten düşüyor.",
   "events": [
     {
-      "time": "00:00",
-      "event": "Operatör platformda duruyor"
+      "time": "00:04",
+      "event": "Çalışan yüksekten düştü."
     }
   ],
-  "risk": "Düşük",
+  "risk": "Yüksek",
   "actions": [
-    "Rutin izlemeye devam et"
+    "Sağlık ekibi çağır.",
+    "Çalışanın durumunu kontrol et."
   ]
 }

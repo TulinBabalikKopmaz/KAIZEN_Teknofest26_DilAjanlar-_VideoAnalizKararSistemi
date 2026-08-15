@@ -3,10 +3,10 @@
   "events": [
     {
       "time": "00:03",
-      "event": "Çalışan elinde yük varken dengesi kaybetti ve yüksekten düştü"
+      "event": "Çalışan yüksekten düştü ve hareketsiz yatıyor."
     }
   ],
-  "risk": "Orta",
+  "risk": "Yüksek",
   "actions": [
     "Sağlık ekibi çağır"
   ]

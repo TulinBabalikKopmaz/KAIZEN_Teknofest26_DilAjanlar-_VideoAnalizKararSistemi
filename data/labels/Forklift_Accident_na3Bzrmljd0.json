@@ -1,0 +1,23 @@
+{
+  "video_id": "Forklift_Accident_na3Bzrmljd0",
+  "filename": "Forklift Accident [na3Bzrmljd0].mp4",
+  "category": "accident",
+  "duration_sec": 98.37,
+  "labeled_by": "human",
+  "summary": "Forklift çarptı ve yükü ve raf sistemi çöktü.",
+  "events": [
+    {
+      "time": "00:37",
+      "time_end": "00:50",
+      "event": "Raf sistemi çalışanın üzerine devrildi.",
+      "event_type": "kaza",
+      "severity": "yuksek"
+    }
+  ],
+  "risk": "Yüksek",
+  "actions": [
+    "Sağlık ekibi çağırın."
+  ],
+  "notes": "",
+  "status": "gold"
+}

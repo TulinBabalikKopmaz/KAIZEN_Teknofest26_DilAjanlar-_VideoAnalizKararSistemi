@@ -9,12 +9,12 @@
     {
       "time": "00:04",
       "time_end": "00:06",
-      "event": "Çalışan yükü devirdi. Çalışan yüksekten düştü.",
+      "event": "Çalışan yüksekten düştü ve yere yığıldı.",
       "event_type": "kaza",
       "severity": "orta"
     }
   ],
-  "risk": "Orta",
+  "risk": "Yüksek",
   "actions": [
     "Sağlık ekibi çağır."
   ],

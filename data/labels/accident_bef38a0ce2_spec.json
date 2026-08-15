@@ -1,13 +1,13 @@
 {
-  "summary": "Gara önünde bir kişi yerde yatıyor.",
+  "summary": "Çalışan yüksekten yere düşüyor. Çalışan yerde hareketsiz yatıyor.",
   "events": [
     {
-      "time": "00:05",
-      "event": "bir kişi gara önünde yerde yatıyor"
+      "time": "00:03",
+      "event": "Çalışan yüksekten yere düştü."
     }
   ],
-  "risk": "Düşük",
+  "risk": "Yüksek",
   "actions": [
-    "rutin izlemeye devam et"
+    "Sağlık ekibi çağır."
   ]
 }

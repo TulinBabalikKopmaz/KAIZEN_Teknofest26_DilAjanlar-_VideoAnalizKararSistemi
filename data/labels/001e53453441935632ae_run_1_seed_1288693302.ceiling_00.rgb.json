@@ -1,0 +1,24 @@
+{
+  "video_id": "001e53453441935632ae_run_1_seed_1288693302.ceiling_00.rgb",
+  "filename": "001e53453441935632ae_run_1_seed_1288693302.ceiling_00.rgb.mp4",
+  "category": "near_miss",
+  "duration_sec": 10.0,
+  "labeled_by": "human",
+  "summary": "Forklift çalışanın çok yakınından geçti. Neredeyse temas edeceklerdi.",
+  "events": [
+    {
+      "time": "00:03",
+      "time_end": "00:04",
+      "event": "forklift çalışanın çok yakınından geçti.",
+      "event_type": "near_miss",
+      "severity": "orta"
+    }
+  ],
+  "risk": "Orta",
+  "actions": [
+    "Alanı güvene al",
+    "izlemeye devam et"
+  ],
+  "notes": "",
+  "status": "gold"
+}

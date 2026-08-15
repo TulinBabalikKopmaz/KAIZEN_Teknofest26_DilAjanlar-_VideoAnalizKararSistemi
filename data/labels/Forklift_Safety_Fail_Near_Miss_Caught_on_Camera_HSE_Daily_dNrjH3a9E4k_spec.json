@@ -1,0 +1,13 @@
+{
+  "summary": "Kapalı kamyonun yükü çalışanın üstüne düştü.",
+  "events": [
+    {
+      "time": "00:06",
+      "event": "Çalışanın kafasına kamyondan yük düştü."
+    }
+  ],
+  "risk": "Yüksek",
+  "actions": [
+    "Sağlık ekibi çağır"
+  ]
+}

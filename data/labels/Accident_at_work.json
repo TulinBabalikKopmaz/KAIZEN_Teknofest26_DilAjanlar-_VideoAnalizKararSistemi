@@ -1,0 +1,24 @@
+{
+  "video_id": "Accident_at_work",
+  "filename": "Accident at work!!.mp4",
+  "category": "near_miss",
+  "duration_sec": null,
+  "labeled_by": "human",
+  "summary": "Taşınan yükten çıkan bir parça çalışanın üstüne düştü. Çalışan parçanın altında kalmaktan son anda kurtuldu.",
+  "events": [
+    {
+      "time": "00:24",
+      "time_end": "00:30",
+      "event": "Çalışan düşen parçadan son anda kaçtı",
+      "event_type": "near_miss",
+      "severity": "orta"
+    }
+  ],
+  "risk": "Orta",
+  "actions": [
+    "Alanı güvene al.",
+    "İzlemeye devam et."
+  ],
+  "notes": "",
+  "status": "gold"
+}

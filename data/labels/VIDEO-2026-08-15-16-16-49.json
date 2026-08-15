@@ -1,0 +1,30 @@
+{
+  "video_id": "VIDEO-2026-08-15-16-16-49",
+  "filename": "VIDEO-2026-08-15-16-16-49.mp4",
+  "category": "accident",
+  "duration_sec": null,
+  "labeled_by": "human",
+  "summary": "İşçilerin üzerine yüksekten tahta gibi yabancı maddeler düşüyor.",
+  "events": [
+    {
+      "time": "00:08",
+      "time_end": "00:12",
+      "event": "yüksekten tahtalar düştü ve çalışanlar yere yığıldı.",
+      "event_type": "kaza",
+      "severity": "yuksek"
+    },
+    {
+      "time": "00:17",
+      "time_end": "00:24",
+      "event": "çalışanlar yaralı kişiye yardım etmek için toplandı.",
+      "event_type": "mudahale",
+      "severity": "orta"
+    }
+  ],
+  "risk": "Yüksek",
+  "actions": [
+    "Sağlık ekibi çağır."
+  ],
+  "notes": "",
+  "status": "gold"
+}

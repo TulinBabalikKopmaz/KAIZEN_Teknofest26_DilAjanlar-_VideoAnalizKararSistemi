@@ -3,22 +3,22 @@
   "filename": "Aykırı - İş kazası güvenlik kamerasında.  Fabrikada, forklift sürücüsü işçiye ... [1972267097397854208].mp4",
   "category": "accident",
   "duration_sec": 10.67,
-  "status": "auto",
-  "labeled_by": "qwen:qwen2.5vl:7b",
-  "summary": "Operatör, yükü taşıyan paleti kontrol ederken forkliftin önünden geçer.",
+  "labeled_by": "human",
+  "summary": "Çalışan, yükü taşıyan palete çarpıyor. Çalışanın ayağı yükün altında kalıyor.",
   "events": [
     {
-      "time": "00:04",
-      "time_end": "00:07",
-      "event": "Operatör, paleti kontrol ederken forkliftin önünden geçer",
-      "event_type": "near_miss",
+      "time": "00:01",
+      "time_end": "00:08",
+      "event": "Çalışanın ayağı yükün altında kaldı. ",
+      "event_type": "kaza",
       "severity": "orta"
     }
   ],
-  "risk": "Orta",
+  "risk": "Yüksek",
   "actions": [
-    "Operatör, forkliftin önünden geçerken dikkatli olmalı",
-    "Rutin izlemeye devam et"
+    "Sağlık ekibi çağır.",
+    "Çalışanın durumunu kontrol et."
   ],
-  "notes": "Otomatik taslak. Gold değil; Streamlit'te kontrol edin."
+  "notes": "",
+  "status": "gold"
 }
