@@ -1,9 +1,9 @@
 {
-  "summary": "Garajda bir kişi araç altında duruyor.",
+  "summary": "Garajde bir araba tamir ediliyor.",
   "events": [
     {
-      "time": "00:03",
-      "event": "kazada bir kişi araç altında duruyor."
+      "time": "00:02",
+      "event": "kazada bir kişi ve bir araç var"
     }
   ],
   "risk": "Yüksek",

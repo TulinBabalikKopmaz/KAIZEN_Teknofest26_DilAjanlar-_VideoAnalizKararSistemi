@@ -3,7 +3,6 @@
 from __future__ import annotations
 
 import os
-import re
 from typing import Any
 
 import requests
@@ -20,8 +19,7 @@ Sana verilen karelerde kaza, ramak kala veya rutin çalışmayı ayırt edeceksi
 Kritik Kurallar:
 
 1) METİNLERİ YOK SAY: Yeşil/mavi kutular, "ID#7", "car spd=5.0", "conf=0.8" gibi \
-takip yazılarını görmezden gel. Raporda bunlardan bahsetme. Ancak Sistem Notu'ndaki \
-zaman damgasını (MM:SS) kullan.
+takip yazılarını görmezden gel. Raporda bunlardan bahsetme.
 
 2) FİZİKSEL SAHNE: İnsanların ne yaptığına, kaçış var mı, yük/palet devriliyor mu, \
 çarpışma, düşme, yanma, yerde hareketsiz kişi var mı ona bak.
@@ -38,55 +36,32 @@ O zaman: 'Güvenli ortam, rutin çalışma' ve Risk: Güvenli.
 düşme, yangın/yanma veya yerde kişi varsa bu sahte alarm değildir. Risk: Kritik. \
 Kararını sakin kareye göre değil, olayın olduğu kareye göre ver.
 
-7) ZAMAN: Olay zamanını Sistem Notu'ndan al. Çıktıda Zaman alanını MUTLAKA MM:SS yaz \
-(örnek: 00:15). Başka format yasak.
-
-8) ÖZET: Durum Açıklaması MAKSİMUM 1-2 cümle ve en fazla 15 kelime olsun. \
-Dümdüz rapor dili; yorum yok. Örnek: 'Çalışan elinde yük varken yüksekten düştü.'
-
 Çıktı Formatı (TEK SATIR):
-Zaman: [MM:SS] | Durum Açıklaması: [en fazla 15 kelime] | Risk: [Güvenli, Düşük, Orta, Kritik] | Aksiyon: [acil önlem]
+Durum Açıklaması: [kısa Türkçe özet] | Risk: [Güvenli, Düşük, Orta, Kritik] | Aksiyon: [acil önlem]
 """
 
 
 def _extract_timestamp(image_path: str) -> str:
-    """Dosya adından zaman damgası çıkarır (örn. frame_00_14.jpg / 00-14.jpg → 00:14)."""
+    """Dosya adından zaman damgası çıkarır (örn. frame_00_14.jpg → 00:14)."""
     try:
         filename = os.path.basename(image_path)
-        stem = os.path.splitext(filename)[0]
-        # KPI kareleri: 00-15.jpg
-        m = re.fullmatch(r"(\d{2})-(\d{2})", stem)
-        if m:
-            return f"{m.group(1)}:{m.group(2)}"
-        parts = stem.replace(".jpg", "").split("_")
+        parts = filename.replace(".jpg", "").split("_")
         return f"{parts[-2]}:{parts[-1]}"
     except (IndexError, ValueError):
         return "Bilinmiyor"
 
 
-def _mmss_to_seconds(mmss: str) -> int | None:
-    try:
-        minutes, seconds = mmss.split(":")
-        return int(minutes) * 60 + int(seconds)
-    except Exception:
-        return None
-
-
-def _build_user_prompt(trigger_reason: str, frame_notes: list[str]) -> str:
-    """Tetik sebebini ve kare zaman notlarını VLM kullanıcı mesajına gömer."""
+def _build_user_prompt(trigger_reason: str) -> str:
+    """Tetik sebebini VLM kullanıcı mesajına gömer."""
     reason = trigger_reason.strip() or "Dinamik olay tetiklendi"
-    notes = "\n".join(frame_notes) if frame_notes else ""
     return (
         f"Tetiklenme sebebi (Wake-Up sensörü): {reason}\n\n"
-        f"{notes}\n\n"
         "Bu kareler bir tetik penceresinden alınmıştır; ilk kare sakin görünebilir.\n"
         "Üzerindeki bounding box, ID, spd, conf yazılarını yok say.\n"
-        "Sistem Notu'ndaki zamanı kullan: çıktıda Zaman: MM:SS yaz (ör. 00:15).\n"
-        "Durum Açıklaması en fazla 15 kelime, 1-2 kısa cümle, düz rapor dili; yorum yapma.\n"
         "Tüm karelere bak: kaçış, yük/palet devrilmesi, çarpışma, düşme, yanma, ramak kala.\n"
         "Görünür kaza varsa küçümseme. Net tehlike yoksa kaza uydurma.\n"
         "Türkçe, tek satır:\n"
-        "Zaman: MM:SS | Durum Açıklaması: ... | Risk: Güvenli/Düşük/Orta/Kritik | Aksiyon: ..."
+        "Durum Açıklaması: ... | Risk: Güvenli/Düşük/Orta/Kritik | Aksiyon: ..."
     )
 
 
@@ -146,24 +121,11 @@ def video_analyzer_tool(state: AgentState) -> dict[str, Any]:
     print(f"Klasörde {len(all_frames)} adet kare bulundu. Analiz başlıyor...")
 
     window_size = 3
+    user_prompt = _build_user_prompt(trigger_reason)
 
     for i in range(0, len(all_frames), window_size):
         window_frames = all_frames[i : i + window_size]
         current_ts = _extract_timestamp(window_frames[-1])
-        frame_notes: list[str] = []
-        for img_path in window_frames:
-            ts = _extract_timestamp(img_path)
-            sec = _mmss_to_seconds(ts)
-            if sec is None:
-                frame_notes.append(
-                    f"[Sistem Notu: Bu görsel zaman damgası {ts} olan bir kritik andan alınmıştır.]"
-                )
-            else:
-                frame_notes.append(
-                    f"[Sistem Notu: Bu görsel videonun {sec}. saniyesinden alınmıştır. Zaman: {ts}]"
-                )
-
-        user_prompt = _build_user_prompt(trigger_reason, frame_notes)
 
         print(f"[{current_ts}] saniyesine kadar olan kesit taranıyor ({len(window_frames)} kare)...")
 
@@ -185,14 +147,13 @@ def video_analyzer_tool(state: AgentState) -> dict[str, Any]:
                 {"role": "system", "content": VLM_SYSTEM_PROMPT},
                 {"role": "user", "content": content_list},
             ],
-            "max_tokens": 180,
+            "max_tokens": 220,
             "temperature": 0.05,
         }
 
         max_retries = 3
         model_cikti = (
-            f"Zaman: {current_ts} | Durum Açıklaması: Olağan çalışma | "
-            "Risk: Güvenli | Aksiyon: İzlemeye devam et"
+            "Durum Açıklaması: Olağan çalışma | Risk: Güvenli | Aksiyon: İzlemeye devam et"
         )
 
         for attempt in range(max_retries):
@@ -200,6 +161,7 @@ def video_analyzer_tool(state: AgentState) -> dict[str, Any]:
                 response = requests.post(endpoint, headers=headers, json=payload, timeout=45)
                 response.raise_for_status()
                 model_cikti = response.json()["choices"][0]["message"]["content"].strip()
+                # Model bazen ID/spd metinlerine kayabiliyor; tekrar uyarı eklemeden temizle
                 model_cikti = " ".join(model_cikti.split())
                 break
             except Exception as e:
@@ -218,10 +180,7 @@ def video_analyzer_tool(state: AgentState) -> dict[str, Any]:
     print("Tüm kareler tarandı, belirgin anormallik bulunamadı.")
     return {
         "analysis_result": {
-            "timestamp": "00:00",
-            "event": (
-                "Zaman: 00:00 | Durum Açıklaması: Güvenli ortam | "
-                "Risk: Güvenli | Aksiyon: İzlemeye devam et"
-            ),
+            "timestamp": "Video Sonu",
+            "event": "Durum Açıklaması: Güvenli ortam | Risk: Güvenli | Aksiyon: İzlemeye devam et",
         }
     }

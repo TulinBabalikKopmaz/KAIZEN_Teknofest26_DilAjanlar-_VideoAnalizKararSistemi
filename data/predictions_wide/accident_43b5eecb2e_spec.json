@@ -1,13 +1,9 @@
 {
-  "summary": "İki kişi aracın altında kalmış, tehdit duygusu.",
+  "summary": "İki kişi aracın altında duruyor, aracın tekerleği yukarı kaldırılır.",
   "events": [
     {
-      "time": "00:03",
-      "event": "İki kişi aracın altına girdi"
-    },
-    {
-      "time": "00:00",
-      "event": "Kazada kaçış olasılığı yüksek"
+      "time": "00:02",
+      "event": "Aracın tekerleği yukarı kaldırılır"
     }
   ],
   "risk": "Yüksek",

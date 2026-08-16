@@ -5,15 +5,14 @@
   "duration_sec": 10.87,
   "status": "auto",
   "labeled_by": "qwen:qwen2.5vl:7b",
-  "summary": "İki kişi aracın altında kalmış, tehdit duygusu.",
+  "summary": "İki kişi aracın altında duruyor, aracın tekerleği yukarı kaldırılır.",
   "events": [
     {
-      "time": "00:03",
-      "event": "İki kişi aracın altına girdi"
-    },
-    {
+      "time": "00:02",
       "time_end": "00:05",
-      "event": "Kazada kaçış olasılığı yüksek"
+      "event": "Aracın tekerleği yukarı kaldırılır",
+      "event_type": "risk",
+      "severity": "orta"
     }
   ],
   "risk": "Yüksek",
@@ -25,15 +24,15 @@
   "evidence": {
     "duration_sec": 10.866666666666667,
     "motion_peak_sec": 10.833333333333334,
-    "motion_peak_score": 130.80659722222222,
+    "motion_peak_score": 130.67,
     "motion_elevated": true,
-    "person_count_max": 3,
+    "person_count_max": 2,
     "vehicle_count_max": 2,
-    "min_person_vehicle_ratio": 0.5112759198369967,
+    "min_person_vehicle_ratio": 0.5240035242267445,
     "person_vehicle_close": true,
     "person_vehicle_very_close": true,
-    "fire_like_ratio_max": 0.23887094350961538,
-    "fire_like_rise": 0.23887094350961538,
+    "fire_like_ratio_max": 0.2131122295673077,
+    "fire_like_rise": 0.2131122295673077,
     "fire_suspect": true,
     "yolo_available": true,
     "notes": []
