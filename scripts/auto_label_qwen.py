@@ -33,6 +33,8 @@ SECOND_LOOK_PROMPT = (
     "Önceki cevabın çok sakin / düşük risk görünüyor ama sensörler şüpheli diyor.\n"
     "Sadece bu karelere tekrar bak. Özellikle: çarpışma, düşme, yanma, kişi-araç temas.\n"
     "Görmüyorsan uydurma. Görüyorsan category/risk'i yükselt.\n"
+    "events[].time alanını MM:SS yaz (ör. 00:15); Sistem Notu'ndaki saniyeyi kullan.\n"
+    "summary en fazla 15 kelime, 1-2 kısa cümle, düz rapor dili.\n"
     "Yine sadece JSON döndür.\n"
 )
 
@@ -225,7 +227,12 @@ def label_video(
 
     times = ", ".join(frame["time"] for frame in frames)
     numbered = "\n".join(
-        f"{i}. zaman {frame['time']}" for i, frame in enumerate(frames, start=1)
+        (
+            f"{i}. [Sistem Notu: Bu görsel videonun "
+            f"{int(round(float(frame.get('t_sec', 0.0))))}. saniyesinden alınmıştır. "
+            f"Zaman: {frame['time']}]"
+        )
+        for i, frame in enumerate(frames, start=1)
     )
     hint = ""
     if use_folder_hint and folder_cat in {"normal", "near_miss", "accident"}:
@@ -233,11 +240,14 @@ def label_video(
 
     prompt = (
         f"Süre: {frames_meta['duration_sec']} saniye\n"
-        f"Kare zamanları: {times}\n"
+        f"Kare zamanları (MM:SS): {times}\n"
         f"Gönderilen kare sayısı: {len(frames)}\n"
         f"{hint}"
         f"{evidence.prompt_block()}\n"
-        "Görseller aşağıda 1. kareden son kareye sıralı. "
+        "Görseller aşağıda 1. kareden son kareye sıralı.\n"
+        "Her kare için Sistem Notu'ndaki saniye / Zaman (MM:SS) değerini kullan.\n"
+        "events[].time alanını MUTLAKA MM:SS yaz (ör. 00:15); uydurma zaman yazma.\n"
+        "summary en fazla 15 kelime, 1-2 kısa cümle, düz rapor dili; yorum yapma.\n"
         "İlk kare sakin olsa bile tüm diziyi oku; "
         "çarpışma, düşme, yanma, devrilme veya yerde kişi varsa onu yaz.\n"
         f"{numbered}\n\n"
@@ -274,11 +284,19 @@ def label_video(
     if use_second_look and needs_second_look(label, evidence):
         focus = _pick_second_look_frames(frames, evidence)
         focus_paths = [Path(f["path"]) for f in focus]
-        focus_times = ", ".join(f["time"] for f in focus)
         second_prompt = (
             f"{SECOND_LOOK_PROMPT}\n"
             f"{evidence.prompt_block()}\n"
-            f"Odak kareler: {focus_times}\n"
+            f"Odak kareler:\n"
+            + "\n".join(
+                (
+                    f"- [Sistem Notu: Bu görsel videonun "
+                    f"{int(round(float(f.get('t_sec', 0.0))))}. saniyesinden alınmıştır. "
+                    f"Zaman: {f['time']}]"
+                )
+                for f in focus
+            )
+            + "\n"
             f"Önceki JSON özeti: risk={label.get('risk')}, "
             f"summary={label.get('summary')}\n\n"
             + load_prompt()
