@@ -12,12 +12,19 @@ import os
 import shutil
 import subprocess
 import sys
+import time
+import urllib.error
+import urllib.request
 from pathlib import Path
 
 
-def run(cmd: list[str], check: bool = True) -> None:
+def run(cmd: list[str], check: bool = True) -> subprocess.CompletedProcess[str]:
     print("+", " ".join(cmd), flush=True)
-    subprocess.run(cmd, check=check)
+    return subprocess.run(
+        cmd,
+        check=check,
+        text=True,
+    )
 
 
 def ensure_gpu() -> None:
@@ -115,21 +122,84 @@ def install_python_deps() -> None:
     )
 
 
+def wait_ollama(timeout_s: float = 90.0) -> None:
+    url = "http://127.0.0.1:11434/api/tags"
+    deadline = time.time() + timeout_s
+    last_err = ""
+    while time.time() < deadline:
+        try:
+            with urllib.request.urlopen(url, timeout=2) as resp:
+                if resp.status == 200:
+                    print("  ollama API ayakta", flush=True)
+                    return
+        except (urllib.error.URLError, TimeoutError, OSError) as exc:
+            last_err = str(exc)
+        time.sleep(1.5)
+    raise SystemExit(
+        f"Ollama API ayağa kalkmadı ({timeout_s:.0f}s). Son hata: {last_err}\n"
+        "Yeni hücrede dene: !pkill ollama; !nohup ollama serve >/tmp/ollama.log 2>&1 &"
+    )
+
+
+def model_installed(model: str) -> bool:
+    result = subprocess.run(
+        ["ollama", "list"],
+        check=False,
+        text=True,
+        capture_output=True,
+    )
+    out = (result.stdout or "") + (result.stderr or "")
+    print(out, flush=True)
+    # "qwen2.5vl:7b" veya satırda "qwen2.5vl" geçebilir
+    name = model.split(":")[0]
+    return name in out
+
+
 def install_ollama(model: str) -> None:
-    # Colab'de Ollama kurulum scripti zstd ister
-    run(["bash", "-c", "apt-get update -qq && apt-get install -y -qq zstd > /dev/null"])
+    # Colab: zstd + pciutils (GPU tespiti için)
+    run(
+        [
+            "bash",
+            "-c",
+            "apt-get update -qq && apt-get install -y -qq zstd pciutils > /dev/null",
+        ]
+    )
     if shutil.which("ollama") is None:
         run(["bash", "-c", "curl -fsSL https://ollama.com/install.sh | sh"])
-    # Sunucuyu arka planda başlat
+
+    # Eski serve varsa bırak
+    subprocess.run(["pkill", "-f", "ollama serve"], check=False)
+    time.sleep(1)
+
+    log_path = Path("/tmp/ollama_serve.log")
+    log_f = log_path.open("w", encoding="utf-8")
+    print("+ ollama serve (arka plan)", flush=True)
     subprocess.Popen(
         ["ollama", "serve"],
-        stdout=subprocess.DEVNULL,
-        stderr=subprocess.DEVNULL,
+        stdout=log_f,
+        stderr=subprocess.STDOUT,
+        start_new_session=True,
     )
-    import time
+    wait_ollama()
 
-    time.sleep(3)
-    run(["ollama", "pull", model], check=False)
+    print(f"+ ollama pull {model}  ( indirme birkaç dk sürebilir; çıktı akacak )", flush=True)
+    pull = subprocess.run(["ollama", "pull", model], check=False)
+    if pull.returncode != 0:
+        print(f"UYARI: ollama pull exit={pull.returncode}", flush=True)
+        print("--- /tmp/ollama_serve.log (son 40 satır) ---", flush=True)
+        if log_path.exists():
+            lines = log_path.read_text(encoding="utf-8", errors="replace").splitlines()
+            print("\n".join(lines[-40:]), flush=True)
+
+    print("+ ollama list", flush=True)
+    if not model_installed(model):
+        raise SystemExit(
+            f"Model yok: {model}\n"
+            f"Manuel dene:\n"
+            f"  !ollama pull {model}\n"
+            f"  !ollama list"
+        )
+    print(f"  model OK: {model}", flush=True)
 
 
 def write_env(repo: Path, model: str) -> None:
@@ -159,9 +229,21 @@ def main() -> None:
     )
     parser.add_argument("--model", default="qwen2.5vl:7b")
     parser.add_argument("--skip-ollama", action="store_true")
+    parser.add_argument(
+        "--only-ollama",
+        action="store_true",
+        help="Sadece Ollama kur/çek (pip+Drive atla)",
+    )
     args = parser.parse_args()
 
-    print("=== TEKNOFEST Colab KPI bootstrap ===")
+    print("=== TEKNOFEST Colab KPI bootstrap ===", flush=True)
+
+    if args.only_ollama:
+        ensure_gpu()
+        install_ollama(args.model)
+        print("\nOllama hazır.", flush=True)
+        return
+
     ensure_gpu()
     args.drive_root.mkdir(parents=True, exist_ok=True)
     (args.drive_root / "data" / "videos").mkdir(parents=True, exist_ok=True)
@@ -176,10 +258,11 @@ def main() -> None:
     write_env(args.repo, args.model)
     if not args.skip_ollama:
         install_ollama(args.model)
-    print("\nHazır. Sonraki hücrede KPI çalıştırın:")
+    print("\nHazır. Sonraki hücrede KPI çalıştırın:", flush=True)
     print(
         f"  python scripts/run_kpi_wide.py --n 18 --seed 42 --model {args.model} "
-        f"--pred-dir data/predictions_wide --no-second-look"
+        f"--pred-dir data/predictions_wide --no-second-look",
+        flush=True,
     )
 
 
