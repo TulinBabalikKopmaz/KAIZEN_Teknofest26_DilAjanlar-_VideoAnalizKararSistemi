@@ -93,17 +93,22 @@ def evidence_floor(evidence: SceneEvidence | None) -> tuple[str, str | None]:
         return "Düşük", None
     if evidence.fire_suspect:
         return "Yüksek", "accident"
+    # Çok yakın: kritik yakalamayı koru (Yüksek) ama tek başına accident dayatma
+    # (normal CCTV false alarm'ı azaltır; metinde çarpışma varsa text_floor yükseltir)
     if evidence.person_vehicle_very_close:
-        return "Yüksek", "accident"
+        return "Yüksek", "near_miss"
     if evidence.person_vehicle_close:
         return "Orta", "near_miss"
     return "Düşük", None
 
 
 def refine_label(label: dict[str, Any], evidence: SceneEvidence | None = None) -> dict[str, Any]:
-    """Kopya üzerinde risk/kategori yükseltir; özeti silmez."""
+    """Kopya üzerinde risk/kategori yükseltir; özeti silmez. Zayıf Yüksek'i budar."""
     out = dict(label)
     reasons: list[str] = []
+    text = _joined_text(out)
+    has_high = _match_any(text, HIGH_PATTERNS)
+    has_near = _match_any(text, NEAR_PATTERNS)
 
     text_risk, text_cat = text_risk_floor(out)
     ev_risk, ev_cat = evidence_floor(evidence)
@@ -121,17 +126,42 @@ def refine_label(label: dict[str, Any], evidence: SceneEvidence | None = None) -
             new_cat = _max_cat(new_cat, cand)
     # Metin/kanıt Yüksek ama kategori normal kaldıysa düzelt
     if new_risk == "Yüksek" and new_cat == "normal":
-        new_cat = "accident"
+        # Metinde kaza yoksa accident dayatma (false alarm)
+        new_cat = "accident" if has_high or (evidence and evidence.fire_suspect) else "near_miss"
     if new_risk == "Orta" and new_cat == "normal":
         new_cat = "near_miss"
     if new_cat != old_cat:
         reasons.append(f"category {old_cat}→{new_cat}")
         out["category"] = new_cat
 
+    # Zayıf Yüksek budama: metin + yangın + çok-yakın yoksa FA metriğini düşür
+    weak_high = (
+        normalize_risk(out.get("risk")) == "Yüksek"
+        and not has_high
+        and not (evidence and evidence.fire_suspect)
+        and not (evidence and evidence.person_vehicle_very_close)
+    )
+    if weak_high:
+        if has_near or (evidence and evidence.person_vehicle_close):
+            out["risk"] = "Orta"
+            if (out.get("category") or "normal") == "accident":
+                out["category"] = "near_miss"
+            reasons.append("zayıf Yüksek→Orta (FA dampen)")
+        elif not (evidence and evidence.motion_elevated):
+            out["risk"] = "Düşük"
+            out["category"] = "normal"
+            reasons.append("zayıf Yüksek→Düşük/normal (FA dampen)")
+        else:
+            # Sadece hareket var: Orta/near_miss tavanı
+            out["risk"] = "Orta"
+            if (out.get("category") or "") == "accident":
+                out["category"] = "near_miss"
+            reasons.append("zayıf Yüksek→Orta (yalnız hareket)")
+
     # Kazada aksiyon hâlâ "rutin izle" ise güçlendir
     actions = [a for a in (out.get("actions") or []) if a]
     joined = " ".join(actions).lower()
-    if new_risk == "Yüksek" and (
+    if normalize_risk(out.get("risk")) == "Yüksek" and (
         not actions or "rutin" in joined or "izlemeye devam" in joined
     ):
         out["actions"] = [

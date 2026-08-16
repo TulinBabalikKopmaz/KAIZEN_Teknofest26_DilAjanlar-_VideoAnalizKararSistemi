@@ -145,6 +145,7 @@ def ollama_base() -> str:
 
 def ollama_chat(model: str, prompt: str, image_paths: list[Path]) -> str:
     """Native Ollama /api/chat — OpenAI uyumlu katman num_ctx'i düşürüyor."""
+    import time
     import urllib.error
     import urllib.request
 
@@ -152,10 +153,12 @@ def ollama_chat(model: str, prompt: str, image_paths: list[Path]) -> str:
     default_ctx = "4096" if is_llava else "16384"
     num_ctx = int(os.getenv("OLLAMA_NUM_CTX", default_ctx))
     img_side = 320 if is_llava else None
-    if is_llava and len(image_paths) > 2:
-        image_paths = [image_paths[0], image_paths[-1]]
-    if is_llava and len(prompt) > 1200:
-        prompt = prompt[:1200] + "\nSadece JSON döndür."
+    paths = list(image_paths)
+    if is_llava and len(paths) > 2:
+        paths = [paths[0], paths[-1]]
+    text = prompt
+    if is_llava and len(text) > 1200:
+        text = text[:1200] + "\nSadece JSON döndür."
 
     payload = {
         "model": model,
@@ -169,24 +172,56 @@ def ollama_chat(model: str, prompt: str, image_paths: list[Path]) -> str:
         "messages": [
             {
                 "role": "user",
-                "content": prompt,
-                "images": [encode_image(path, max_side=img_side) for path in image_paths],
+                "content": text,
+                "images": [encode_image(path, max_side=img_side) for path in paths],
             }
         ],
     }
-    req = urllib.request.Request(
-        f"{ollama_base()}/api/chat",
-        data=json.dumps(payload).encode("utf-8"),
-        headers={"Content-Type": "application/json"},
-        method="POST",
-    )
-    try:
-        with urllib.request.urlopen(req, timeout=420) as resp:
-            data = json.loads(resp.read().decode("utf-8"))
-    except urllib.error.HTTPError as exc:
-        detail = exc.read().decode("utf-8", errors="replace")
-        raise RuntimeError(f"Ollama HTTP {exc.code}: {detail[:500]}") from exc
-    return (data.get("message") or {}).get("content") or ""
+    body = json.dumps(payload).encode("utf-8")
+    url = f"{ollama_base()}/api/chat"
+    last_err: Exception | None = None
+    for attempt in range(1, 4):
+        req = urllib.request.Request(
+            url,
+            data=body,
+            headers={"Content-Type": "application/json"},
+            method="POST",
+        )
+        try:
+            with urllib.request.urlopen(req, timeout=420) as resp:
+                data = json.loads(resp.read().decode("utf-8"))
+            return (data.get("message") or {}).get("content") or ""
+        except urllib.error.HTTPError as exc:
+            detail = exc.read().decode("utf-8", errors="replace")
+            last_err = RuntimeError(f"Ollama HTTP {exc.code}: {detail[:500]}")
+            retryable = exc.code in {500, 502, 503}
+        except (urllib.error.URLError, TimeoutError, ConnectionError, OSError) as exc:
+            last_err = RuntimeError(f"Ollama bağlantı hatası: {exc}")
+            retryable = True
+        if not retryable or attempt >= 3:
+            break
+        wait_s = 4 * attempt
+        print(
+            f"  Ollama hata (deneme {attempt}/3), {wait_s}s sonra tekrar…",
+            flush=True,
+        )
+        # T4'te runner düşmüş olabilir — serve'i nazikçe yenile
+        try:
+            import subprocess
+
+            subprocess.run(["pkill", "-f", "ollama serve"], check=False)
+            time.sleep(1)
+            subprocess.Popen(
+                ["ollama", "serve"],
+                stdout=subprocess.DEVNULL,
+                stderr=subprocess.DEVNULL,
+                start_new_session=True,
+            )
+            time.sleep(wait_s)
+        except OSError:
+            time.sleep(wait_s)
+    assert last_err is not None
+    raise last_err
 
 
 def build_client(backend: str) -> tuple[OpenAI, str]:

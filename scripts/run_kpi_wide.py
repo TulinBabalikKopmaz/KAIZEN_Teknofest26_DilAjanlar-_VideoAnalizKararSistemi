@@ -203,6 +203,11 @@ def main() -> None:
         default=0.5,
         help="Eşit aralıklı örnekleme (hareket yoksa); denser = daha iyi zaman KPI",
     )
+    parser.add_argument(
+        "--resume",
+        action="store_true",
+        help="pred-dir'de mevcut JSON varsa videoyu atla (Ollama crash sonrası devam)",
+    )
     args = parser.parse_args()
     n_videos = parse_n(str(args.n))
     if n_videos is not None and n_videos < 6:
@@ -266,6 +271,12 @@ def main() -> None:
         if not video:
             print("  ATLANDI (video yok)")
             continue
+        vid = safe_id(video)
+        pred_json = args.pred_dir / f"{vid}.json"
+        if args.resume and pred_json.exists():
+            ok_gold.append(gold)
+            print("  resume: mevcut tahmin var, atlandı")
+            continue
         try:
             if args.no_second_look:
                 from utils.scene_evidence import analyze_video
@@ -316,7 +327,6 @@ def main() -> None:
             print(f"  HATA: {exc}")
             continue
         ok_gold.append(gold)
-        vid = safe_id(video)
         (args.pred_dir / f"{vid}.json").write_text(
             json.dumps(label, ensure_ascii=False, indent=2), encoding="utf-8"
         )

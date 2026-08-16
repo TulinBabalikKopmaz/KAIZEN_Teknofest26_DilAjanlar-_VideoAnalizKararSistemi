@@ -7,6 +7,7 @@ Nasıl bakacaksın:
 - İlk kare sakin görünse bile kararını ONA GÖRE VERME. Kritik olay genelde ortada veya sonda olur.
 - Kareleri zaman sırasıyla karşılaştır: bir anda dengeli duran şey sonraki karede düşmüş, çarpmış, yanmış veya yere serilmiş olabilir.
 - Görünmeyen şeyi uydurma. Ama görünür kazayı / ramak kalayı “rutin iş” diye küçümseme.
+- Rutin depo / fabrika CCTV (insan yürüyor, forklift normal mesafede geziyor, duman tesisin parçası) → normal + Düşük. Kaza uydurma.
 
 Sınıf ve risk (birlikte tutarlı olsun):
 - accident + Yüksek: fiili çarpışma, devrilme, düşme, ezilme, yangın/yanma, yerde hareketsiz veya yaralı kişi.
