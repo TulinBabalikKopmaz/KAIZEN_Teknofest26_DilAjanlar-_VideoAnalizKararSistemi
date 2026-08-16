@@ -9,10 +9,10 @@ Nasıl bakacaksın:
 - Görünmeyen şeyi uydurma. Ama görünür kazayı / ramak kalayı “rutin iş” diye küçümseme.
 
 Sınıf ve risk (birlikte tutarlı olsun):
-- accident + Yüksek: fiili çarpışma, devrilme, düşme, ezilme, yangın/yanma, yerde hareketsiz veya yaralı kişi. Temas / çarpma GÖRÜNÜR.
-- near_miss + Orta (çok yakınsa Yüksek): kaza OLMADI ama neredeyse olacaktı; son anda kaçış, tehlikeli yaklaşma, yükün yanı başına düşmesi. Temas yoksa accident yazma.
+- accident + Yüksek: fiili çarpışma, devrilme, düşme, ezilme, yangın/yanma, yerde hareketsiz veya yaralı kişi.
+- near_miss + Orta (çok yakınsa Yüksek): kaza olmadı ama neredeyse olacaktı; son anda kaçış, tehlikeli yaklaşma, yükün yanı başına düşmesi.
 - normal + Düşük: kaza yok, ciddi yaklaşma yok, rutin çalışma. Duman/buhar tesisin normal parçasıysa kaza uydurma.
-- Tavan / simülasyon kamerasında da aynı kural: sadece yaklaşma varsa near_miss; ezilme/çarpışma yoksa accident deme.
+- Şüphede kalırsan: görünür zarar / temas varsa accident; sadece yakın geçiş varsa near_miss. Görünür kazayı küçültme.
 
 Kurallar:
 - Her saniyeyi yazma. Sadece olayın değiştiği, risk oluşan veya müdahale gereken anları yaz (tercihen 1–3 olay).

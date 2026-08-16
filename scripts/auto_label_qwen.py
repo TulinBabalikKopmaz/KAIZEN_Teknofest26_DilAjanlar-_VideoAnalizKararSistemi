@@ -33,7 +33,6 @@ SECOND_LOOK_PROMPT = (
     "Önceki cevabın çok sakin / düşük risk görünüyor ama sensörler şüpheli diyor.\n"
     "Sadece bu karelere tekrar bak. Özellikle: çarpışma, düşme, yanma, kişi-araç temas.\n"
     "Görmüyorsan uydurma. Görüyorsan category/risk'i yükselt.\n"
-    "Temas yoksa accident yazma; tehlikeli yaklaşma = near_miss.\n"
     "events[].time yalnızca verilen kare zamanlarından biri olsun.\n"
     "Yine sadece JSON döndür.\n"
 )
@@ -277,8 +276,8 @@ def label_video(
         f"{evidence.prompt_block()}\n"
         "Görseller aşağıda 1. kareden son kareye sıralı. "
         "İlk kare sakin olsa bile tüm diziyi oku; "
-        "çarpışma, düşme, yanma, devrilme veya yerde kişi varsa onu yaz. "
-        "Temas yoksa near_miss; rutin ise normal.\n"
+        "çarpışma, düşme, yanma, devrilme veya yerde kişi varsa onu yaz "
+        "(accident + Yüksek). Sadece tehlikeli yaklaşma varsa near_miss.\n"
         f"{numbered}\n\n"
         + load_prompt()
     )
