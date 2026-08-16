@@ -1,9 +1,10 @@
 #!/usr/bin/env python3
-"""15–20 gold videoluk geniş KPI (dengeli kategori).
+"""Gold videoluk geniş KPI (dengeli örnek veya tüm gold).
 
 Örnek:
   python scripts/run_kpi_wide.py --n 18
-  python scripts/run_kpi_wide.py --n 18 --model llama3.2-vision:11b
+  python scripts/run_kpi_wide.py --n all
+  python scripts/run_kpi_wide.py --n all --split holdout --holdout-frac 0.2
 
 Gold'a dokunmaz. Tahminler data/predictions_wide/ altına gider.
 """
@@ -41,6 +42,53 @@ def video_duration(path: Path) -> float:
     return float(n / fps) if fps else 9999.0
 
 
+def available_gold(
+    gold_rows: list[dict],
+    videos: dict[str, Path],
+) -> list[dict]:
+    out = []
+    for row in gold_rows:
+        name = row.get("filename")
+        if name and name in videos and row.get("category") in {
+            "accident",
+            "near_miss",
+            "normal",
+        }:
+            out.append(row)
+    order = {"accident": 0, "near_miss": 1, "normal": 2}
+    out.sort(key=lambda r: (order.get(r.get("category"), 9), r.get("filename") or ""))
+    return out
+
+
+def split_holdout(
+    rows: list[dict],
+    seed: int,
+    holdout_frac: float,
+    which: str,
+) -> list[dict]:
+    """Kategori içinde seed'li holdout; which=all|train|holdout."""
+    if which == "all":
+        return list(rows)
+    rng = random.Random(seed)
+    by_cat: dict[str, list[dict]] = {"accident": [], "near_miss": [], "normal": []}
+    for row in rows:
+        by_cat[row["category"]].append(row)
+    train: list[dict] = []
+    hold: list[dict] = []
+    for _cat, pool in by_cat.items():
+        pool = list(pool)
+        rng.shuffle(pool)
+        n_hold = max(1, int(round(len(pool) * holdout_frac))) if pool else 0
+        if len(pool) <= 2:
+            n_hold = 1 if len(pool) == 2 else 0
+        hold.extend(pool[:n_hold])
+        train.extend(pool[n_hold:])
+    order = {"accident": 0, "near_miss": 1, "normal": 2}
+    chosen = hold if which == "holdout" else train
+    chosen.sort(key=lambda r: (order.get(r.get("category"), 9), r.get("filename") or ""))
+    return chosen
+
+
 def pick_balanced(
     gold_rows: list[dict],
     videos: dict[str, Path],
@@ -60,7 +108,6 @@ def pick_balanced(
     for cat, rows in by_cat.items():
         rows.sort(key=lambda r: (video_duration(videos[r["filename"]]), r["filename"]))
 
-    # 6→18 gibi: önce eşit pay, kalanı en bol kategoriden
     cats = ["accident", "near_miss", "normal"]
     base = n // 3
     extra = n - base * 3
@@ -71,7 +118,6 @@ def pick_balanced(
     chosen_names: set[str] = set()
     chosen: list[dict] = []
 
-    # Önce önceki 6'lık sınavı kilitle (karşılaştırma için)
     gold_by_name = {g["filename"]: g for g in gold_rows}
     for name in must_include:
         row = gold_by_name.get(name)
@@ -84,7 +130,6 @@ def pick_balanced(
         need = quota[cat]
         already = sum(1 for r in chosen if r.get("category") == cat)
         pool = [r for r in by_cat[cat] if r["filename"] not in chosen_names]
-        # Kısa kliplerin ilk yarısından rastgele doldur (hız + çeşitlilik)
         head = pool[: max(need * 3, need)]
         rng.shuffle(head)
         for row in head:
@@ -93,7 +138,6 @@ def pick_balanced(
             chosen.append(row)
             chosen_names.add(row["filename"])
             already += 1
-        # yetmezse kalan havuz
         if already < need:
             for row in pool:
                 if already >= need:
@@ -104,16 +148,39 @@ def pick_balanced(
                 chosen_names.add(row["filename"])
                 already += 1
 
-    # Kategori sırası: accident → near_miss → normal
     order = {"accident": 0, "near_miss": 1, "normal": 2}
     chosen.sort(key=lambda r: (order.get(r.get("category"), 9), r.get("filename") or ""))
     return chosen[:n]
 
 
+def parse_n(raw: str) -> int | None:
+    """None = tüm uygun gold; int = dengeli örnek boyutu."""
+    text = (raw or "18").strip().lower()
+    if text in {"all", "full", "*"}:
+        return None
+    return int(text)
+
+
 def main() -> None:
     parser = argparse.ArgumentParser()
-    parser.add_argument("--n", type=int, default=18, help="Video sayısı (15–20 önerilir)")
+    parser.add_argument(
+        "--n",
+        default="18",
+        help="Video sayısı (varsayılan 18) veya 'all' (tüm gold)",
+    )
     parser.add_argument("--seed", type=int, default=42)
+    parser.add_argument(
+        "--split",
+        choices=("all", "train", "holdout"),
+        default="all",
+        help="Sadece --n all ile: train/holdout ayır (seed + holdout-frac)",
+    )
+    parser.add_argument(
+        "--holdout-frac",
+        type=float,
+        default=0.2,
+        help="--split train|holdout için kategori içi oran",
+    )
     parser.add_argument(
         "--model",
         default=os.getenv("OLLAMA_MODEL", "qwen2.5vl:7b"),
@@ -137,8 +204,9 @@ def main() -> None:
         help="Eşit aralıklı örnekleme (hareket yoksa); denser = daha iyi zaman KPI",
     )
     args = parser.parse_args()
-    if args.n < 6:
-        raise SystemExit("--n en az 6 olmalı")
+    n_videos = parse_n(str(args.n))
+    if n_videos is not None and n_videos < 6:
+        raise SystemExit("--n en az 6 olmalı (veya --n all)")
 
     os.environ["OLLAMA_MODEL"] = args.model
     safe_model = "".join(c if c.isalnum() or c in "-_" else "_" for c in args.model)
@@ -150,22 +218,39 @@ def main() -> None:
         for p in (ROOT / "data" / "videos").rglob("*")
         if p.suffix.lower() == ".mp4"
     }
-    sample = pick_balanced(gold_all, videos, args.n, args.seed, SAMPLE_NAMES)
-    if len(sample) < args.n:
-        print(f"Uyarı: istenen {args.n}, seçilen {len(sample)} (dosya/kategori yetmez)")
+    if n_videos is None:
+        pool = available_gold(gold_all, videos)
+        sample = split_holdout(pool, args.seed, args.holdout_frac, args.split)
+        mode = f"all/{args.split}"
+    else:
+        if args.split != "all":
+            print("Uyarı: --split train|holdout yalnız --n all ile anlamlı; yok sayıldı.")
+        sample = pick_balanced(gold_all, videos, n_videos, args.seed, SAMPLE_NAMES)
+        mode = f"balanced/{n_videos}"
+        if len(sample) < n_videos:
+            print(f"Uyarı: istenen {n_videos}, seçilen {len(sample)} (dosya/kategori yetmez)")
 
     args.pred_dir.mkdir(parents=True, exist_ok=True)
     client, model = build_client("ollama")
-    print(f"Geniş KPI  model={model}  n={len(sample)}  seed={args.seed}")
+    print(
+        f"Geniş KPI  model={model}  n={len(sample)}  seed={args.seed}  mode={mode}"
+    )
     from collections import Counter
 
     print("Dağılım:", dict(Counter(r.get("category") for r in sample)))
 
-    # Seçim listesini kaydet (tekrarlanabilir)
     list_path = ROOT / "data" / "exports" / "kpi_wide_selection.json"
     list_path.write_text(
         json.dumps(
-            [{"filename": r["filename"], "category": r.get("category")} for r in sample],
+            {
+                "mode": mode,
+                "seed": args.seed,
+                "model": args.model,
+                "videos": [
+                    {"filename": r["filename"], "category": r.get("category")}
+                    for r in sample
+                ],
+            },
             ensure_ascii=False,
             indent=2,
         ),
@@ -182,7 +267,6 @@ def main() -> None:
             print("  ATLANDI (video yok)")
             continue
         try:
-            # predict_one içinde second look açık; hızlı mod için monkeypatch
             if args.no_second_look:
                 from utils.scene_evidence import analyze_video
 
@@ -205,7 +289,6 @@ def main() -> None:
                     use_second_look=False,
                 )
             else:
-                # predict_one sabit 6 kare kullanır; LLaVA / denser için yerel yol
                 if max_frames != 6:
                     from utils.scene_evidence import analyze_video
 

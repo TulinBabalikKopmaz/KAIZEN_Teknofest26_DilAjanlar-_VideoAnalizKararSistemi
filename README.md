@@ -69,13 +69,33 @@ Yarışma sistemi için şartname **yerel vLLM** ister. Etiketleme ayrı iştir.
 
 **Kod = GitHub, veri = Drive.** Zip ile uğraşmaya gerek yok.
 
+Deney branch: **`mustafa`** (baseline için `main`).
+
 1. Drive’da bir kez yükleyin:
    - `MyDrive/KAIZEN_KPI/data/videos/{accident,near_miss,normal}/*.mp4`
    - `MyDrive/KAIZEN_KPI/data/exports/gold_labels_hepsi.json`
 2. Colab’de GPU açın (Runtime → T4)
-3. Defteri açın: [`notebooks/TEKNOFEST_KPI_Colab.ipynb`](notebooks/TEKNOFEST_KPI_Colab.ipynb)
-4. Hücreleri sırayla çalıştırın → kod `git clone main`, sonuçlar Drive `exports/` altına düşer
-5. Kod güncellenince: push → Colab’de sadece clone/pull hücresini tekrar çalıştır
+3. Defteri açın: [`notebooks/TEKNOFEST_KPI_Colab.ipynb`](notebooks/TEKNOFEST_KPI_Colab.ipynb) — `BRANCH = 'mustafa'`
+4. Hücreleri sırayla çalıştırın
+
+Smoke (18 video, eski davranış):
+
+```bash
+python scripts/run_kpi_wide.py --n 18 --seed 42 --model qwen2.5vl:7b --no-second-look
+```
+
+Tüm gold:
+
+```bash
+python scripts/run_kpi_wide.py --n all --seed 42 --model qwen2.5vl:7b --no-second-look
+```
+
+Model karşılaştırması:
+
+```bash
+python scripts/run_kpi_bakeoff.py --n 18 --models qwen2.5vl:7b,llava:13b
+# leaderboard → data/exports/bakeoff_leaderboard.csv
+```
 
 `video: 0` görürsen gold vardır ama mp4’ler yanlış klasördedir; yol yukarıdaki gibi olmalı.
 
