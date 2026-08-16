@@ -74,8 +74,12 @@ def main() -> None:
     if not pred_files:
         raise SystemExit(f"JSON yok: {args.pred_dir}")
 
+    print(f"Re-refine başlıyor: {len(pred_files)} dosya  ({args.pred_dir})", flush=True)
+    print("(İlk videoda YOLO yüklenir; 1–2 dk sessiz kalabilir.)", flush=True)
+
     n_ok = 0
-    for path in pred_files:
+    n_changed = 0
+    for i, path in enumerate(pred_files, start=1):
         label = json.loads(path.read_text(encoding="utf-8"))
         name = label.get("filename") or ""
         vid = label.get("video_id") or path.stem
@@ -85,7 +89,7 @@ def main() -> None:
             try:
                 evidence = analyze_video(video)
             except Exception as exc:
-                print(f"  kanıt atlandı {name}: {exc}")
+                print(f"  [{i}/{len(pred_files)}] kanıt atlandı {name}: {exc}", flush=True)
         before = (label.get("risk"), label.get("category"))
         refined = refine_label(label, evidence)
         after = (refined.get("risk"), refined.get("category"))
@@ -97,9 +101,12 @@ def main() -> None:
         )
         n_ok += 1
         if before != after:
-            print(f"  {name or vid}: {before} → {after}")
+            n_changed += 1
+            print(f"  [{i}/{len(pred_files)}] {name or vid}: {before} → {after}", flush=True)
+        elif i == 1 or i % 10 == 0 or i == len(pred_files):
+            print(f"  [{i}/{len(pred_files)}] OK {name or vid}", flush=True)
 
-    print(f"Re-refine: {n_ok} dosya  ({args.pred_dir})")
+    print(f"Re-refine bitti: {n_ok} dosya, {n_changed} değişti  ({args.pred_dir})", flush=True)
 
     if args.no_eval:
         return
