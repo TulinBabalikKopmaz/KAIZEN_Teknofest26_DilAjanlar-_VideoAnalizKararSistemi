@@ -68,15 +68,34 @@ def link_data(repo: Path, drive_root: Path) -> None:
     gold = drive_data / "exports" / "gold_labels_hepsi.json"
     if not gold.exists():
         print(
-            f"UYARI: gold yok. Mac'ten yükleyin:\n"
+            f"UYARI: gold yok. PC'den yükleyin:\n"
             f"  {drive_data / 'exports' / 'gold_labels_hepsi.json'}"
         )
     else:
         print("  gold OK")
 
+    video_exts = {".mp4", ".mov", ".avi", ".mkv", ".webm"}
     videos = drive_data / "videos"
-    n = len(list(videos.rglob("*.mp4"))) if videos.exists() else 0
-    print(f"  video sayısı: {n}")
+    found = (
+        [p for p in videos.rglob("*") if p.suffix.lower() in video_exts]
+        if videos.exists()
+        else []
+    )
+    print(f"  video sayısı: {len(found)}  ({videos})")
+    for sub in ("accident", "near_miss", "normal"):
+        d = videos / sub
+        n_sub = (
+            len([p for p in d.rglob("*") if p.suffix.lower() in video_exts])
+            if d.exists()
+            else 0
+        )
+        print(f"    {sub}/: {n_sub}")
+    if not found:
+        print(
+            "UYARI: Drive'da video yok. PC'den mp4 yükleyin:\n"
+            f"  {videos}/accident|near_miss|normal/\n"
+            "  (gold dosyası tek başına yetmez; KPI videolara ihtiyaç duyar)"
+        )
 
 
 def install_python_deps() -> None:

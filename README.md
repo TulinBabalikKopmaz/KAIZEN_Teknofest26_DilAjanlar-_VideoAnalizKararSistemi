@@ -67,14 +67,17 @@ Yarışma sistemi için şartname **yerel vLLM** ister. Etiketleme ayrı iştir.
 
 ### Colab’de KPI (Mac yorulmasın)
 
-Ağır sınavları Google Colab T4’te çalıştırın:
+**Kod = GitHub, veri = Drive.** Zip ile uğraşmaya gerek yok.
 
-1. Drive’da `KAIZEN_KPI/data/videos/` + `gold_labels_hepsi.json` yükleyin  
-2. Colab’de GPU açın (Runtime → T4)  
-3. Defteri açın: [`notebooks/TEKNOFEST_KPI_Colab.ipynb`](notebooks/TEKNOFEST_KPI_Colab.ipynb)  
-4. Hücreleri sırayla çalıştırın → sonuçlar Drive `exports/` altına düşer  
+1. Drive’da bir kez yükleyin:
+   - `MyDrive/KAIZEN_KPI/data/videos/{accident,near_miss,normal}/*.mp4`
+   - `MyDrive/KAIZEN_KPI/data/exports/gold_labels_hepsi.json`
+2. Colab’de GPU açın (Runtime → T4)
+3. Defteri açın: [`notebooks/TEKNOFEST_KPI_Colab.ipynb`](notebooks/TEKNOFEST_KPI_Colab.ipynb)
+4. Hücreleri sırayla çalıştırın → kod `git clone main`, sonuçlar Drive `exports/` altına düşer
+5. Kod güncellenince: push → Colab’de sadece clone/pull hücresini tekrar çalıştır
 
-Mac’te sadece Streamlit / etiket / kod kalsın.
+`video: 0` görürsen gold vardır ama mp4’ler yanlış klasördedir; yol yukarıdaki gibi olmalı.
 
 ### Çıktılar
 
