@@ -1,0 +1,39 @@
+{
+  "video_id": "clip_Tippler_1_2_CP_IP_Cam_20251127_000108_0002",
+  "filename": "clip_Tippler_1&2_CP_IP_Cam_20251127_000108_0002.mp4",
+  "category": "normal",
+  "duration_sec": 6.56,
+  "status": "auto",
+  "labeled_by": "qwen:qwen2.5vl:7b",
+  "summary": "İş yerindeki büyük makine ve çevresindeki durum normal.",
+  "events": [
+    {
+      "time": "00:00",
+      "time_end": "00:05",
+      "event": "İş yerindeki büyük makine ve çevresindeki durum normal.",
+      "event_type": "normal",
+      "severity": "düşük"
+    }
+  ],
+  "risk": "Düşük",
+  "actions": [
+    "Rutin izlemeye devam et"
+  ],
+  "notes": "Otomatik taslak. Gold değil; Streamlit'te kontrol edin.",
+  "evidence": {
+    "duration_sec": 6.56,
+    "motion_peak_sec": 2.56,
+    "motion_peak_score": 2.484236111111111,
+    "motion_elevated": false,
+    "person_count_max": 3,
+    "vehicle_count_max": 0,
+    "min_person_vehicle_ratio": null,
+    "person_vehicle_close": false,
+    "person_vehicle_very_close": false,
+    "fire_like_ratio_max": 0.013265817901234567,
+    "fire_like_rise": 0.002364969135802468,
+    "fire_suspect": false,
+    "yolo_available": true,
+    "notes": []
+  }
+}

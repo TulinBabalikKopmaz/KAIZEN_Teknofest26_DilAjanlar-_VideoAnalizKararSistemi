@@ -1,0 +1,13 @@
+{
+  "summary": "İş yerindeki makine ve çevresi düzenli durumda.",
+  "events": [
+    {
+      "time": "00:00",
+      "event": "İş yerindeki durum normal"
+    }
+  ],
+  "risk": "Düşük",
+  "actions": [
+    "Rutin izlemeye devam et"
+  ]
+}

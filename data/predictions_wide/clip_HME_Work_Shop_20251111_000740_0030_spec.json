@@ -1,0 +1,13 @@
+{
+  "summary": "Saha işçileri işlerini sürdürmektedir.",
+  "events": [
+    {
+      "time": "00:00",
+      "event": "İşçiler işlerini sürdürüyor"
+    }
+  ],
+  "risk": "Düşük",
+  "actions": [
+    "Rutin izlemeye devam et"
+  ]
+}

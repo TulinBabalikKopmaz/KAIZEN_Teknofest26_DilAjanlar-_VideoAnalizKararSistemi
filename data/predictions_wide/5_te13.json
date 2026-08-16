@@ -1,0 +1,39 @@
+{
+  "video_id": "5_te13",
+  "filename": "5_te13.mp4",
+  "category": "normal",
+  "duration_sec": 10.45,
+  "status": "auto",
+  "labeled_by": "qwen:qwen2.5vl:7b",
+  "summary": "İşçilerin çalışma alanları düzenli ve güvenli durumda.",
+  "events": [
+    {
+      "time": "00:00",
+      "time_end": "00:10",
+      "event": "İşçilerin çalışma alanları düzenli ve güvenli durumda.",
+      "event_type": "normal",
+      "severity": "düşük"
+    }
+  ],
+  "risk": "Düşük",
+  "actions": [
+    "Rutin izlemeye devam et"
+  ],
+  "notes": "Otomatik taslak. Gold değil; Streamlit'te kontrol edin.",
+  "evidence": {
+    "duration_sec": 10.448098820658805,
+    "motion_peak_sec": 0.6404964794273597,
+    "motion_peak_score": 6.949027777777777,
+    "motion_elevated": false,
+    "person_count_max": 2,
+    "vehicle_count_max": 1,
+    "min_person_vehicle_ratio": 3.495366831251154,
+    "person_vehicle_close": false,
+    "person_vehicle_very_close": false,
+    "fire_like_ratio_max": 0.01296971450617284,
+    "fire_like_rise": 0.0011086998456790124,
+    "fire_suspect": false,
+    "yolo_available": true,
+    "notes": []
+  }
+}

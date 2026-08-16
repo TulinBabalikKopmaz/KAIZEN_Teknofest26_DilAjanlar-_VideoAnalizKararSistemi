@@ -1,0 +1,40 @@
+{
+  "video_id": "forklift_guy_was_chilling_when_a_woman_attacks_his_forks_s-UHzuOh3B4",
+  "filename": "forklift guy was chilling when a woman attacks his forks [s-UHzuOh3B4].mp4",
+  "category": "accident",
+  "duration_sec": 4.63,
+  "status": "auto",
+  "labeled_by": "qwen:qwen2.5vl:7b",
+  "summary": "Motosikletin forkliftin önünden geçmesi",
+  "events": [
+    {
+      "time": "00:00",
+      "time_end": "00:04",
+      "event": "Motosiklet forkliftin önünden geçti",
+      "event_type": "near_miss",
+      "severity": "orta"
+    }
+  ],
+  "risk": "Yüksek",
+  "actions": [
+    "Sağlık ekibini çağır",
+    "Alanı güvenlik altına al"
+  ],
+  "notes": "Otomatik taslak. Gold değil; Streamlit'te kontrol edin. | Kanıt birleştirme: risk Orta→Yüksek; category near_miss→accident; aksiyon güçlendirildi",
+  "evidence": {
+    "duration_sec": 4.633333333333334,
+    "motion_peak_sec": 1.1666666666666667,
+    "motion_peak_score": 2.2158333333333333,
+    "motion_elevated": false,
+    "person_count_max": 2,
+    "vehicle_count_max": 1,
+    "min_person_vehicle_ratio": 0.4792178304671762,
+    "person_vehicle_close": true,
+    "person_vehicle_very_close": true,
+    "fire_like_ratio_max": 0.00341130604288499,
+    "fire_like_rise": 0.00087719298245614,
+    "fire_suspect": false,
+    "yolo_available": true,
+    "notes": []
+  }
+}

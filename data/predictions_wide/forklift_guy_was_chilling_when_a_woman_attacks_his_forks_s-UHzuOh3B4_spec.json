@@ -1,0 +1,14 @@
+{
+  "summary": "Motosikletin forkliftin önünden geçmesi",
+  "events": [
+    {
+      "time": "00:00",
+      "event": "Motosiklet forkliftin önünden geçti"
+    }
+  ],
+  "risk": "Yüksek",
+  "actions": [
+    "Sağlık ekibini çağır",
+    "Alanı güvenlik altına al"
+  ]
+}

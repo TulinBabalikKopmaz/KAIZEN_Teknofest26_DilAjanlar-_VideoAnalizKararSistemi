@@ -1,0 +1,39 @@
+{
+  "video_id": "clip_HME_Work_Shop_20251111_000740_0030",
+  "filename": "clip_HME_Work_Shop_20251111_000740_0030.mp4",
+  "category": "normal",
+  "duration_sec": 12.0,
+  "status": "auto",
+  "labeled_by": "qwen:qwen2.5vl:7b",
+  "summary": "Saha işçileri işlerini sürdürmektedir.",
+  "events": [
+    {
+      "time": "00:00",
+      "time_end": "00:10",
+      "event": "İşçiler işlerini sürdürüyor",
+      "event_type": "normal",
+      "severity": "düşük"
+    }
+  ],
+  "risk": "Düşük",
+  "actions": [
+    "Rutin izlemeye devam et"
+  ],
+  "notes": "Otomatik taslak. Gold değil; Streamlit'te kontrol edin.",
+  "evidence": {
+    "duration_sec": 12.0,
+    "motion_peak_sec": 10.08,
+    "motion_peak_score": 3.3517361111111112,
+    "motion_elevated": false,
+    "person_count_max": 1,
+    "vehicle_count_max": 0,
+    "min_person_vehicle_ratio": null,
+    "person_vehicle_close": false,
+    "person_vehicle_very_close": false,
+    "fire_like_ratio_max": 0.04302854938271605,
+    "fire_like_rise": 0.0010127314814814894,
+    "fire_suspect": false,
+    "yolo_available": true,
+    "notes": []
+  }
+}

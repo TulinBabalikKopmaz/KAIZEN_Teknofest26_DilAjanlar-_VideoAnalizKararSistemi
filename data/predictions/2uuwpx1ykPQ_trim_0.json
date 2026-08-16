@@ -1,0 +1,40 @@
+{
+  "video_id": "2uuwpx1ykPQ_trim_0",
+  "filename": "2uuwpx1ykPQ_trim_0.mp4",
+  "category": "accident",
+  "duration_sec": 5.0,
+  "status": "auto",
+  "labeled_by": "qwen:qwen2.5vl:7b",
+  "summary": "Garajde işler devam ediyor.",
+  "events": [
+    {
+      "time": "00:02",
+      "time_end": "00:04",
+      "event": "kazada bir kişi ve araç var",
+      "event_type": "normal",
+      "severity": "düşük"
+    }
+  ],
+  "risk": "Yüksek",
+  "actions": [
+    "Sağlık ekibini çağır",
+    "Alanı güvenlik altına al"
+  ],
+  "notes": "Otomatik taslak. Gold değil; Streamlit'te kontrol edin. | ikinci bakış uygulandı | Kanıt birleştirme: risk Düşük→Yüksek; category normal→accident; aksiyon güçlendirildi",
+  "evidence": {
+    "duration_sec": 5.0,
+    "motion_peak_sec": 3.0,
+    "motion_peak_score": 2.734375,
+    "motion_elevated": false,
+    "person_count_max": 1,
+    "vehicle_count_max": 3,
+    "min_person_vehicle_ratio": 0.5039752807067234,
+    "person_vehicle_close": true,
+    "person_vehicle_very_close": true,
+    "fire_like_ratio_max": 0.0038096788194444445,
+    "fire_like_rise": 0.001639539930555556,
+    "fire_suspect": false,
+    "yolo_available": true,
+    "notes": []
+  }
+}

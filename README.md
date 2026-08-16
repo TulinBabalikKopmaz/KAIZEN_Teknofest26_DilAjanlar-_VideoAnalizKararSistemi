@@ -65,6 +65,17 @@ streamlit run app/review_app.py
 
 Yarışma sistemi için şartname **yerel vLLM** ister. Etiketleme ayrı iştir.
 
+### Colab’de KPI (Mac yorulmasın)
+
+Ağır sınavları Google Colab T4’te çalıştırın:
+
+1. Drive’da `KAIZEN_KPI/data/videos/` + `gold_labels_hepsi.json` yükleyin  
+2. Colab’de GPU açın (Runtime → T4)  
+3. Defteri açın: [`notebooks/TEKNOFEST_KPI_Colab.ipynb`](notebooks/TEKNOFEST_KPI_Colab.ipynb)  
+4. Hücreleri sırayla çalıştırın → sonuçlar Drive `exports/` altına düşer  
+
+Mac’te sadece Streamlit / etiket / kod kalsın.
+
 ### Çıktılar
 
 - `data/labels/<video>.json` — takım içi zengin etiket

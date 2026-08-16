@@ -1,0 +1,48 @@
+{
+  "video_id": "XXq1kmmBYY_trim_6",
+  "filename": "_XXq1kmmBYY_trim_6.mp4",
+  "category": "accident",
+  "duration_sec": 7.0,
+  "status": "auto",
+  "labeled_by": "qwen:qwen2.5vl:7b",
+  "summary": "İşçi, yük taşırken arka doğru kayar ve iş makinesiyle çarpışır.",
+  "events": [
+    {
+      "time": "00:00",
+      "time_end": "00:03",
+      "event": "İşçi, yük taşırken arka doğru kayar.",
+      "event_type": "near_miss",
+      "severity": "orta"
+    },
+    {
+      "time": "00:03",
+      "time_end": "00:06",
+      "event": "İşçi, yük taşırken arka doğru kayar ve iş makinesiyle çarpışır.",
+      "event_type": "kaza",
+      "severity": "yüksek"
+    }
+  ],
+  "risk": "Yüksek",
+  "actions": [
+    "İşçi güvenliği eğitimleri düzenleyin",
+    "İş makinesi kontrolü ve bakım planı oluşturun",
+    "Yük taşıma sırasında güvenli hareket yolları belirleyin"
+  ],
+  "notes": "Otomatik taslak. Gold değil; Streamlit'te kontrol edin. | Kanıt birleştirme: category near_miss→accident",
+  "evidence": {
+    "duration_sec": 7.0,
+    "motion_peak_sec": 5.5,
+    "motion_peak_score": 37.00541666666667,
+    "motion_elevated": true,
+    "person_count_max": 2,
+    "vehicle_count_max": 1,
+    "min_person_vehicle_ratio": 2.4066237120999463,
+    "person_vehicle_close": false,
+    "person_vehicle_very_close": false,
+    "fire_like_ratio_max": 0.10034288194444445,
+    "fire_like_rise": 0.09680555555555556,
+    "fire_suspect": true,
+    "yolo_available": true,
+    "notes": []
+  }
+}

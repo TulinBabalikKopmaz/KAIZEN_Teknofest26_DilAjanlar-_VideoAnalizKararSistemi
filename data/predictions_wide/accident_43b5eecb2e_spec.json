@@ -1,0 +1,14 @@
+{
+  "summary": "İki kişi aracın altında duruyor, aracın tekerleği yukarı kaldırılır.",
+  "events": [
+    {
+      "time": "00:02",
+      "event": "Aracın tekerleği yukarı kaldırılır"
+    }
+  ],
+  "risk": "Yüksek",
+  "actions": [
+    "Sağlık ekibini çağır",
+    "Alanı güvenlik altına al"
+  ]
+}

@@ -1,0 +1,47 @@
+{
+  "video_id": "accident_1f276688a2",
+  "filename": "sunil kumar rana - ⚠️ A routine warehouse task turned dangerous when an overloaded forkl... [2063292024804327424].mp4",
+  "category": "accident",
+  "duration_sec": 16.03,
+  "status": "auto",
+  "labeled_by": "qwen:qwen2.5vl:7b",
+  "summary": "İşçi ve forklift arasında yakın yaklaşma",
+  "events": [
+    {
+      "time": "00:12",
+      "time_end": "00:13",
+      "event": "İşçi ve forklift arasında yakın yaklaşma",
+      "event_type": "near_miss",
+      "severity": "orta"
+    },
+    {
+      "time": "00:13",
+      "time_end": "00:16",
+      "event": "İşçi forkliftin yükünü kontrol ediyor",
+      "event_type": "normal",
+      "severity": "düşük"
+    }
+  ],
+  "risk": "Yüksek",
+  "actions": [
+    "İşçi ve forklift arasındaki mesafe kontrolü",
+    "İş güvenliği eylemleri uygulaması"
+  ],
+  "notes": "Otomatik taslak. Gold değil; Streamlit'te kontrol edin. | Kanıt birleştirme: risk Orta→Yüksek; category near_miss→accident",
+  "evidence": {
+    "duration_sec": 16.03425,
+    "motion_peak_sec": 12.125073347107438,
+    "motion_peak_score": 8.518611111111111,
+    "motion_elevated": true,
+    "person_count_max": 3,
+    "vehicle_count_max": 2,
+    "min_person_vehicle_ratio": 0.19355410399582076,
+    "person_vehicle_close": true,
+    "person_vehicle_very_close": true,
+    "fire_like_ratio_max": 0.14221254006410255,
+    "fire_like_rise": 0.0426582532051282,
+    "fire_suspect": true,
+    "yolo_available": true,
+    "notes": []
+  }
+}

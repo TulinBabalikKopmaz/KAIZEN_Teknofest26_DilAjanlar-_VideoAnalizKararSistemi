@@ -1,0 +1,25 @@
+{
+  "summary": "İki kişi bir kutu taşıyarak hareket ederken, kutu düşme tehlikesi.",
+  "events": [
+    {
+      "time": "00:00",
+      "event": "İki kişi bir kutu taşıyarak hareket ederken."
+    },
+    {
+      "time": "00:01",
+      "event": "Kutu düşme tehlikesi."
+    },
+    {
+      "time": "00:02",
+      "event": "Kutu düşme tehlikesi."
+    },
+    {
+      "time": "00:03",
+      "event": "Kutu düşme tehlikesi."
+    }
+  ],
+  "risk": "Orta",
+  "actions": [
+    "Rutin izlemeye devam et"
+  ]
+}

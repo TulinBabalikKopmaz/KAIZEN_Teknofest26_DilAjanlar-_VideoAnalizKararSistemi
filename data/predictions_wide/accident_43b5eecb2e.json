@@ -1,0 +1,40 @@
+{
+  "video_id": "accident_43b5eecb2e",
+  "filename": "3XOG - Workplace accidents happen all the time! All we can do is try learn f... [1615153821189013504].mp4",
+  "category": "accident",
+  "duration_sec": 10.87,
+  "status": "auto",
+  "labeled_by": "qwen:qwen2.5vl:7b",
+  "summary": "İki kişi aracın altında duruyor, aracın tekerleği yukarı kaldırılır.",
+  "events": [
+    {
+      "time": "00:02",
+      "time_end": "00:05",
+      "event": "Aracın tekerleği yukarı kaldırılır",
+      "event_type": "risk",
+      "severity": "orta"
+    }
+  ],
+  "risk": "Yüksek",
+  "actions": [
+    "Sağlık ekibini çağır",
+    "Alanı güvenlik altına al"
+  ],
+  "notes": "Otomatik taslak. Gold değil; Streamlit'te kontrol edin. | Kanıt birleştirme: risk Orta→Yüksek; category near_miss→accident; aksiyon güçlendirildi",
+  "evidence": {
+    "duration_sec": 10.866666666666667,
+    "motion_peak_sec": 10.833333333333334,
+    "motion_peak_score": 130.67,
+    "motion_elevated": true,
+    "person_count_max": 2,
+    "vehicle_count_max": 2,
+    "min_person_vehicle_ratio": 0.5240035242267445,
+    "person_vehicle_close": true,
+    "person_vehicle_very_close": true,
+    "fire_like_ratio_max": 0.2131122295673077,
+    "fire_like_rise": 0.2131122295673077,
+    "fire_suspect": true,
+    "yolo_available": true,
+    "notes": []
+  }
+}

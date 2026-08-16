@@ -1,0 +1,39 @@
+{
+  "video_id": "00f2bbb80d7badad0134_run_25_seed_750796930.ceiling_00.rgb",
+  "filename": "00f2bbb80d7badad0134_run_25_seed_750796930.ceiling_00.rgb.mp4",
+  "category": "normal",
+  "duration_sec": 10.0,
+  "status": "auto",
+  "labeled_by": "qwen:qwen2.5vl:7b",
+  "summary": "İşçi forkliftin önünden geçiyor.",
+  "events": [
+    {
+      "time": "00:00",
+      "time_end": "00:08",
+      "event": "İşçi forkliftin önünden geçiyor",
+      "event_type": "normal",
+      "severity": "düşük"
+    }
+  ],
+  "risk": "Düşük",
+  "actions": [
+    "Rutin izlemeye devam et"
+  ],
+  "notes": "Otomatik taslak. Gold değil; Streamlit'te kontrol edin.",
+  "evidence": {
+    "duration_sec": 10.0,
+    "motion_peak_sec": 0.16666666666666666,
+    "motion_peak_score": 3.3624305555555556,
+    "motion_elevated": false,
+    "person_count_max": 2,
+    "vehicle_count_max": 1,
+    "min_person_vehicle_ratio": 2.037563052832856,
+    "person_vehicle_close": false,
+    "person_vehicle_very_close": false,
+    "fire_like_ratio_max": 0.11051456404320988,
+    "fire_like_rise": 0.019320505401234575,
+    "fire_suspect": false,
+    "yolo_available": true,
+    "notes": []
+  }
+}

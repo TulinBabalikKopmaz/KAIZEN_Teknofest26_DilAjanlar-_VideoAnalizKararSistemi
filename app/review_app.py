@@ -19,6 +19,7 @@ from extract_frames import safe_id
 ROOT = Path(__file__).resolve().parents[1]
 VIDEO_ROOT = ROOT / "data" / "videos"
 LABEL_ROOT = ROOT / "data" / "labels"
+PRED_ROOT = ROOT / "data" / "predictions"
 VIDEO_EXTS = {".mp4", ".mov", ".avi", ".mkv", ".webm", ".m4v"}
 
 CATEGORIES = {
@@ -84,6 +85,38 @@ def competition_view(label: dict) -> dict:
     }
 
 
+def load_pred(video: Path) -> dict | None:
+    path = PRED_ROOT / f"{safe_id(video)}.json"
+    if not path.exists():
+        return None
+    try:
+        return json.loads(path.read_text(encoding="utf-8"))
+    except json.JSONDecodeError:
+        return None
+
+
+def spec_card(title: str, data: dict | None) -> None:
+    st.subheader(title)
+    if not data:
+        st.info("Bu video için Qwen tahmini yok.")
+        return
+    st.markdown(f"**Risk:** {data.get('risk', '-')}")
+    st.markdown(f"**Özet:** {data.get('summary') or '-'}")
+    events = data.get("events") or []
+    if events:
+        st.markdown("**Olaylar:**")
+        for event in events:
+            st.markdown(f"- `{event.get('time', '00:00')}` — {event.get('event', '')}")
+    else:
+        st.markdown("**Olaylar:** (yok)")
+    actions = [a for a in (data.get("actions") or []) if a]
+    if actions:
+        st.markdown("**Aksiyonlar:**")
+        for action in actions:
+            st.markdown(f"- {action}")
+    st.code(json.dumps(competition_view(data), ensure_ascii=False, indent=2), language="json")
+
+
 def save_label(label: dict) -> Path:
     LABEL_ROOT.mkdir(parents=True, exist_ok=True)
     dest = LABEL_ROOT / f"{label['video_id']}.json"
@@ -97,15 +130,28 @@ def save_label(label: dict) -> Path:
 
 
 st.set_page_config(page_title="TEKNOFEST Video Etiketleme", layout="wide")
-st.title("Video etiketleme")
-st.caption(
-    "Amacımız: her videoyu izleyip “bu sahnede ne oldu?”yu Türkçe ve zamanlı yazmak. "
-    "Bu kayıtlar sonra yapay zekâyı ölçmek için cevap anahtarı olacak."
+
+mode = st.sidebar.radio(
+    "Ekran",
+    ["qwen", "gold"],
+    format_func=lambda x: {
+        "qwen": "Qwen çıktısını izle",
+        "gold": "Gold etiketleme",
+    }[x],
+    index=0,
 )
 
-with st.expander("Bu ekranda ne yapıyorum? (ilk kez okuyun)", expanded=False):
-    st.markdown(
-        """
+st.title("Qwen vs sizin etiketiniz" if mode == "qwen" else "Video etiketleme")
+st.caption(
+    "Soldan videoyu seçin, oynatın. Solda sizin gold’unuz, sağda Qwen’in yazdığı çıktı."
+    if mode == "qwen"
+    else "Amacımız: her videoyu izleyip “bu sahnede ne oldu?”yu Türkçe ve zamanlı yazmak."
+)
+
+if mode == "gold":
+    with st.expander("Bu ekranda ne yapıyorum? (ilk kez okuyun)", expanded=False):
+        st.markdown(
+            """
 1. Soldan bir video seçin, oynatın.
 2. Videoda **sadece önemli anları** yazın. Her saniyeyi yazmayın.
    Örnek: `00:15` — Forklift devrildi.
@@ -115,8 +161,8 @@ with st.expander("Bu ekranda ne yapıyorum? (ilk kez okuyun)", expanded=False):
    onun çıktısını sizin gold etiketinizle karşılaştıracağız.
 
 Ollama kurulu olması gerekmez. Bu adım tamamen sizin izleyip yazmanız.
-        """
-    )
+            """
+        )
 
 videos = list_videos()
 if not videos:
@@ -154,16 +200,26 @@ cat_filter = st.sidebar.selectbox(
         "normal": "Normal",
     }[x],
 )
-only_gold = st.sidebar.checkbox("Sadece gold (birleşik cevap anahtarı)", value=True)
+only_gold = False
+if mode == "gold":
+    only_gold = st.sidebar.checkbox("Sadece gold (birleşik cevap anahtarı)", value=True)
 
 filtered = videos
 if cat_filter != "hepsi":
     filtered = [v for v in filtered if v.parent.name == cat_filter]
 if only_gold:
     filtered = [v for v in filtered if video_status(v) == "gold"]
+if mode == "qwen":
+    filtered = [v for v in filtered if load_pred(v)]
 
 if not filtered:
-    st.warning("Bu filtreye uyan video yok. Soldaki filtreyi genişletin.")
+    if mode == "qwen":
+        st.warning(
+            "Henüz Qwen tahmini yok. Soldaki kategoriyi “Hepsi” yapın "
+            "veya `scripts/run_kpi_sample.py` ile örnek videoları tekrar çalıştırın."
+        )
+    else:
+        st.warning("Bu filtreye uyan video yok. Soldaki filtreyi genişletin.")
     st.stop()
 
 names = [f"{p.parent.name} / {p.name}" for p in filtered]
@@ -178,6 +234,19 @@ st.sidebar.markdown("### İlerleme")
 st.sidebar.metric("Listede görünen", f"{len(filtered)}")
 st.sidebar.metric("Gold (onaylı cevap anahtarı)", f"{gold} / {len(videos)}")
 st.sidebar.info("Birleşik gold: sizin kazalarınız + Mustafa'nın normal/near miss kayıtları.")
+if mode == "qwen":
+    st.sidebar.caption("Şu an 6 örnek videoda Qwen çıktısı var. Videoyu oynatıp altta karşılaştırın.")
+
+if mode == "qwen":
+    pred = load_pred(video)
+    st.video(str(video))
+    st.write(f"Dosya klasörü: **{video.parent.name}** — `{video.name}`")
+    gold_col, qwen_col = st.columns(2)
+    with gold_col:
+        spec_card("Sizin gold etiketiniz (cevap anahtarı)", label if label.get("status") == "gold" else label)
+    with qwen_col:
+        spec_card("Qwen’in tahmini (öğrenci)", pred)
+    st.stop()
 
 left, right = st.columns([1.15, 1])
 

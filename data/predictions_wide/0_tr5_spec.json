@@ -1,0 +1,13 @@
+{
+  "summary": "Fabrikada işçilerin normal çalışma durumu",
+  "events": [
+    {
+      "time": "00:00",
+      "event": "İşçilerin normal çalışma durumu"
+    }
+  ],
+  "risk": "Düşük",
+  "actions": [
+    "Rutin izlemeye devam et"
+  ]
+}

@@ -1,0 +1,17 @@
+{
+  "summary": "Kazada yükün yanına düşmesi tehlikesi.",
+  "events": [
+    {
+      "time": "00:00",
+      "event": "Kazada yükün yanına düşmesi tehlikesi."
+    },
+    {
+      "time": "00:03",
+      "event": "Kazada yükün yanına düşmesi tehlikesi."
+    }
+  ],
+  "risk": "Orta",
+  "actions": [
+    "Rutin izlemeye devam et"
+  ]
+}

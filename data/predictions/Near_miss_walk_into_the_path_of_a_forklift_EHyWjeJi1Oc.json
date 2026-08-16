@@ -1,0 +1,46 @@
+{
+  "video_id": "Near_miss_walk_into_the_path_of_a_forklift_EHyWjeJi1Oc",
+  "filename": "Near miss walk into the path of a forklift [EHyWjeJi1Oc].mp4",
+  "category": "near_miss",
+  "duration_sec": 7.17,
+  "status": "auto",
+  "labeled_by": "qwen:qwen2.5vl:7b",
+  "summary": "Kazada yükün yanına düşmesi tehlikesi.",
+  "events": [
+    {
+      "time": "00:00",
+      "time_end": "00:03",
+      "event": "Kazada yükün yanına düşmesi tehlikesi.",
+      "event_type": "near_miss",
+      "severity": "orta"
+    },
+    {
+      "time": "00:03",
+      "time_end": "00:07",
+      "event": "Kazada yükün yanına düşmesi tehlikesi.",
+      "event_type": "near_miss",
+      "severity": "orta"
+    }
+  ],
+  "risk": "Orta",
+  "actions": [
+    "Rutin izlemeye devam et"
+  ],
+  "notes": "Otomatik taslak. Gold değil; Streamlit'te kontrol edin.",
+  "evidence": {
+    "duration_sec": 7.1738333333333335,
+    "motion_peak_sec": 1.1678333333333333,
+    "motion_peak_score": 5.34625,
+    "motion_elevated": false,
+    "person_count_max": 1,
+    "vehicle_count_max": 0,
+    "min_person_vehicle_ratio": null,
+    "person_vehicle_close": false,
+    "person_vehicle_very_close": false,
+    "fire_like_ratio_max": 0.013907591725214677,
+    "fire_like_rise": 0.008879781420765029,
+    "fire_suspect": false,
+    "yolo_available": true,
+    "notes": []
+  }
+}
