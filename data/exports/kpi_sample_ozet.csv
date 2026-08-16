@@ -1,0 +1,7 @@
+filename,category,risk_gold,risk_pred,risk_ok,event_recall,critical_hit,false_alarm,summary_ok,action_ok,missing_pred
+forklift guy was chilling when a woman attacks his forks [s-UHzuOh3B4].mp4,accident,Yüksek,Yüksek,True,0.0,True,False,False,True,False
+2uuwpx1ykPQ_trim_0.mp4,accident,Yüksek,Yüksek,True,0.0,True,False,False,True,False
+How NOT to UNLOAD a truck [t0abC-2oucI].mp4,near_miss,Orta,Yüksek,False,0.0,True,False,False,True,False
+Near miss walk into the path of a forklift [EHyWjeJi1Oc].mp4,near_miss,Orta,Orta,True,0.0,True,False,False,True,False
+clip_TAR_Plant_DC-Floor_left_20251115_000000_0000.mp4,normal,Düşük,Düşük,True,1.0,True,False,False,True,False
+clip_Tippler_1&2_CP_IP_Cam_20251127_000108_0002.mp4,normal,Düşük,Düşük,True,0.0,True,False,False,True,False

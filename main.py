@@ -13,6 +13,7 @@ Kullanım:
 from __future__ import annotations
 
 import asyncio
+import json
 import sys
 import time
 from collections import defaultdict, deque
@@ -23,6 +24,7 @@ from typing import Any
 import cv2
 
 from graph_pipeline import run_pipeline
+from utils.spec_output import incidents_to_spec, pipeline_result_to_spec
 from tools.wake_up_detector import (
     HISTORY_LEN,
     MODEL_PATH,
@@ -159,6 +161,10 @@ def print_jury_report(image_path: Path, result: dict[str, Any]) -> None:
             print(f"    {i}. {action}")
     else:
         print("    (Aksiyon üretilmedi)")
+    spec = result.get("spec") or pipeline_result_to_spec(result)
+    print("-" * 64)
+    print("  Şartname JSON (gold ile aynı kalıp):")
+    print(f"    {json.dumps(spec, ensure_ascii=False)}")
     print("=" * 64 + "\n")
 
 
@@ -200,6 +206,27 @@ def print_incident_summary(logs: list[dict[str, Any]]) -> None:
 
     print(f"  Toplam olay: {len(logs)}")
     print("═" * 64 + "\n")
+
+    resolved: list[dict[str, Any]] = []
+    for entry in logs:
+        future_obj = entry["future"]
+        try:
+            vlm_result = future_obj.result()
+        except Exception as exc:
+            vlm_result = {
+                "olay_ozeti": f"Hata: {exc}",
+                "risk_seviyesi": "Bilinmiyor",
+                "onerilen_aksiyonlar": [],
+            }
+        resolved.append({"saniye": entry.get("saniye"), "vlm_result": vlm_result})
+
+    spec = incidents_to_spec(resolved)
+    print("ŞARTNAME JSON (tüm video, gold kalıbı)")
+    print(json.dumps(spec, ensure_ascii=False, indent=2))
+    out_path = Path("data/exports/last_system_output.json")
+    out_path.parent.mkdir(parents=True, exist_ok=True)
+    out_path.write_text(json.dumps(spec, ensure_ascii=False, indent=2), encoding="utf-8")
+    print(f"Kaydedildi: {out_path}\n")
 
 
 def build_trigger_reason(

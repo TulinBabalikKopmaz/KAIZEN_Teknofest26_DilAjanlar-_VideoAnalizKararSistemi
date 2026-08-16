@@ -1,0 +1,46 @@
+{
+  "video_id": "016c1396912bfc432997_run_3_seed_1053328212.ceiling_00.rgb",
+  "filename": "016c1396912bfc432997_run_3_seed_1053328212.ceiling_00.rgb.mp4",
+  "category": "near_miss",
+  "duration_sec": 10.0,
+  "status": "auto",
+  "labeled_by": "qwen:qwen2.5vl:7b",
+  "summary": "İşçi forkliftin önünden kaçtı",
+  "events": [
+    {
+      "time": "00:00",
+      "time_end": "00:03",
+      "event": "İşçi forkliftin önünden kaçtı",
+      "event_type": "near_miss",
+      "severity": "orta"
+    },
+    {
+      "time": "00:03",
+      "time_end": "00:06",
+      "event": "İşçi forkliftin önünden kaçtı",
+      "event_type": "near_miss",
+      "severity": "orta"
+    }
+  ],
+  "risk": "Orta",
+  "actions": [
+    "Rutin izlemeye devam et"
+  ],
+  "notes": "Otomatik taslak. Gold değil; Streamlit'te kontrol edin.",
+  "evidence": {
+    "duration_sec": 10.0,
+    "motion_peak_sec": 0.16666666666666666,
+    "motion_peak_score": 3.963888888888889,
+    "motion_elevated": false,
+    "person_count_max": 1,
+    "vehicle_count_max": 0,
+    "min_person_vehicle_ratio": null,
+    "person_vehicle_close": false,
+    "person_vehicle_very_close": false,
+    "fire_like_ratio_max": 0.0047005208333333335,
+    "fire_like_rise": 0.001987847222222222,
+    "fire_suspect": false,
+    "yolo_available": true,
+    "notes": []
+  }
+}

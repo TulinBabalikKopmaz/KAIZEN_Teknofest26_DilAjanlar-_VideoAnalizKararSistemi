@@ -1,0 +1,17 @@
+{
+  "summary": "İşçi forkliftin önünden kaçtı",
+  "events": [
+    {
+      "time": "00:00",
+      "event": "İşçi forkliftin önünden kaçtı"
+    },
+    {
+      "time": "00:03",
+      "event": "İşçi forkliftin önünden kaçtı"
+    }
+  ],
+  "risk": "Orta",
+  "actions": [
+    "Rutin izlemeye devam et"
+  ]
+}

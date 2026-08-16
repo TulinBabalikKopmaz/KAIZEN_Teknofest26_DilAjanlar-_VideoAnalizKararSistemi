@@ -1,0 +1,13 @@
+{
+  "summary": "İşçilerin çalışma alanları düzenli ve güvenli durumda.",
+  "events": [
+    {
+      "time": "00:00",
+      "event": "İşçilerin çalışma alanları düzenli ve güvenli durumda."
+    }
+  ],
+  "risk": "Düşük",
+  "actions": [
+    "Rutin izlemeye devam et"
+  ]
+}

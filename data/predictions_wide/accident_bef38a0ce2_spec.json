@@ -1,0 +1,14 @@
+{
+  "summary": "Sürücü, araçta durduktan sonra yere düşmüştür.",
+  "events": [
+    {
+      "time": "00:05",
+      "event": "Sürücü yere düşmüştür"
+    }
+  ],
+  "risk": "Yüksek",
+  "actions": [
+    "Sürücü yardım almasını sağlayın",
+    "Ambulans çağırın"
+  ]
+}

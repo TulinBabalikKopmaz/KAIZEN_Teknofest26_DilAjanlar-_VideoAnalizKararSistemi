@@ -1,0 +1,39 @@
+{
+  "video_id": "clip_TAR_Plant_DC-Floor_left_20251115_000000_0000",
+  "filename": "clip_TAR_Plant_DC-Floor_left_20251115_000000_0000.mp4",
+  "category": "normal",
+  "duration_sec": 10.0,
+  "status": "auto",
+  "labeled_by": "qwen:qwen2.5vl:7b",
+  "summary": "Sistem normal durumda.",
+  "events": [
+    {
+      "time": "00:00",
+      "time_end": "00:09",
+      "event": "Sistem normal durumda.",
+      "event_type": "normal",
+      "severity": "düşük"
+    }
+  ],
+  "risk": "Düşük",
+  "actions": [
+    "Rutin izlemeye devam et"
+  ],
+  "notes": "Otomatik taslak. Gold değil; Streamlit'te kontrol edin.",
+  "evidence": {
+    "duration_sec": 10.0,
+    "motion_peak_sec": 8.0,
+    "motion_peak_score": 1.6467361111111112,
+    "motion_elevated": false,
+    "person_count_max": 1,
+    "vehicle_count_max": 0,
+    "min_person_vehicle_ratio": null,
+    "person_vehicle_close": false,
+    "person_vehicle_very_close": false,
+    "fire_like_ratio_max": 0.00652488425925926,
+    "fire_like_rise": 0.0007166280864197537,
+    "fire_suspect": false,
+    "yolo_available": true,
+    "notes": []
+  }
+}

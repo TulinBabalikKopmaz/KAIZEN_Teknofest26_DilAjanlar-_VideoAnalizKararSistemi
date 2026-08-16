@@ -13,6 +13,7 @@ from agents.action_recommender import action_recommender_tool
 from agents.risk_assessor import risk_assessor_tool
 from agents.state import AgentState
 from agents.video_analyzer import video_analyzer_tool
+from utils.spec_output import pipeline_result_to_spec
 
 
 def build_workflow() -> Any:
@@ -51,7 +52,7 @@ async def run_pipeline(
     app = build_workflow()
     final_state = await app.ainvoke(initial_state)
 
-    return {
+    legacy = {
         "zaman_damgasi": final_state["analysis_result"].get("timestamp"),
         "olay_ozeti": final_state["analysis_result"].get("event"),
         "risk_seviyesi": final_state["risk_level"],
@@ -59,6 +60,8 @@ async def run_pipeline(
         "isg_kanun_maddeleri": final_state.get("rag_context", ""),
         "tetik_sebebi": final_state.get("trigger_reason", trigger_reason),
     }
+    spec = pipeline_result_to_spec(legacy)
+    return {**legacy, "spec": spec}
 
 
 if __name__ == "__main__":

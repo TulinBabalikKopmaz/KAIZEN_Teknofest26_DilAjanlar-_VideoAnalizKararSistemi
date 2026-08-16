@@ -1,0 +1,14 @@
+{
+  "summary": "Garajde bir araba tamir ediliyor.",
+  "events": [
+    {
+      "time": "00:02",
+      "event": "kazada bir kişi ve bir araç var"
+    }
+  ],
+  "risk": "Yüksek",
+  "actions": [
+    "Sağlık ekibini çağır",
+    "Alanı güvenlik altına al"
+  ]
+}

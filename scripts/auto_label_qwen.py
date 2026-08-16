@@ -11,26 +11,53 @@ import base64
 import json
 import os
 import re
+import sys
 import traceback
 from pathlib import Path
 
 from dotenv import load_dotenv
 from openai import OpenAI
 
+ROOT = Path(__file__).resolve().parents[1]
+sys.path.insert(0, str(ROOT))
+sys.path.insert(0, str(ROOT / "scripts"))
+
 from extract_frames import extract_video, iter_videos, safe_id
+from utils.risk_rules import needs_second_look, refine_label
+from utils.scene_evidence import SceneEvidence, analyze_video
 
 load_dotenv()
 
-ROOT = Path(__file__).resolve().parents[1]
 PROMPT_PATH = ROOT / "prompts" / "video_label_prompt.txt"
+SECOND_LOOK_PROMPT = (
+    "Önceki cevabın çok sakin / düşük risk görünüyor ama sensörler şüpheli diyor.\n"
+    "Sadece bu karelere tekrar bak. Özellikle: çarpışma, düşme, yanma, kişi-araç temas.\n"
+    "Görmüyorsan uydurma. Görüyorsan category/risk'i yükselt.\n"
+    "Yine sadece JSON döndür.\n"
+)
 
 
 def load_prompt() -> str:
     return PROMPT_PATH.read_text(encoding="utf-8")
 
 
-def encode_image(path: Path) -> str:
-    return base64.b64encode(path.read_bytes()).decode("ascii")
+def encode_image(path: Path, max_side: int | None = None) -> str:
+    data = path.read_bytes()
+    if max_side:
+        import cv2
+        import numpy as np
+
+        arr = np.frombuffer(data, dtype=np.uint8)
+        img = cv2.imdecode(arr, cv2.IMREAD_COLOR)
+        if img is not None:
+            h, w = img.shape[:2]
+            scale = max_side / max(h, w)
+            if scale < 1:
+                img = cv2.resize(img, (int(w * scale), int(h * scale)))
+            ok, buf = cv2.imencode(".jpg", img, [int(cv2.IMWRITE_JPEG_QUALITY), 75])
+            if ok:
+                data = buf.tobytes()
+    return base64.b64encode(data).decode("ascii")
 
 
 def parse_json(text: str) -> dict:
@@ -39,9 +66,92 @@ def parse_json(text: str) -> dict:
         text = re.sub(r"^```(?:json)?\s*", "", text)
         text = re.sub(r"\s*```$", "", text)
     match = re.search(r"\{.*\}", text, re.DOTALL)
-    if not match:
-        raise ValueError(f"JSON bulunamadı: {text[:400]}")
-    return json.loads(match.group(0))
+    raw = match.group(0) if match else text
+    try:
+        return json.loads(raw)
+    except json.JSONDecodeError:
+        repaired = _repair_json(raw)
+        try:
+            return json.loads(repaired)
+        except json.JSONDecodeError as exc:
+            raise ValueError(f"JSON bulunamadı: {text[:400]}") from exc
+
+
+def _repair_json(text: str) -> str:
+    stack: list[str] = []
+    in_str = False
+    escape = False
+    for ch in text:
+        if in_str:
+            if escape:
+                escape = False
+            elif ch == "\\":
+                escape = True
+            elif ch == '"':
+                in_str = False
+            continue
+        if ch == '"':
+            in_str = True
+        elif ch == "{":
+            stack.append("}")
+        elif ch == "[":
+            stack.append("]")
+        elif stack and ch == stack[-1]:
+            stack.pop()
+    if in_str:
+        text += '"'
+    text += "".join(reversed(stack))
+    return text
+
+
+def ollama_base() -> str:
+    return os.getenv("OLLAMA_BASE_URL", "http://127.0.0.1:11434/v1").rstrip("/").removesuffix("/v1")
+
+
+def ollama_chat(model: str, prompt: str, image_paths: list[Path]) -> str:
+    """Native Ollama /api/chat — OpenAI uyumlu katman num_ctx'i düşürüyor."""
+    import urllib.error
+    import urllib.request
+
+    is_llava = "llava" in model.lower()
+    default_ctx = "4096" if is_llava else "16384"
+    num_ctx = int(os.getenv("OLLAMA_NUM_CTX", default_ctx))
+    img_side = 320 if is_llava else None
+    if is_llava and len(image_paths) > 2:
+        image_paths = [image_paths[0], image_paths[-1]]
+    if is_llava and len(prompt) > 1200:
+        prompt = prompt[:1200] + "\nSadece JSON döndür."
+
+    payload = {
+        "model": model,
+        "stream": False,
+        "format": "json",
+        "options": {
+            "num_ctx": num_ctx,
+            "num_predict": 512 if is_llava else 768,
+            "temperature": 0.1,
+        },
+        "messages": [
+            {
+                "role": "user",
+                "content": prompt,
+                "images": [encode_image(path, max_side=img_side) for path in image_paths],
+            }
+        ],
+    }
+    req = urllib.request.Request(
+        f"{ollama_base()}/api/chat",
+        data=json.dumps(payload).encode("utf-8"),
+        headers={"Content-Type": "application/json"},
+        method="POST",
+    )
+    try:
+        with urllib.request.urlopen(req, timeout=420) as resp:
+            data = json.loads(resp.read().decode("utf-8"))
+    except urllib.error.HTTPError as exc:
+        detail = exc.read().decode("utf-8", errors="replace")
+        raise RuntimeError(f"Ollama HTTP {exc.code}: {detail[:500]}") from exc
+    return (data.get("message") or {}).get("content") or ""
 
 
 def build_client(backend: str) -> tuple[OpenAI, str]:
@@ -57,44 +167,95 @@ def build_client(backend: str) -> tuple[OpenAI, str]:
     raise SystemExit(f"Bilinmeyen backend: {backend}")
 
 
-def label_video(client: OpenAI, model: str, video_path: Path, frames_meta: dict) -> dict:
-    frames = frames_meta["frames"]
-    folder_cat = video_path.parent.name
-    content: list[dict] = [
-        {
-            "type": "text",
-            "text": (
-                f"Video dosyası: {video_path.name}\n"
-                f"Klasör kategorisi (ipucu, yanlışsa düzelt): {folder_cat}\n"
-                f"Süre: {frames_meta['duration_sec']} saniye\n"
-                f"Gönderilen kare sayısı: {len(frames)}\n\n"
-                + load_prompt()
-            ),
-        }
-    ]
-    for frame in frames:
-        content.append({"type": "text", "text": f"Kare zamanı: {frame['time']}"})
+def _call_vlm(
+    client: OpenAI,
+    model: str,
+    prompt: str,
+    image_paths: list[Path],
+    backend: str,
+) -> str:
+    if backend == "ollama":
+        return ollama_chat(model, prompt, image_paths)
+    content: list[dict] = [{"type": "text", "text": prompt}]
+    for path in image_paths:
         content.append(
             {
                 "type": "image_url",
-                "image_url": {
-                    "url": f"data:image/jpeg;base64,{encode_image(Path(frame['path']))}"
-                },
+                "image_url": {"url": f"data:image/jpeg;base64,{encode_image(path)}"},
             }
         )
-
     response = client.chat.completions.create(
         model=model,
         temperature=0.1,
         messages=[{"role": "user", "content": content}],
-        extra_body={"options": {"num_ctx": 16384, "num_predict": 512}},
+        extra_body={"options": {"num_ctx": 16384, "num_predict": 768}},
     )
-    parsed = parse_json(response.choices[0].message.content)
+    return response.choices[0].message.content or ""
 
-    category = folder_cat if folder_cat in {"normal", "near_miss", "accident"} else parsed.get(
-        "category", "normal"
+
+def _pick_second_look_frames(frames: list[dict], evidence: SceneEvidence) -> list[dict]:
+    """Hareket tepesine yakın 2–3 kare seç (token tasarrufu)."""
+    if len(frames) <= 3:
+        return frames
+    if evidence.motion_peak_sec is None:
+        return frames[-3:]
+    ranked = sorted(
+        frames,
+        key=lambda f: abs(float(f.get("t_sec", 0.0)) - evidence.motion_peak_sec),
     )
-    return {
+    picked = ranked[:3]
+    return sorted(picked, key=lambda f: float(f.get("t_sec", 0.0)))
+
+
+def label_video(
+    client: OpenAI,
+    model: str,
+    video_path: Path,
+    frames_meta: dict,
+    *,
+    use_folder_hint: bool = True,
+    backend: str = "ollama",
+    evidence: SceneEvidence | None = None,
+    use_second_look: bool = True,
+) -> dict:
+    frames = frames_meta["frames"]
+    folder_cat = video_path.parent.name
+    if evidence is None:
+        evidence = analyze_video(video_path)
+
+    times = ", ".join(frame["time"] for frame in frames)
+    numbered = "\n".join(
+        f"{i}. zaman {frame['time']}" for i, frame in enumerate(frames, start=1)
+    )
+    hint = ""
+    if use_folder_hint and folder_cat in {"normal", "near_miss", "accident"}:
+        hint = f"Klasör ipucu (yanlış olabilir, gördüğüne göre düzelt): {folder_cat}\n"
+
+    prompt = (
+        f"Süre: {frames_meta['duration_sec']} saniye\n"
+        f"Kare zamanları: {times}\n"
+        f"Gönderilen kare sayısı: {len(frames)}\n"
+        f"{hint}"
+        f"{evidence.prompt_block()}\n"
+        "Görseller aşağıda 1. kareden son kareye sıralı. "
+        "İlk kare sakin olsa bile tüm diziyi oku; "
+        "çarpışma, düşme, yanma, devrilme veya yerde kişi varsa onu yaz.\n"
+        f"{numbered}\n\n"
+        + load_prompt()
+    )
+    image_paths = [Path(frame["path"]) for frame in frames]
+    raw = _call_vlm(client, model, prompt, image_paths, backend)
+    parsed = parse_json(raw)
+
+    parsed_cat = parsed.get("category", "")
+    if parsed_cat in {"normal", "near_miss", "accident"}:
+        category = parsed_cat
+    elif use_folder_hint and folder_cat in {"normal", "near_miss", "accident"}:
+        category = folder_cat
+    else:
+        category = "normal"
+
+    label = {
         "video_id": frames_meta["video_id"],
         "filename": video_path.name,
         "category": category,
@@ -106,7 +267,37 @@ def label_video(client: OpenAI, model: str, video_path: Path, frames_meta: dict)
         "risk": parsed.get("risk", "Orta"),
         "actions": parsed.get("actions", []),
         "notes": "Otomatik taslak. Gold değil; Streamlit'te kontrol edin.",
+        "evidence": evidence.to_dict(),
     }
+
+    # Yeni yöntem: sensör şüpheli + model sakin → kısa ikinci bakış
+    if use_second_look and needs_second_look(label, evidence):
+        focus = _pick_second_look_frames(frames, evidence)
+        focus_paths = [Path(f["path"]) for f in focus]
+        focus_times = ", ".join(f["time"] for f in focus)
+        second_prompt = (
+            f"{SECOND_LOOK_PROMPT}\n"
+            f"{evidence.prompt_block()}\n"
+            f"Odak kareler: {focus_times}\n"
+            f"Önceki JSON özeti: risk={label.get('risk')}, "
+            f"summary={label.get('summary')}\n\n"
+            + load_prompt()
+        )
+        try:
+            raw2 = _call_vlm(client, model, second_prompt, focus_paths, backend)
+            parsed2 = parse_json(raw2)
+            for key in ("summary", "events", "risk", "actions", "category"):
+                if parsed2.get(key) not in (None, "", []):
+                    label[key] = parsed2[key]
+            label["notes"] = (
+                str(label.get("notes") or "") + " | ikinci bakış uygulandı"
+            ).strip(" |")
+        except Exception as exc:
+            label["notes"] = (
+                str(label.get("notes") or "") + f" | ikinci bakış atlandı: {exc}"
+            ).strip(" |")
+
+    return refine_label(label, evidence)
 
 
 def competition_view(label: dict) -> dict:
@@ -137,8 +328,8 @@ def main() -> None:
     parser.add_argument("--frames", default="data/frames", type=Path)
     parser.add_argument("--out", default="data/labels", type=Path)
     parser.add_argument("--backend", choices=["ollama", "openai"], default="ollama")
-    parser.add_argument("--every-sec", default=2.0, type=float)
-    parser.add_argument("--max-frames", default=4, type=int)
+    parser.add_argument("--every-sec", default=0.75, type=float)
+    parser.add_argument("--max-frames", default=6, type=int)
     parser.add_argument("--limit", default=0, type=int, help="Yeni üretilecek taslak sayısı (0 = hepsi)")
     parser.add_argument("--only", default="", help="Dosya adı parçası, örn. Forklift")
     parser.add_argument("--overwrite", action="store_true")
@@ -173,7 +364,7 @@ def main() -> None:
         print(f"[{i}/{len(videos)}] etiketleniyor: {video.name}")
         try:
             frames_meta = extract_video(video, args.frames, args.every_sec, args.max_frames)
-            label = label_video(client, model, video, frames_meta)
+            label = label_video(client, model, video, frames_meta, backend=args.backend)
             dest.write_text(json.dumps(label, ensure_ascii=False, indent=2), encoding="utf-8")
             spec_dest = args.out / f"{vid}_spec.json"
             spec_dest.write_text(

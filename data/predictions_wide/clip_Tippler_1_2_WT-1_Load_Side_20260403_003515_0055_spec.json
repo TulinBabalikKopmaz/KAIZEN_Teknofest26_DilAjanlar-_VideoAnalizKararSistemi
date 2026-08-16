@@ -1,0 +1,13 @@
+{
+  "summary": "İşçilerin iş yerindeki hareketleri ve iş ekipmanları.",
+  "events": [
+    {
+      "time": "00:00",
+      "event": "İşçilerin iş yerindeki hareketleri ve ekipmanları."
+    }
+  ],
+  "risk": "Düşük",
+  "actions": [
+    "Rutin izlemeye devam et"
+  ]
+}

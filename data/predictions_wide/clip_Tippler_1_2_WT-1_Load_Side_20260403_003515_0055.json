@@ -1,0 +1,39 @@
+{
+  "video_id": "clip_Tippler_1_2_WT-1_Load_Side_20260403_003515_0055",
+  "filename": "clip_Tippler_1&2_WT-1_Load_Side_20260403_003515_0055.mp4",
+  "category": "normal",
+  "duration_sec": 7.0,
+  "status": "auto",
+  "labeled_by": "qwen:qwen2.5vl:7b",
+  "summary": "İşçilerin iş yerindeki hareketleri ve iş ekipmanları.",
+  "events": [
+    {
+      "time": "00:00",
+      "time_end": "00:05",
+      "event": "İşçilerin iş yerindeki hareketleri ve ekipmanları.",
+      "event_type": "normal",
+      "severity": "düşük"
+    }
+  ],
+  "risk": "Düşük",
+  "actions": [
+    "Rutin izlemeye devam et"
+  ],
+  "notes": "Otomatik taslak. Gold değil; Streamlit'te kontrol edin.",
+  "evidence": {
+    "duration_sec": 7.0,
+    "motion_peak_sec": 4.96,
+    "motion_peak_score": 7.325763888888889,
+    "motion_elevated": false,
+    "person_count_max": 1,
+    "vehicle_count_max": 0,
+    "min_person_vehicle_ratio": null,
+    "person_vehicle_close": false,
+    "person_vehicle_very_close": false,
+    "fire_like_ratio_max": 0.07583285108024691,
+    "fire_like_rise": 0.031640142746913576,
+    "fire_suspect": false,
+    "yolo_available": true,
+    "notes": []
+  }
+}

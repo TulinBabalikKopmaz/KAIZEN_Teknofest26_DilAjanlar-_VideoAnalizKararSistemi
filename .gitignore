@@ -12,6 +12,7 @@ data/videos/**
 data/frames/
 data/labels/*_auto.json
 data/labels/_auto_label_log.txt
+data/exports/last_system_output.json
 data/incoming/
 *.zip
 .streamlit/secrets.toml

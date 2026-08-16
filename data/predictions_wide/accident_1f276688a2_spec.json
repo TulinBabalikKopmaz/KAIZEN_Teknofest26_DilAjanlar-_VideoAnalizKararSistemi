@@ -1,0 +1,18 @@
+{
+  "summary": "İşçi ve forklift arasında yakın yaklaşma",
+  "events": [
+    {
+      "time": "00:12",
+      "event": "İşçi ve forklift arasında yakın yaklaşma"
+    },
+    {
+      "time": "00:13",
+      "event": "İşçi forkliftin yükünü kontrol ediyor"
+    }
+  ],
+  "risk": "Yüksek",
+  "actions": [
+    "İşçi ve forklift arasındaki mesafe kontrolü",
+    "İş güvenliği eylemleri uygulaması"
+  ]
+}

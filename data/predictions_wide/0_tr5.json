@@ -1,0 +1,39 @@
+{
+  "video_id": "0_tr5",
+  "filename": "0_tr5.mp4",
+  "category": "normal",
+  "duration_sec": 14.02,
+  "status": "auto",
+  "labeled_by": "qwen:qwen2.5vl:7b",
+  "summary": "Fabrikada işçilerin normal çalışma durumu",
+  "events": [
+    {
+      "time": "00:00",
+      "time_end": "00:08",
+      "event": "İşçilerin normal çalışma durumu",
+      "event_type": "normal",
+      "severity": "düşük"
+    }
+  ],
+  "risk": "Düşük",
+  "actions": [
+    "Rutin izlemeye devam et"
+  ],
+  "notes": "Otomatik taslak. Gold değil; Streamlit'te kontrol edin.",
+  "evidence": {
+    "duration_sec": 14.01530406766009,
+    "motion_peak_sec": 3.5440998791784133,
+    "motion_peak_score": 3.442361111111111,
+    "motion_elevated": false,
+    "person_count_max": 4,
+    "vehicle_count_max": 2,
+    "min_person_vehicle_ratio": 1.5085777692231084,
+    "person_vehicle_close": false,
+    "person_vehicle_very_close": false,
+    "fire_like_ratio_max": 0.010883487654320989,
+    "fire_like_rise": 0.0009751157407407417,
+    "fire_suspect": false,
+    "yolo_available": true,
+    "notes": []
+  }
+}

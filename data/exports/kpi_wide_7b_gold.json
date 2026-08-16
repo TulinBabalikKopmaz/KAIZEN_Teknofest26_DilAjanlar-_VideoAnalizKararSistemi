@@ -1,0 +1,464 @@
+[
+  {
+    "video_id": "2uuwpx1ykPQ_trim_0",
+    "filename": "2uuwpx1ykPQ_trim_0.mp4",
+    "category": "accident",
+    "duration_sec": 5.0,
+    "labeled_by": "human",
+    "summary": "Kişinin kıyafetinin yandığı tespit edilmiştir.",
+    "events": [
+      {
+        "time": "00:03",
+        "time_end": "00:05",
+        "event": "Kişinin kıyafeti yanmaya başladı. Kişi kaçmaya çalışıyor.",
+        "event_type": "kaza",
+        "severity": "yuksek"
+      }
+    ],
+    "risk": "Yüksek",
+    "actions": [
+      "Sağlık ekibi ve itfaiye çağır.",
+      "Alanı güvene al."
+    ],
+    "notes": "",
+    "status": "gold",
+    "_source_file": "2uuwpx1ykPQ_trim_0.json",
+    "_source_dir": "/Users/zehraguler/Projects/teknofest-video-ajan/data/labels"
+  },
+  {
+    "video_id": "accident_43b5eecb2e",
+    "filename": "3XOG - Workplace accidents happen all the time! All we can do is try learn f... [1615153821189013504].mp4",
+    "category": "accident",
+    "duration_sec": 10.87,
+    "labeled_by": "human",
+    "summary": "Çalışan dengesini kaybedip düşüyor. Çalışanın üstüne araba düşüyor. İnsanlar yardıma geliyor.",
+    "events": [
+      {
+        "time": "00:04",
+        "time_end": "00:07",
+        "event": "Çalışan arabanın altında kaldı.",
+        "event_type": "risk",
+        "severity": "yuksek"
+      }
+    ],
+    "risk": "Yüksek",
+    "actions": [
+      "Sağlık ekibi çağırın."
+    ],
+    "notes": "",
+    "status": "gold",
+    "_source_file": "accident_43b5eecb2e.json",
+    "_source_dir": "/Users/zehraguler/Projects/teknofest-video-ajan/data/labels"
+  },
+  {
+    "video_id": "accident_bef38a0ce2",
+    "filename": "Beylikdüzü.anlık - Beylikdüzü Yeşil Flamingo Sitesi’nde yaşanan, Aydın Dirikolu’nun (61)... [2088241217045774336].mp4",
+    "category": "accident",
+    "duration_sec": 14.53,
+    "labeled_by": "human",
+    "summary": "Çalışan yüksekten yere düşüyor. Çalışan yerde hareketsiz yatıyor.",
+    "events": [
+      {
+        "time": "00:03",
+        "time_end": "00:06",
+        "event": "Çalışan yüksekten yere düştü.",
+        "event_type": "kaza",
+        "severity": "yuksek"
+      }
+    ],
+    "risk": "Yüksek",
+    "actions": [
+      "Sağlık ekibi çağır."
+    ],
+    "notes": "",
+    "status": "gold",
+    "_source_file": "accident_bef38a0ce2.json",
+    "_source_dir": "/Users/zehraguler/Projects/teknofest-video-ajan/data/labels"
+  },
+  {
+    "video_id": "XXq1kmmBYY_trim_6",
+    "filename": "_XXq1kmmBYY_trim_6.mp4",
+    "category": "accident",
+    "duration_sec": 7.0,
+    "labeled_by": "human",
+    "summary": "Forklift tavandan sarkan maddeye çarpıyor ve tavan çöküyor.",
+    "events": [
+      {
+        "time": "00:03",
+        "time_end": "00:06",
+        "event": "duvar çöküyor ve çalışan enkaz altında kalıyor.",
+        "event_type": "kaza",
+        "severity": "yuksek"
+      }
+    ],
+    "risk": "Yüksek",
+    "actions": [
+      "sağlık ekibi çağır."
+    ],
+    "notes": "",
+    "status": "gold",
+    "_source_file": "XXq1kmmBYY_trim_6.json",
+    "_source_dir": "/Users/zehraguler/Projects/teknofest-video-ajan/data/labels"
+  },
+  {
+    "video_id": "forklift_guy_was_chilling_when_a_woman_attacks_his_forks_s-UHzuOh3B4",
+    "filename": "forklift guy was chilling when a woman attacks his forks [s-UHzuOh3B4].mp4",
+    "category": "accident",
+    "duration_sec": 4.63,
+    "labeled_by": "human",
+    "summary": "kişi bisiklet sürerken forklifte çarpıp düşüyor.",
+    "events": [
+      {
+        "time": "00:02",
+        "time_end": "00:04",
+        "event": "kişi forklifte çarpıp yere düşüyor.",
+        "event_type": "normal",
+        "severity": "yuksek"
+      }
+    ],
+    "risk": "Yüksek",
+    "actions": [
+      "sağlık ekibi çağır."
+    ],
+    "notes": "Otomatik taslak. Gold değil; Streamlit'te kontrol edin.",
+    "status": "gold",
+    "_source_file": "forklift_guy_was_chilling_when_a_woman_attacks_his_forks_s-UHzuOh3B4.json",
+    "_source_dir": "/Users/zehraguler/Projects/teknofest-video-ajan/data/labels"
+  },
+  {
+    "video_id": "accident_1f276688a2",
+    "filename": "sunil kumar rana - ⚠️ A routine warehouse task turned dangerous when an overloaded forkl... [2063292024804327424].mp4",
+    "category": "accident",
+    "duration_sec": null,
+    "labeled_by": "human",
+    "summary": "forklift devriliyor. bir kişi forkliftin altında kalıyor",
+    "events": [
+      {
+        "time": "00:12",
+        "time_end": "00:16",
+        "event": "froklift devriliyor. çalışanlar altında kalıyor.",
+        "event_type": "kaza",
+        "severity": "yuksek"
+      }
+    ],
+    "risk": "Yüksek",
+    "actions": [
+      "kişiyi kontrol et",
+      "sağlık ekibi çağır"
+    ],
+    "notes": "",
+    "status": "gold",
+    "_source_file": "accident_1f276688a2.json",
+    "_source_dir": "/Users/zehraguler/Projects/teknofest-video-ajan/data/labels"
+  },
+  {
+    "video_id": "001e53453441935632ae_run_1_seed_1288693302.ceiling_01.rgb",
+    "filename": "001e53453441935632ae_run_1_seed_1288693302.ceiling_01.rgb.mp4",
+    "category": "near_miss",
+    "duration_sec": 10.0,
+    "labeled_by": "human",
+    "summary": "Forklift çalışanın çok yakınından geçti. Neredeyse temas edeceklerdi.",
+    "events": [
+      {
+        "time": "00:02",
+        "time_end": "00:04",
+        "event": "Forklift çalışanın çok yakınından geçti. ",
+        "event_type": "near_miss",
+        "severity": "düşük"
+      }
+    ],
+    "risk": "Düşük",
+    "actions": [
+      "Rutin izlemeye devam et"
+    ],
+    "notes": "Otomatik taslak. Gold değil; Streamlit'te kontrol edin.",
+    "status": "gold",
+    "_source_file": "001e53453441935632ae_run_1_seed_1288693302.ceiling_01.rgb.json",
+    "_source_dir": "/Users/zehraguler/Projects/teknofest-video-ajan/data/labels"
+  },
+  {
+    "video_id": "00f2bbb80d7badad0134_run_25_seed_750796930.ceiling_00.rgb",
+    "filename": "00f2bbb80d7badad0134_run_25_seed_750796930.ceiling_00.rgb.mp4",
+    "category": "near_miss",
+    "duration_sec": 10.0,
+    "labeled_by": "human",
+    "summary": "Forklift çalışanın çok yakınından geçti. Neredeyse temas edeceklerdi.",
+    "events": [
+      {
+        "time": "00:02",
+        "time_end": "00:03",
+        "event": "Forklift çalışanın çok yakınından geçti. ",
+        "event_type": "near_miss",
+        "severity": "orta"
+      },
+      {
+        "time": "00:06",
+        "time_end": "00:07",
+        "event": "Forklift çalışanın çok yakınından geçti. ",
+        "event_type": "near_miss",
+        "severity": "orta"
+      }
+    ],
+    "risk": "Düşük",
+    "actions": [
+      "Rutin izlemeye devam et"
+    ],
+    "notes": "",
+    "status": "gold",
+    "_source_file": "00f2bbb80d7badad0134_run_25_seed_750796930.ceiling_00.rgb.json",
+    "_source_dir": "/Users/zehraguler/Projects/teknofest-video-ajan/data/labels"
+  },
+  {
+    "video_id": "016c1396912bfc432997_run_3_seed_1053328212.ceiling_00.rgb",
+    "filename": "016c1396912bfc432997_run_3_seed_1053328212.ceiling_00.rgb.mp4",
+    "category": "near_miss",
+    "duration_sec": 10.0,
+    "labeled_by": "human",
+    "summary": "Forklift çalışanın çok yakınından geçti. Neredeyse temas edeceklerdi.",
+    "events": [
+      {
+        "time": "00:02",
+        "time_end": "00:03",
+        "event": "Forklift çalışanın çok yakınından geçti",
+        "event_type": "near_miss",
+        "severity": "orta"
+      }
+    ],
+    "risk": "Orta",
+    "actions": [
+      "Rutin izlemeye devam et"
+    ],
+    "notes": "",
+    "status": "gold",
+    "_source_file": "016c1396912bfc432997_run_3_seed_1053328212.ceiling_00.rgb.json",
+    "_source_dir": "/Users/zehraguler/Projects/teknofest-video-ajan/data/labels"
+  },
+  {
+    "video_id": "Forklift_ear_miss_pedestrian_not_watching_almost_gets_hit_twice_pLjVBBW_g7c",
+    "filename": "Forklift ear miss pedestrian not watching almost gets hit twice [pLjVBBW_g7c].mp4",
+    "category": "near_miss",
+    "duration_sec": null,
+    "labeled_by": "human",
+    "summary": "Forklift çalışanın çok yakınından geçti. Neredeyse temas edeceklerdi.",
+    "events": [
+      {
+        "time": "00:08",
+        "time_end": "00:12",
+        "event": "Forklift çalışanın çok yakınından geçti. ",
+        "event_type": "near_miss",
+        "severity": "orta"
+      }
+    ],
+    "risk": "Orta",
+    "actions": [
+      "Alanı güvene al.",
+      "İzlemeye devam et."
+    ],
+    "notes": "",
+    "status": "gold",
+    "_source_file": "Forklift_ear_miss_pedestrian_not_watching_almost_gets_hit_twice_pLjVBBW_g7c.json",
+    "_source_dir": "data/incoming/mustafa/data/labels"
+  },
+  {
+    "video_id": "How_NOT_to_UNLOAD_a_truck_t0abC-2oucI",
+    "filename": "How NOT to UNLOAD a truck [t0abC-2oucI].mp4",
+    "category": "near_miss",
+    "duration_sec": null,
+    "labeled_by": "human",
+    "summary": "Kamyonun arkasındaki yük indirilirken düştü. Çalışan altında kalmaktan son anda kurtuldu.",
+    "events": [
+      {
+        "time": "00:01",
+        "time_end": "00:05",
+        "event": "Çalışan kamyondan devrilen yükün altından kaçtı.",
+        "event_type": "near_miss",
+        "severity": "orta"
+      }
+    ],
+    "risk": "Orta",
+    "actions": [
+      "Alanı güvene al.",
+      "İzlemeye devam et."
+    ],
+    "notes": "",
+    "status": "gold",
+    "_source_file": "How_NOT_to_UNLOAD_a_truck_t0abC-2oucI.json",
+    "_source_dir": "data/incoming/mustafa/data/labels"
+  },
+  {
+    "video_id": "Near_miss_walk_into_the_path_of_a_forklift_EHyWjeJi1Oc",
+    "filename": "Near miss walk into the path of a forklift [EHyWjeJi1Oc].mp4",
+    "category": "near_miss",
+    "duration_sec": null,
+    "labeled_by": "human",
+    "summary": "Forklift çalışanın çok yakınından geçti. Neredeyse temas edeceklerdi",
+    "events": [
+      {
+        "time": "00:02",
+        "time_end": "00:05",
+        "event": "Forklift çalışanın çok yakınından geçti",
+        "event_type": "near_miss",
+        "severity": "orta"
+      }
+    ],
+    "risk": "Orta",
+    "actions": [
+      "Alanı güvene al.",
+      "İzlemeye devam et."
+    ],
+    "notes": "",
+    "status": "gold",
+    "_source_file": "Near_miss_walk_into_the_path_of_a_forklift_EHyWjeJi1Oc.json",
+    "_source_dir": "data/incoming/mustafa/data/labels"
+  },
+  {
+    "video_id": "0_tr5",
+    "filename": "0_tr5.mp4",
+    "category": "normal",
+    "duration_sec": null,
+    "labeled_by": "human",
+    "summary": "Çalışan rutin aktivitesini sürdürüyor. Normal gözüküyor.",
+    "events": [
+      {
+        "time": "00:00",
+        "time_end": "",
+        "event": "Çalışanlar fabrikada yürüyor.",
+        "event_type": "normal",
+        "severity": "dusuk"
+      }
+    ],
+    "risk": "Düşük",
+    "actions": [
+      "Rutin izlemeye devam et."
+    ],
+    "notes": "",
+    "status": "gold",
+    "_source_file": "0_tr5.json",
+    "_source_dir": "data/incoming/mustafa/data/labels"
+  },
+  {
+    "video_id": "5_te13",
+    "filename": "5_te13.mp4",
+    "category": "normal",
+    "duration_sec": null,
+    "labeled_by": "human",
+    "summary": "Çalışan rutin aktivitesini sürdürüyor. Normal gözüküyor.",
+    "events": [
+      {
+        "time": "00:00",
+        "time_end": "",
+        "event": "Çalışan fabrikada yürüyor.",
+        "event_type": "normal",
+        "severity": "dusuk"
+      }
+    ],
+    "risk": "Düşük",
+    "actions": [
+      "Rutin izlemeye devam et."
+    ],
+    "notes": "",
+    "status": "gold",
+    "_source_file": "5_te13.json",
+    "_source_dir": "data/incoming/mustafa/data/labels"
+  },
+  {
+    "video_id": "clip_HME_Work_Shop_20251111_000740_0030",
+    "filename": "clip_HME_Work_Shop_20251111_000740_0030.mp4",
+    "category": "normal",
+    "duration_sec": null,
+    "labeled_by": "human",
+    "summary": "Çalışanlar rutin aktivitesini sürdürüyor. Normal gözüküyor.",
+    "events": [
+      {
+        "time": "00:00",
+        "time_end": "",
+        "event": "Çalışanlar rutin aktivitesini sürdürüyor. ",
+        "event_type": "normal",
+        "severity": "dusuk"
+      }
+    ],
+    "risk": "Düşük",
+    "actions": [
+      "Rutin izlemeye devam et."
+    ],
+    "notes": "",
+    "status": "gold",
+    "_source_file": "clip_HME_Work_Shop_20251111_000740_0030.json",
+    "_source_dir": "data/incoming/mustafa/data/labels"
+  },
+  {
+    "video_id": "clip_TAR_Plant_DC-Floor_left_20251115_000000_0000",
+    "filename": "clip_TAR_Plant_DC-Floor_left_20251115_000000_0000.mp4",
+    "category": "normal",
+    "duration_sec": null,
+    "labeled_by": "human",
+    "summary": "Çalışanlar rutin aktivitesini sürdürüyor. Duman var ama normal gözüküyor.",
+    "events": [
+      {
+        "time": "00:00",
+        "time_end": "",
+        "event": "Duman var ama normal gözüküyor",
+        "event_type": "normal",
+        "severity": "dusuk"
+      }
+    ],
+    "risk": "Düşük",
+    "actions": [
+      "Rutin izlemeye devam et."
+    ],
+    "notes": "",
+    "status": "gold",
+    "_source_file": "clip_TAR_Plant_DC-Floor_left_20251115_000000_0000.json",
+    "_source_dir": "data/incoming/mustafa/data/labels"
+  },
+  {
+    "video_id": "clip_Tippler_1_2_CP_IP_Cam_20251127_000108_0002",
+    "filename": "clip_Tippler_1&2_CP_IP_Cam_20251127_000108_0002.mp4",
+    "category": "normal",
+    "duration_sec": null,
+    "labeled_by": "human",
+    "summary": "Çalışanlar rutin aktivitesini sürdürüyor. Normal gözüküyor.",
+    "events": [
+      {
+        "time": "00:00",
+        "time_end": "",
+        "event": "Çalışanlar rutin aktivitesini sürdürüyor. ",
+        "event_type": "normal",
+        "severity": "dusuk"
+      }
+    ],
+    "risk": "Düşük",
+    "actions": [
+      "Rutin izlemeye devam et."
+    ],
+    "notes": "",
+    "status": "gold",
+    "_source_file": "clip_Tippler_1_2_CP_IP_Cam_20251127_000108_0002.json",
+    "_source_dir": "data/incoming/mustafa/data/labels"
+  },
+  {
+    "video_id": "clip_Tippler_1_2_WT-1_Load_Side_20260403_003515_0055",
+    "filename": "clip_Tippler_1&2_WT-1_Load_Side_20260403_003515_0055.mp4",
+    "category": "normal",
+    "duration_sec": null,
+    "labeled_by": "human",
+    "summary": "Çalışanlar rutin aktivitesini sürdürüyor. Normal gözüküyor.",
+    "events": [
+      {
+        "time": "00:00",
+        "time_end": "",
+        "event": "Çalışan rutin aktivitesini sürdürüyor.",
+        "event_type": "normal",
+        "severity": "dusuk"
+      }
+    ],
+    "risk": "Düşük",
+    "actions": [
+      "Rutin izlemeye devam et."
+    ],
+    "notes": "",
+    "status": "gold",
+    "_source_file": "clip_Tippler_1_2_WT-1_Load_Side_20260403_003515_0055.json",
+    "_source_dir": "data/incoming/mustafa/data/labels"
+  }
+]

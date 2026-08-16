@@ -1,0 +1,26 @@
+{
+  "summary": "İki kişi bir kutu taşıyarak bir araya geliyor ve biri diğerinin üzerine düşüyor.",
+  "events": [
+    {
+      "time": "00:00",
+      "event": "İki kişi kutu taşıyor"
+    },
+    {
+      "time": "00:01",
+      "event": "Bir kişi diğerinin üzerine düşüyor"
+    },
+    {
+      "time": "00:02",
+      "event": "İkinci kişi kutu taşıyor"
+    },
+    {
+      "time": "00:03",
+      "event": "İkinci kişi kutu taşıyor"
+    }
+  ],
+  "risk": "Yüksek",
+  "actions": [
+    "Sağlık ekibini çağır",
+    "Alanı güvenlik altına al"
+  ]
+}

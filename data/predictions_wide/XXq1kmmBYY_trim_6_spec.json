@@ -1,0 +1,19 @@
+{
+  "summary": "İşçi, yük taşırken arka doğru kayar ve iş makinesiyle çarpışır.",
+  "events": [
+    {
+      "time": "00:00",
+      "event": "İşçi, yük taşırken arka doğru kayar."
+    },
+    {
+      "time": "00:03",
+      "event": "İşçi, yük taşırken arka doğru kayar ve iş makinesiyle çarpışır."
+    }
+  ],
+  "risk": "Yüksek",
+  "actions": [
+    "İşçi güvenliği eğitimleri düzenleyin",
+    "İş makinesi kontrolü ve bakım planı oluşturun",
+    "Yük taşıma sırasında güvenli hareket yolları belirleyin"
+  ]
+}

@@ -1,0 +1,13 @@
+{
+  "summary": "İşçi, yükü kontrol ederken düşme tehlikesi.",
+  "events": [
+    {
+      "time": "00:10",
+      "event": "İşçi, yükü kontrol ederken düşme tehlikesi."
+    }
+  ],
+  "risk": "Orta",
+  "actions": [
+    "İşçi, yük kontrolü sırasında düşme tehlikesini önlemek için dikkatli olmalı."
+  ]
+}

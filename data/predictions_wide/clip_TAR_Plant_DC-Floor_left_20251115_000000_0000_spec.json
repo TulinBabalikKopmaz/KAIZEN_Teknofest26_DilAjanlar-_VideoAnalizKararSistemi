@@ -1,0 +1,13 @@
+{
+  "summary": "Sistem normal durumda.",
+  "events": [
+    {
+      "time": "00:00",
+      "event": "Sistem normal durumda."
+    }
+  ],
+  "risk": "Düşük",
+  "actions": [
+    "Rutin izlemeye devam et"
+  ]
+}

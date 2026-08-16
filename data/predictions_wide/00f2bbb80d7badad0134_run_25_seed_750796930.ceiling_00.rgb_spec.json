@@ -1,0 +1,13 @@
+{
+  "summary": "İşçi forkliftin önünden geçiyor.",
+  "events": [
+    {
+      "time": "00:00",
+      "event": "İşçi forkliftin önünden geçiyor"
+    }
+  ],
+  "risk": "Düşük",
+  "actions": [
+    "Rutin izlemeye devam et"
+  ]
+}

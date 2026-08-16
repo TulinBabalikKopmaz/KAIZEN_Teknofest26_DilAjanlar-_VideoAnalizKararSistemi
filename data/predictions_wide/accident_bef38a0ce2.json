@@ -1,0 +1,40 @@
+{
+  "video_id": "accident_bef38a0ce2",
+  "filename": "Beylikdüzü.anlık - Beylikdüzü Yeşil Flamingo Sitesi’nde yaşanan, Aydın Dirikolu’nun (61)... [2088241217045774336].mp4",
+  "category": "near_miss",
+  "duration_sec": 14.53,
+  "status": "auto",
+  "labeled_by": "qwen:qwen2.5vl:7b",
+  "summary": "Sürücü, araçta durduktan sonra yere düşmüştür.",
+  "events": [
+    {
+      "time": "00:05",
+      "time_end": "00:07",
+      "event": "Sürücü yere düşmüştür",
+      "event_type": "kaza",
+      "severity": "yuksek"
+    }
+  ],
+  "risk": "Yüksek",
+  "actions": [
+    "Sürücü yardım almasını sağlayın",
+    "Ambulans çağırın"
+  ],
+  "notes": "Otomatik taslak. Gold değil; Streamlit'te kontrol edin.",
+  "evidence": {
+    "duration_sec": 14.533333333333333,
+    "motion_peak_sec": 5.5,
+    "motion_peak_score": 10.090416666666666,
+    "motion_elevated": false,
+    "person_count_max": 0,
+    "vehicle_count_max": 1,
+    "min_person_vehicle_ratio": null,
+    "person_vehicle_close": false,
+    "person_vehicle_very_close": false,
+    "fire_like_ratio_max": 0.0002857915266674391,
+    "fire_like_rise": 0.0002495848298768007,
+    "fire_suspect": false,
+    "yolo_available": true,
+    "notes": []
+  }
+}

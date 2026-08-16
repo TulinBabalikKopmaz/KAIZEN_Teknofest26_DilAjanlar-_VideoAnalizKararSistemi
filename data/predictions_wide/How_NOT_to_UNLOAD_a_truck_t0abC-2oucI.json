@@ -1,0 +1,60 @@
+{
+  "video_id": "How_NOT_to_UNLOAD_a_truck_t0abC-2oucI",
+  "filename": "How NOT to UNLOAD a truck [t0abC-2oucI].mp4",
+  "category": "near_miss",
+  "duration_sec": 14.0,
+  "status": "auto",
+  "labeled_by": "qwen:qwen2.5vl:7b",
+  "summary": "İki kişi bir kutu taşıyarak hareket ederken, kutu düşme tehlikesi.",
+  "events": [
+    {
+      "time": "00:00",
+      "time_end": "00:01",
+      "event": "İki kişi bir kutu taşıyarak hareket ederken.",
+      "event_type": "normal",
+      "severity": "düşük"
+    },
+    {
+      "time": "00:01",
+      "time_end": "00:02",
+      "event": "Kutu düşme tehlikesi.",
+      "event_type": "near_miss",
+      "severity": "orta"
+    },
+    {
+      "time": "00:02",
+      "time_end": "00:03",
+      "event": "Kutu düşme tehlikesi.",
+      "event_type": "near_miss",
+      "severity": "orta"
+    },
+    {
+      "time": "00:03",
+      "time_end": "00:04",
+      "event": "Kutu düşme tehlikesi.",
+      "event_type": "near_miss",
+      "severity": "orta"
+    }
+  ],
+  "risk": "Orta",
+  "actions": [
+    "Rutin izlemeye devam et"
+  ],
+  "notes": "Otomatik taslak. Gold değil; Streamlit'te kontrol edin.",
+  "evidence": {
+    "duration_sec": 14.0,
+    "motion_peak_sec": 3.5,
+    "motion_peak_score": 13.875555555555556,
+    "motion_elevated": true,
+    "person_count_max": 2,
+    "vehicle_count_max": 0,
+    "min_person_vehicle_ratio": null,
+    "person_vehicle_close": false,
+    "person_vehicle_very_close": false,
+    "fire_like_ratio_max": 0.06807528409090909,
+    "fire_like_rise": 0.02209990530303029,
+    "fire_suspect": false,
+    "yolo_available": true,
+    "notes": []
+  }
+}
