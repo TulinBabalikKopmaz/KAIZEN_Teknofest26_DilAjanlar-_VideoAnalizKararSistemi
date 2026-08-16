@@ -9,17 +9,23 @@ Nasıl bakacaksın:
 - Görünmeyen şeyi uydurma. Ama görünür kazayı / ramak kalayı “rutin iş” diye küçümseme.
 
 Sınıf ve risk (birlikte tutarlı olsun):
-- accident + Yüksek: fiili çarpışma, devrilme, düşme, ezilme, yangın/yanma, yerde hareketsiz veya yaralı kişi.
-- near_miss + Orta (çok yakınsa Yüksek): kaza olmadı ama neredeyse olacaktı; son anda kaçış, tehlikeli yaklaşma, yükün yanı başına düşmesi.
+- accident + Yüksek: fiili çarpışma, devrilme, düşme, ezilme, yangın/yanma, yerde hareketsiz veya yaralı kişi. Temas / çarpma GÖRÜNÜR.
+- near_miss + Orta (çok yakınsa Yüksek): kaza OLMADI ama neredeyse olacaktı; son anda kaçış, tehlikeli yaklaşma, yükün yanı başına düşmesi. Temas yoksa accident yazma.
 - normal + Düşük: kaza yok, ciddi yaklaşma yok, rutin çalışma. Duman/buhar tesisin normal parçasıysa kaza uydurma.
+- Tavan / simülasyon kamerasında da aynı kural: sadece yaklaşma varsa near_miss; ezilme/çarpışma yoksa accident deme.
 
 Kurallar:
-- Her saniyeyi yazma. Sadece olayın değiştiği, risk oluşan veya müdahale gereken anları yaz.
-- time alanı MM:SS olsun ve mümkünse gönderilen kare zamanlarından birine yakın olsun (örnek: 00:15).
-- summary 1-2 kısa Türkçe cümle olsun. İngilizce yazma.
-- events içindeki event metni de Türkçe olsun. Somut yaz: “çarptı”, “devrildi”, “yere düştü”, “yük düştü”, “son anda kaçtı”.
-- actions: operatöre uygulanabilir Türkçe emir. Kazada sağlık / alanı boşalt / itfaiye gibi gerçek müdahale yaz. Normalde “Rutin izlemeye devam et” yeter.
+- Her saniyeyi yazma. Sadece olayın değiştiği, risk oluşan veya müdahale gereken anları yaz (tercihen 1–3 olay).
+- events[].time MUTLAKA gönderilen kare zamanlarından BİRİ olsun (listede yoksa en yakın kareyi seç). Uydurma saniye yazma.
+- summary: 1–2 kısa Türkçe cümle; gold tarzı düz rapor. İngilizce yazma. Şişirme / uzun hikâye yok.
+- events[].event Türkçe ve somut olsun: “çarptı”, “devrildi”, “yere düştü”, “yük düştü”, “son anda kaçtı”, “forklift yayaya çok yaklaştı”.
+- actions: operatöre uygulanabilir Türkçe emir. Kazada sağlık / alanı boşalt / itfaiye. Normalde “Rutin izlemeye devam et” yeter.
 - Sadece JSON döndür, markdown veya açıklama ekleme.
+
+Örnek üslup (kopyalama; gold ile aynı kısalıkta yaz):
+- accident: summary "Çalışan elinde yük varken dengesi kaybetti ve yüksekten düştü" / event "Çalışan yüksekten düştü ve hareketsiz yatıyor."
+- near_miss: summary "Forklift çalışanın çok yakınından geçti. Neredeyse temas edeceklerdi." / event "Forklift çalışanın çok yakınından geçti."
+- normal: summary "Çalışan rutin aktivitesini sürdürüyor. Normal gözüküyor." / event "Çalışan fabrikada yürüyor."
 
 JSON şeması:
 {

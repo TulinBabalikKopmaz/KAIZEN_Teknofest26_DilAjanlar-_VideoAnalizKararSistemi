@@ -129,14 +129,20 @@ def main() -> None:
         action="store_true",
         help="İkinci bakışı kapat (daha hızlı, biraz daha zayıf)",
     )
-    parser.add_argument("--max-frames", type=int, default=0, help="0 = modele göre (qwen 6, llava 3)")
+    parser.add_argument("--max-frames", type=int, default=0, help="0 = modele göre (qwen 8, llava 3)")
+    parser.add_argument(
+        "--every-sec",
+        type=float,
+        default=0.5,
+        help="Eşit aralıklı örnekleme (hareket yoksa); denser = daha iyi zaman KPI",
+    )
     args = parser.parse_args()
     if args.n < 6:
         raise SystemExit("--n en az 6 olmalı")
 
     os.environ["OLLAMA_MODEL"] = args.model
     safe_model = "".join(c if c.isalnum() or c in "-_" else "_" for c in args.model)
-    max_frames = args.max_frames or (3 if "llava" in args.model.lower() else 6)
+    max_frames = args.max_frames or (3 if "llava" in args.model.lower() else 8)
 
     gold_all = json.loads(GOLD_PATH.read_text(encoding="utf-8"))
     videos = {
@@ -184,7 +190,7 @@ def main() -> None:
                 frames_meta = extract_video(
                     video,
                     ROOT / "data/frames",
-                    every_sec=0.75,
+                    every_sec=args.every_sec,
                     max_frames=max_frames,
                     use_motion=True,
                 )
@@ -199,7 +205,7 @@ def main() -> None:
                     use_second_look=False,
                 )
             else:
-                # predict_one sabit 6 kare kullanır; LLaVA için yerel yol
+                # predict_one sabit 6 kare kullanır; LLaVA / denser için yerel yol
                 if max_frames != 6:
                     from utils.scene_evidence import analyze_video
 
@@ -207,7 +213,7 @@ def main() -> None:
                     frames_meta = extract_video(
                         video,
                         ROOT / "data/frames",
-                        every_sec=0.75,
+                        every_sec=args.every_sec,
                         max_frames=max_frames,
                         use_motion=True,
                     )

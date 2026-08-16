@@ -45,8 +45,8 @@ def predict_one(client, model: str, video: Path) -> dict:
     frames_meta = extract_video(
         video,
         ROOT / "data/frames",
-        every_sec=0.75,
-        max_frames=6,
+        every_sec=0.5,
+        max_frames=8,
         use_motion=True,
     )
     times = [f["time"] for f in frames_meta["frames"]]
@@ -63,7 +63,7 @@ def predict_one(client, model: str, video: Path) -> dict:
             use_second_look=True,
         )
     except Exception as exc:
-        print(f"  6 kare başarısız ({exc}); 4 kare ile tekrar")
+        print(f"  8 kare başarısız ({exc}); 4 kare ile tekrar")
         frames_meta = extract_video(
             video,
             ROOT / "data/frames",

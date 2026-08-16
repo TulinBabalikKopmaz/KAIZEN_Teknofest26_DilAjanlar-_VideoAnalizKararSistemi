@@ -93,8 +93,9 @@ def evidence_floor(evidence: SceneEvidence | None) -> tuple[str, str | None]:
         return "Düşük", None
     if evidence.fire_suspect:
         return "Yüksek", "accident"
+    # Çok yakın ≠ fiili kaza; metinde çarpışma yoksa near_miss kalsın
     if evidence.person_vehicle_very_close:
-        return "Yüksek", "accident"
+        return "Yüksek", "near_miss"
     if evidence.person_vehicle_close:
         return "Orta", "near_miss"
     return "Düşük", None
@@ -116,12 +117,17 @@ def refine_label(label: dict[str, Any], evidence: SceneEvidence | None = None) -
 
     old_cat = out.get("category") or "normal"
     new_cat = old_cat
+    text = _joined_text(out)
+    near_text = _match_any(text, NEAR_PATTERNS)
     for cand in (text_cat, ev_cat):
         if cand:
+            # Metin açıkça ramak kala diyorsa evidence ile accident'e zorlama
+            if near_text and cand == "accident" and not _match_any(text, HIGH_PATTERNS):
+                cand = "near_miss"
             new_cat = _max_cat(new_cat, cand)
     # Metin/kanıt Yüksek ama kategori normal kaldıysa düzelt
     if new_risk == "Yüksek" and new_cat == "normal":
-        new_cat = "accident"
+        new_cat = "accident" if _match_any(text, HIGH_PATTERNS) else "near_miss"
     if new_risk == "Orta" and new_cat == "normal":
         new_cat = "near_miss"
     if new_cat != old_cat:

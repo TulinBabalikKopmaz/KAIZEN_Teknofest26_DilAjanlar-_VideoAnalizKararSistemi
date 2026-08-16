@@ -33,12 +33,48 @@ SECOND_LOOK_PROMPT = (
     "Önceki cevabın çok sakin / düşük risk görünüyor ama sensörler şüpheli diyor.\n"
     "Sadece bu karelere tekrar bak. Özellikle: çarpışma, düşme, yanma, kişi-araç temas.\n"
     "Görmüyorsan uydurma. Görüyorsan category/risk'i yükselt.\n"
+    "Temas yoksa accident yazma; tehlikeli yaklaşma = near_miss.\n"
+    "events[].time yalnızca verilen kare zamanlarından biri olsun.\n"
     "Yine sadece JSON döndür.\n"
 )
 
 
 def load_prompt() -> str:
     return PROMPT_PATH.read_text(encoding="utf-8")
+
+
+def _mmss_to_sec(stamp: str) -> float:
+    parts = (stamp or "00:00").strip().split(":")
+    try:
+        if len(parts) == 2:
+            return int(parts[0]) * 60 + int(parts[1])
+        if len(parts) == 3:
+            return int(parts[0]) * 3600 + int(parts[1]) * 60 + int(parts[2])
+    except ValueError:
+        return 0.0
+    return 0.0
+
+
+def snap_events_to_frame_times(events: list, frame_times: list[str]) -> list:
+    """KPI ±2 sn için olay zamanını en yakın gönderilen kareye yapıştır."""
+    if not events or not frame_times:
+        return events
+    frame_secs = [(t, _mmss_to_sec(t)) for t in frame_times]
+    out = []
+    for event in events:
+        if not isinstance(event, dict):
+            continue
+        e = dict(event)
+        raw = str(e.get("time") or frame_times[0])
+        sec = _mmss_to_sec(raw)
+        best_t, _ = min(frame_secs, key=lambda item: abs(item[1] - sec))
+        e["time"] = best_t
+        if e.get("time_end"):
+            end_sec = _mmss_to_sec(str(e["time_end"]))
+            best_end, _ = min(frame_secs, key=lambda item: abs(item[1] - end_sec))
+            e["time_end"] = best_end
+        out.append(e)
+    return out
 
 
 def encode_image(path: Path, max_side: int | None = None) -> str:
@@ -223,9 +259,11 @@ def label_video(
     if evidence is None:
         evidence = analyze_video(video_path)
 
-    times = ", ".join(frame["time"] for frame in frames)
+    frame_times = [frame["time"] for frame in frames]
+    times = ", ".join(frame_times)
     numbered = "\n".join(
-        f"{i}. zaman {frame['time']}" for i, frame in enumerate(frames, start=1)
+        f"{i}. kare zamanı {frame['time']} (events[].time için aday)"
+        for i, frame in enumerate(frames, start=1)
     )
     hint = ""
     if use_folder_hint and folder_cat in {"normal", "near_miss", "accident"}:
@@ -233,13 +271,14 @@ def label_video(
 
     prompt = (
         f"Süre: {frames_meta['duration_sec']} saniye\n"
-        f"Kare zamanları: {times}\n"
+        f"Kare zamanları (events[].time SADECE bunlardan biri): {times}\n"
         f"Gönderilen kare sayısı: {len(frames)}\n"
         f"{hint}"
         f"{evidence.prompt_block()}\n"
         "Görseller aşağıda 1. kareden son kareye sıralı. "
         "İlk kare sakin olsa bile tüm diziyi oku; "
-        "çarpışma, düşme, yanma, devrilme veya yerde kişi varsa onu yaz.\n"
+        "çarpışma, düşme, yanma, devrilme veya yerde kişi varsa onu yaz. "
+        "Temas yoksa near_miss; rutin ise normal.\n"
         f"{numbered}\n\n"
         + load_prompt()
     )
@@ -255,6 +294,8 @@ def label_video(
     else:
         category = "normal"
 
+    events = snap_events_to_frame_times(parsed.get("events") or [], frame_times)
+
     label = {
         "video_id": frames_meta["video_id"],
         "filename": video_path.name,
@@ -263,7 +304,7 @@ def label_video(
         "status": "auto",
         "labeled_by": f"qwen:{model}",
         "summary": parsed.get("summary", ""),
-        "events": parsed.get("events", []),
+        "events": events,
         "risk": parsed.get("risk", "Orta"),
         "actions": parsed.get("actions", []),
         "notes": "Otomatik taslak. Gold değil; Streamlit'te kontrol edin.",
@@ -289,6 +330,10 @@ def label_video(
             for key in ("summary", "events", "risk", "actions", "category"):
                 if parsed2.get(key) not in (None, "", []):
                     label[key] = parsed2[key]
+            focus_times_list = [f["time"] for f in focus]
+            label["events"] = snap_events_to_frame_times(
+                label.get("events") or [], focus_times_list or frame_times
+            )
             label["notes"] = (
                 str(label.get("notes") or "") + " | ikinci bakış uygulandı"
             ).strip(" |")
