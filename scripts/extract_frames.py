@@ -59,14 +59,23 @@ def pick_times(
     max_frames: int,
     motion: list[tuple[float, float]] | None = None,
     min_gap: float | None = None,
+    window: tuple[float, float] | None = None,
 ) -> list[float]:
-    """Her saniye en fazla bir kare. Kısa klipte tüm saniyeler; uzunda hareket tepeleri."""
+    """Her saniye en fazla bir kare. Kısa klipte tüm saniyeler; uzunda hareket tepeleri.
+
+    window verilirse (uzun videoda wake-up penceresi) yalnızca o aralıktan seçilir.
+    """
     del min_gap  # saniye hizası zaten çakışmayı önler
     if duration <= 0:
         return [0.0]
     last = max(int(round(max(duration - 0.05, 0.0))), 0)
-    seconds = list(range(0, last + 1))
-    n = min(max(2, max_frames), len(seconds)) if last > 0 else 1
+    first = 0
+    if window:
+        start, end = window
+        first = max(0, int(round(min(start, end))))
+        last = min(last, max(first, int(round(max(start, end)))))
+    seconds = list(range(first, last + 1))
+    n = min(max(2, max_frames), len(seconds)) if last > first else 1
 
     def to_time(sec: int) -> float:
         return _clamp_time(float(sec), duration)
@@ -77,11 +86,11 @@ def pick_times(
     chosen: list[int] = []
 
     def add_sec(sec: int) -> None:
-        sec = min(max(sec, 0), last)
+        sec = min(max(sec, first), last)
         if sec not in chosen and len(chosen) < n:
             chosen.append(sec)
 
-    add_sec(0)
+    add_sec(first)
     add_sec(last)
     if motion:
         for t, score in sorted(motion, key=lambda item: item[1], reverse=True):
@@ -89,13 +98,15 @@ def pick_times(
                 break
             if score <= 0:
                 continue
-            add_sec(int(round(t)))
+            sec = int(round(t))
+            if first <= sec <= last:
+                add_sec(sec)
     if n > 1:
-        step = last / (n - 1)
+        step = (last - first) / (n - 1)
         for i in range(n):
             if len(chosen) >= n:
                 break
-            add_sec(int(round(i * step)))
+            add_sec(first + int(round(i * step)))
     return [to_time(s) for s in sorted(chosen)]
 
 
@@ -149,6 +160,7 @@ def extract_video(
     max_frames: int = 6,
     *,
     use_motion: bool = True,
+    window: tuple[float, float] | None = None,
 ) -> dict:
     cap = cv2.VideoCapture(str(video_path))
     if not cap.isOpened():
@@ -163,8 +175,8 @@ def extract_video(
         motion = motion_scores(cap, fps)
     cap.release()
 
-    if motion:
-        times = pick_times(duration, max_frames, motion)
+    if motion or window:
+        times = pick_times(duration, max_frames, motion, window=window)
     else:
         times = sample_times(duration, every_sec, max_frames)
 
@@ -195,6 +207,7 @@ def extract_video(
         "video_id": safe_id(video_path),
         "duration_sec": round(duration, 2),
         "fps": fps,
+        "window": list(window) if window else None,
         "frames": saved,
     }
 

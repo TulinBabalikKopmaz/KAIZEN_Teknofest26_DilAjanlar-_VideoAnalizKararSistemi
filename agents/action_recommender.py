@@ -2,17 +2,13 @@
 
 from __future__ import annotations
 
+import asyncio
 import re
 from pathlib import Path
 from typing import Any
 
-import aiohttp
-from langchain_chroma import Chroma
-from langchain_core.vectorstores import VectorStoreRetriever
-from langchain_huggingface import HuggingFaceEmbeddings
-
 from agents.state import AgentState
-from utils.config import API_BASE_URL, MODEL_NAME
+from utils.model_client import ModelCallError, chat_llm
 
 PROJECT_ROOT: Path = Path(__file__).resolve().parent.parent
 VECTOR_DB_DIR: Path = PROJECT_ROOT / "dataset" / "vector_db"
@@ -35,8 +31,15 @@ BASE_SYSTEM_PROMPT: str = (
 )
 
 
-def build_retriever() -> VectorStoreRetriever:
-    """ChromaDB (isg_mevzuat) üzerinde similarity retriever oluşturur."""
+def build_retriever() -> Any:
+    """ChromaDB (isg_mevzuat) üzerinde similarity retriever oluşturur.
+
+    langchain paketleri ağır; demo makinesinde kurulu olmayabilir. Bu yüzden
+    import fonksiyon içinde: RAG yoksa sistem standart prompt ile devam eder.
+    """
+    from langchain_chroma import Chroma
+    from langchain_huggingface import HuggingFaceEmbeddings
+
     embeddings = HuggingFaceEmbeddings(
         model_name=EMBEDDING_MODEL,
         model_kwargs={"device": "cpu"},
@@ -120,46 +123,34 @@ async def action_recommender_tool(state: AgentState) -> dict[str, Any]:
         }
 
     rag_query = f"{event_text} Risk seviyesi: {risk}".strip()
-    retrieved_texts = retrieve_isg_context(rag_query)
+    # Chroma + embedding senkron çalışıyor; event loop'u bloklamasın
+    retrieved_texts = await asyncio.to_thread(retrieve_isg_context, rag_query)
     system_prompt = build_system_prompt(retrieved_texts)
 
-    endpoint = f"{API_BASE_URL.rstrip('/')}/v1/chat/completions"
-    payload: dict[str, Any] = {
-        "model": MODEL_NAME,
-        "messages": [
-            {"role": "system", "content": system_prompt},
-            {
-                "role": "user",
-                "content": (
-                    f"Olay: {event_text}\n"
-                    f"Risk Seviyesi: {risk}\n"
-                    "Bu olay için sahaya yönelik acil müdahale yaz.\n"
-                    "Kurallar:\n"
-                    "1) Kanun maddelerini ASLA birebir kopyalama; sentezle ve sadece referans ver "
-                    "(Örn: Madde 25 uyarınca...).\n"
-                    "2) Aşırı resmi yasal jargondan kaçın; doğrudan, sade ve net dil kullan.\n"
-                    "3) Çıktı en fazla 2 veya 3 kısa, vurucu, eyleme geçirilebilir cümle olsun.\n"
-                    "4) HTML veya markdown kullanma; yalnızca düz Türkçe metin yaz.\n"
-                    "5) Örnek Format: Madde 25 uyarınca hayati tehlike tespit edilmiştir. "
-                    "İskeledeki çalışmayı derhal durdurun ve alanı tahliye edin."
-                ),
-            },
-        ],
-        "max_tokens": 180,
-        "temperature": 0.1,
-    }
-    headers = {"Content-Type": "application/json"}
+    question = (state.get("user_prompt") or "").strip()
+    question_block = f"Operatörün sorusu: {question}\n" if question else ""
 
     try:
-        timeout = aiohttp.ClientTimeout(total=60)
-        async with aiohttp.ClientSession(timeout=timeout) as session:
-            async with session.post(endpoint, headers=headers, json=payload) as response:
-                response.raise_for_status()
-                data = await response.json()
-                action_text = data["choices"][0]["message"]["content"].strip()
-                actions = _parse_actions(action_text)
-    except Exception as e:
-        print(f"API Hatası (Action Recommender): {e}")
+        result = await chat_llm(
+            f"{question_block}"
+            f"Olay: {event_text}\n"
+            f"Risk Seviyesi: {risk}\n"
+            "Bu olay için sahaya yönelik acil müdahale yaz.\n"
+            "Kurallar:\n"
+            "1) Kanun maddelerini ASLA birebir kopyalama; sentezle ve sadece referans ver "
+            "(Örn: Madde 25 uyarınca...).\n"
+            "2) Aşırı resmi yasal jargondan kaçın; doğrudan, sade ve net dil kullan.\n"
+            "3) Çıktı en fazla 2 veya 3 kısa, vurucu, eyleme geçirilebilir cümle olsun.\n"
+            "4) HTML veya markdown kullanma; yalnızca düz Türkçe metin yaz.\n"
+            "5) Örnek Format: Madde 25 uyarınca hayati tehlike tespit edilmiştir. "
+            "İskeledeki çalışmayı derhal durdurun ve alanı tahliye edin.",
+            system=system_prompt,
+            temperature=0.1,
+            max_tokens=180,
+        )
+        actions = _parse_actions(result.text.strip())
+    except ModelCallError as exc:
+        print(f"Action Recommender LLM hatası: {exc}")
         actions = ["Sistem operatörünü manuel inceleme için uyar!"]
 
     return {

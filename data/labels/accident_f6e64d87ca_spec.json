@@ -1,9 +1,9 @@
 {
-  "summary": "Çalışanın üzerine ağır yük devriliyor.",
+  "summary": "Çalışanın üstüne yük düşüyor.",
   "events": [
     {
       "time": "00:06",
-      "event": "Yük işçinin üzerine düşüyor."
+      "event": "Çalışanın üstüne yük düşüyor."
     },
     {
       "time": "00:12",
@@ -12,6 +12,7 @@
   ],
   "risk": "Yüksek",
   "actions": [
-    "Sağlık ekibi çağır."
+    "Sağlık ekibini çağır.",
+    "Alanı güvenlik altına al"
   ]
 }

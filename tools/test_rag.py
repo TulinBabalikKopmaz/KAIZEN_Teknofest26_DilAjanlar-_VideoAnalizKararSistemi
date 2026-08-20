@@ -51,6 +51,7 @@ def build_mock_state() -> AgentState:
         "recommended_actions": [],
         "rag_context": "",
         "trigger_reason": "",
+        "user_prompt": "",
     }
 
 

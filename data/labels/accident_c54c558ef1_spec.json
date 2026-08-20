@@ -1,14 +1,13 @@
 {
-  "summary": "Çalışan, yükü taşıyan palete çarpıyor. Çalışanın ayağı yükün altında kalıyor.",
+  "summary": "Yük taşıyan forklift çalışana çarpıyor. Çalışanın ayağı yükün altında kalıyor.",
   "events": [
     {
       "time": "00:01",
-      "event": "Çalışanın ayağı yükün altında kaldı. "
+      "event": "Yük taşıyan forklift çalışana çarpıyor. Çalışanın ayağı yükün altında kalıyor."
     }
   ],
   "risk": "Yüksek",
   "actions": [
-    "Sağlık ekibi çağır.",
-    "Çalışanın durumunu kontrol et."
+    "Sağlık ekibini çağır."
   ]
 }

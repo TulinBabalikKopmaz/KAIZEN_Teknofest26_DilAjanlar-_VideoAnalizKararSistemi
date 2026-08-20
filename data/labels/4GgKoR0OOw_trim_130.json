@@ -2,23 +2,25 @@
   "video_id": "4GgKoR0OOw_trim_130",
   "filename": "_4GgKoR0OOw_trim_130.mp4",
   "category": "near_miss",
+  "ambiguity": "net",
+  "ambiguity_reason": "",
+  "ambiguity_source": "human",
   "duration_sec": 7.0,
-  "status": "auto",
-  "labeled_by": "qwen:qwen2.5vl:7b",
-  "summary": "Operatör, yüklenen malzemenin düşmesini önler.",
+  "labeled_by": "human",
+  "summary": "Çalışan forkliftin altında kalmaktan son anda kurtuldu.",
   "events": [
     {
       "time": "00:02",
       "time_end": "00:05",
-      "event": "Operatör, malzemenin düşmesini önler",
-      "event_type": "mudahale",
+      "event": "Çalışan forkliftin altında kalmaktan son anda kurtuldu.",
+      "event_type": "near_miss",
       "severity": "orta"
     }
   ],
   "risk": "Orta",
   "actions": [
-    "Operatörün dikkatini çekmek",
-    "Malzemenin güvenli bir şekilde yüklenmesi"
+    "Alanı güvelik altına al"
   ],
-  "notes": "Otomatik taslak. Gold değil; Streamlit'te kontrol edin."
+  "notes": "",
+  "status": "gold"
 }

@@ -2,21 +2,24 @@
   "video_id": "-BzGMvclD88_trim_1",
   "filename": "-BzGMvclD88_trim_1.mp4",
   "category": "accident",
+  "ambiguity": "net",
+  "ambiguity_reason": "",
+  "ambiguity_source": "human",
   "duration_sec": null,
   "labeled_by": "human",
-  "summary": "Çalışan elinde yük varken dengesi kaybetti ve yüksekten düştü",
+  "summary": "Çalışan yük taşırken dengesini kaybetti ve yüksekten düştü.",
   "events": [
     {
       "time": "00:03",
       "time_end": "00:04",
       "event": "Çalışan yüksekten düştü ve hareketsiz yatıyor.",
       "event_type": "kaza",
-      "severity": "orta"
+      "severity": "yuksek"
     }
   ],
   "risk": "Yüksek",
   "actions": [
-    "Sağlık ekibi çağır"
+    "Sağlık ekibini çağır."
   ],
   "notes": "",
   "status": "gold"

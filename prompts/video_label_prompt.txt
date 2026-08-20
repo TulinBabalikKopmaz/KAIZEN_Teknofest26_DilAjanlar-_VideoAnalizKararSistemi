@@ -15,11 +15,24 @@ Sınıf ve risk (birlikte tutarlı olsun):
 - normal + Düşük: kaza yok, ciddi yaklaşma yok, rutin çalışma. Duman/buhar tesisin normal parçasıysa kaza uydurma.
 - Şüphede kalırsan: görünür zarar / temas varsa accident; sadece yakın geçiş varsa near_miss. Görünür kazayı küçültme.
 
+Terminoloji (İSG raporlama dili — bu kelimeleri kullan):
+- Sahadaki kişi için "çalışan" yaz; "işçi", "adam", "personel", "sürücü" kullanma.
+- Araç için gördüğün şeyi adlandır: "forklift", "kamyon", "iş makinesi", "motosiklet".
+- Tehlikeli yaklaşma için "çok yakınından geçti" veya "son anda kaçtı" yaz;
+  "önünden geçiyor", "yanında duruyor" gibi nötr ifadeler olayı gizler.
+- Kaza için fiili sonucu yaz: "yere düştü", "yüksekten düştü", "çarptı", "devrildi",
+  "altında kaldı", "yük düştü", "kıyafeti tutuştu", "yerde hareketsiz".
+- "tehlikesi", "olabilir", "riski var" gibi tahmin dili yerine ne olduğunu yaz.
+  Gerçekten olmadıysa zaten near_miss veya normal seçeceksin.
+- Aynı olayı farklı karelerde tekrar yazma; tek olay tek satır.
+
 Kurallar:
 - Her saniyeyi yazma. Sadece olayın değiştiği, risk oluşan veya müdahale gereken anları yaz (tercihen 1–3 olay).
 - events[].time MUTLAKA gönderilen kare zamanlarından BİRİ olsun (listede yoksa en yakın kareyi seç). Uydurma saniye yazma.
-- summary: 1–2 kısa Türkçe cümle; gold tarzı düz rapor. İngilizce yazma. Şişirme / uzun hikâye yok.
-- events[].event Türkçe ve somut olsun: “çarptı”, “devrildi”, “yere düştü”, “yük düştü”, “son anda kaçtı”, “forklift yayaya çok yaklaştı”.
+- summary: 1–2 kısa Türkçe cümle; düz rapor dili. İngilizce yazma. Şişirme / uzun hikâye yok.
+  Özet, olayın kendisini söylemeli: kim (çalışan), ne oldu (düştü / çarptı / çok yakınından geçti).
+  "Sistem normal durumda" gibi içi boş cümle yazma; ne gördüğünü yaz.
+- events[].event Türkçe ve somut olsun: “çarptı”, “devrildi”, “yere düştü”, “yük düştü”, “son anda kaçtı”, “forklift çalışanın çok yakınından geçti”.
 - actions: operatöre uygulanabilir Türkçe emir. Kazada sağlık / alanı boşalt / itfaiye. Normalde “Rutin izlemeye devam et” yeter.
 - Sadece JSON döndür, markdown veya açıklama ekleme.
 

@@ -2,21 +2,24 @@
   "video_id": "LiveLeak_Work_accident_in_Supermarket_-_Liveleak_198p",
   "filename": "LiveLeak Work accident in Supermarket - Liveleak (198p).mp4",
   "category": "accident",
+  "ambiguity": "belirsiz",
+  "ambiguity_reason": "kalite",
+  "ambiguity_source": "human",
   "duration_sec": 21.97,
   "labeled_by": "human",
-  "summary": "Merdiven kayıyor ve işçi yüksekten düşüyor.",
+  "summary": "Çalışan merdivenden düşüyor",
   "events": [
     {
       "time": "00:12",
-      "time_end": "00:14",
-      "event": "İşçi merdivenden düştü.",
+      "time_end": "",
+      "event": "Çalışan merdivenden düşüyor",
       "event_type": "kaza",
       "severity": "yuksek"
     }
   ],
   "risk": "Yüksek",
   "actions": [
-    "Sağlık ekibi çağır."
+    "Sağlık ekibini çağır."
   ],
   "notes": "Görüntü kalitesi düşük ve çekim hareketli.",
   "status": "gold"

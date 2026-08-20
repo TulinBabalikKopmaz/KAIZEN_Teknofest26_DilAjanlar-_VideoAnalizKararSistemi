@@ -2,21 +2,25 @@
   "video_id": "R4pN50yYI5k_trim_2",
   "filename": "R4pN50yYI5k_trim_2.mp4",
   "category": "accident",
+  "ambiguity": "net",
+  "ambiguity_reason": "",
+  "ambiguity_source": "human",
   "duration_sec": 6.01,
   "labeled_by": "human",
-  "summary": "Forklift raf sistemine çarpıyor ve raflar devriliyor.",
+  "summary": "Forklift depodaki yük dolu raflara çarpıyor. Raf yüklerle birlikte devriliyor.",
   "events": [
     {
       "time": "00:03",
-      "time_end": "00:06",
-      "event": "Forklift raf sistemine çarpıyor ve raflar devriliyor.",
-      "event_type": "normal",
+      "time_end": "",
+      "event": "Forklift çapması sonucu yük dolu raflar devriliyor.",
+      "event_type": "kaza",
       "severity": "yuksek"
     }
   ],
   "risk": "Yüksek",
   "actions": [
-    "Sağlık ekibi çağır."
+    "Sağlık ekibini çağır.",
+    "Alanı güvenlik altına al."
   ],
   "notes": "",
   "status": "gold"

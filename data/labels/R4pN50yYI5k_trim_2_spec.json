@@ -1,13 +1,14 @@
 {
-  "summary": "Forklift raf sistemine çarpıyor ve raflar devriliyor.",
+  "summary": "Forklift depodaki yük dolu raflara çarpıyor. Raf yüklerle birlikte devriliyor.",
   "events": [
     {
       "time": "00:03",
-      "event": "Forklift raf sistemine çarpıyor ve raflar devriliyor."
+      "event": "Forklift çapması sonucu yük dolu raflar devriliyor."
     }
   ],
   "risk": "Yüksek",
   "actions": [
-    "Sağlık ekibi çağır."
+    "Sağlık ekibini çağır.",
+    "Alanı güvenlik altına al."
   ]
 }

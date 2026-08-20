@@ -2,6 +2,9 @@
   "video_id": "accident_c242306419",
   "filename": "3XOG - Another workplace accident resulting in a crazy faceplant 😅 #StaySafe... [1617839956331823104].mp4",
   "category": "accident",
+  "ambiguity": "belirsiz",
+  "ambiguity_reason": "kalite",
+  "ambiguity_source": "human",
   "duration_sec": null,
   "labeled_by": "human",
   "summary": "Çalışanın taşıdığı yük devrildi. Çalışanın yüksekten düşmesine sebep oldu.",
@@ -9,14 +12,14 @@
     {
       "time": "00:04",
       "time_end": "00:06",
-      "event": "Çalışan yüksekten düştü ve yere yığıldı.",
+      "event": "Çalışanın taşıdığı yük devrildi. Çalışanın yüksekten düşmesine sebep oldu.",
       "event_type": "kaza",
-      "severity": "orta"
+      "severity": "yuksek"
     }
   ],
   "risk": "Yüksek",
   "actions": [
-    "Sağlık ekibi çağır."
+    "Sağlık ekibini çağır."
   ],
   "notes": "",
   "status": "gold"

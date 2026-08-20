@@ -1,6 +1,12 @@
 streamlit>=1.40.0
 openai>=1.50.0
+aiohttp>=3.10.0
 opencv-python-headless>=4.10.0
 pydantic>=2.9.0
 python-dotenv>=1.0.1
 orjson>=3.10.0
+langgraph>=0.2.0
+langchain-chroma>=0.1.4
+langchain-huggingface>=0.1.0
+# Kanıt katmanı (kişi-araç yakınlığı) için; yoksa sistem YOLO'suz çalışır
+# ultralytics>=8.3.0

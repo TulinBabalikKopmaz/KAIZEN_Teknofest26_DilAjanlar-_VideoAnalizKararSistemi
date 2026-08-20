@@ -1,9 +1,9 @@
 {
-  "summary": "Alev var ama normal gözüküyor.",
+  "summary": "Görüntüde alevler var ama normal gözüküyor.",
   "events": [
     {
       "time": "00:00",
-      "event": "Alevler var ama normal gözüküyor."
+      "event": "Görüntüde alevler var ama normal gözüküyor."
     }
   ],
   "risk": "Düşük",

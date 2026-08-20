@@ -1,16 +1,25 @@
-"""Risk Assessor — olay özetini İSG seviyelerine map eder."""
+"""Risk Assessor — olay özetini İSG seviyelerine map eder (metin LLM'i)."""
 
 from __future__ import annotations
 
 from typing import Any
 
-import requests
-
 from agents.state import AgentState
-from utils.config import API_BASE_URL, MODEL_NAME
+from utils.model_client import ModelCallError, chat_llm
+from utils.risk_rules import text_risk_floor
+from utils.spec_output import normalize_risk
+
+SYSTEM_PROMPT: str = (
+    "Sen kıdemli bir İş Sağlığı ve Güvenliği (İSG) uzmanısın. "
+    "Gelen olay özetini analiz et. Sadece şu 4 seviyeden birini tek kelime olarak söyle: "
+    "'Güvenli', 'Düşük', 'Orta', 'Kritik'."
+)
+
+_FLOOR_TO_LEVEL = {"Düşük": "Düşük", "Orta": "Orta", "Yüksek": "Kritik"}
+_RANK = {"Düşük": 0, "Orta": 1, "Yüksek": 2}
 
 
-def risk_assessor_tool(state: AgentState) -> dict[str, Any]:
+async def risk_assessor_tool(state: AgentState) -> dict[str, Any]:
     """Analiz sonucuna göre Güvenli / Düşük / Orta / Kritik risk atar.
 
     LLM kararını alır; metinde çarpışma/düşme/yanma varsa Kritik altına düşürmez.
@@ -20,48 +29,22 @@ def risk_assessor_tool(state: AgentState) -> dict[str, Any]:
     analysis = state.get("analysis_result", {})
     event_text = analysis.get("event", "Bilinmeyen olay")
 
-    endpoint = f"{API_BASE_URL.rstrip('/')}/v1/chat/completions"
-
-    payload = {
-        "model": MODEL_NAME,
-        "messages": [
-            {
-                "role": "system",
-                "content": (
-                    "Sen kıdemli bir İş Sağlığı ve Güvenliği (İSG) uzmanısın. "
-                    "Gelen olay özetini analiz et. Sadece şu 4 seviyeden birini tek kelime olarak söyle: "
-                    "'Güvenli', 'Düşük', 'Orta', 'Kritik'."
-                ),
-            },
-            {
-                "role": "user",
-                "content": f"Olay Özeti: {event_text}\nRisk seviyesi nedir?",
-            },
-        ],
-        "max_tokens": 10,
-        "temperature": 0.1,
-    }
-
-    headers = {"Content-Type": "application/json"}
-
     try:
-        response = requests.post(endpoint, headers=headers, json=payload, timeout=30)
-        response.raise_for_status()
-        risk = response.json()["choices"][0]["message"]["content"].strip()
-        risk = risk.replace(".", "").replace(",", "")
-    except Exception as e:
-        print(f"API Hatası (Risk Assessor): {e}")
+        result = await chat_llm(
+            f"Olay Özeti: {event_text}\nRisk seviyesi nedir?",
+            system=SYSTEM_PROMPT,
+            temperature=0.1,
+            max_tokens=10,
+        )
+        risk = result.text.strip().replace(".", "").replace(",", "")
+    except ModelCallError as exc:
+        print(f"Risk Assessor LLM hatası: {exc}")
         risk = "Bilinmiyor"
 
     # Kural katmanı: LLM metni küçümsese bile anahtar kelime tabanı uygula
-    from utils.risk_rules import text_risk_floor
-    from utils.spec_output import normalize_risk
-
     floor, _ = text_risk_floor({"summary": event_text, "events": [], "actions": []})
-    rank = {"Düşük": 0, "Orta": 1, "Yüksek": 2}
-    llm_norm = normalize_risk(risk)
-    if rank[floor] > rank.get(llm_norm, 0):
-        mapped = {"Düşük": "Düşük", "Orta": "Orta", "Yüksek": "Kritik"}[floor]
+    if _RANK[floor] > _RANK.get(normalize_risk(risk), 0):
+        mapped = _FLOOR_TO_LEVEL[floor]
         print(f"Kural tabanı: LLM={risk} → en az {mapped} (metin kanıtı)")
         risk = mapped
 

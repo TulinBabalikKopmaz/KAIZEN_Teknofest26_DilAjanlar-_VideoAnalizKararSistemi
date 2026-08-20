@@ -1,13 +1,13 @@
 {
-  "summary": "kişi bisiklet sürerken forklifte çarpıp düşüyor.",
+  "summary": "Çalışan bisiklet ile forklifte çarpıyor",
   "events": [
     {
       "time": "00:02",
-      "event": "kişi forklifte çarpıp yere düşüyor."
+      "event": "Çalışan bisiklet ile forklifte çarpıyor"
     }
   ],
   "risk": "Yüksek",
   "actions": [
-    "sağlık ekibi çağır."
+    "Sağlık ekibini çağır."
   ]
 }

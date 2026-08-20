@@ -2,22 +2,24 @@
   "video_id": "accident_0f6d0af3d7",
   "filename": "Dude at my work slammed into a pole with a forklift and bent the blad... [hzvtKncHvyQ].mp4",
   "category": "accident",
+  "ambiguity": "net",
+  "ambiguity_reason": "",
+  "ambiguity_source": "human",
   "duration_sec": 9.5,
   "labeled_by": "human",
-  "summary": "Kazada forklift, bir direğe çarptı.",
+  "summary": "Forklift direğe çarpıyor.",
   "events": [
     {
       "time": "00:03",
       "time_end": "00:06",
-      "event": "Forklift çarptı",
+      "event": "Forklift direğe çarptı",
       "event_type": "kaza",
       "severity": "yuksek"
     }
   ],
   "risk": "Yüksek",
   "actions": [
-    "Forklift kontrol edin.",
-    "Yaralı varsa yardım sağlayın."
+    "Alanı güvenlik altına al"
   ],
   "notes": "",
   "status": "gold"

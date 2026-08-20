@@ -3,12 +3,11 @@
   "events": [
     {
       "time": "00:24",
-      "event": "Çalışan düşen parçadan son anda kaçtı"
+      "event": "Çalışan parçanın altında kalmaktan son anda kurtuldu."
     }
   ],
   "risk": "Orta",
   "actions": [
-    "Alanı güvene al.",
-    "İzlemeye devam et."
+    "Alanı güvenlik altına al."
   ]
 }

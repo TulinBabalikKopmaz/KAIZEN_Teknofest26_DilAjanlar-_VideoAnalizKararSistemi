@@ -2,28 +2,38 @@
   "video_id": "00f2bbb80d7badad0134_run_25_seed_750796930.ceiling_00.rgb",
   "filename": "00f2bbb80d7badad0134_run_25_seed_750796930.ceiling_00.rgb.mp4",
   "category": "near_miss",
+  "ambiguity": "net",
+  "ambiguity_reason": "",
+  "ambiguity_source": "human",
   "duration_sec": 10.0,
   "labeled_by": "human",
-  "summary": "Forklift çalışanın çok yakınından geçti. Neredeyse temas edeceklerdi.",
+  "summary": "Forklift çalışanın çok yakınından geçti. Çalışan son anda kurtuldu.",
   "events": [
     {
       "time": "00:02",
-      "time_end": "00:03",
+      "time_end": "",
       "event": "Forklift çalışanın çok yakınından geçti. ",
       "event_type": "near_miss",
       "severity": "orta"
     },
     {
       "time": "00:06",
-      "time_end": "00:07",
+      "time_end": "",
+      "event": "Forklift çalışanın çok yakınından geçti. ",
+      "event_type": "near_miss",
+      "severity": "orta"
+    },
+    {
+      "time": "00:09",
+      "time_end": null,
       "event": "Forklift çalışanın çok yakınından geçti. ",
       "event_type": "near_miss",
       "severity": "orta"
     }
   ],
-  "risk": "Düşük",
+  "risk": "Orta",
   "actions": [
-    "Rutin izlemeye devam et"
+    "Alanı güvenlik altına al"
   ],
   "notes": "",
   "status": "gold"

@@ -33,6 +33,10 @@ class SceneEvidence:
     duration_sec: float = 0.0
     motion_peak_sec: float | None = None
     motion_peak_score: float = 0.0
+    # Tek tepe olay anını ±2 sn içinde yalnızca %25 buluyor, ilk üç tepe %69
+    # (ölçüm: scripts/eval_wakeup.py). Odak kareleri ve uzun video penceresi
+    # bu yüzden tek tepe yerine tepe listesini kullanıyor.
+    motion_peaks: list[float] = field(default_factory=list)
     motion_elevated: bool = False
     person_count_max: int = 0
     vehicle_count_max: int = 0
@@ -56,6 +60,13 @@ class SceneEvidence:
                 f"- Ani hareket tepe noktası ~{self._mmss(self.motion_peak_sec)} "
                 f"(skor {self.motion_peak_score:.1f}). Kritik an buraya yakın olabilir."
             )
+            others = [p for p in self.motion_peaks if abs(p - self.motion_peak_sec) > 1.0]
+            if others:
+                lines.append(
+                    "- Diğer hareketli anlar: "
+                    + ", ".join(self._mmss(p) for p in others)
+                    + ". Olay bunlardan birinde de olabilir."
+                )
         if self.yolo_available:
             lines.append(
                 f"- YOLO: en fazla {self.person_count_max} kişi, "
@@ -155,8 +166,34 @@ def _try_load_yolo():
         return None
 
 
-def analyze_video(video_path: Path, max_probe_frames: int = 24) -> SceneEvidence:
-    """Videoyu hızlı tarayıp SceneEvidence üretir. Gold/etiket okumaz."""
+def top_motion_peaks(
+    motion: list[tuple[float, float]],
+    count: int = 3,
+    min_gap: float = 2.0,
+) -> list[float]:
+    """En yüksek skorlu, birbirinden min_gap saniye uzak tepeler (zaman sıralı)."""
+    picked: list[float] = []
+    for t, score in sorted(motion, key=lambda item: item[1], reverse=True):
+        if score <= 0:
+            continue
+        if all(abs(t - other) >= min_gap for other in picked):
+            picked.append(t)
+        if len(picked) >= count:
+            break
+    return sorted(picked)
+
+
+def analyze_video(
+    video_path: Path,
+    max_probe_frames: int = 24,
+    *,
+    use_yolo: bool = True,
+) -> SceneEvidence:
+    """Videoyu hızlı tarayıp SceneEvidence üretir. Gold/etiket okumaz.
+
+    use_yolo=False: demo süre bütçesi için kişi-araç yakınlığı atlanır,
+    hareket ve yangın rengi ipuçları yine hesaplanır.
+    """
     evidence = SceneEvidence()
     cap = cv2.VideoCapture(str(video_path))
     if not cap.isOpened():
@@ -172,6 +209,7 @@ def analyze_video(video_path: Path, max_probe_frames: int = 24) -> SceneEvidence
         peak_t, peak_s = max(motion, key=lambda item: item[1])
         evidence.motion_peak_sec = peak_t
         evidence.motion_peak_score = peak_s
+        evidence.motion_peaks = top_motion_peaks(motion)
         vals = [s for _, s in motion]
         median = float(np.median(vals)) if vals else 0.0
         evidence.motion_elevated = peak_s >= max(8.0, median * 2.2)
@@ -184,8 +222,10 @@ def analyze_video(video_path: Path, max_probe_frames: int = 24) -> SceneEvidence
         else [0]
     )
     fire_ratios: list[float] = []
-    model = _try_load_yolo()
+    model = _try_load_yolo() if use_yolo else None
     evidence.yolo_available = model is not None
+    if not use_yolo:
+        evidence.notes.append("hızlı mod: YOLO atlandı")
     min_ratio: float | None = None
 
     for fi in indices:

@@ -2,22 +2,24 @@
   "video_id": "Dumb_ass_fork_lift_driver_rofl_G4g4RN3AFD8",
   "filename": "Dumb ass fork lift driver rofl [G4g4RN3AFD8].mp4",
   "category": "accident",
+  "ambiguity": "net",
+  "ambiguity_reason": "",
+  "ambiguity_source": "human",
   "duration_sec": 32.93,
   "labeled_by": "human",
-  "summary": "Kazada forklift devrildi ve yükü yere düşürdü.",
+  "summary": "Forklift devriliyor.",
   "events": [
     {
-      "time": "00:10",
-      "time_end": "00:15",
-      "event": "Forklift devrildi ve çalışan düştü.",
+      "time": "00:06",
+      "time_end": "",
+      "event": "Forklift devriliyor",
       "event_type": "kaza",
       "severity": "yuksek"
     }
   ],
   "risk": "Yüksek",
   "actions": [
-    "Forklift kontrol edin.",
-    "İşçi güvenli bir şekilde insin."
+    "Alanı güvenlik altına al"
   ],
   "notes": "",
   "status": "gold"

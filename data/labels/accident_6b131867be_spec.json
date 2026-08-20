@@ -1,13 +1,14 @@
 {
-  "summary": "İşçinin üzerine duvar çöküyor. duvarın üzerindeki işçilerde düşüyor.",
+  "summary": "Duvar üzerindeki çalışanlarla beraber başka bir çalışanın üzerine yıkılıyor.",
   "events": [
     {
       "time": "00:05",
-      "event": "işçiler enkaz altında kaldı."
+      "event": "Duvar çalışaların üzerine yıkılıyor."
     }
   ],
   "risk": "Yüksek",
   "actions": [
-    "sağlık ekibi çağır."
+    "Sağlık ekibini çağır.",
+    "Alanı güvenlik altına al."
   ]
 }

@@ -1,5 +1,5 @@
 {
-  "summary": "Binadan duman ve alevler yükseliyor. Yangın olabilir",
+  "summary": "Fabrikadan duman ve alevler yükseliyor. Yangın olabilir",
   "events": [
     {
       "time": "00:01",
@@ -8,7 +8,8 @@
   ],
   "risk": "Yüksek",
   "actions": [
-    "Sağlık ekibi ve itfaiyeye haber ver.",
-    "Alanı güvene al."
+    "İtfaiyeye haber ver.",
+    "Sağlık ekibini çağır.",
+    "Alanı güvenlik altına al."
   ]
 }

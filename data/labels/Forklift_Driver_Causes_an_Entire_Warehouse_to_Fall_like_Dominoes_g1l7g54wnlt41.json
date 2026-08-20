@@ -2,21 +2,25 @@
   "video_id": "Forklift_Driver_Causes_an_Entire_Warehouse_to_Fall_like_Dominoes_g1l7g54wnlt41",
   "filename": "Forklift Driver Causes an Entire Warehouse to Fall like Dominoes [g1l7g54wnlt41].mp4",
   "category": "accident",
+  "ambiguity": "net",
+  "ambiguity_reason": "",
+  "ambiguity_source": "human",
   "duration_sec": 62.28,
   "labeled_by": "human",
-  "summary": "Bir forklift, depo içindeki raf sistemini devirerek çöktü.",
+  "summary": "Forklift depodaki yük dolu raflara çarpıyor. Raf yüklerle birlikte devriliyor.",
   "events": [
     {
       "time": "00:32",
-      "time_end": "00:52",
-      "event": "Depo raf sistemi devrildi ve çöktü",
+      "time_end": "",
+      "event": "Forklift çapması sonucu yük dolu raflar devriliyor.",
       "event_type": "kaza",
       "severity": "yuksek"
     }
   ],
   "risk": "Yüksek",
   "actions": [
-    "Sağlık ekibi çağırın."
+    "Sağlık ekibini çağır",
+    "Alanı güvenlik altına al"
   ],
   "notes": "",
   "status": "gold"

@@ -2,22 +2,24 @@
   "video_id": "near_miss_d6a70ba652",
   "filename": "Daily Safety Fails🤯This is WHY You Stay Alert Around Forklifts – Near Miss🤯- #fail #safetyfails [GyU1XMIhu_o].mp4",
   "category": "near_miss",
+  "ambiguity": "net",
+  "ambiguity_reason": "",
+  "ambiguity_source": "human",
   "duration_sec": null,
   "labeled_by": "human",
-  "summary": "Rafta bulunan yük yüksekten düştü. İnsanlar altında kalmaktan son anda kurtuldu.",
+  "summary": "Rafta bulunan yük çalışanların üzerine düştü. Çalışanlar yükün altında kalmaktan son anda kurtuldu.",
   "events": [
     {
       "time": "00:15",
       "time_end": "00.21",
-      "event": "İnsanlar düşen yükün altından son anda kaçtı.",
+      "event": "Çalışanlar yükün altında kalmaktan son anda kurtuldu.",
       "event_type": "near_miss",
       "severity": "orta"
     }
   ],
   "risk": "Orta",
   "actions": [
-    "Alanı güvene al.",
-    "İzlemeye devam et."
+    "Alanı güvenlik altına al."
   ],
   "notes": "",
   "status": "gold"

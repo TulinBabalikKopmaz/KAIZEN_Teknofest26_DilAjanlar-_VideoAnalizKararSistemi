@@ -1,5 +1,5 @@
 {
-  "summary": "Çalışan elinde yük varken dengesi kaybetti ve yüksekten düştü",
+  "summary": "Çalışan yük taşırken dengesini kaybetti ve yüksekten düştü.",
   "events": [
     {
       "time": "00:03",
@@ -8,6 +8,6 @@
   ],
   "risk": "Yüksek",
   "actions": [
-    "Sağlık ekibi çağır"
+    "Sağlık ekibini çağır."
   ]
 }

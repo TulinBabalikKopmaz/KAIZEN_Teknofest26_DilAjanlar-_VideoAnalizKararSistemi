@@ -2,14 +2,17 @@
   "video_id": "accident_f6e64d87ca",
   "filename": "The Public Record - https：⧸⧸t.co⧸19h6ftihJO  🚨 BREAKING NEWS ｜ SOCIAL MEDIA • Workplace S... [2042443212972048390].mp4",
   "category": "accident",
+  "ambiguity": "net",
+  "ambiguity_reason": "",
+  "ambiguity_source": "human",
   "duration_sec": 45.0,
   "labeled_by": "human",
-  "summary": "Çalışanın üzerine ağır yük devriliyor.",
+  "summary": "Çalışanın üstüne yük düşüyor.",
   "events": [
     {
       "time": "00:06",
       "time_end": "00:10",
-      "event": "Yük işçinin üzerine düşüyor.",
+      "event": "Çalışanın üstüne yük düşüyor.",
       "event_type": "kaza",
       "severity": "yuksek"
     },
@@ -23,7 +26,8 @@
   ],
   "risk": "Yüksek",
   "actions": [
-    "Sağlık ekibi çağır."
+    "Sağlık ekibini çağır.",
+    "Alanı güvenlik altına al"
   ],
   "notes": "",
   "status": "gold"

@@ -1,0 +1,27 @@
+{
+  "video_id": "Insane_Near-Death_Accident_On_Construction_Site_cFpbTOOLcek_-_Trim",
+  "filename": "Insane Near-Death Accident On Construction Site! [cFpbTOOLcek] - Trim.mp4",
+  "category": "accident",
+  "ambiguity": "net",
+  "ambiguity_reason": "",
+  "ambiguity_source": "human",
+  "duration_sec": null,
+  "labeled_by": "human",
+  "summary": "Çalışanların üzerine yükler düşüyor. Çalışanlar kaçıyor.",
+  "events": [
+    {
+      "time": "00:07",
+      "time_end": "",
+      "event": "Çalışanların üzerine yükler düşüyor. Çalışanlar kaçıyor.",
+      "event_type": "kaza",
+      "severity": "yuksek"
+    }
+  ],
+  "risk": "Yüksek",
+  "actions": [
+    "Sağlık ekibini çağır",
+    "Alanı güvenlik altına al"
+  ],
+  "notes": "",
+  "status": "gold"
+}

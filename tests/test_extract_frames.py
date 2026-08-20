@@ -36,6 +36,13 @@ class ExtractFrameTests(unittest.TestCase):
         self.assertEqual(len(stamps), len(set(stamps)))
         self.assertIn("00:03", stamps)
 
+    def test_window_limits_frames_to_wake_up_range(self) -> None:
+        times = pick_times(120.0, 6, [(12.0, 50.0), (95.0, 60.0)], window=(90.0, 110.0))
+        self.assertTrue(all(89.9 <= t <= 110.1 for t in times), times)
+        self.assertLessEqual(len(times), 6)
+        nearest = min(times, key=lambda t: abs(t - 95.0))
+        self.assertLess(abs(nearest - 95.0), 1.5)
+
     def test_repairs_truncated_json(self) -> None:
         parsed = parse_json(
             '{\n  "category": "accident",\n  "summary": "Kişi düştü",\n  "risk": "Yüksek",\n  "actions": ["Sağlık çağır"],\n  "events": [{"time": "00:02", "event": "düştü", "severity": "düşük'

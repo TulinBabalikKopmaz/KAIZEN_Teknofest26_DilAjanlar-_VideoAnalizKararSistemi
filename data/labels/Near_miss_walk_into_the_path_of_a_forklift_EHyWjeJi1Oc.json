@@ -2,9 +2,12 @@
   "video_id": "Near_miss_walk_into_the_path_of_a_forklift_EHyWjeJi1Oc",
   "filename": "Near miss walk into the path of a forklift [EHyWjeJi1Oc].mp4",
   "category": "near_miss",
+  "ambiguity": "net",
+  "ambiguity_reason": "",
+  "ambiguity_source": "human",
   "duration_sec": null,
   "labeled_by": "human",
-  "summary": "Forklift çalışanın çok yakınından geçti. Neredeyse temas edeceklerdi",
+  "summary": "Forklift çalışanın çok yakınından geçti. Çalışan son anda kurtuldu.",
   "events": [
     {
       "time": "00:02",
@@ -16,8 +19,7 @@
   ],
   "risk": "Orta",
   "actions": [
-    "Alanı güvene al.",
-    "İzlemeye devam et."
+    "Alanı güvenlik altına al."
   ],
   "notes": "",
   "status": "gold"

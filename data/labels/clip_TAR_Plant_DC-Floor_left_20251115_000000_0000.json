@@ -2,14 +2,17 @@
   "video_id": "clip_TAR_Plant_DC-Floor_left_20251115_000000_0000",
   "filename": "clip_TAR_Plant_DC-Floor_left_20251115_000000_0000.mp4",
   "category": "normal",
+  "ambiguity": "belirsiz",
+  "ambiguity_reason": "alarm_gorunumlu_normal",
+  "ambiguity_source": "human",
   "duration_sec": null,
   "labeled_by": "human",
-  "summary": "Çalışanlar rutin aktivitesini sürdürüyor. Duman var ama normal gözüküyor.",
+  "summary": "Çalışanlar rutin aktivitesini sürdürüyor. Görüntüde duman var ama normal gözüküyor.",
   "events": [
     {
       "time": "00:00",
       "time_end": "",
-      "event": "Duman var ama normal gözüküyor",
+      "event": "Görüntüde duman var ama normal gözüküyor.",
       "event_type": "normal",
       "severity": "dusuk"
     }

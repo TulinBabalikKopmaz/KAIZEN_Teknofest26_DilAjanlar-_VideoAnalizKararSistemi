@@ -2,12 +2,12 @@
   "summary": "Çalışan dengesini kaybedip düşüyor. Çalışanın üstüne araba düşüyor. İnsanlar yardıma geliyor.",
   "events": [
     {
-      "time": "00:04",
+      "time": "00:03",
       "event": "Çalışan arabanın altında kaldı."
     }
   ],
   "risk": "Yüksek",
   "actions": [
-    "Sağlık ekibi çağırın."
+    "Sağlık ekibini çağırın."
   ]
 }

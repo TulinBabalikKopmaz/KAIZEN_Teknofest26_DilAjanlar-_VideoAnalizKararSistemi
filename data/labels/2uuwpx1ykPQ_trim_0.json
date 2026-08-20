@@ -2,22 +2,26 @@
   "video_id": "2uuwpx1ykPQ_trim_0",
   "filename": "2uuwpx1ykPQ_trim_0.mp4",
   "category": "accident",
+  "ambiguity": "belirsiz",
+  "ambiguity_reason": "kalite",
+  "ambiguity_source": "human",
   "duration_sec": 5.0,
   "labeled_by": "human",
-  "summary": "Kişinin kıyafetinin yandığı tespit edilmiştir.",
+  "summary": "Çalışanın üstüne ateş sıçrıyor.",
   "events": [
     {
       "time": "00:03",
       "time_end": "00:05",
-      "event": "Kişinin kıyafeti yanmaya başladı. Kişi kaçmaya çalışıyor.",
+      "event": "Çalışanın üstüne ateş sıçrıyor.",
       "event_type": "kaza",
       "severity": "yuksek"
     }
   ],
   "risk": "Yüksek",
   "actions": [
-    "Sağlık ekibi ve itfaiye çağır.",
-    "Alanı güvene al."
+    "İtfaiye çağır.",
+    "Sağlık ekibini çağır.",
+    "Alanı güvenlik altına al."
   ],
   "notes": "",
   "status": "gold"

@@ -53,6 +53,8 @@ def spec_view(label: dict) -> dict:
         "video_id": label.get("video_id"),
         "filename": label.get("filename"),
         "category": label.get("category"),
+        "ambiguity": label.get("ambiguity") or "net",
+        "ambiguity_reason": label.get("ambiguity_reason") or "",
         "summary": label.get("summary", ""),
         "events": [
             {"time": e.get("time", "00:00"), "event": e.get("event", "")}
@@ -97,11 +99,12 @@ def write_outputs(labels: list[dict], out_dir: Path, stem: str) -> None:
 
     with csv_path.open("w", encoding="utf-8", newline="") as fh:
         writer = csv.writer(fh)
-        writer.writerow(["category", "filename", "risk", "n_events", "summary"])
+        writer.writerow(["category", "ambiguity", "filename", "risk", "n_events", "summary"])
         for row in labels:
             writer.writerow(
                 [
                     row.get("category"),
+                    row.get("ambiguity") or "net",
                     row.get("filename"),
                     row.get("risk"),
                     len(row.get("events") or []),
@@ -113,6 +116,11 @@ def write_outputs(labels: list[dict], out_dir: Path, stem: str) -> None:
     print(f"Gold video: {len(labels)}")
     for cat, n in sorted(counts.items()):
         print(f"  {cat}: {n}")
+
+    # Şartname dağılımı: %30 kaza, %30 normal, %20 ramak kala, %20 belirsiz
+    ambiguous = sum(1 for x in labels if (x.get("ambiguity") or "net") == "belirsiz")
+    total = len(labels) or 1
+    print(f"  belirsiz işaretli: {ambiguous} ({ambiguous / total:.0%}) — hedef %20")
     print(f"Yazıldı:\n  {full_path}\n  {spec_path}\n  {jsonl_path}\n  {csv_path}")
 
 

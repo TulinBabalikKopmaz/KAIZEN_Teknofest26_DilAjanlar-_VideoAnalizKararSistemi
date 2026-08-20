@@ -1,14 +1,13 @@
 {
-  "summary": "Operatör, yüklenen malzemenin düşmesini önler.",
+  "summary": "Çalışan forkliftin altında kalmaktan son anda kurtuldu.",
   "events": [
     {
       "time": "00:02",
-      "event": "Operatör, malzemenin düşmesini önler"
+      "event": "Çalışan forkliftin altında kalmaktan son anda kurtuldu."
     }
   ],
   "risk": "Orta",
   "actions": [
-    "Operatörün dikkatini çekmek",
-    "Malzemenin güvenli bir şekilde yüklenmesi"
+    "Alanı güvelik altına al"
   ]
 }

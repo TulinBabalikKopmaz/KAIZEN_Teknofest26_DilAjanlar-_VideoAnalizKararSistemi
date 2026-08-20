@@ -12,3 +12,5 @@ class AgentState(TypedDict):
     recommended_actions: List[str]
     rag_context: str
     trigger_reason: str
+    # Demoda jürinin verdiği serbest metin soru; boşsa standart İSG taraması yapılır
+    user_prompt: str

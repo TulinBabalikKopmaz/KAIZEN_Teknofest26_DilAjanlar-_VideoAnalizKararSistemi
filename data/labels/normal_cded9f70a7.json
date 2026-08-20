@@ -2,9 +2,12 @@
   "video_id": "normal_cded9f70a7",
   "filename": "Example of Hi-Definition Video Surveillance of a Factory Floor - by CCTVDOC.COM [8DJi4PrdFCg].mp4",
   "category": "normal",
+  "ambiguity": "net",
+  "ambiguity_reason": "",
+  "ambiguity_source": "human",
   "duration_sec": null,
   "labeled_by": "human",
-  "summary": "Çalışlan rutin aktivitesini sürdürüyor. Normal gözüküyor.",
+  "summary": "Çalışanlar rutin aktivitesini sürdürüyor.. Normal gözüküyor.",
   "events": [
     {
       "time": "00:00",

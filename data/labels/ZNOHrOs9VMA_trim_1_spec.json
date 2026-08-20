@@ -1,14 +1,15 @@
 {
-  "summary": "Forklift motoru patladı ve alev aldı. İçerisindeki işçi yanıyor.",
+  "summary": "Forklift alev aldı. Çalışan alevlerin arasında kaldı.",
   "events": [
     {
       "time": "00:02",
-      "event": "Patlama oldu ve yangın çıktı"
+      "event": "Forklift alev aldı. Çalışan alevlerin arasında kaldı."
     }
   ],
   "risk": "Yüksek",
   "actions": [
-    "Acil durum ekiplerini çağır",
-    "Yaralıları ilk yardım yapın"
+    "İtfaiye çağır",
+    "Sağlık ekibini çağır",
+    "Alanı güvenlik altına al"
   ]
 }

@@ -2,21 +2,24 @@
   "video_id": "Forklift_Safety_Fail_Near_Miss_Caught_on_Camera_HSE_Daily_dNrjH3a9E4k",
   "filename": "Forklift Safety Fail： Near Miss Caught on Camera 🚧 ｜ HSE Daily [dNrjH3a9E4k].mp4",
   "category": "accident",
+  "ambiguity": "net",
+  "ambiguity_reason": "",
+  "ambiguity_source": "human",
   "duration_sec": 17.03,
   "labeled_by": "human",
-  "summary": "Kapalı kamyonun yükü çalışanın üstüne düştü.",
+  "summary": "Kamyondaki yük çalışanın üstüne düşüyor.",
   "events": [
     {
       "time": "00:06",
-      "time_end": "00:11",
-      "event": "Çalışanın kafasına kamyondan yük düştü.",
-      "event_type": "risk",
-      "severity": "orta"
+      "time_end": "",
+      "event": "Kamyondaki yük çalışanın üstüne düşüyor.",
+      "event_type": "kaza",
+      "severity": "yuksek"
     }
   ],
   "risk": "Yüksek",
   "actions": [
-    "Sağlık ekibi çağır"
+    "Sağlık ekibini çağır."
   ],
   "notes": "",
   "status": "gold"

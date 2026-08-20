@@ -1,14 +1,13 @@
 {
-  "summary": "Kazada forklift devrildi ve yükü yere düşürdü.",
+  "summary": "Forklift devriliyor.",
   "events": [
     {
-      "time": "00:10",
-      "event": "Forklift devrildi ve çalışan düştü."
+      "time": "00:06",
+      "event": "Forklift devriliyor"
     }
   ],
   "risk": "Yüksek",
   "actions": [
-    "Forklift kontrol edin.",
-    "İşçi güvenli bir şekilde insin."
+    "Alanı güvenlik altına al"
   ]
 }

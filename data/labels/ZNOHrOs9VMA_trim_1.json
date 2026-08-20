@@ -2,22 +2,26 @@
   "video_id": "ZNOHrOs9VMA_trim_1",
   "filename": "ZNOHrOs9VMA_trim_1.mp4",
   "category": "accident",
+  "ambiguity": "net",
+  "ambiguity_reason": "",
+  "ambiguity_source": "human",
   "duration_sec": 8.0,
   "labeled_by": "human",
-  "summary": "Forklift motoru patladı ve alev aldı. İçerisindeki işçi yanıyor.",
+  "summary": "Forklift alev aldı. Çalışan alevlerin arasında kaldı.",
   "events": [
     {
       "time": "00:02",
-      "time_end": "00:08",
-      "event": "Patlama oldu ve yangın çıktı",
+      "time_end": "",
+      "event": "Forklift alev aldı. Çalışan alevlerin arasında kaldı.",
       "event_type": "kaza",
       "severity": "yuksek"
     }
   ],
   "risk": "Yüksek",
   "actions": [
-    "Acil durum ekiplerini çağır",
-    "Yaralıları ilk yardım yapın"
+    "İtfaiye çağır",
+    "Sağlık ekibini çağır",
+    "Alanı güvenlik altına al"
   ],
   "notes": "",
   "status": "gold"

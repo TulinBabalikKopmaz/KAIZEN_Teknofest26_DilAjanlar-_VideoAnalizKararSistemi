@@ -2,14 +2,17 @@
   "video_id": "0_tr5",
   "filename": "0_tr5.mp4",
   "category": "normal",
+  "ambiguity": "net",
+  "ambiguity_reason": "",
+  "ambiguity_source": "human",
   "duration_sec": null,
   "labeled_by": "human",
-  "summary": "Çalışan rutin aktivitesini sürdürüyor. Normal gözüküyor.",
+  "summary": "Çalışanlar rutin aktivitesini sürdürüyor. Normal gözüküyor.",
   "events": [
     {
       "time": "00:00",
       "time_end": "",
-      "event": "Çalışanlar fabrikada yürüyor.",
+      "event": "Çalışanlar rutin aktivitesini sürdürüyor.",
       "event_type": "normal",
       "severity": "dusuk"
     }

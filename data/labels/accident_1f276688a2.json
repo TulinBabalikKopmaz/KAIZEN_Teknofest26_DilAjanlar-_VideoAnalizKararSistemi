@@ -2,22 +2,25 @@
   "video_id": "accident_1f276688a2",
   "filename": "sunil kumar rana - ⚠️ A routine warehouse task turned dangerous when an overloaded forkl... [2063292024804327424].mp4",
   "category": "accident",
+  "ambiguity": "net",
+  "ambiguity_reason": "",
+  "ambiguity_source": "human",
   "duration_sec": null,
   "labeled_by": "human",
-  "summary": "forklift devriliyor. bir kişi forkliftin altında kalıyor",
+  "summary": "Forklift çalışanın üzerine devriliyor.",
   "events": [
     {
       "time": "00:12",
-      "time_end": "00:16",
-      "event": "froklift devriliyor. çalışanlar altında kalıyor.",
+      "time_end": "",
+      "event": "Forklift çalışanın üzerine devriliyor.",
       "event_type": "kaza",
       "severity": "yuksek"
     }
   ],
   "risk": "Yüksek",
   "actions": [
-    "kişiyi kontrol et",
-    "sağlık ekibi çağır"
+    "Sağlık ekibini çağır",
+    "Alanı güvenlik altına al"
   ],
   "notes": "",
   "status": "gold"

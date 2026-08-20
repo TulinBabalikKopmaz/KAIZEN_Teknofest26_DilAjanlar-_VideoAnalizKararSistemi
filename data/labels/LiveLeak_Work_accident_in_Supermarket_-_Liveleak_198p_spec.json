@@ -1,13 +1,13 @@
 {
-  "summary": "Merdiven kayıyor ve işçi yüksekten düşüyor.",
+  "summary": "Çalışan merdivenden düşüyor",
   "events": [
     {
       "time": "00:12",
-      "event": "İşçi merdivenden düştü."
+      "event": "Çalışan merdivenden düşüyor"
     }
   ],
   "risk": "Yüksek",
   "actions": [
-    "Sağlık ekibi çağır."
+    "Sağlık ekibini çağır."
   ]
 }

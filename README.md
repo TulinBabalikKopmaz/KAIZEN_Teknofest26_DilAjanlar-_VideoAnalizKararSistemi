@@ -3,6 +3,71 @@
 KAIZEN Takımı — TEKNOFEST 2026 Yapay Zeka Dil Ajanları Yarışması Finalist  
 Senaryo 3: Video Analiz ve Karar Destek Sistemi
 
+## Model ayarı (ortak API)
+
+Yarışmada VLM ve LLM ortak bir API üzerinden geliyor (Qwen3-VL ~27B + Gemma ~27B-it).
+Kodda hiçbir adres sabit değil; her şey `.env` üzerinden okunur.
+
+```bash
+cp .env.example .env      # PROVIDER=teknofest ve TEKNOFEST_BASE_URL / API_KEY doldurun
+python scripts/smoke_api.py --provider teknofest    # endpoint doğrulama (VLM + LLM ping)
+```
+
+- `PROVIDER=teknofest` — yarışmanın ortak API'si
+- `PROVIDER=ollama` — yerel geliştirme ve demo yedeği (`FALLBACK_PROVIDER=ollama` ile otomatik düşer)
+- `PROVIDER=mock` — model olmadan pipeline denemesi
+
+## Canlı demo (jürinin videosu + jürinin promptu)
+
+```bash
+streamlit run app/demo_app.py     # demoda kullanılacak ekran
+```
+
+Terminalden aynı işi yapan çekirdek:
+
+```bash
+python scripts/analyze_video.py --video demo.mp4 \
+    --prompt "Bu videoda iş kazası var mı, kaçıncı saniyede?"
+```
+
+Çıktı `data/demo_runs/<ad>/` altına yazılır: `result.json`, `spec.json`, `report.txt`, `frames/`.
+Süre sıkışırsa `--fast` (veya `.env` içinde `DEMO_FAST_MODE=1`): YOLO kanıtı, ikinci bakış ve
+mevzuat referansı kapanır. 60 saniyeden uzun videolarda kareler hareket (wake-up) tepesinin
+çevresinden seçilir.
+
+Sunum öncesi prova:
+
+```bash
+python scripts/demo_rehearsal.py --videos data/videos --limit 3
+# 3 prompt varyantı x 3 video, süre/uyarı tablosu + kontrol listesi
+```
+
+Jürinin dosyası ne formatta gelirse gelsin boru hattı ayakta kalmalı; model
+gerektirmeyen giriş kontrolü:
+
+```bash
+python scripts/check_video_inputs.py --synthetic          # dikey / 4K / avi / mov / 3 dk varyantları
+python scripts/check_video_inputs.py --videos demo.mov   # jürinin dosyasını önceden dene
+```
+
+Sunum akışı, konuşma notları, demo koreografisi ve jüri soruları:
+[`docs/sunum_akisi.md`](docs/sunum_akisi.md).
+
+## Gerçek zamanlı akış (RTSP / webcam)
+
+Aynı çekirdek canlı akışta da çalışır. Okuyucu ayrı iş parçacığında canlı kalır,
+hareket (wake-up) tetiklenmesinde kareler kuyruğa girer, VLM çağrıları asenkron
+tüketilir — model yavaşsa kare düşer, akış donmaz.
+
+```bash
+python tools/rtsp_stream.py --source rtsp://kullanici:sifre@10.0.0.12:554/stream1
+python tools/rtsp_stream.py --source 0                       # webcam
+python tools/rtsp_stream.py --source demo.mp4 --loop         # kamera olmadan prova
+```
+
+Uyarılar `data/stream_alerts/` altına yazılır; `--workers` eşzamanlı analiz
+sayısını, `--cooldown` aynı olayın tekrar raporlanmasını sınırlar.
+
 ## Video etiketleme
 
 Şartname sistemden şunu ister: videoyu analiz et, olayları **zaman damgasıyla** yaz, Türkçe özet ve aksiyon üret, JSON ver. Gold etiket de aynı formata bakmalı.
@@ -63,7 +128,8 @@ python scripts/auto_label_qwen.py --backend ollama --every-sec 2 --max-frames 4
 streamlit run app/review_app.py
 ```
 
-Yarışma sistemi için şartname **yerel vLLM** ister. Etiketleme ayrı iştir.
+Etiketleme ayrı iştir: yarışma sistemi ortak API'yi (`--backend teknofest`) kullanır,
+etiket taslağı için yerel Ollama yeterli.
 
 ### Colab’de KPI (Mac yorulmasın)
 
@@ -90,12 +156,36 @@ Tüm gold:
 python scripts/run_kpi_wide.py --n all --seed 42 --model qwen2.5vl:7b --no-second-look
 ```
 
-Model karşılaştırması:
+Yarışmanın ortak API'si ile (GPU'ya gerek yok, ölçüm demo ile aynı modelde):
 
 ```bash
-python scripts/run_kpi_bakeoff.py --n 18 --models qwen2.5vl:7b,llava:13b
-# leaderboard → data/exports/bakeoff_leaderboard.csv
+python scripts/run_kpi_wide.py --backend teknofest --n all --split holdout --tag holdout
 ```
+
+Kural katmanının katkısını ölçmek için ablasyon (aynı tahminler, `refine_label` kapalı):
+
+```bash
+python scripts/run_kpi_wide.py --backend teknofest --n all --no-refine --tag norefine
+```
+
+Sunuma gidecek tek tablo:
+
+```bash
+python scripts/kpi_summary_table.py
+# data/exports/kpi_final_ozet.csv + hedef karşılaştırması (risk %70, olay %50, kritik %90 ...)
+```
+
+Skor düştüğünde nedenini tahmin etmiyoruz, ölçüyoruz:
+
+```bash
+python scripts/diagnose_kpi.py --gold data/exports/kpi_wide_7b_gold.json --pred data/predictions_wide
+# her gold olayı için: eslesti / metin_kacti / zaman_kacti / olay_yok + data/exports/kpi_teshis.csv
+```
+
+18 videoluk ölçümde kaçırılan gold olaylarının %74'ü zaman olarak doğru yakalanmış,
+yalnızca ifade farkından eşleşmiyor (zaman kaçırma %5). Bu yüzden
+`prompts/video_label_prompt.txt` içinde İSG terminoloji sözlüğü var: "işçi" değil
+**çalışan**, "önünden geçti" değil **çok yakınından geçti**.
 
 `video: 0` görürsen gold vardır ama mp4’ler yanlış klasördedir; yol yukarıdaki gibi olmalı.
 
@@ -103,3 +193,5 @@ python scripts/run_kpi_bakeoff.py --n 18 --models qwen2.5vl:7b,llava:13b
 
 - `data/labels/<video>.json` — takım içi zengin etiket
 - `data/labels/<video>_spec.json` — şartname mock JSON'u
+- `data/demo_runs/<ad>/result.json` — demo koşusu (cevap + spec + süreler + kanıt kareleri)
+- `data/exports/kpi_final_ozet.csv` — sunumdaki KPI tablosu

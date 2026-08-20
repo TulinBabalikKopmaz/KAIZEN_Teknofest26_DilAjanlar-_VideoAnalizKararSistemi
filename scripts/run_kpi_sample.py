@@ -28,7 +28,13 @@ SAMPLE_NAMES = [
 ]
 
 
-def predict_one(client, model: str, video: Path) -> dict:
+def predict_one(
+    client,
+    model: str,
+    video: Path,
+    backend: str = "ollama",
+    use_refine: bool = True,
+) -> dict:
     # 1) Önce sensör kanıtı (YOLO / hareket / yangın rengi) — Qwen'den bağımsız
     from utils.scene_evidence import analyze_video
 
@@ -58,9 +64,10 @@ def predict_one(client, model: str, video: Path) -> dict:
             video,
             frames_meta,
             use_folder_hint=False,
-            backend="ollama",
+            backend=backend,
             evidence=evidence,
             use_second_look=True,
+            use_refine=use_refine,
         )
     except Exception as exc:
         print(f"  8 kare başarısız ({exc}); 4 kare ile tekrar")
@@ -77,9 +84,10 @@ def predict_one(client, model: str, video: Path) -> dict:
             video,
             frames_meta,
             use_folder_hint=False,
-            backend="ollama",
+            backend=backend,
             evidence=evidence,
             use_second_look=True,
+            use_refine=use_refine,
         )
 
 

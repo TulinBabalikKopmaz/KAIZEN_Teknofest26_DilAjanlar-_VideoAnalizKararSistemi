@@ -2,21 +2,24 @@
   "video_id": "accident_60c5c4a652",
   "filename": "Hate Detector 🔍 - A tragic industrial accident occurred at Pramukh Industries in the GI... [2062441335727284224].mp4",
   "category": "accident",
+  "ambiguity": "net",
+  "ambiguity_reason": "",
+  "ambiguity_source": "human",
   "duration_sec": 14.2,
   "labeled_by": "human",
-  "summary": "İşçinin üzerine ağır yük düşüyor.",
+  "summary": "Çalışanın üzerine yük düşüyor. Çalışan boşluğa düşüyor.",
   "events": [
     {
       "time": "00:09",
-      "time_end": "00:10",
-      "event": "İşçi ağır yükün altında kaldı.",
+      "time_end": "",
+      "event": "Çalışanın üzerine yük düşüyor. Çalışan boşluğa düşüyor.",
       "event_type": "kaza",
       "severity": "yuksek"
     }
   ],
   "risk": "Yüksek",
   "actions": [
-    "sağlık ekibi çağır."
+    "Sağlık ekibini çağır"
   ],
   "notes": "",
   "status": "gold"

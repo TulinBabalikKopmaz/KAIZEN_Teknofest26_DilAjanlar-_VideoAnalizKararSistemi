@@ -36,11 +36,21 @@ def spec_of(row: dict[str, Any]) -> dict[str, Any]:
         "video_id": row.get("video_id") or inner.get("video_id"),
         "filename": row.get("filename") or inner.get("filename"),
         "category": row.get("category") or inner.get("category"),
+        # Belirsizlik sonucun değil sahnenin okunabilirliğinin etiketi:
+        # "kaza var ama görüntüden anlaşılması zor" gibi durumlar.
+        "ambiguity": normalize_ambiguity(row.get("ambiguity") or inner.get("ambiguity")),
         "summary": (inner.get("summary") or "").strip(),
         "events": events,
         "risk": normalize_risk(inner.get("risk")),
         "actions": [a for a in (inner.get("actions") or []) if a],
     }
+
+
+def normalize_ambiguity(value: Any) -> str:
+    text = str(value or "").strip().lower()
+    if text in {"belirsiz", "ambiguous", "hard", "zor"}:
+        return "belirsiz"
+    return "net"
 
 
 def identity_keys(row: dict[str, Any]) -> set[str]:
@@ -102,6 +112,7 @@ def score_video(gold: dict[str, Any], pred: dict[str, Any] | None) -> dict[str, 
         "video_id": g.get("video_id"),
         "filename": g.get("filename"),
         "category": g.get("category"),
+        "ambiguity": g.get("ambiguity", "net"),
         "missing_pred": missing,
         "risk_gold": g["risk"],
         "risk_pred": None if missing else p["risk"],
@@ -123,6 +134,8 @@ def aggregate(rows: list[dict[str, Any]]) -> dict[str, Any]:
     normals = [r for r in rows if r.get("category") == "normal"]
     return {
         "n_video": len(rows),
+        "n_critical": len(crit),
+        "n_normal": len(normals),
         "risk_accuracy": round(sum(r["risk_ok"] for r in rows) / n, 3),
         "event_recall": round(
             sum(r["event_hits"] for r in rows) / max(sum(r["event_total"] for r in rows), 1),
@@ -140,3 +153,14 @@ def aggregate(rows: list[dict[str, Any]]) -> dict[str, Any]:
         "action_ok_rate": round(sum(r["action_ok"] for r in rows) / n, 3),
         "missing_predictions": sum(r["missing_pred"] for r in rows),
     }
+
+
+def aggregate_by(rows: list[dict[str, Any]], field: str) -> dict[str, dict[str, Any]]:
+    """Alt kümelere göre kırılım (ör. ambiguity: net / belirsiz, category: accident ...).
+
+    Tek ortalama sistemin nerede zorlandığını saklıyor; sunumda kırılım gösteriyoruz.
+    """
+    groups: dict[str, list[dict[str, Any]]] = {}
+    for row in rows:
+        groups.setdefault(str(row.get(field) or "-"), []).append(row)
+    return {key: aggregate(items) for key, items in sorted(groups.items())}

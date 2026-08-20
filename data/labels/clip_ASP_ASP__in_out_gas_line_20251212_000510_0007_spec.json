@@ -1,9 +1,9 @@
 {
-  "summary": "Çalışan rutin aktivitesini sürdürüyor. Duman var ama normal gözüküyor.",
+  "summary": "Çalışanlar rutin aktivitesini sürdürüyor.. Duman var ama normal gözüküyor.",
   "events": [
     {
       "time": "00:00",
-      "event": "Çalışan rutin aktivitesini sürdürüyor."
+      "event": "Çalışanlar rutin aktivitesini sürdürüyor."
     }
   ],
   "risk": "Düşük",

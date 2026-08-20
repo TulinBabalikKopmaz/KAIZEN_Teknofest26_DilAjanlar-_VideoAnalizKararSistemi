@@ -2,22 +2,24 @@
   "video_id": "2tSBxyAwLs_trim_8",
   "filename": "_2tSBxyAwLs_trim_8.mp4",
   "category": "near_miss",
+  "ambiguity": "net",
+  "ambiguity_reason": "",
+  "ambiguity_source": "human",
   "duration_sec": null,
   "labeled_by": "human",
-  "summary": "Kamyonun arkasındaki yük indirilirken düştü. İnsanlar altında kalmaktan son anda kurtuldu",
+  "summary": "Kamyonun arkasındaki yük indirilirken düştü. Çalışanlar yükün altında kalmaktan son anda kurtuldu",
   "events": [
     {
       "time": "00:00",
       "time_end": "00:05",
-      "event": "İnsanlar kamyondan devrilen yükün altından kaçtı.",
+      "event": "Çalışanlar yükün altında kalmaktan son anda kurtuldu",
       "event_type": "near_miss",
       "severity": "orta"
     }
   ],
   "risk": "Orta",
   "actions": [
-    "Alanı güvene al.",
-    "İzlemeye devam et."
+    "Alanı güvenlik altına al."
   ],
   "notes": "",
   "status": "gold"

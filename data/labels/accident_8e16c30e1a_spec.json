@@ -1,16 +1,14 @@
 {
-  "summary": "İş yerindeki makine patladı. Alevler yükseldi. Ve yanmaya devam etti.",
+  "summary": "Makine alev alıyor. Çalışanlar kaçıyor.",
   "events": [
     {
       "time": "00:08",
-      "event": "Makine patladı ve yangın çıktı."
+      "event": "Makinede yangın çıktı."
     }
   ],
   "risk": "Yüksek",
   "actions": [
-    "Makineyi kapatın",
-    "Yaralıların yardımına koşun",
-    "Sağlık ekibi çağırın",
-    "İtfaiye çağırın"
+    "İtfaiye çağır.",
+    "Sağlık ekibini çağır."
   ]
 }

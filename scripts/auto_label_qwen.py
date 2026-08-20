@@ -10,7 +10,6 @@ import argparse
 import base64
 import json
 import os
-import re
 import sys
 import traceback
 from pathlib import Path
@@ -23,6 +22,12 @@ sys.path.insert(0, str(ROOT))
 sys.path.insert(0, str(ROOT / "scripts"))
 
 from extract_frames import extract_video, iter_videos, safe_id
+from utils.label_json import (
+    dedupe_events,
+    label_to_spec,
+    parse_json,
+    snap_events_to_frame_times,
+)
 from utils.risk_rules import needs_second_look, refine_label
 from utils.scene_evidence import SceneEvidence, analyze_video
 
@@ -39,41 +44,16 @@ SECOND_LOOK_PROMPT = (
 
 
 def load_prompt() -> str:
+    """VIDEO_PROMPT_FILE ile başka bir prompt dosyası kullanılabilir (A/B ölçümü)."""
+    override = os.getenv("VIDEO_PROMPT_FILE", "").strip()
+    if override:
+        path = Path(override)
+        if not path.is_absolute():
+            path = ROOT / path
+        if path.exists():
+            return path.read_text(encoding="utf-8")
+        print(f"Uyarı: VIDEO_PROMPT_FILE bulunamadı ({path}), varsayılan prompt kullanılıyor.")
     return PROMPT_PATH.read_text(encoding="utf-8")
-
-
-def _mmss_to_sec(stamp: str) -> float:
-    parts = (stamp or "00:00").strip().split(":")
-    try:
-        if len(parts) == 2:
-            return int(parts[0]) * 60 + int(parts[1])
-        if len(parts) == 3:
-            return int(parts[0]) * 3600 + int(parts[1]) * 60 + int(parts[2])
-    except ValueError:
-        return 0.0
-    return 0.0
-
-
-def snap_events_to_frame_times(events: list, frame_times: list[str]) -> list:
-    """KPI ±2 sn için olay zamanını en yakın gönderilen kareye yapıştır."""
-    if not events or not frame_times:
-        return events
-    frame_secs = [(t, _mmss_to_sec(t)) for t in frame_times]
-    out = []
-    for event in events:
-        if not isinstance(event, dict):
-            continue
-        e = dict(event)
-        raw = str(e.get("time") or frame_times[0])
-        sec = _mmss_to_sec(raw)
-        best_t, _ = min(frame_secs, key=lambda item: abs(item[1] - sec))
-        e["time"] = best_t
-        if e.get("time_end"):
-            end_sec = _mmss_to_sec(str(e["time_end"]))
-            best_end, _ = min(frame_secs, key=lambda item: abs(item[1] - end_sec))
-            e["time_end"] = best_end
-        out.append(e)
-    return out
 
 
 def encode_image(path: Path, max_side: int | None = None) -> str:
@@ -93,50 +73,6 @@ def encode_image(path: Path, max_side: int | None = None) -> str:
             if ok:
                 data = buf.tobytes()
     return base64.b64encode(data).decode("ascii")
-
-
-def parse_json(text: str) -> dict:
-    text = (text or "").strip()
-    if text.startswith("```"):
-        text = re.sub(r"^```(?:json)?\s*", "", text)
-        text = re.sub(r"\s*```$", "", text)
-    match = re.search(r"\{.*\}", text, re.DOTALL)
-    raw = match.group(0) if match else text
-    try:
-        return json.loads(raw)
-    except json.JSONDecodeError:
-        repaired = _repair_json(raw)
-        try:
-            return json.loads(repaired)
-        except json.JSONDecodeError as exc:
-            raise ValueError(f"JSON bulunamadı: {text[:400]}") from exc
-
-
-def _repair_json(text: str) -> str:
-    stack: list[str] = []
-    in_str = False
-    escape = False
-    for ch in text:
-        if in_str:
-            if escape:
-                escape = False
-            elif ch == "\\":
-                escape = True
-            elif ch == '"':
-                in_str = False
-            continue
-        if ch == '"':
-            in_str = True
-        elif ch == "{":
-            stack.append("}")
-        elif ch == "[":
-            stack.append("]")
-        elif stack and ch == stack[-1]:
-            stack.pop()
-    if in_str:
-        text += '"'
-    text += "".join(reversed(stack))
-    return text
 
 
 def ollama_base() -> str:
@@ -229,6 +165,19 @@ def build_client(backend: str) -> tuple[OpenAI, str]:
         base_url = os.getenv("OLLAMA_BASE_URL", "http://127.0.0.1:11434/v1")
         model = os.getenv("OLLAMA_MODEL", "qwen2.5vl:7b")
         return OpenAI(base_url=base_url, api_key="ollama"), model
+    if backend == "teknofest":
+        # Yarışmanın ortak API'si; adres ve model utils/config üzerinden env'den gelir
+        from utils.config import vlm_endpoint
+
+        ep = vlm_endpoint("teknofest")
+        if not ep.base_url:
+            raise SystemExit(
+                "TEKNOFEST_BASE_URL (veya VLM_BASE_URL) tanımlı değil; .env dosyasını doldurun."
+            )
+        base_url = ep.base_url.rstrip("/")
+        if not base_url.endswith("/v1"):
+            base_url = f"{base_url}/v1"
+        return OpenAI(base_url=base_url, api_key=ep.api_key or "teknofest"), ep.model
     if backend == "openai":
         base_url = os.getenv("OPENAI_BASE_URL", "http://127.0.0.1:8000/v1")
         model = os.getenv("OPENAI_MODEL", "Qwen/Qwen2.5-VL-7B-Instruct")
@@ -246,32 +195,46 @@ def _call_vlm(
 ) -> str:
     if backend == "ollama":
         return ollama_chat(model, prompt, image_paths)
+    max_side = int(os.getenv("MAX_IMAGE_SIDE", "768")) if backend == "teknofest" else None
     content: list[dict] = [{"type": "text", "text": prompt}]
     for path in image_paths:
+        b64 = encode_image(path, max_side=max_side)
         content.append(
             {
                 "type": "image_url",
-                "image_url": {"url": f"data:image/jpeg;base64,{encode_image(path)}"},
+                "image_url": {"url": f"data:image/jpeg;base64,{b64}"},
             }
         )
+    kwargs: dict = {}
+    if backend == "openai":
+        # Yerel vLLM / LM Studio kurulumları bu alanları kullanıyor
+        kwargs["extra_body"] = {"options": {"num_ctx": 16384, "num_predict": 768}}
     response = client.chat.completions.create(
         model=model,
         temperature=0.1,
+        max_tokens=768,
         messages=[{"role": "user", "content": content}],
-        extra_body={"options": {"num_ctx": 16384, "num_predict": 768}},
+        **kwargs,
     )
     return response.choices[0].message.content or ""
 
 
 def _pick_second_look_frames(frames: list[dict], evidence: SceneEvidence) -> list[dict]:
-    """Hareket tepesine yakın 2–3 kare seç (token tasarrufu)."""
+    """Hareket tepelerine yakın 2–3 kare seç (token tasarrufu).
+
+    Tek tepe yerine ilk üç tepe: ölçümde olay anını yakalama %25'ten %69'a çıkıyor
+    (scripts/eval_wakeup.py).
+    """
     if len(frames) <= 3:
         return frames
-    if evidence.motion_peak_sec is None:
+    peaks = evidence.motion_peaks or (
+        [evidence.motion_peak_sec] if evidence.motion_peak_sec is not None else []
+    )
+    if not peaks:
         return frames[-3:]
     ranked = sorted(
         frames,
-        key=lambda f: abs(float(f.get("t_sec", 0.0)) - evidence.motion_peak_sec),
+        key=lambda f: min(abs(float(f.get("t_sec", 0.0)) - peak) for peak in peaks),
     )
     picked = ranked[:3]
     return sorted(picked, key=lambda f: float(f.get("t_sec", 0.0)))
@@ -287,6 +250,7 @@ def label_video(
     backend: str = "ollama",
     evidence: SceneEvidence | None = None,
     use_second_look: bool = True,
+    use_refine: bool = True,
 ) -> dict:
     frames = frames_meta["frames"]
     folder_cat = video_path.parent.name
@@ -328,7 +292,7 @@ def label_video(
     else:
         category = "normal"
 
-    events = snap_events_to_frame_times(parsed.get("events") or [], frame_times)
+    events = dedupe_events(snap_events_to_frame_times(parsed.get("events") or [], frame_times))
 
     label = {
         "video_id": frames_meta["video_id"],
@@ -365,8 +329,10 @@ def label_video(
                 if parsed2.get(key) not in (None, "", []):
                     label[key] = parsed2[key]
             focus_times_list = [f["time"] for f in focus]
-            label["events"] = snap_events_to_frame_times(
-                label.get("events") or [], focus_times_list or frame_times
+            label["events"] = dedupe_events(
+                snap_events_to_frame_times(
+                    label.get("events") or [], focus_times_list or frame_times
+                )
             )
             label["notes"] = (
                 str(label.get("notes") or "") + " | ikinci bakış uygulandı"
@@ -376,20 +342,13 @@ def label_video(
                 str(label.get("notes") or "") + f" | ikinci bakış atlandı: {exc}"
             ).strip(" |")
 
-    return refine_label(label, evidence)
+    # use_refine=False: büyük modelde kural katmanının katkısını ölçmek için ablasyon
+    return refine_label(label, evidence) if use_refine else label
 
 
 def competition_view(label: dict) -> dict:
-    return {
-        "summary": label["summary"],
-        "events": [
-            {"time": e.get("time", "00:00"), "event": e.get("event", "")}
-            for e in label.get("events", [])
-            if e.get("event")
-        ],
-        "risk": label["risk"],
-        "actions": label["actions"],
-    }
+    """Şartname kalıbı (utils.label_json ile aynı davranış)."""
+    return label_to_spec(label)
 
 
 def already_gold(path: Path) -> bool:
@@ -406,7 +365,12 @@ def main() -> None:
     parser.add_argument("--videos", default="data/videos", type=Path)
     parser.add_argument("--frames", default="data/frames", type=Path)
     parser.add_argument("--out", default="data/labels", type=Path)
-    parser.add_argument("--backend", choices=["ollama", "openai"], default="ollama")
+    parser.add_argument(
+        "--backend",
+        choices=["ollama", "teknofest", "openai"],
+        default="ollama",
+        help="teknofest = yarışmanın ortak API'si (.env: TEKNOFEST_BASE_URL, VLM_MODEL)",
+    )
     parser.add_argument("--every-sec", default=0.75, type=float)
     parser.add_argument("--max-frames", default=6, type=int)
     parser.add_argument("--limit", default=0, type=int, help="Yeni üretilecek taslak sayısı (0 = hepsi)")

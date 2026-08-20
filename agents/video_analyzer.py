@@ -2,14 +2,15 @@
 
 from __future__ import annotations
 
+import asyncio
 import os
 from typing import Any
 
-import requests
-
 from agents.state import AgentState
-from utils.config import API_BASE_URL, MODEL_NAME
-from utils.image import encode_image
+from utils.model_client import ModelCallError, chat_vlm
+
+WINDOW_SIZE: int = 3
+SAFE_LINE: str = "Durum Açıklaması: Olağan çalışma | Risk: Güvenli | Aksiyon: İzlemeye devam et"
 
 VLM_SYSTEM_PROMPT: str = """\
 Rolün: Sen alanında uzman bir İş Sağlığı ve Güvenliği (İSG) denetçisisin. \
@@ -51,10 +52,15 @@ def _extract_timestamp(image_path: str) -> str:
         return "Bilinmiyor"
 
 
-def _build_user_prompt(trigger_reason: str) -> str:
-    """Tetik sebebini VLM kullanıcı mesajına gömer."""
+def _build_user_prompt(trigger_reason: str, user_prompt: str = "") -> str:
+    """Tetik sebebini ve (varsa) jürinin sorusunu VLM kullanıcı mesajına gömer."""
     reason = trigger_reason.strip() or "Dinamik olay tetiklendi"
+    question = user_prompt.strip()
+    question_block = (
+        f"Operatörün / jürinin sorusu (cevabın bunu karşılamalı): {question}\n\n" if question else ""
+    )
     return (
+        f"{question_block}"
         f"Tetiklenme sebebi (Wake-Up sensörü): {reason}\n\n"
         "Bu kareler bir tetik penceresinden alınmıştır; ilk kare sakin görünebilir.\n"
         "Üzerindeki bounding box, ID, spd, conf yazılarını yok say.\n"
@@ -93,21 +99,38 @@ def _is_critical_finding(model_cikti: str) -> bool:
     return False
 
 
-def video_analyzer_tool(state: AgentState) -> dict[str, Any]:
-    """
-    Keyframe'leri VLM ile analiz eder; trigger_reason bağlamını kullanır.
+async def _analyze_window(frames: list[str], user_prompt: str, trigger_reason: str) -> tuple[str, str]:
+    """Tek pencereyi VLM'e sorar; (zaman damgası, tek satır çıktı) döner."""
+    timestamp = _extract_timestamp(frames[-1])
+    try:
+        result = await chat_vlm(
+            _build_user_prompt(trigger_reason, user_prompt),
+            frames,
+            system=VLM_SYSTEM_PROMPT,
+            temperature=0.05,
+            max_tokens=220,
+        )
+        return timestamp, " ".join(result.text.split())
+    except ModelCallError as exc:
+        print(f"[{timestamp}] VLM çağrısı başarısız, bu kesit atlanıyor: {exc}")
+        return timestamp, SAFE_LINE
 
-    State alanları:
-        keyframes: analiz edilecek görüntü yolları
-        trigger_reason: wake-up tetik sebebi (ani hareket, aşırı hız vb.)
+
+async def video_analyzer_tool(state: AgentState) -> dict[str, Any]:
+    """
+    Keyframe'leri VLM ile analiz eder; trigger_reason ve jüri sorusunu kullanır.
+
+    Pencereler eşzamanlı sorulur (süre bütçesi), sonuç zaman sırasına göre
+    değerlendirilir: ilk kritik pencere raporlanır.
     """
     print("\n--- [1] Video Analyzer (VLM) Çalışıyor ---")
 
-    endpoint = f"{API_BASE_URL.rstrip('/')}/v1/chat/completions"
-    headers = {"Content-Type": "application/json"}
     trigger_reason = state.get("trigger_reason", "") or ""
+    user_prompt = state.get("user_prompt", "") or ""
     if trigger_reason:
         print(f"Tetik sebebi: {trigger_reason}")
+    if user_prompt:
+        print(f"Jüri sorusu: {user_prompt}")
 
     all_frames = state.get("keyframes", [])
     if not all_frames:
@@ -118,64 +141,19 @@ def video_analyzer_tool(state: AgentState) -> dict[str, Any]:
             }
         }
 
-    print(f"Klasörde {len(all_frames)} adet kare bulundu. Analiz başlıyor...")
+    windows = [all_frames[i : i + WINDOW_SIZE] for i in range(0, len(all_frames), WINDOW_SIZE)]
+    print(f"{len(all_frames)} kare, {len(windows)} pencere eşzamanlı taranıyor...")
 
-    window_size = 3
-    user_prompt = _build_user_prompt(trigger_reason)
+    outputs = await asyncio.gather(
+        *(_analyze_window(window, user_prompt, trigger_reason) for window in windows)
+    )
 
-    for i in range(0, len(all_frames), window_size):
-        window_frames = all_frames[i : i + window_size]
-        current_ts = _extract_timestamp(window_frames[-1])
-
-        print(f"[{current_ts}] saniyesine kadar olan kesit taranıyor ({len(window_frames)} kare)...")
-
-        content_list: list[dict[str, Any]] = []
-        for img_path in window_frames:
-            base64_image = encode_image(img_path)
-            content_list.append(
-                {
-                    "type": "image_url",
-                    "image_url": {"url": f"data:image/jpeg;base64,{base64_image}"},
-                }
-            )
-
-        content_list.append({"type": "text", "text": user_prompt})
-
-        payload = {
-            "model": MODEL_NAME,
-            "messages": [
-                {"role": "system", "content": VLM_SYSTEM_PROMPT},
-                {"role": "user", "content": content_list},
-            ],
-            "max_tokens": 220,
-            "temperature": 0.05,
-        }
-
-        max_retries = 3
-        model_cikti = (
-            "Durum Açıklaması: Olağan çalışma | Risk: Güvenli | Aksiyon: İzlemeye devam et"
-        )
-
-        for attempt in range(max_retries):
-            try:
-                response = requests.post(endpoint, headers=headers, json=payload, timeout=45)
-                response.raise_for_status()
-                model_cikti = response.json()["choices"][0]["message"]["content"].strip()
-                # Model bazen ID/spd metinlerine kayabiliyor; tekrar uyarı eklemeden temizle
-                model_cikti = " ".join(model_cikti.split())
-                break
-            except Exception as e:
-                print(f"API Hatası (Deneme {attempt + 1}/{max_retries}): {e}")
-                if attempt == max_retries - 1:
-                    print("Sunucuya ulaşılamadı, bu kesit atlanıyor...")
-
+    for timestamp, model_cikti in outputs:
         if _is_critical_finding(model_cikti):
-            print(f"!!! KRİTİK / RAMAK KALA TESPİT EDİLDİ (Zaman: {current_ts}) !!!")
+            print(f"!!! KRİTİK / RAMAK KALA TESPİT EDİLDİ (Zaman: {timestamp}) !!!")
             print(f"Modelin Çıkarımı: {model_cikti}")
-            return {"analysis_result": {"timestamp": current_ts, "event": model_cikti}}
-
-        print(f"-> {current_ts} anı temiz. Taramaya devam ediliyor...")
-        print(f"   VLM: {model_cikti}")
+            return {"analysis_result": {"timestamp": timestamp, "event": model_cikti}}
+        print(f"-> {timestamp} anı temiz. VLM: {model_cikti}")
 
     print("Tüm kareler tarandı, belirgin anormallik bulunamadı.")
     return {

@@ -1,5 +1,5 @@
 {
-  "summary": "Forklift çalışanın çok yakınından geçti. Neredeyse temas edeceklerdi.",
+  "summary": "Forklift çalışanın çok yakınından geçti. Çalışan son anda kurtuldu.",
   "events": [
     {
       "time": "00:03",
@@ -10,8 +10,8 @@
       "event": "Forklift çalışanın çok yakınından geçti."
     }
   ],
-  "risk": "Düşük",
+  "risk": "Orta",
   "actions": [
-    "Rutin izlemeye devam et"
+    "Alanı güvenlik altına al"
   ]
 }

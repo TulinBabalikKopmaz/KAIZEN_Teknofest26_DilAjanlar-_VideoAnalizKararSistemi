@@ -1,14 +1,15 @@
 {
-  "summary": "Kişinin kıyafetinin yandığı tespit edilmiştir.",
+  "summary": "Çalışanın üstüne ateş sıçrıyor.",
   "events": [
     {
       "time": "00:03",
-      "event": "Kişinin kıyafeti yanmaya başladı. Kişi kaçmaya çalışıyor."
+      "event": "Çalışanın üstüne ateş sıçrıyor."
     }
   ],
   "risk": "Yüksek",
   "actions": [
-    "Sağlık ekibi ve itfaiye çağır.",
-    "Alanı güvene al."
+    "İtfaiye çağır.",
+    "Sağlık ekibini çağır.",
+    "Alanı güvenlik altına al."
   ]
 }

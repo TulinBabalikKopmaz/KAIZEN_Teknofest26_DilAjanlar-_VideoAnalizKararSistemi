@@ -1,0 +1,27 @@
+{
+  "video_id": "worlds_best_forklift_driver_Not_vy6pNEFo_uE_-_Trim",
+  "filename": "worlds best forklift driver, Not!!! [vy6pNEFo_uE] - Trim.mp4",
+  "category": "accident",
+  "ambiguity": "net",
+  "ambiguity_reason": "",
+  "ambiguity_source": "human",
+  "duration_sec": null,
+  "labeled_by": "human",
+  "summary": "Forklift depodaki yük dolu raflara çarpıyor. Raf yüklerle birlikte devriliyor.",
+  "events": [
+    {
+      "time": "00:09",
+      "time_end": "",
+      "event": "Forklift çapması sonucu yük dolu raflar devriliyor.",
+      "event_type": "kaza",
+      "severity": "yuksek"
+    }
+  ],
+  "risk": "Yüksek",
+  "actions": [
+    "Sağlık ekibini çağır",
+    "Alanı güvenlik altına al"
+  ],
+  "notes": "",
+  "status": "gold"
+}

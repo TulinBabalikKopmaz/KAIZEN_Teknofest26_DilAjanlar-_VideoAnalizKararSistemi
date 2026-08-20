@@ -14,6 +14,8 @@ data/labels/*_auto.json
 data/labels/_auto_label_log.txt
 data/exports/last_system_output.json
 data/incoming/
+data/demo_runs/
+data/stream_alerts/
 *.zip
 .streamlit/secrets.toml
 

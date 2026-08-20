@@ -2,22 +2,24 @@
   "video_id": "accident_c54c558ef1",
   "filename": "Aykırı - İş kazası güvenlik kamerasında.  Fabrikada, forklift sürücüsü işçiye ... [1972267097397854208].mp4",
   "category": "accident",
+  "ambiguity": "net",
+  "ambiguity_reason": "",
+  "ambiguity_source": "human",
   "duration_sec": 10.67,
   "labeled_by": "human",
-  "summary": "Çalışan, yükü taşıyan palete çarpıyor. Çalışanın ayağı yükün altında kalıyor.",
+  "summary": "Yük taşıyan forklift çalışana çarpıyor. Çalışanın ayağı yükün altında kalıyor.",
   "events": [
     {
       "time": "00:01",
-      "time_end": "00:08",
-      "event": "Çalışanın ayağı yükün altında kaldı. ",
+      "time_end": "",
+      "event": "Yük taşıyan forklift çalışana çarpıyor. Çalışanın ayağı yükün altında kalıyor.",
       "event_type": "kaza",
-      "severity": "orta"
+      "severity": "yuksek"
     }
   ],
   "risk": "Yüksek",
   "actions": [
-    "Sağlık ekibi çağır.",
-    "Çalışanın durumunu kontrol et."
+    "Sağlık ekibini çağır."
   ],
   "notes": "",
   "status": "gold"

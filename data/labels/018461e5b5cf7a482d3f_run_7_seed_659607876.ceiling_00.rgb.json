@@ -2,22 +2,24 @@
   "video_id": "018461e5b5cf7a482d3f_run_7_seed_659607876.ceiling_00.rgb",
   "filename": "018461e5b5cf7a482d3f_run_7_seed_659607876.ceiling_00.rgb.mp4",
   "category": "near_miss",
+  "ambiguity": "net",
+  "ambiguity_reason": "",
+  "ambiguity_source": "human",
   "duration_sec": 10.0,
   "labeled_by": "human",
-  "summary": "Forklift çalışanın çok yakınından geçti. Neredeyse temas edeceklerdi.",
+  "summary": "Forklift çalışanın çok yakınından geçti. Çalışan son anda kurtuldu.",
   "events": [
     {
       "time": "00:05",
-      "time_end": "00:07",
+      "time_end": "",
       "event": "Forklift çalışanın çok yakınından geçti. ",
       "event_type": "normal",
       "severity": "orta"
     }
   ],
-  "risk": "Düşük",
+  "risk": "Orta",
   "actions": [
-    "rutin izlemeye devam et",
-    "alanı güvene al"
+    "Alanı güvenlik altına al"
   ],
   "notes": "",
   "status": "gold"

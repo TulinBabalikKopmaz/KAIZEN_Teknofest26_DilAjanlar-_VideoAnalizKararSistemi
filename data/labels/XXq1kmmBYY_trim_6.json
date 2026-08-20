@@ -2,21 +2,25 @@
   "video_id": "XXq1kmmBYY_trim_6",
   "filename": "_XXq1kmmBYY_trim_6.mp4",
   "category": "accident",
+  "ambiguity": "net",
+  "ambiguity_reason": "",
+  "ambiguity_source": "human",
   "duration_sec": 7.0,
   "labeled_by": "human",
-  "summary": "Forklift tavandan sarkan maddeye çarpıyor ve tavan çöküyor.",
+  "summary": "Forklift tavandan sarkan kabloya çarpıyor ve tavan çöküyor.",
   "events": [
     {
-      "time": "00:03",
-      "time_end": "00:06",
-      "event": "duvar çöküyor ve çalışan enkaz altında kalıyor.",
+      "time": "00:02",
+      "time_end": "",
+      "event": "Forklift tavandan sarkan kabloya çarpıyor ve tavan çöküyor.",
       "event_type": "kaza",
       "severity": "yuksek"
     }
   ],
   "risk": "Yüksek",
   "actions": [
-    "sağlık ekibi çağır."
+    "Sağlık ekibini çağır.",
+    "Alanı güvenlik altına al"
   ],
   "notes": "",
   "status": "gold"

@@ -42,25 +42,50 @@ def ensure_gpu() -> None:
         print("torch yok (şimdilik sorun değil; Ollama kendi GPU'sunu kullanır).")
 
 
+GOLD_FROM_GIT = (
+    "gold_labels_hepsi.json",
+    "gold_labels_hepsi.jsonl",
+    "gold_labels_hepsi_spec.json",
+    "gold_labels_hepsi_ozet.csv",
+    "splits.json",
+)
+
+
+def _snapshot_git_gold(repo_exports: Path) -> dict[str, Path]:
+    """Symlink'ten önce git'teki gold/split dosyalarını temp'e alır.
+
+    Drive'da eski gold varsa onu korumak Colab'i yanlış cevap anahtarına kilitler.
+    Kaynak: GitHub'daki export. Videolar Drive'da kalır.
+    """
+    import tempfile
+
+    if not repo_exports.exists() or repo_exports.is_symlink():
+        return {}
+    tmp = Path(tempfile.mkdtemp(prefix="kaizen_gold_"))
+    kept: dict[str, Path] = {}
+    for name in GOLD_FROM_GIT:
+        src = repo_exports / name
+        if src.is_file():
+            dest = tmp / name
+            shutil.copy2(src, dest)
+            kept[name] = dest
+    return kept
+
+
 def link_data(repo: Path, drive_root: Path) -> None:
     """Drive'daki data/ klasörünü repo data/ ile birleştirir."""
     drive_data = drive_root / "data"
     repo_data = repo / "data"
     repo_data.mkdir(parents=True, exist_ok=True)
+    git_gold = _snapshot_git_gold(repo_data / "exports")
 
-    def bind(name: str, *, copy_gold_first: bool = False) -> None:
+    def bind(name: str) -> None:
         src = drive_data / name
         dest = repo_data / name
         src.mkdir(parents=True, exist_ok=True)
         if dest.is_symlink():
             dest.unlink()
         elif dest.exists():
-            if copy_gold_first and dest.is_dir():
-                for f in dest.glob("gold_labels*.json"):
-                    target = src / f.name
-                    if not target.exists():
-                        shutil.copy2(f, target)
-                        print(f"  kopyalandı → Drive: {target}")
             if dest.is_dir():
                 shutil.rmtree(dest)
             else:
@@ -68,18 +93,28 @@ def link_data(repo: Path, drive_root: Path) -> None:
         dest.symlink_to(src, target_is_directory=True)
         print(f"  bağlandı: {dest} → {src}")
 
-    for name in ("videos", "predictions_wide", "frames", "labels"):
+    for name in ("videos", "predictions_wide", "frames", "labels", "exports"):
         bind(name)
-    bind("exports", copy_gold_first=True)
 
-    gold = drive_data / "exports" / "gold_labels_hepsi.json"
+    drive_exports = drive_data / "exports"
+    for name, src in git_gold.items():
+        target = drive_exports / name
+        shutil.copy2(src, target)
+        print(f"  git gold → Drive (üzerine yazıldı): {name}")
+
+    gold = drive_exports / "gold_labels_hepsi.json"
+    splits = drive_exports / "splits.json"
     if not gold.exists():
         print(
             f"UYARI: gold yok. PC'den yükleyin:\n"
-            f"  {drive_data / 'exports' / 'gold_labels_hepsi.json'}"
+            f"  {gold}"
         )
     else:
-        print("  gold OK")
+        print("  gold OK", gold)
+    if splits.exists():
+        print("  splits OK", splits)
+    else:
+        print("  UYARI: splits.json yok — evaluate_kpi --split dev çalışmaz")
 
     video_exts = {".mp4", ".mov", ".avi", ".mkv", ".webm"}
     videos = drive_data / "videos"
@@ -116,6 +151,7 @@ def install_python_deps() -> None:
             "openai",
             "opencv-python-headless",
             "python-dotenv",
+            "aiohttp",
             "ultralytics",
             "orjson",
         ]
@@ -205,6 +241,7 @@ def install_ollama(model: str) -> None:
 def write_env(repo: Path, model: str) -> None:
     env = repo / ".env"
     env.write_text(
+        f"PROVIDER=ollama\n"
         f"OLLAMA_BASE_URL=http://127.0.0.1:11434/v1\n"
         f"OLLAMA_MODEL={model}\n"
         f"OLLAMA_NUM_CTX=16384\n",
@@ -260,8 +297,8 @@ def main() -> None:
         install_ollama(args.model)
     print("\nHazır. Sonraki hücrede KPI çalıştırın:", flush=True)
     print(
-        f"  python scripts/run_kpi_wide.py --n 18 --seed 42 --model {args.model} "
-        f"--pred-dir data/predictions_wide --no-second-look",
+        f"  python scripts/run_kpi_wide.py --n all --split dev --model {args.model} "
+        f"--pred-dir data/predictions_wide --tag goldv2 --no-second-look --resume",
         flush=True,
     )
 

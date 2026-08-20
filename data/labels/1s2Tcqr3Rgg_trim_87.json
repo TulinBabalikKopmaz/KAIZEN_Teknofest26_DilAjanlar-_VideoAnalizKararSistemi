@@ -2,9 +2,12 @@
   "video_id": "1s2Tcqr3Rgg_trim_87",
   "filename": "1s2Tcqr3Rgg_trim_87.mp4",
   "category": "accident",
+  "ambiguity": "net",
+  "ambiguity_reason": "",
+  "ambiguity_source": "human",
   "duration_sec": null,
   "labeled_by": "human",
-  "summary": "Binadan duman ve alevler yükseliyor. Yangın olabilir",
+  "summary": "Fabrikadan duman ve alevler yükseliyor. Yangın olabilir",
   "events": [
     {
       "time": "00:01",
@@ -16,8 +19,9 @@
   ],
   "risk": "Yüksek",
   "actions": [
-    "Sağlık ekibi ve itfaiyeye haber ver.",
-    "Alanı güvene al."
+    "İtfaiyeye haber ver.",
+    "Sağlık ekibini çağır.",
+    "Alanı güvenlik altına al."
   ],
   "notes": "",
   "status": "gold"

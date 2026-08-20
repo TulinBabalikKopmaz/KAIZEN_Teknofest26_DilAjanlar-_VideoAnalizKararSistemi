@@ -19,7 +19,8 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT))
 
-from utils.kpi import aggregate, identity_keys, score_video, spec_of
+from utils.kpi import aggregate, aggregate_by, identity_keys, score_video, spec_of
+from utils.splits import filter_by_split
 
 GOLD_DEFAULT = ROOT / "data" / "exports" / "gold_labels_hepsi.json"
 OUT_JSON = ROOT / "data" / "exports" / "kpi_report.json"
@@ -62,9 +63,15 @@ def main() -> None:
     parser.add_argument("--pred", type=Path, default=GOLD_DEFAULT, help="JSON liste, tek JSON veya klasör")
     parser.add_argument("--out-json", type=Path, default=OUT_JSON)
     parser.add_argument("--out-csv", type=Path, default=OUT_CSV)
+    parser.add_argument(
+        "--split",
+        default="hepsi",
+        choices=["hepsi", "dev", "test"],
+        help="Ayar dev üzerinde yapılır; sunumdaki sayı test'ten gelir",
+    )
     args = parser.parse_args()
 
-    gold_rows = load_rows(args.gold)
+    gold_rows = filter_by_split(load_rows(args.gold), args.split)
     pred_rows = load_rows(args.pred)
     indexed = index_preds(pred_rows)
 
@@ -72,6 +79,9 @@ def main() -> None:
     summary = aggregate(per_video)
     summary["gold_path"] = str(args.gold)
     summary["pred_path"] = str(args.pred)
+    summary["split"] = args.split
+    by_ambiguity = aggregate_by(per_video, "ambiguity")
+    by_category = aggregate_by(per_video, "category")
     self_test = args.gold.resolve() == args.pred.resolve()
     summary["note"] = (
         "Gold kendisiyle kıyaslandı (duman testi). Gerçek skor için --pred data/predictions kullanın."
@@ -81,7 +91,16 @@ def main() -> None:
 
     args.out_json.parent.mkdir(parents=True, exist_ok=True)
     args.out_json.write_text(
-        json.dumps({"summary": summary, "videos": per_video}, ensure_ascii=False, indent=2),
+        json.dumps(
+            {
+                "summary": summary,
+                "by_ambiguity": by_ambiguity,
+                "by_category": by_category,
+                "videos": per_video,
+            },
+            ensure_ascii=False,
+            indent=2,
+        ),
         encoding="utf-8",
     )
     with args.out_csv.open("w", encoding="utf-8", newline="") as fh:
@@ -90,6 +109,7 @@ def main() -> None:
             fieldnames=[
                 "filename",
                 "category",
+                "ambiguity",
                 "risk_gold",
                 "risk_pred",
                 "risk_ok",
@@ -105,7 +125,7 @@ def main() -> None:
         for row in per_video:
             writer.writerow({k: row.get(k) for k in writer.fieldnames})
 
-    print("KPI (şartname metrikleri)")
+    print(f"KPI (şartname metrikleri) — küme: {args.split}")
     print(f"  Video sayısı        : {summary['n_video']}")
     print(f"  Risk doğruluğu      : {summary['risk_accuracy']:.0%}")
     print(f"  Olay yakalama       : {summary['event_recall']:.0%}  (±2 sn)")
@@ -115,7 +135,24 @@ def main() -> None:
     print(f"  Aksiyon doluluğu    : {summary['action_ok_rate']:.0%}")
     print(f"  Tahmini olmayan     : {summary['missing_predictions']}")
     print(f"  {summary['note']}")
-    print(f"Yazıldı: {args.out_json}")
+
+    def line(key: str, sub: dict, width: int) -> str:
+        # Alt kümede kritik/normal video yoksa oranı 0 gibi göstermek yanıltıcı olur
+        critical = f"{sub['critical_recall']:.0%}" if sub.get("n_critical") else "-"
+        false_alarm = f"{sub['false_alarm_rate']:.0%}" if sub.get("n_normal") else "-"
+        return (
+            f"  {key:{width}} n={sub['n_video']:3}  risk={sub['risk_accuracy']:.0%}  "
+            f"olay={sub['event_recall']:.0%}  kritik={critical:>4}  yanlış alarm={false_alarm:>4}"
+        )
+
+    if len(by_ambiguity) > 1:
+        print("\nBelirsizlik kırılımı (sistem nerede zorlanıyor):")
+        for key, sub in by_ambiguity.items():
+            print(line(key, sub, 9))
+    print("\nKategori kırılımı:")
+    for key, sub in by_category.items():
+        print(line(key, sub, 10))
+    print(f"\nYazıldı: {args.out_json}")
     print(f"Yazıldı: {args.out_csv}")
 
 

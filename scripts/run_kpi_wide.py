@@ -5,6 +5,7 @@
   python scripts/run_kpi_wide.py --n 18
   python scripts/run_kpi_wide.py --n all
   python scripts/run_kpi_wide.py --n all --split holdout --holdout-frac 0.2
+  python scripts/run_kpi_wide.py --n all --split dev      # splits.json (ayar kümesi)
 
 Gold'a dokunmaz. Tahminler data/predictions_wide/ altına gider.
 """
@@ -28,6 +29,7 @@ sys.path.insert(0, str(ROOT))
 from auto_label_qwen import build_client, competition_view, label_video
 from extract_frames import extract_video, safe_id
 from run_kpi_sample import SAMPLE_NAMES, predict_one
+from utils.splits import filter_by_split
 
 GOLD_PATH = ROOT / "data" / "exports" / "gold_labels_hepsi.json"
 
@@ -171,9 +173,9 @@ def main() -> None:
     parser.add_argument("--seed", type=int, default=42)
     parser.add_argument(
         "--split",
-        choices=("all", "train", "holdout"),
+        choices=("all", "train", "holdout", "dev", "test"),
         default="all",
-        help="Sadece --n all ile: train/holdout ayır (seed + holdout-frac)",
+        help="all|dev|test = splits.json; train|holdout = eski seed'li ayırım (--n all)",
     )
     parser.add_argument(
         "--holdout-frac",
@@ -182,9 +184,15 @@ def main() -> None:
         help="--split train|holdout için kategori içi oran",
     )
     parser.add_argument(
+        "--backend",
+        choices=("ollama", "teknofest", "openai"),
+        default="ollama",
+        help="teknofest = yarışmanın ortak API'si (.env: TEKNOFEST_BASE_URL, VLM_MODEL)",
+    )
+    parser.add_argument(
         "--model",
-        default=os.getenv("OLLAMA_MODEL", "qwen2.5vl:7b"),
-        help="Ollama model adı",
+        default="",
+        help="Model adı (boş: ollama'da OLLAMA_MODEL, teknofest'te VLM_MODEL)",
     )
     parser.add_argument(
         "--pred-dir",
@@ -195,6 +203,16 @@ def main() -> None:
         "--no-second-look",
         action="store_true",
         help="İkinci bakışı kapat (daha hızlı, biraz daha zayıf)",
+    )
+    parser.add_argument(
+        "--no-refine",
+        action="store_true",
+        help="Kural katmanını (risk_rules.refine_label) kapat — ablasyon ölçümü",
+    )
+    parser.add_argument(
+        "--tag",
+        default="",
+        help="Çıktı dosya adına ek etiket (örn. norefine, holdout)",
     )
     parser.add_argument("--max-frames", type=int, default=0, help="0 = modele göre (qwen 8, llava 3)")
     parser.add_argument(
@@ -213,9 +231,17 @@ def main() -> None:
     if n_videos is not None and n_videos < 6:
         raise SystemExit("--n en az 6 olmalı (veya --n all)")
 
-    os.environ["OLLAMA_MODEL"] = args.model
-    safe_model = "".join(c if c.isalnum() or c in "-_" else "_" for c in args.model)
-    max_frames = args.max_frames or (3 if "llava" in args.model.lower() else 8)
+    if args.backend == "ollama":
+        model_name = args.model or os.getenv("OLLAMA_MODEL", "qwen2.5vl:7b")
+        os.environ["OLLAMA_MODEL"] = model_name
+    else:
+        if args.model:
+            os.environ["VLM_MODEL"] = args.model
+        model_name = args.model or os.getenv("VLM_MODEL", "vlm")
+    safe_model = "".join(c if c.isalnum() or c in "-_" else "_" for c in model_name)
+    if args.tag:
+        safe_model = f"{safe_model}_{''.join(c if c.isalnum() else '_' for c in args.tag)}"
+    max_frames = args.max_frames or (3 if "llava" in model_name.lower() else 8)
 
     gold_all = json.loads(GOLD_PATH.read_text(encoding="utf-8"))
     videos = {
@@ -225,20 +251,30 @@ def main() -> None:
     }
     if n_videos is None:
         pool = available_gold(gold_all, videos)
-        sample = split_holdout(pool, args.seed, args.holdout_frac, args.split)
-        mode = f"all/{args.split}"
+        if args.split in {"dev", "test"}:
+            sample = filter_by_split(pool, args.split)
+            mode = f"all/{args.split}"
+        else:
+            sample = split_holdout(pool, args.seed, args.holdout_frac, args.split)
+            mode = f"all/{args.split}"
     else:
-        if args.split != "all":
-            print("Uyarı: --split train|holdout yalnız --n all ile anlamlı; yok sayıldı.")
-        sample = pick_balanced(gold_all, videos, n_videos, args.seed, SAMPLE_NAMES)
-        mode = f"balanced/{n_videos}"
-        if len(sample) < n_videos:
-            print(f"Uyarı: istenen {n_videos}, seçilen {len(sample)} (dosya/kategori yetmez)")
+        if args.split in {"dev", "test"}:
+            pool = filter_by_split(available_gold(gold_all, videos), args.split)
+            sample = pool[:n_videos] if n_videos < len(pool) else pool
+            mode = f"{args.split}/{len(sample)}"
+        else:
+            if args.split != "all":
+                print("Uyarı: --split train|holdout yalnız --n all ile anlamlı; yok sayıldı.")
+            sample = pick_balanced(gold_all, videos, n_videos, args.seed, SAMPLE_NAMES)
+            mode = f"balanced/{n_videos}"
+            if len(sample) < n_videos:
+                print(f"Uyarı: istenen {n_videos}, seçilen {len(sample)} (dosya/kategori yetmez)")
 
     args.pred_dir.mkdir(parents=True, exist_ok=True)
-    client, model = build_client("ollama")
+    client, model = build_client(args.backend)
     print(
-        f"Geniş KPI  model={model}  n={len(sample)}  seed={args.seed}  mode={mode}"
+        f"Geniş KPI  backend={args.backend}  model={model}  "
+        f"n={len(sample)}  seed={args.seed}  mode={mode}"
     )
     from collections import Counter
 
@@ -250,7 +286,8 @@ def main() -> None:
             {
                 "mode": mode,
                 "seed": args.seed,
-                "model": args.model,
+                "backend": args.backend,
+                "model": model_name,
                 "videos": [
                     {"filename": r["filename"], "category": r.get("category")}
                     for r in sample
@@ -295,9 +332,10 @@ def main() -> None:
                     video,
                     frames_meta,
                     use_folder_hint=False,
-                    backend="ollama",
+                    backend=args.backend,
                     evidence=evidence,
                     use_second_look=False,
+                    use_refine=not args.no_refine,
                 )
             else:
                 if max_frames != 6:
@@ -317,12 +355,19 @@ def main() -> None:
                         video,
                         frames_meta,
                         use_folder_hint=False,
-                        backend="ollama",
+                        backend=args.backend,
                         evidence=evidence,
                         use_second_look=True,
+                        use_refine=not args.no_refine,
                     )
                 else:
-                    label = predict_one(client, model, video)
+                    label = predict_one(
+                        client,
+                        model,
+                        video,
+                        backend=args.backend,
+                        use_refine=not args.no_refine,
+                    )
         except Exception as exc:
             print(f"  HATA: {exc}")
             continue

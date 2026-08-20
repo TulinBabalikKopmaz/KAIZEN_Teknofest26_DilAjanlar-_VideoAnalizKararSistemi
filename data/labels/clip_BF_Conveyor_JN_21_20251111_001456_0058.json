@@ -2,14 +2,17 @@
   "video_id": "clip_BF_Conveyor_JN_21_20251111_001456_0058",
   "filename": "clip_BF_Conveyor_JN_21_20251111_001456_0058.mp4",
   "category": "normal",
+  "ambiguity": "belirsiz",
+  "ambiguity_reason": "alarm_gorunumlu_normal",
+  "ambiguity_source": "human",
   "duration_sec": null,
   "labeled_by": "human",
-  "summary": "Çalışan rutin aktivitesini sürdürüyor. Normal gözüküyor.",
+  "summary": "Çalışanlar rutin aktivitesini sürdürüyor. Normal gözüküyor.",
   "events": [
     {
       "time": "00:00",
       "time_end": "",
-      "event": "Çalışan rutin aktivitesini sürdürüyor.",
+      "event": "Çalışanlar rutin aktivitesini sürdürüyor.",
       "event_type": "normal",
       "severity": "dusuk"
     }

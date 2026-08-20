@@ -35,8 +35,12 @@ def build_workflow() -> Any:
 async def run_pipeline(
     keyframes: list[str] | None = None,
     trigger_reason: str = "",
+    user_prompt: str = "",
 ) -> dict[str, Any]:
-    """Pipeline'ı çalıştırır ve final JSON çıktısını döner."""
+    """Pipeline'ı çalıştırır ve final JSON çıktısını döner.
+
+    user_prompt: demoda jürinin verdiği serbest metin soru (boş olabilir).
+    """
     if keyframes is None:
         keyframes = sorted(glob.glob("keyframes/*.jpg"))
 
@@ -47,6 +51,7 @@ async def run_pipeline(
         "recommended_actions": [],
         "rag_context": "",
         "trigger_reason": trigger_reason,
+        "user_prompt": user_prompt,
     }
 
     app = build_workflow()
@@ -59,6 +64,7 @@ async def run_pipeline(
         "onerilen_aksiyonlar": final_state["recommended_actions"],
         "isg_kanun_maddeleri": final_state.get("rag_context", ""),
         "tetik_sebebi": final_state.get("trigger_reason", trigger_reason),
+        "kullanici_promptu": final_state.get("user_prompt", user_prompt),
     }
     spec = pipeline_result_to_spec(legacy)
     return {**legacy, "spec": spec}

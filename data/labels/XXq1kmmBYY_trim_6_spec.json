@@ -1,13 +1,14 @@
 {
-  "summary": "Forklift tavandan sarkan maddeye çarpıyor ve tavan çöküyor.",
+  "summary": "Forklift tavandan sarkan kabloya çarpıyor ve tavan çöküyor.",
   "events": [
     {
-      "time": "00:03",
-      "event": "duvar çöküyor ve çalışan enkaz altında kalıyor."
+      "time": "00:02",
+      "event": "Forklift tavandan sarkan kabloya çarpıyor ve tavan çöküyor."
     }
   ],
   "risk": "Yüksek",
   "actions": [
-    "sağlık ekibi çağır."
+    "Sağlık ekibini çağır.",
+    "Alanı güvenlik altına al"
   ]
 }
