@@ -1,11 +1,14 @@
 """Demo çekirdeği: bir video + jürinin promptu → zaman damgalı İSG cevabı.
 
-Yarışmada puanlanan an bu yol. Hedef: 60 saniyelik demo penceresinde bitmek.
+İki kullanım:
+    - Sunum sahnesi (4 dk + 1 dk): kendi videomuz, Hızlı mod açık olabilir.
+    - Jüri videosu: süre sınırı söylenmedi; ikinci bakış / eleştirmen / RAG
+      atlanmasın diye varsayılan bütçe uzun (time_budget_s). Hızlı mod kapalı.
 
 Adımlar
     1. Kare çıkarma (hareket tepelerine göre) ve sensör kanıtı — eşzamanlı
     2. VLM: yapılandırılmış etiket (özet / olaylar / risk / aksiyon)
-    3. Şüpheli sahnede kısa ikinci bakış (süre bütçesi izin verirse)
+    3. Şüpheli sahnede kısa ikinci bakış
     4. Çelişkide karesiz metin eleştirmeni + kural katmanı
     5. LLM: jürinin sorusuna düz Türkçe cevap + saha aksiyonları (RAG referanslı)
 
@@ -359,7 +362,7 @@ async def run_demo_analysis(
     fast: bool | None = None,
     use_rag: bool = True,
     use_second_look: bool = True,
-    time_budget_s: float = 50.0,
+    time_budget_s: float = 600.0,
     save: bool = True,
     out_root: Path | None = None,
     run_name: str = "",

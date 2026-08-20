@@ -73,6 +73,11 @@ def sidebar_settings() -> dict[str, Any]:
     use_rag = st.sidebar.toggle("İSG mevzuat referansı (RAG)", value=not fast)
 
     st.sidebar.caption(config.describe())
+    if provider == "ollama":
+        st.sidebar.warning(
+            "Yerel 7B 2–4 dk sürebilir; bu jüri kaydı için sorun değil. "
+            "Sahnedeki 1 dk gösterimde **Hızlı mod** açın veya önceden koşulmuş sonucu gösterin."
+        )
     return {"fast": fast, "max_frames": max_frames, "use_rag": use_rag}
 
 

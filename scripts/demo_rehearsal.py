@@ -1,8 +1,7 @@
 #!/usr/bin/env python3
-"""Demo provası: 3 prompt varyantı x N video koşup süre ve çıktı kalitesini raporlar.
+"""Demo provası: N video x prompt varyantı — çıktı kalitesi ve süre raporu.
 
-Jüri hangi promptu verirse versin sistemin 60 saniyede anlamlı cevap ürettiğini
-görmek için. Sunum öncesi son kontrol.
+Sunum sahnesi (1 dk) için --fast; jüri videosu için hızlı mod kapalı, süre serbest.
 
     python scripts/demo_rehearsal.py --videos data/videos --limit 3
     python scripts/demo_rehearsal.py --videos demo1.mp4 demo2.mp4 --fast
@@ -59,7 +58,7 @@ CHECKLIST = (
     "Soğuk başlangıç: ilk çağrı yavaş; demodan 5 dk önce bir kez ısıtma koşusu yap.",
     "Ekran: Streamlit'i demo çözünürlüğünde aç, tek ekranda kaydırma olmasın.",
     "Yedek plan: son başarılı data/demo_runs klasörünü açık bir sekmede hazır tut.",
-    "Süre: hedef 40 sn; aşarsa DEMO_FAST_MODE=1 veya --max-frames 6 ile koş.",
+    "Süre: sunum sahnesi 1 dk (hızlı/kayıt); jüri videosunda doğruluk önce, 2–4 dk normal.",
 )
 
 

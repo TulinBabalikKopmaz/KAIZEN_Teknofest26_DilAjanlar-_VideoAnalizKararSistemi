@@ -55,8 +55,8 @@ def build_parser() -> argparse.ArgumentParser:
     parser.add_argument(
         "--time-budget",
         type=float,
-        default=50.0,
-        help="Bu saniyeyi aşarsa opsiyonel adımlar atlanır",
+        default=600.0,
+        help="Bu saniyeyi aşarsa ikinci bakış / eleştirmen / RAG atlanır (jüri yolu: uzun tut)",
     )
     parser.add_argument("--run-name", default="", help="Çıktı klasörü adı (varsayılan: video adı)")
     parser.add_argument("--out-root", type=Path, default=None)

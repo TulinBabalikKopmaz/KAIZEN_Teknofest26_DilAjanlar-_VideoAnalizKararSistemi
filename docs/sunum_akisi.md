@@ -1,8 +1,26 @@
-# Sunum ve Demo Akışı (4 dk + 1 dk)
+# Sunum ve Demo Akışı
 
-Sahne planı, konuşma notları, demo koreografisi ve olası jüri soruları.
-Rakamlar `data/exports/kpi_final_ozet.csv` dosyasından gelir; ortak API ile
-yeniden ölçüm yapıldığında bu dosya ve aşağıdaki tablo güncellenmelidir.
+Şartnamedeki **4 dk sunum + 1 dk demo**, sahneye çıkış süresidir (kendi slayt +
+kendi gösterim). Jürinin sonradan vereceği video + prompt için resmi bir süre
+söylenmedi. İkisini karıştırmayın: sunumda sahneyi bitirin; jüri kaydında
+doğru JSON üretin.
+
+---
+
+## 0. İki ayrı iş
+
+| | A — Sahne (4+1) | B — Jüri videosu + prompt |
+|---|---|---|
+| Ne | Kendi slayt, kendi örnek video | Onların kaydı, onların sorusu |
+| Süre | 4 dk konuşma + 1 dk gösterim | Belirtilmedi; 2–4 dk analiz normal |
+| Amaç | Anlatmak, ekranda karar göstermek | Sınıf, risk, zaman, aksiyon doğru olsun |
+| Ayar | Hızlı mod açık olabilir; önceden koşulmuş / kayıtlı yedek | Hızlı mod **kapalı**, 8 kare, ikinci bakış + eleştirmen + RAG açık |
+| Model | Isınmış ollama veya ortak API | Ortak 27B (gelince) |
+
+Sunumdaki 1 dk’da jüri videosunun bitmesini beklemeyin. O slot’ta **sizin
+seçtiğiniz** kısa klibi (veya önceden alınmış ekran kaydını) gösterin. Jüri
+dosyası gelince Streamlit’te tam pipeline çalıştırın; beklerken mimariyi
+anlatırsınız.
 
 ---
 
@@ -16,7 +34,7 @@ yeniden ölçüm yapıldığında bu dosya ve aşağıdaki tablo güncellenmelid
 | 1:40–2:30 | Doğruluk kanıtı | KPI tablosu: risk doğruluğu, kritik olay yakalama, yanlış alarm. Ablasyon: kural katmanı açık/kapalı farkı. |
 | 2:30–3:05 | Veri ve metodoloji | Golden dataset dağılımı (%30 kaza, %30 normal, %20 ramak kala, %20 belirsiz), gold etiketleme süreci, teşhis aracı. |
 | 3:05–3:40 | Gerçek zamanlı yol haritası | RTSP akışında wake-up tetikli asenkron analiz; tek makinede çok kamera. |
-| 3:40–4:00 | Kapanış | Tek cümle: "Kayıtları arşiv değil, karar verici hale getiriyoruz." Demo'ya geçiş. |
+| 3:40–4:00 | Kapanış | Tek cümle: "Kayıtları arşiv değil, karar verici hale getiriyoruz." Kendi demo klibine geçiş. |
 
 ### Konuşma notları
 
@@ -80,36 +98,41 @@ sözlüğü ekledik ve ortak 27B model ile bu iki metriği yeniden ölçüyoruz.
 
 ---
 
-## 3. Demo koreografisi (60 sn)
+## 3. Sahne demosu (1 dk, kendi videomuz)
 
-Sahne öncesi hazırlık (jüri odaya girmeden):
+Jüri odaya girmeden:
 
 ```powershell
-python scripts/smoke_api.py                       # VLM + LLM erişimi ve gecikme
-streamlit run app/demo_app.py                     # arayüz açık ve bekliyor
+python scripts/smoke_api.py
+streamlit run app/demo_app.py
+python scripts/analyze_video.py --video data/videos/accident/SEÇİLEN.mp4 --fast
 ```
 
-Canlı akış:
+Son başarılı koşu `data/demo_runs/` altında dursun (kayıt yedek).
+
+Canlı 60 sn (önceden bildiğiniz klip; hızlı mod açık):
 
 | Saniye | Yapılan | Söylenen |
 |---|---|---|
-| 0–8 | Jürinin videosunu sürükleyip bırak | "Videoyu sisteme veriyorum, önceden hiç görmediği bir kayıt." |
-| 8–14 | Jürinin promptunu kutuya yapıştır, Analiz'e bas | "Sorularını olduğu gibi giriyorum." |
-| 14–40 | İlerleme adımları akıyor | "Şu an wake-up katmanı aday pencereyi buldu, VLM o kareleri okuyor." |
-| 40–50 | Risk kartı + olay zaman çizelgesi | "Olayı 00:0X'te tespit etti, risk seviyesi ve gerekçesi burada." |
-| 50–58 | Aksiyonlar + JSON sekmesi | "Aksiyonlar mevzuat referanslı, çıktı şartname JSON'u." |
-| 58–60 | Süre göstergesi | "Toplam süre X saniye." |
+| 0–8 | Kendi videoyu seç / bırak | "Sahadaki kaydı sisteme veriyorum." |
+| 8–14 | Prompt, Analiz Et (veya önceden bitmiş sonucu aç) | "Operatör sorusunu olduğu gibi giriyorum." |
+| 14–40 | İlerleme veya hazır sonuç | "Wake-up aday pencereyi buldu, VLM o karelere bakıyor." |
+| 40–50 | Risk + zaman çizelgesi | "Olay 00:0X, risk bu." |
+| 50–58 | Aksiyonlar + JSON | "Çıktı şartname JSON'u, aksiyonlar uygulanabilir." |
+| 58–60 | Süre metriği | "Bu gösterim X saniye." |
 
-Yedek yol (sadece gerekirse, sessizce): ortak API cevap vermezse istemci
-Ollama'ya düşer; internet tamamen giderse `data/demo_runs/` altındaki prova
-çıktısı açılır. Bunu jüriye anlatmaya gerek yok, sadece hazır olsun.
+Yedek: API yoksa kenardan `ollama`; o da yoksa `data/demo_runs/.../report.txt`.
 
-### Prova komutları
+### Jüri videosu (süre serbest)
+
+Hızlı mod **kapalı**, kare 8. Prompt’u olduğu gibi yapıştırın. Bitene kadar
+konuşun. İkinci bakış ve eleştirmen 50 sn’ye takılmasın diye varsayılan analiz
+bütçesi 10 dk. Doğru sınıf/risk, sahne süresinden önemli.
 
 ```powershell
-python scripts/demo_rehearsal.py --videos data/videos --limit 3   # süre + çıktı provası
-python scripts/check_video_inputs.py --synthetic                  # format dayanıklılığı
-python scripts/diagnose_kpi.py                                    # metrik kaybının nedeni
+python scripts/analyze_video.py --video JURI.mp4 --prompt "jürinin sorusu"
+python scripts/demo_rehearsal.py --videos data/videos --limit 3
+python scripts/check_video_inputs.py --synthetic
 ```
 
 ---
@@ -143,8 +166,8 @@ Tek H200 ile onlarca kamerayı, tetiklenmeleri kuyruğa alarak taşıyabiliriz.
 ## 5. Kontrol listesi (sunum sabahı)
 
 - [ ] `.env` ortak API bilgileriyle dolu, `scripts/smoke_api.py` yeşil
-- [ ] `streamlit run app/demo_app.py` açık, örnek video ile bir kez ısıtıldı
-- [ ] Yedek çıktı `data/demo_runs/` altında hazır
-- [ ] KPI tablosu slayttaki değerlerle `kpi_final_ozet.csv` uyumlu
-- [ ] Sunum dosyası ve demo aynı ekranda, geçiş provası yapıldı
+- [ ] Sahne klibi seçildi, 1 dk koreografi provası + `data/demo_runs/` yedek
+- [ ] Jüri yolu: hızlı mod kapalı, 8 kare; Streamlit açık ve ısıtıldı
+- [ ] KPI tablosu slayttaki değerlerle `kpi_final_ozet.csv` uyumlu (27B gelince güncelle)
+- [ ] Sunum dosyası ve sahne demosu aynı ekranda, geçiş provası yapıldı
 - [ ] `python -m pytest tests -q` geçiyor
