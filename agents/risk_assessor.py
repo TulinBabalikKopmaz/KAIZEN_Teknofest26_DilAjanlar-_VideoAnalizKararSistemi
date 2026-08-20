@@ -6,7 +6,7 @@ from typing import Any
 
 from agents.state import AgentState
 from utils.model_client import ModelCallError, chat_llm
-from utils.risk_rules import text_risk_floor
+from utils.risk_rules import has_unhedged_accident, text_risk_floor
 from utils.spec_output import normalize_risk
 
 SYSTEM_PROMPT: str = (
@@ -43,6 +43,8 @@ async def risk_assessor_tool(state: AgentState) -> dict[str, Any]:
 
     # Kural katmanı: LLM metni küçümsese bile anahtar kelime tabanı uygula
     floor, _ = text_risk_floor({"summary": event_text, "events": [], "actions": []})
+    if has_unhedged_accident(str(event_text)):
+        floor = "Yüksek"
     if _RANK[floor] > _RANK.get(normalize_risk(risk), 0):
         mapped = _FLOOR_TO_LEVEL[floor]
         print(f"Kural tabanı: LLM={risk} → en az {mapped} (metin kanıtı)")

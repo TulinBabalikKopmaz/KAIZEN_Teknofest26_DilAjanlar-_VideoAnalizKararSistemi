@@ -50,6 +50,25 @@ class KpiTests(unittest.TestCase):
         self.assertFalse(row["critical_hit"])
         self.assertFalse(row["risk_ok"])
 
+    def test_pred_risk_follows_category_even_if_model_mismatched(self) -> None:
+        gold = {
+            "category": "accident",
+            "summary": "Çalışan yere düştü",
+            "events": [{"time": "00:10", "event": "Çalışan yere düştü"}],
+            "risk": "Yüksek",
+            "actions": ["Sağlık ekibini çağır"],
+        }
+        pred = {
+            "category": "accident",
+            "summary": "Çalışan yere düştü",
+            "events": [{"time": "00:10", "event": "Çalışan yere düştü"}],
+            "risk": "Orta",
+            "actions": ["Sağlık ekibini çağır"],
+        }
+        row = score_video(gold, pred)
+        self.assertTrue(row["risk_ok"])
+        self.assertEqual(row["risk_pred"], "Yüksek")
+
     def test_aggregate_counts(self) -> None:
         rows = [
             score_video(

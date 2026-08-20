@@ -19,6 +19,16 @@ from typing import Any
 
 SPEC_RISKS = ("Düşük", "Orta", "Yüksek")
 
+# Gold etiketleme sözleşmesi: üç sınıf ↔ üç risk, aynı skala.
+CATEGORY_TO_RISK = {
+    "normal": "Düşük",
+    "near_miss": "Orta",
+    "accident": "Yüksek",
+}
+RISK_TO_CATEGORY = {risk: cat for cat, risk in CATEGORY_TO_RISK.items()}
+_CAT_RANK = {"normal": 0, "near_miss": 1, "accident": 2}
+_LOCK_POLICIES = ("severity_max", "category", "risk")
+
 _RISK_MAP = {
     "güvenli": "Düşük",
     "guvenli": "Düşük",
@@ -71,6 +81,69 @@ def normalize_risk(raw: str | None) -> str:
     key = raw.strip().lower()
     key = key.replace(".", "").split()[0] if key else ""
     return _RISK_MAP.get(key, "Orta")
+
+
+def risk_from_category(category: str | None, raw_risk: str | None = None) -> str:
+    """normal→Düşük, near_miss→Orta, accident→Yüksek. Kategori yoksa ham risk."""
+    _, risk = lock_pair(category, raw_risk, policy="category")
+    return risk
+
+
+def lock_policy_name(policy: str | None = None) -> str:
+    """LOCK_POLICY env: severity_max (varsayılan) | category | risk."""
+    if policy:
+        key = str(policy).strip().lower().replace("-", "_")
+    else:
+        from utils.config import lock_policy as _env_lock
+
+        key = _env_lock()
+    aliases = {
+        "max": "severity_max",
+        "hotter": "severity_max",
+        "category_primary": "category",
+        "risk_primary": "risk",
+    }
+    key = aliases.get(key, key)
+    return key if key in _LOCK_POLICIES else "severity_max"
+
+
+def lock_pair(
+    category: str | None,
+    raw_risk: str | None,
+    policy: str | None = None,
+) -> tuple[str, str]:
+    """Kategori ve riski tek karara indirger.
+
+    severity_max: anlaşmazlıkta daha ağır sinyal (7B'de risk kazayı daha sık yakalıyordu).
+    category: risk kategoriyi izler.
+    risk: kategori riski izler.
+    """
+    risk = normalize_risk(raw_risk)
+    cat = str(category or "").strip().lower()
+    if cat not in _CAT_RANK:
+        return RISK_TO_CATEGORY.get(risk, "normal"), risk
+    mode = lock_policy_name(policy)
+    if mode == "category":
+        return cat, CATEGORY_TO_RISK[cat]
+    if mode == "risk":
+        return RISK_TO_CATEGORY[risk], risk
+    rank = max(_CAT_RANK[cat], _RISK_RANK.get(risk, 0))
+    inv_cat = {0: "normal", 1: "near_miss", 2: "accident"}
+    inv_risk = {0: "Düşük", 1: "Orta", 2: "Yüksek"}
+    return inv_cat[rank], inv_risk[rank]
+
+
+def lock_category_risk(label: dict[str, Any], policy: str | None = None) -> dict[str, Any]:
+    """Label dict'te kategori ve riski kilitler (yerinde)."""
+    cat, risk = lock_pair(label.get("category"), label.get("risk"), policy=policy)
+    label["category"] = cat
+    label["risk"] = risk
+    return label
+
+
+def align_risk_to_category(label: dict[str, Any]) -> dict[str, Any]:
+    """Eski ad: kategori birincil kilit."""
+    return lock_category_risk(label, policy="category")
 
 
 def parse_vlm_line(text: str | None) -> dict[str, str]:

@@ -14,7 +14,7 @@ import re
 from typing import Any
 
 from utils.scene_evidence import SceneEvidence
-from utils.spec_output import normalize_risk
+from utils.spec_output import lock_category_risk, normalize_risk
 
 _RISK_RANK = {"Düşük": 0, "Orta": 1, "Yüksek": 2}
 _CAT_RANK = {"normal": 0, "near_miss": 1, "accident": 2}
@@ -57,6 +57,22 @@ NEAR_PATTERNS = [
     r"tehlikeli\s+yaklaş",
     r"az\s+kaldı",
 ]
+# Fiili sonuç: "neredeyse düştü" değil, gerçekten olmuş kaza.
+COMPLETED_PATTERNS = [
+    r"hareketsiz",
+    r"yandı",
+    r"yangın",
+    r"çökt",
+    r"enkaz",
+    r"altında\s+kald",
+    r"ezil",
+    r"devril",
+    r"yere\s+düş",
+    r"yere\s+seril",
+    r"çarptı",
+    r"yerde\s+yat",
+]
+_HEDGE_PREFIX = re.compile(r"(neredeyse|son\s+anda|az\s+kaldı)\s*$", re.IGNORECASE)
 
 
 def _joined_text(label: dict[str, Any]) -> str:
@@ -69,6 +85,17 @@ def _joined_text(label: dict[str, Any]) -> str:
 
 def _match_any(text: str, patterns: list[str]) -> bool:
     return any(re.search(p, text, re.IGNORECASE) for p in patterns)
+
+
+def has_unhedged_accident(text: str) -> bool:
+    """Tamamlanmış kaza fiili, hemen önünde 'neredeyse' hedge'i yoksa True."""
+    blob = (text or "").lower()
+    for pattern in COMPLETED_PATTERNS:
+        for match in re.finditer(pattern, blob, re.IGNORECASE):
+            prefix = blob[max(0, match.start() - 24) : match.start()]
+            if not _HEDGE_PREFIX.search(prefix.rstrip()):
+                return True
+    return False
 
 
 def _max_risk(a: str, b: str) -> str:
@@ -98,10 +125,10 @@ def evidence_floor(evidence: SceneEvidence | None) -> tuple[str, str | None]:
         return "Düşük", None
     if evidence.fire_suspect:
         return "Yüksek", "accident"
-    # Çok yakın: kritik yakalamayı koru (Yüksek) ama tek başına accident dayatma
-    # (normal CCTV false alarm'ı azaltır; metinde çarpışma varsa text_floor yükseltir)
+    # Çok yakın: kaza yoksa near_miss; gold sözleşmesi risk=Orta.
+    # Metinde çarpışma/zarar varsa text_floor accident+Yüksek yapar.
     if evidence.person_vehicle_very_close:
-        return "Yüksek", "near_miss"
+        return "Orta", "near_miss"
     if evidence.person_vehicle_close:
         return "Orta", "near_miss"
     return "Düşük", None
@@ -114,6 +141,11 @@ def refine_label(label: dict[str, Any], evidence: SceneEvidence | None = None) -
     text = _joined_text(out)
     has_high = _match_any(text, HIGH_PATTERNS)
     has_near = _match_any(text, NEAR_PATTERNS)
+    # Model near_miss deyip Yüksek dediyse bu anlaşmazlığı FA budaması ezmesin
+    keep_hot_near = (
+        str(label.get("category") or "") == "near_miss"
+        and normalize_risk(label.get("risk")) == "Yüksek"
+    )
 
     text_risk, text_cat = text_risk_floor(out)
     ev_risk, ev_cat = evidence_floor(evidence)
@@ -146,7 +178,7 @@ def refine_label(label: dict[str, Any], evidence: SceneEvidence | None = None) -
         and not (evidence and evidence.fire_suspect)
         and not (evidence and evidence.person_vehicle_very_close)
     )
-    if weak_high:
+    if weak_high and not keep_hot_near:
         if has_near or (evidence and evidence.person_vehicle_close):
             out["risk"] = "Orta"
             if (out.get("category") or "normal") == "accident":
@@ -162,6 +194,20 @@ def refine_label(label: dict[str, Any], evidence: SceneEvidence | None = None) -
             if (out.get("category") or "") == "accident":
                 out["category"] = "near_miss"
             reasons.append("zayıf Yüksek→Orta (yalnız hareket)")
+
+    # Metin tamamlanmış kazayı anlatıyorsa near_miss hedge'ini ezme
+    if has_unhedged_accident(text) and (out.get("category") or "") != "accident":
+        reasons.append(f"category {out.get('category')}→accident (tamamlanmış sonuç)")
+        out["category"] = "accident"
+
+    # Anlaşmazlıkta daha ağır sinyali al (varsayılan severity_max)
+    old_cat = out.get("category") or "normal"
+    old_locked = normalize_risk(out.get("risk"))
+    lock_category_risk(out)
+    if out.get("category") != old_cat or normalize_risk(out.get("risk")) != old_locked:
+        reasons.append(
+            f"kilit {old_cat}/{old_locked}→{out.get('category')}/{out.get('risk')}"
+        )
 
     # Kazada aksiyon hâlâ "rutin izle" ise güçlendir
     actions = [a for a in (out.get("actions") or []) if a]
@@ -193,6 +239,7 @@ def needs_second_look(label: dict[str, Any], evidence: SceneEvidence | None) -> 
     cat = label.get("category") or "normal"
     if risk == "Düşük" or cat == "normal":
         return True
-    if cat == "near_miss" and risk != "Yüksek" and evidence.motion_elevated:
+    # Kategori near_miss kaldıysa (risk Yüksek olsa bile) kazayı kaçırmış olabilir
+    if cat == "near_miss" and evidence.motion_elevated:
         return True
     return False

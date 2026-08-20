@@ -5,7 +5,7 @@ from __future__ import annotations
 import re
 from typing import Any
 
-from utils.spec_output import mmss_to_seconds, normalize_risk
+from utils.spec_output import lock_pair, mmss_to_seconds
 
 EVENT_TIME_TOLERANCE_SEC = 2
 TEXT_JACCARD_MIN = 0.12
@@ -32,16 +32,20 @@ def spec_of(row: dict[str, Any]) -> dict[str, Any]:
         if not text:
             continue
         events.append({"time": event.get("time") or "00:00", "event": text})
+    cat, risk = lock_pair(
+        row.get("category") or inner.get("category"),
+        inner.get("risk"),
+    )
     return {
         "video_id": row.get("video_id") or inner.get("video_id"),
         "filename": row.get("filename") or inner.get("filename"),
-        "category": row.get("category") or inner.get("category"),
+        "category": cat,
         # Belirsizlik sonucun değil sahnenin okunabilirliğinin etiketi:
         # "kaza var ama görüntüden anlaşılması zor" gibi durumlar.
         "ambiguity": normalize_ambiguity(row.get("ambiguity") or inner.get("ambiguity")),
         "summary": (inner.get("summary") or "").strip(),
         "events": events,
-        "risk": normalize_risk(inner.get("risk")),
+        "risk": risk,
         "actions": [a for a in (inner.get("actions") or []) if a],
     }
 

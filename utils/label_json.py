@@ -10,7 +10,7 @@ import json
 import re
 from typing import Any
 
-from utils.spec_output import mmss_to_seconds
+from utils.spec_output import lock_pair, mmss_to_seconds
 
 
 def parse_json(text: str) -> dict[str, Any]:
@@ -138,6 +138,7 @@ def _overlap(a: set[str], b: set[str]) -> float:
 
 def label_to_spec(label: dict[str, Any]) -> dict[str, Any]:
     """Etiketten şartname (gold) kalıbındaki 4 alanlı JSON'u üretir."""
+    _, risk = lock_pair(label.get("category"), label.get("risk"))
     return {
         "summary": label.get("summary", ""),
         "events": [
@@ -145,6 +146,6 @@ def label_to_spec(label: dict[str, Any]) -> dict[str, Any]:
             for event in (label.get("events") or [])
             if isinstance(event, dict) and event.get("event")
         ],
-        "risk": label.get("risk", "Orta"),
+        "risk": risk,
         "actions": [a for a in (label.get("actions") or []) if a],
     }

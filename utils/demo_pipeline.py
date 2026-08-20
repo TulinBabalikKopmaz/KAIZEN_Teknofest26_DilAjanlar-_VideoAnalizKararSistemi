@@ -6,7 +6,7 @@ Adımlar
     1. Kare çıkarma (hareket tepelerine göre) ve sensör kanıtı — eşzamanlı
     2. VLM: yapılandırılmış etiket (özet / olaylar / risk / aksiyon)
     3. Şüpheli sahnede kısa ikinci bakış (süre bütçesi izin verirse)
-    4. Kural katmanı: zaman hizalama + kanıt birleştirme
+    4. Çelişkide karesiz metin eleştirmeni + kural katmanı
     5. LLM: jürinin sorusuna düz Türkçe cevap + saha aksiyonları (RAG referanslı)
 
 CLI: scripts/analyze_video.py, arayüz: app/demo_app.py — ikisi de burayı çağırır.
@@ -44,6 +44,7 @@ from utils.model_client import (  # noqa: E402
     chat_vlm,
     reset_call_log,
 )
+from agents.label_critic import critique_label, needs_critic  # noqa: E402
 from utils.risk_rules import needs_second_look, refine_label  # noqa: E402
 from utils.scene_evidence import SceneEvidence, analyze_video  # noqa: E402
 from utils.spec_output import seconds_to_mmss  # noqa: E402
@@ -465,6 +466,22 @@ async def run_demo_analysis(
         timings["ikinci_bakis"] = perf_counter() - step
     else:
         say("[3/5] İkinci bakış gerekmedi (hızlı mod veya kanıt sakin)")
+
+    elapsed = perf_counter() - started
+    critic_ok = (
+        config.label_critic_llm()
+        and not fast_mode
+        and elapsed < time_budget_s * 0.7
+        and needs_critic(label)
+    )
+    if critic_ok:
+        say("      metin eleştirmeni (kare yok, yalnız çelişki)")
+        step = perf_counter()
+        try:
+            label = await critique_label(label)
+        except ModelCallError as exc:
+            warnings.append(f"Eleştirmen atlandı: {exc}")
+        timings["elestirmen"] = perf_counter() - step
 
     say("[4/5] Kural katmanı (zaman hizalama + kanıt birleştirme)")
     step = perf_counter()

@@ -186,6 +186,16 @@ def demo_max_frames() -> int:
     return max(2, _env_int("DEMO_MAX_FRAMES", default))
 
 
+def lock_policy() -> str:
+    """Kategori↔risk kilidi: severity_max | category | risk."""
+    return _env("LOCK_POLICY", "severity_max")
+
+
+def label_critic_llm() -> bool:
+    """VLM metni ile sınıf çelişince ucuz LLM eleştirmeni (kare yok)."""
+    return _env_bool("LABEL_CRITIC_LLM", True)
+
+
 def describe() -> str:
     """Log ve demo ekranı için tek satır özet."""
     vlm, llm = vlm_endpoint(), llm_endpoint()

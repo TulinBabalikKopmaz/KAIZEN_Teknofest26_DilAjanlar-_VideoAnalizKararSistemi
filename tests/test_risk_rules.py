@@ -41,6 +41,65 @@ class RiskRuleTests(unittest.TestCase):
         self.assertEqual(out["risk"], "Yüksek")
         self.assertEqual(out["category"], "accident")
 
+    def test_risk_snaps_to_category_lock(self) -> None:
+        """Anlaşmazlıkta daha ağır sinyal kazanır (severity_max)."""
+        accident = refine_label(
+            {
+                "summary": "Çalışan yere düştü",
+                "events": [{"time": "00:04", "event": "Çalışan yere düştü"}],
+                "risk": "Orta",
+                "category": "accident",
+                "actions": ["Rutin izlemeye devam et"],
+            },
+            None,
+        )
+        self.assertEqual(accident["category"], "accident")
+        self.assertEqual(accident["risk"], "Yüksek")
+
+        hotter_risk = refine_label(
+            {
+                "summary": "Forklift çalışanın çok yakınından geçti",
+                "events": [{"time": "00:03", "event": "çok yakınından geçti"}],
+                "risk": "Yüksek",
+                "category": "near_miss",
+                "actions": ["Alarm ver"],
+            },
+            None,
+        )
+        self.assertEqual(hotter_risk["category"], "accident")
+        self.assertEqual(hotter_risk["risk"], "Yüksek")
+
+    def test_unhedged_fall_overrides_near_miss(self) -> None:
+        from utils.risk_rules import has_unhedged_accident
+
+        self.assertTrue(has_unhedged_accident("Çalışan yere düştü"))
+        self.assertFalse(has_unhedged_accident("neredeyse yere düştü"))
+        out = refine_label(
+            {
+                "summary": "Çalışan yere düştü ve hareketsiz yatıyor",
+                "events": [{"time": "00:04", "event": "Çalışan yere düştü"}],
+                "risk": "Orta",
+                "category": "near_miss",
+                "actions": ["Alarm"],
+            },
+            None,
+        )
+        self.assertEqual(out["category"], "accident")
+        self.assertEqual(out["risk"], "Yüksek")
+
+    def test_very_close_is_near_miss_orta_not_yuksek(self) -> None:
+        label = {
+            "summary": "Saha hareketi",
+            "events": [{"time": "00:00", "event": "Araç geçişi"}],
+            "risk": "Düşük",
+            "category": "normal",
+            "actions": ["Rutin izlemeye devam et"],
+        }
+        ev = SceneEvidence(person_vehicle_very_close=True)
+        out = refine_label(label, ev)
+        self.assertEqual(out["category"], "near_miss")
+        self.assertEqual(out["risk"], "Orta")
+
     def test_second_look_trigger(self) -> None:
         label = {"risk": "Düşük", "category": "normal"}
         ev = SceneEvidence(person_vehicle_close=True)

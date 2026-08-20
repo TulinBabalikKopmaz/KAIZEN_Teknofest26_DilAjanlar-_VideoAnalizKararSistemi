@@ -12,6 +12,7 @@ from utils.spec_output import (
     normalize_risk,
     parse_vlm_line,
     pipeline_result_to_spec,
+    risk_from_category,
     seconds_to_mmss,
 )
 
@@ -26,6 +27,32 @@ class SpecOutputTests(unittest.TestCase):
         self.assertEqual(normalize_risk("Güvenli"), "Düşük")
         self.assertEqual(normalize_risk("Kritik"), "Yüksek")
         self.assertEqual(normalize_risk("Orta"), "Orta")
+
+    def test_risk_from_category_lock(self) -> None:
+        self.assertEqual(risk_from_category("accident", "Düşük"), "Yüksek")
+        self.assertEqual(risk_from_category("near_miss", "Yüksek"), "Orta")
+        self.assertEqual(risk_from_category("normal", "Orta"), "Düşük")
+        self.assertEqual(risk_from_category(None, "Kritik"), "Yüksek")
+
+    def test_lock_pair_policies(self) -> None:
+        from utils.spec_output import lock_pair
+
+        self.assertEqual(
+            lock_pair("near_miss", "Yüksek", policy="severity_max"),
+            ("accident", "Yüksek"),
+        )
+        self.assertEqual(
+            lock_pair("near_miss", "Yüksek", policy="category"),
+            ("near_miss", "Orta"),
+        )
+        self.assertEqual(
+            lock_pair("accident", "Orta", policy="risk"),
+            ("near_miss", "Orta"),
+        )
+        self.assertEqual(
+            lock_pair("accident", "Orta", policy="severity_max"),
+            ("accident", "Yüksek"),
+        )
 
     def test_pipeline_matches_gold_keys(self) -> None:
         spec = pipeline_result_to_spec(

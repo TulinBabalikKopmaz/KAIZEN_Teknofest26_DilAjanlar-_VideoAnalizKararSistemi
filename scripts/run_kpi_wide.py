@@ -270,6 +270,20 @@ def main() -> None:
             if len(sample) < n_videos:
                 print(f"Uyarı: istenen {n_videos}, seçilen {len(sample)} (dosya/kategori yetmez)")
 
+    video_root = ROOT / "data" / "videos"
+    if not sample:
+        n_gold = len(gold_all)
+        n_vid = len(videos)
+        splits = ROOT / "data" / "exports" / "splits.json"
+        raise SystemExit(
+            "KPI kümesi boş (n=0). Bu skor değil, veri bağı kopuk.\n"
+            f"  gold kayıt : {n_gold}  ({GOLD_PATH})\n"
+            f"  diskte mp4 : {n_vid}  ({video_root} symlink={video_root.is_symlink()})\n"
+            f"  splits.json: {splits.exists()}  ({splits})\n"
+            "Colab'de hücre 3 (git reset) 4a'yı bozar. 4a'yı tekrar çalıştırın, "
+            "hücre 5'te 'Drive video: 77' görünce 6a'ya dönün. Ollama kurmanıza gerek yok."
+        )
+
     args.pred_dir.mkdir(parents=True, exist_ok=True)
     client, model = build_client(args.backend)
     print(

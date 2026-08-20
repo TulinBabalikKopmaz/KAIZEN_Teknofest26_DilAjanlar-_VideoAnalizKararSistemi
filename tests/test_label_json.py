@@ -69,6 +69,18 @@ class DedupeEventTests(unittest.TestCase):
         spec = label_to_spec({"summary": "x", "events": out, "risk": "Orta", "actions": ["y"]})
         self.assertEqual(len(spec["events"]), 1)
 
+    def test_spec_risk_follows_category(self) -> None:
+        spec = label_to_spec(
+            {
+                "category": "accident",
+                "summary": "Çalışan düştü",
+                "events": [{"time": "00:04", "event": "Çalışan düştü"}],
+                "risk": "Düşük",
+                "actions": ["Sağlık ekibini çağır"],
+            }
+        )
+        self.assertEqual(spec["risk"], "Yüksek")
+
 
 if __name__ == "__main__":
     unittest.main()

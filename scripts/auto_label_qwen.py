@@ -30,6 +30,7 @@ from utils.label_json import (
 )
 from utils.risk_rules import needs_second_look, refine_label
 from utils.scene_evidence import SceneEvidence, analyze_video
+from utils.spec_output import lock_category_risk
 
 load_dotenv()
 
@@ -343,7 +344,9 @@ def label_video(
             ).strip(" |")
 
     # use_refine=False: büyük modelde kural katmanının katkısını ölçmek için ablasyon
-    return refine_label(label, evidence) if use_refine else label
+    if use_refine:
+        label = refine_label(label, evidence)
+    return lock_category_risk(label)
 
 
 def competition_view(label: dict) -> dict:
