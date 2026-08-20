@@ -47,6 +47,19 @@ class RiskRuleTests(unittest.TestCase):
         self.assertTrue(needs_second_look(label, ev))
         self.assertFalse(needs_second_look({"risk": "Yüksek", "category": "accident"}, ev))
 
+    def test_second_look_on_undercalled_near_miss(self) -> None:
+        ev = SceneEvidence(motion_elevated=True, person_vehicle_close=True)
+        self.assertTrue(
+            needs_second_look({"risk": "Orta", "category": "near_miss"}, ev)
+        )
+
+    def test_collapse_text_raises_high(self) -> None:
+        risk, cat = text_risk_floor(
+            {"summary": "İskele çöktü çalışan enkaz altında kaldı", "events": [], "actions": []}
+        )
+        self.assertEqual(risk, "Yüksek")
+        self.assertEqual(cat, "accident")
+
 
 if __name__ == "__main__":
     unittest.main()

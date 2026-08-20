@@ -65,7 +65,8 @@ def _build_user_prompt(trigger_reason: str, user_prompt: str = "") -> str:
         "Bu kareler bir tetik penceresinden alınmıştır; ilk kare sakin görünebilir.\n"
         "Üzerindeki bounding box, ID, spd, conf yazılarını yok say.\n"
         "Tüm karelere bak: kaçış, yük/palet devrilmesi, çarpışma, düşme, yanma, ramak kala.\n"
-        "Görünür kaza varsa küçümseme. Net tehlike yoksa kaza uydurma.\n"
+        "Görünür kaza varsa küçümseme. Fiili düşme/çarpışma/çökme near_miss değildir.\n"
+        "Net tehlike yoksa kaza uydurma.\n"
         "Türkçe, tek satır:\n"
         "Durum Açıklaması: ... | Risk: Güvenli/Düşük/Orta/Kritik | Aksiyon: ..."
     )
@@ -162,3 +163,19 @@ async def video_analyzer_tool(state: AgentState) -> dict[str, Any]:
             "event": "Durum Açıklaması: Güvenli ortam | Risk: Güvenli | Aksiyon: İzlemeye devam et",
         }
     }
+
+
+async def second_look_tool(state: AgentState) -> dict[str, Any]:
+    """LangGraph ikinci bakış: tetik var, ilk tarama sakin dedi."""
+    print("\n--- [1b] Video Analyzer ikinci bakış ---")
+    extra: AgentState = {
+        **state,
+        "trigger_reason": (
+            (state.get("trigger_reason") or "")
+            + " | İKİNCİ BAKIŞ: önceki tarama sakin göründü; "
+            "çarpışma, düşme, çökme, yanma varsa küçümseme."
+        ).strip(" |"),
+    }
+    result = await video_analyzer_tool(extra)
+    result["second_look_done"] = True
+    return result

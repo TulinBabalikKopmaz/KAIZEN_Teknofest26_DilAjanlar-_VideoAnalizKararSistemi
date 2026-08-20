@@ -40,6 +40,11 @@ HIGH_PATTERNS = [
     r"fell\b",
     r"fire\b",
     r"burn",
+    r"çökt",
+    r"coktu",
+    r"enkaz",
+    r"altında\s+kald",
+    r"ezdi",
 ]
 NEAR_PATTERNS = [
     r"neredeyse",
@@ -178,9 +183,16 @@ def refine_label(label: dict[str, Any], evidence: SceneEvidence | None = None) -
 
 
 def needs_second_look(label: dict[str, Any], evidence: SceneEvidence | None) -> bool:
-    """Model düşük dedi ama sensör şüpheliyse tekrar sor."""
+    """Model sakin/ramak kala dedi ama sensör şüpheliyse tekrar sor.
+
+    7B kazayı sık near_miss yazıyor; hareket tepe + near_miss ise bir kez daha bak.
+    """
     if evidence is None or not evidence.suggests_second_look():
         return False
     risk = normalize_risk(label.get("risk"))
     cat = label.get("category") or "normal"
-    return risk == "Düşük" or cat == "normal"
+    if risk == "Düşük" or cat == "normal":
+        return True
+    if cat == "near_miss" and risk != "Yüksek" and evidence.motion_elevated:
+        return True
+    return False

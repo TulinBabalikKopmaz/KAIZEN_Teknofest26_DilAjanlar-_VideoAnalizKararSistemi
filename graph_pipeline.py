@@ -12,20 +12,38 @@ from langgraph.graph import END, StateGraph
 from agents.action_recommender import action_recommender_tool
 from agents.risk_assessor import risk_assessor_tool
 from agents.state import AgentState
-from agents.video_analyzer import video_analyzer_tool
+from agents.video_analyzer import second_look_tool, video_analyzer_tool
 from utils.spec_output import pipeline_result_to_spec
 
 
+def _after_analyzer(state: AgentState) -> str:
+    """Sakin tarama + tetik varsa ikinci bakış; aksi halde risk ajanına."""
+    if state.get("second_look_done"):
+        return "risk_assessor"
+    event = str((state.get("analysis_result") or {}).get("event") or "").lower()
+    trigger = (state.get("trigger_reason") or "").strip()
+    sakin = any(token in event for token in ("güvenli", "guvenli", "rutin", "olağan", "olagan"))
+    if trigger and sakin:
+        return "second_look"
+    return "risk_assessor"
+
+
 def build_workflow() -> Any:
-    """Video Analyzer → Risk Assessor → Action Recommender grafını derler."""
+    """Video Analyzer → (gerekirse ikinci bakış) → Risk Assessor → Action Recommender."""
     workflow = StateGraph(AgentState)
 
     workflow.add_node("video_analyzer", video_analyzer_tool)
+    workflow.add_node("second_look", second_look_tool)
     workflow.add_node("risk_assessor", risk_assessor_tool)
     workflow.add_node("action_recommender", action_recommender_tool)
 
     workflow.set_entry_point("video_analyzer")
-    workflow.add_edge("video_analyzer", "risk_assessor")
+    workflow.add_conditional_edges(
+        "video_analyzer",
+        _after_analyzer,
+        {"second_look": "second_look", "risk_assessor": "risk_assessor"},
+    )
+    workflow.add_edge("second_look", "risk_assessor")
     workflow.add_edge("risk_assessor", "action_recommender")
     workflow.add_edge("action_recommender", END)
 

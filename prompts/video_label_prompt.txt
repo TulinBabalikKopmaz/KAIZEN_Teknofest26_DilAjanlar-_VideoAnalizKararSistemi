@@ -11,7 +11,9 @@ Nasıl bakacaksın:
 
 Sınıf ve risk (birlikte tutarlı olsun):
 - accident + Yüksek: fiili çarpışma, devrilme, düşme, ezilme, yangın/yanma, yerde hareketsiz veya yaralı kişi.
-- near_miss + Orta (çok yakınsa Yüksek): kaza olmadı ama neredeyse olacaktı; son anda kaçış, tehlikeli yaklaşma, yükün yanı başına düşmesi.
+  Video başlığı / klasör "near miss" olsa bile gördüğün SONUÇ temas veya zarar ise accident.
+  Yük çalışanın ÜSTÜNE düştü, raf/iskele ÇÖKTÜ, biri YERE DÜŞTÜ → accident, near_miss değil.
+- near_miss + Orta (çok yakınsa Yüksek): kaza olmadı ama neredeyse olacaktı; son anda kaçış, tehlikeli yaklaşma, yükün YANINA düşmesi (üstüne değil).
 - normal + Düşük: kaza yok, ciddi yaklaşma yok, rutin çalışma. Duman/buhar tesisin normal parçasıysa kaza uydurma.
 - Şüphede kalırsan: görünür zarar / temas varsa accident; sadece yakın geçiş varsa near_miss. Görünür kazayı küçültme.
 

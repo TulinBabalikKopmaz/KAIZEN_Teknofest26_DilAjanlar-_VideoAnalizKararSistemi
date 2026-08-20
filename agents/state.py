@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-from typing import List, TypedDict
+from typing import List, NotRequired, TypedDict
 
 
 class AgentState(TypedDict):
@@ -14,3 +14,4 @@ class AgentState(TypedDict):
     trigger_reason: str
     # Demoda jürinin verdiği serbest metin soru; boşsa standart İSG taraması yapılır
     user_prompt: str
+    second_look_done: NotRequired[bool]

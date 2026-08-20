@@ -19,6 +19,7 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT))
 
+from utils.classification import class_report, format_report
 from utils.kpi import aggregate, aggregate_by, identity_keys, score_video, spec_of
 from utils.splits import filter_by_split
 
@@ -82,6 +83,14 @@ def main() -> None:
     summary["split"] = args.split
     by_ambiguity = aggregate_by(per_video, "ambiguity")
     by_category = aggregate_by(per_video, "category")
+    risk_clf = class_report(
+        [(row["risk_gold"], row["risk_pred"]) for row in per_video],
+        ["Düşük", "Orta", "Yüksek"],
+    )
+    cat_clf = class_report(
+        [(row["category"], row.get("category_pred")) for row in per_video],
+        ["normal", "near_miss", "accident"],
+    )
     self_test = args.gold.resolve() == args.pred.resolve()
     summary["note"] = (
         "Gold kendisiyle kıyaslandı (duman testi). Gerçek skor için --pred data/predictions kullanın."
@@ -96,6 +105,8 @@ def main() -> None:
                 "summary": summary,
                 "by_ambiguity": by_ambiguity,
                 "by_category": by_category,
+                "risk_classification": risk_clf,
+                "category_classification": cat_clf,
                 "videos": per_video,
             },
             ensure_ascii=False,
@@ -152,6 +163,10 @@ def main() -> None:
     print("\nKategori kırılımı:")
     for key, sub in by_category.items():
         print(line(key, sub, 10))
+    print()
+    print(format_report("Risk sınıflandırma (Düşük / Orta / Yüksek)", risk_clf, ["Düşük", "Orta", "Yüksek"]))
+    print()
+    print(format_report("Kategori sınıflandırma (normal / near_miss / accident)", cat_clf, ["normal", "near_miss", "accident"]))
     print(f"\nYazıldı: {args.out_json}")
     print(f"Yazıldı: {args.out_csv}")
 
