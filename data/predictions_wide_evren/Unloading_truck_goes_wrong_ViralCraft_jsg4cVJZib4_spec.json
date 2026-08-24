@@ -1,19 +1,19 @@
 {
-  "summary": "Çalışan yükü kamyonun arkasından çekerek taşırken dengesi kaybetti, yük devrildi ve çalışan yere düştü.",
+  "summary": "Çalışan yükü kamyonun arkasından çekerek taşırken dengesini kaybetti ve yere düştü.",
   "events": [
     {
       "time": "00:16",
-      "event": "Çalışan yükü çekerek taşırken dengesi kaybetti, yük devrildi ve çalışan yere düştü."
+      "event": "Çalışan yükü çekerek taşırken dengesini kaybetti ve yere düştü."
     },
     {
       "time": "00:19",
-      "event": "Çalışan yükü çekerek taşırken dengesi kaybetti, yük devrildi ve çalışan yere düştü."
+      "event": "Çalışan yükü çekerek taşırken dengesini kaybetti ve yere düştü."
     }
   ],
   "risk": "Yüksek",
   "actions": [
     "Yaralı çalışanı hemen sağlık ekiplerine bildirin.",
-    "Olay yerini izole edin ve diğer çalışanları uzaklaştırın.",
-    "İş güvenliği incelemesi başlatın."
+    "Olay yerini izole edin ve diğer çalışanların yaklaşmasını engelleyin.",
+    "İş güvenliği raporu oluşturun ve olayı inceleyin."
   ]
 }

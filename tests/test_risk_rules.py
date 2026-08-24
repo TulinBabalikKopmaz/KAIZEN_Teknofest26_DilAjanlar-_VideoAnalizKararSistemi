@@ -67,6 +67,20 @@ class RiskRuleTests(unittest.TestCase):
         self.assertEqual(out["category"], "normal")
         self.assertEqual(out["risk"], "Düşük")
 
+    def test_process_flame_phrase_stays_normal(self) -> None:
+        label = {
+            "summary": "Çalışan sahada duruyor. Ateşleme işlemi devam ediyor.",
+            "events": [
+                {"time": "00:00", "event": "Görüntüde alevler var ama normal gözüküyor."}
+            ],
+            "risk": "Yüksek",
+            "category": "accident",
+            "actions": ["Sağlık ekibini çağır"],
+        }
+        out = refine_label(label, SceneEvidence())
+        self.assertEqual(out["category"], "normal")
+        self.assertEqual(out["risk"], "Düşük")
+
     def test_risk_snaps_to_category_lock(self) -> None:
         """Anlaşmazlıkta daha ağır sinyal kazanır (severity_max)."""
         accident = refine_label(
@@ -121,16 +135,18 @@ class RiskRuleTests(unittest.TestCase):
             "category": "normal",
             "actions": ["Rutin izlemeye devam et"],
         }
-        ev = SceneEvidence(person_vehicle_very_close=True)
+        ev = SceneEvidence(person_vehicle_very_close=True, motion_elevated=True)
         out = refine_label(label, ev)
         self.assertEqual(out["category"], "near_miss")
         self.assertEqual(out["risk"], "Orta")
 
     def test_second_look_trigger(self) -> None:
         label = {"risk": "Düşük", "category": "normal"}
-        ev = SceneEvidence(person_vehicle_close=True)
+        ev = SceneEvidence(person_vehicle_close=True, motion_elevated=True)
         self.assertTrue(needs_second_look(label, ev))
         self.assertFalse(needs_second_look({"risk": "Yüksek", "category": "accident"}, ev))
+        idle = SceneEvidence(person_vehicle_very_close=True, motion_elevated=False)
+        self.assertFalse(needs_second_look(label, idle))
 
     def test_second_look_on_undercalled_near_miss(self) -> None:
         ev = SceneEvidence(motion_elevated=True, person_vehicle_close=True)
@@ -161,6 +177,54 @@ class RiskRuleTests(unittest.TestCase):
         out = refine_label(label, ev)
         times = {item["time"] for item in (out.get("events") or [])}
         self.assertTrue("00:04" in times or "00:03" in times)
+
+    def test_busy_yard_without_motion_stays_normal(self) -> None:
+        label = {
+            "summary": "Forklift çalışanın çok yakınından geçti. Neredeyse temas edeceklerdi.",
+            "events": [{"time": "00:00", "event": "Forklift çalışanın çok yakınından geçti."}],
+            "risk": "Orta",
+            "category": "near_miss",
+            "actions": ["Mesafeyi artırın"],
+        }
+        ev = SceneEvidence(
+            person_count_max=5,
+            vehicle_count_max=2,
+            person_vehicle_very_close=True,
+            motion_elevated=False,
+        )
+        out = refine_label(label, ev)
+        self.assertEqual(out["category"], "normal")
+        self.assertEqual(out["risk"], "Düşük")
+        self.assertIn("rutin", (out["events"][0]["event"] or "").lower())
+
+    def test_load_drop_workers_standing_is_near_miss(self) -> None:
+        label = {
+            "summary": "Çalışanlar kamyonun arkasından yük çıkarken yük yere düştü. Çalışanlar yere düşen yükün etrafında duruyor.",
+            "events": [
+                {"time": "00:00", "event": "Yük kamyonun arkasından düşerek yere saçıldı."}
+            ],
+            "risk": "Yüksek",
+            "category": "accident",
+            "actions": ["Sağlık ekibini çağır"],
+        }
+        out = refine_label(label, None)
+        self.assertEqual(out["category"], "near_miss")
+        self.assertEqual(out["risk"], "Orta")
+        self.assertIn("kurtul", (out["events"][0]["event"] or "").lower())
+
+    def test_worker_fell_with_load_stays_accident(self) -> None:
+        label = {
+            "summary": "Çalışan yükü kamyonun arkasından çekerken dengesini kaybetti ve yere düştü.",
+            "events": [
+                {"time": "00:14", "event": "Çalışan yükü çekerken dengesini kaybetti ve yere düştü."}
+            ],
+            "risk": "Yüksek",
+            "category": "accident",
+            "actions": ["Sağlık ekibini çağır"],
+        }
+        out = refine_label(label, None)
+        self.assertEqual(out["category"], "accident")
+        self.assertEqual(out["risk"], "Yüksek")
 
 
 if __name__ == "__main__":

@@ -113,13 +113,13 @@ class SceneEvidence:
         return "\n".join(lines)
 
     def suggests_second_look(self) -> bool:
-        """Model 'rutin/Düşük' derse ikinci bakışa değer mi?"""
-        return (
-            self.person_vehicle_close
-            or self.person_vehicle_very_close
-            or self.fire_suspect
-            or self.motion_elevated
-        )
+        """Model 'rutin/Düşük' derse ikinci bakışa değer mi?
+
+        YOLO kişi-araç kutusu kalabalık depoda sık örtüşür; hareket tepe yoksa
+        ikinci bakış sahte ramak üretir.
+        """
+        yolo_close = self.person_vehicle_close or self.person_vehicle_very_close
+        return bool(self.fire_suspect or self.motion_elevated or (yolo_close and self.motion_elevated))
 
     @staticmethod
     def _mmss(seconds: float) -> str:

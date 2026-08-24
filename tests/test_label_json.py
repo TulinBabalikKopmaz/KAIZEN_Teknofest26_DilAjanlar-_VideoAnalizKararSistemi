@@ -116,6 +116,14 @@ class DedupeEventTests(unittest.TestCase):
         self.assertTrue({"00:18", "00:19"} & times or "00:21" in times)
         self.assertIn(out[0]["time"], {"00:18", "00:19", "00:21"})
 
+    def test_long_normal_keeps_late_peak_minus_eight(self) -> None:
+        events = [{"time": "00:00", "event": "Çalışanlar rutin aktivitesini sürdürüyor."}]
+        out = seed_events_from_motion(
+            events, [2.7, 5.3, 58.5], duration_s=59.0
+        )
+        times = {item["time"] for item in out}
+        self.assertTrue("00:50" in times or "00:51" in times)
+
     def test_repeat_near_miss_peaks_stay_separate(self) -> None:
         events = [{"time": "00:03", "event": "Forklift çalışanın çok yakınından geçti."}]
         out = seed_events_from_motion(events, [3.0, 6.0, 9.0])
@@ -167,6 +175,14 @@ class DedupeEventTests(unittest.TestCase):
         )
         self.assertIn("alev", out[0]["event"].lower())
         self.assertIn("normal", out[0]["event"].lower())
+
+    def test_process_flame_from_summary_fills_event(self) -> None:
+        out = sharpen_events(
+            [{"time": "00:00", "event": "Çalışan sahada duruyor."}],
+            "normal",
+            summary="Çalışan sahada duruyor. Ateşleme işlemi devam ediyor.",
+        )
+        self.assertIn("alev", out[0]["event"].lower())
 
     def test_near_miss_load_drop_mentions_escape(self) -> None:
         out = sharpen_events(

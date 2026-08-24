@@ -3,7 +3,19 @@
   "events": [
     {
       "time": "00:00",
-      "event": "Çalışanlar rutin aktivitesini sürdürüyor."
+      "event": "Görüntüde alevler var ama normal gözüküyor."
+    },
+    {
+      "time": "00:02",
+      "event": "Görüntüde alevler var ama normal gözüküyor."
+    },
+    {
+      "time": "00:04",
+      "event": "Görüntüde alevler var ama normal gözüküyor."
+    },
+    {
+      "time": "00:07",
+      "event": "Görüntüde alevler var ama normal gözüküyor."
     }
   ],
   "risk": "Düşük",

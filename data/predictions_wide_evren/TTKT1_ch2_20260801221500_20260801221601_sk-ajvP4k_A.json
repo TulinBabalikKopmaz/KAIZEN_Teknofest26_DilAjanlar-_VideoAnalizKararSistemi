@@ -15,8 +15,29 @@
       "severity": "dusuk"
     },
     {
+      "time": "00:02",
+      "time_end": "00:20",
+      "event": "Çalışanlar rutin aktivitesini sürdürüyor.",
+      "event_type": "normal",
+      "severity": "dusuk"
+    },
+    {
+      "time": "00:04",
+      "time_end": "00:20",
+      "event": "Çalışanlar rutin aktivitesini sürdürüyor.",
+      "event_type": "normal",
+      "severity": "dusuk"
+    },
+    {
+      "time": "00:16",
+      "time_end": "00:20",
+      "event": "Çalışanlar rutin aktivitesini sürdürüyor.",
+      "event_type": "normal",
+      "severity": "dusuk"
+    },
+    {
       "time": "00:24",
-      "time_end": "00:58",
+      "time_end": "00:20",
       "event": "Çalışanlar rutin aktivitesini sürdürüyor.",
       "event_type": "normal",
       "severity": "dusuk"

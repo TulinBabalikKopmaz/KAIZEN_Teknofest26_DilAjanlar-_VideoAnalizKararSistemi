@@ -15,9 +15,30 @@
       "severity": "dusuk"
     },
     {
-      "time": "00:57",
+      "time": "00:01",
       "time_end": "00:58",
-      "event": "Çalışanlar rutin aktivitesini sürdürüyor. Forklift sahneye girdi ama çalışanla temas olmadı.",
+      "event": "Çalışanlar rutin aktivitesini sürdürüyor.",
+      "event_type": "normal",
+      "severity": "dusuk"
+    },
+    {
+      "time": "00:02",
+      "time_end": "00:05",
+      "event": "Çalışan kutularla çalışırken rutin aktivite sürdürüyor.",
+      "event_type": "normal",
+      "severity": "dusuk"
+    },
+    {
+      "time": "00:50",
+      "time_end": "00:05",
+      "event": "Çalışan kutularla çalışırken rutin aktivite sürdürüyor.",
+      "event_type": "normal",
+      "severity": "dusuk"
+    },
+    {
+      "time": "00:58",
+      "time_end": "00:05",
+      "event": "Çalışan kutularla çalışırken rutin aktivite sürdürüyor.",
       "event_type": "normal",
       "severity": "dusuk"
     }

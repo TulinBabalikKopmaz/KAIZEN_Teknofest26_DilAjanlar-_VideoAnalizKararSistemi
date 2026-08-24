@@ -6,8 +6,20 @@
       "event": "Çalışan kutularla çalışırken rutin aktivite sürdürüyor."
     },
     {
-      "time": "00:57",
-      "event": "Çalışanlar rutin aktivitesini sürdürüyor. Forklift sahneye girdi ama çalışanla temas olmadı."
+      "time": "00:01",
+      "event": "Çalışanlar rutin aktivitesini sürdürüyor."
+    },
+    {
+      "time": "00:02",
+      "event": "Çalışan kutularla çalışırken rutin aktivite sürdürüyor."
+    },
+    {
+      "time": "00:50",
+      "event": "Çalışan kutularla çalışırken rutin aktivite sürdürüyor."
+    },
+    {
+      "time": "00:58",
+      "event": "Çalışan kutularla çalışırken rutin aktivite sürdürüyor."
     }
   ],
   "risk": "Düşük",

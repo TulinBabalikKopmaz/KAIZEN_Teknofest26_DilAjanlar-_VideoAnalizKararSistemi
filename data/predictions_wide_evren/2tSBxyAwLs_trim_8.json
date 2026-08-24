@@ -1,41 +1,41 @@
 {
   "video_id": "2tSBxyAwLs_trim_8",
   "filename": "_2tSBxyAwLs_trim_8.mp4",
-  "category": "accident",
+  "category": "near_miss",
   "duration_sec": 7.01,
   "status": "auto",
   "labeled_by": "qwen:vlm",
-  "summary": "Çalışanlar kamyonun arkasından yük çıkarken dengesi kaybetti ve yük yere düştü. Çalışanlar yere düşen yükün etrafında duruyor.",
+  "summary": "Çalışanlar kamyonun arka kısmından yük çıkarken dengesi kaybetti ve yük yere düştü. Çalışanlar yere düşen yükün etrafında duruyor.",
   "events": [
     {
       "time": "00:01",
       "time_end": "00:04",
-      "event": "Yük kamyonun arkasından düşerek yere saçıldı ve çalışanlar etrafında durdu.",
+      "event": "Çalışan yükün altında kalmaktan son anda kurtuldu.",
       "event_type": "kaza",
       "severity": "Yüksek"
     },
     {
       "time": "00:03",
       "time_end": "00:04",
-      "event": "Yük kamyonun arkasından düşerek yere saçıldı ve çalışanlar etrafında durdu.",
+      "event": "Çalışan yükün altında kalmaktan son anda kurtuldu.",
       "event_type": "kaza",
       "severity": "Yüksek"
     },
     {
       "time": "00:06",
       "time_end": "00:04",
-      "event": "Yük kamyonun arkasından düşerek yere saçıldı ve çalışanlar etrafında durdu.",
+      "event": "Çalışan yükün altında kalmaktan son anda kurtuldu.",
       "event_type": "kaza",
       "severity": "Yüksek"
     }
   ],
-  "risk": "Yüksek",
+  "risk": "Orta",
   "actions": [
-    "Yaralı varsa acil sağlık çağrısı yap",
-    "Alanı kapatarak diğer çalışanları tehlikeye sokmamak için önlem alın",
-    "İş güvenliği ekiplerine bildir"
+    "Yaralı varsa acil sağlık ekiplerini çağır.",
+    "Alanı kapatarak diğer çalışanları tehlikeye sokmamak için önlem alın.",
+    "Olay yerini koruma ve inceleme için yetkililere bildir."
   ],
-  "notes": "Otomatik taslak. Gold değil; Streamlit'te kontrol edin.",
+  "notes": "Otomatik taslak. Gold değil; Streamlit'te kontrol edin. | Kanıt birleştirme: yük düştü / çalışanlar ayakta → near_miss | Kanıt birleştirme: risk Orta→Yüksek; category near_miss→accident; yük düştü / çalışanlar ayakta → near_miss | Kanıt birleştirme: risk Orta→Yüksek; category near_miss→accident; yük düştü / çalışanlar ayakta → near_miss",
   "evidence": {
     "duration_sec": 7.007000000000001,
     "motion_peak_sec": 3.6703333333333332,

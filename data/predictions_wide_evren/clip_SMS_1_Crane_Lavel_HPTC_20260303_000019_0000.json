@@ -10,7 +10,28 @@
     {
       "time": "00:00",
       "time_end": "00:07",
-      "event": "Çalışanlar rutin aktivitesini sürdürüyor.",
+      "event": "Görüntüde alevler var ama normal gözüküyor.",
+      "event_type": "normal",
+      "severity": "dusuk"
+    },
+    {
+      "time": "00:02",
+      "time_end": "00:07",
+      "event": "Görüntüde alevler var ama normal gözüküyor.",
+      "event_type": "normal",
+      "severity": "dusuk"
+    },
+    {
+      "time": "00:04",
+      "time_end": "00:07",
+      "event": "Görüntüde alevler var ama normal gözüküyor.",
+      "event_type": "normal",
+      "severity": "dusuk"
+    },
+    {
+      "time": "00:07",
+      "time_end": "00:07",
+      "event": "Görüntüde alevler var ama normal gözüküyor.",
       "event_type": "normal",
       "severity": "dusuk"
     }
@@ -20,7 +41,7 @@
     "Sağlık ekibini çağır",
     "Alanı güvenlik altına al"
   ],
-  "notes": "Otomatik taslak. Gold değil; Streamlit'te kontrol edin. | Kanıt birleştirme: risk Düşük→Yüksek; category normal→accident; aksiyon güçlendirildi | Kanıt birleştirme: zayıf Yüksek→Düşük/normal (FA dampen)",
+  "notes": "Otomatik taslak. Gold değil; Streamlit'te kontrol edin. | Kanıt birleştirme: risk Düşük→Yüksek; category normal→accident; aksiyon güçlendirildi | Kanıt birleştirme: zayıf Yüksek→Düşük/normal (FA dampen) | Kanıt birleştirme: risk Düşük→Yüksek; category normal→accident | Kanıt birleştirme: zayıf Yüksek→Düşük/normal (FA dampen)",
   "evidence": {
     "duration_sec": 9.0,
     "motion_peak_sec": 3.68,

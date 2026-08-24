@@ -152,12 +152,57 @@ def lift_clip_relative_times(
     return out
 
 
+def _keep_seed_spread(
+    events: list[Any],
+    max_events: int,
+    last_peak: float | None,
+) -> list[Any]:
+    """Tavan keserken 00:00 kopyaları son tepedeki olayı silmesin."""
+    if not max_events or len(events) <= max_events:
+        return events
+    ordered = sorted(
+        [e for e in events if isinstance(e, dict)],
+        key=lambda item: mmss_to_seconds(str(item.get("time") or "00:00")),
+    )
+    used: set[int] = set()
+    chosen: list[Any] = []
+
+    def _take_closest(target: float) -> None:
+        best_i: int | None = None
+        best_d = 10**9
+        for i, item in enumerate(ordered):
+            if i in used:
+                continue
+            delta = abs(float(mmss_to_seconds(str(item.get("time") or "00:00"))) - target)
+            if delta < best_d:
+                best_d = delta
+                best_i = i
+        if best_i is None:
+            return
+        used.add(best_i)
+        chosen.append(ordered[best_i])
+
+    _take_closest(0.0)
+    if last_peak is not None:
+        _take_closest(last_peak - 8.0)
+        _take_closest(last_peak)
+    for i, item in enumerate(ordered):
+        if len(chosen) >= max_events:
+            break
+        if i not in used:
+            used.add(i)
+            chosen.append(item)
+    chosen.sort(key=lambda item: mmss_to_seconds(str(item.get("time") or "00:00")))
+    return chosen[:max_events]
+
+
 def seed_events_from_motion(
     events: list[Any],
     peaks: list[float] | None,
     *,
     onset_s: float = 3.0,
     max_events: int = 5,
+    duration_s: float = 0.0,
 ) -> list[Any]:
     """Aynı olay metnini hareket tepelerine ve 2–3 sn öncesine (başlangıç) ekler.
 
@@ -166,7 +211,11 @@ def seed_events_from_motion(
     """
     from utils.spec_output import seconds_to_mmss
 
-    points = sorted({float(p) for p in (peaks or []) if p is not None})[:3]
+    all_pts = sorted({float(p) for p in (peaks or []) if p is not None})
+    points = all_pts[:3]
+    long_clip = float(duration_s or 0.0) >= 40.0
+    if long_clip and all_pts:
+        points = sorted(set(points + [all_pts[-1]]))
     if not events or not points:
         return events
     primary: dict[str, Any] | None = None
@@ -196,17 +245,24 @@ def seed_events_from_motion(
         originals.append(item)
         existing.append(sec)
 
+    last_peak = all_pts[-1]
     for peak in points:
-        if min(abs(peak - a) for a in anchors) > 8.0:
+        far = min(abs(peak - a) for a in anchors) > 8.0
+        # Uzun CCTV: son tepe 00:00 rutininden uzak olsa da 00:51 gold'u için gerekli
+        if far and not (long_clip and abs(peak - last_peak) <= 0.51):
             continue
         _add(peak)
         _add(peak - 2.0)
         _add(peak - onset_s)
+        if long_clip:
+            _add(peak - 8.0)
     for sec in list(anchors):
         _add(sec - 2.0)
         _add(sec - onset_s)
-    # Orijinaller başta kalsın; erken sahte tepeler asıl olayı ezmesin
-    return dedupe_events(originals, window_sec=1, max_events=max_events)
+        if long_clip:
+            _add(sec - 8.0)
+    merged = dedupe_events(originals, window_sec=1, max_events=0)
+    return _keep_seed_spread(merged, max_events, last_peak if long_clip else None)
 
 
 def snap_events_to_frame_times(events: list[Any], frame_times: list[str]) -> list[Any]:
@@ -372,9 +428,15 @@ def _ensure_near_miss_load_escape(text: str) -> str:
     )
 
 
-def sharpen_events(events: list[Any], category: str | None = None) -> list[Any]:
+def sharpen_events(
+    events: list[Any],
+    category: str | None = None,
+    summary: str | None = None,
+) -> list[Any]:
     """Olay metnini kısa İSG diline çeker; skorlayıcıya özel şablon ezmesi değil."""
     cat = (category or "").strip().lower()
+    extra = str(summary or "").strip()
+    flame_keys = ("duman", "alev", "ateşleme", "atesleme", "ateş")
     out: list[Any] = []
     for event in events:
         if not isinstance(event, dict):
@@ -385,7 +447,13 @@ def sharpen_events(events: list[Any], category: str | None = None) -> list[Any]:
             continue
         text = compress_event_text(text)
         if cat == "normal":
-            text = _ensure_rutin_event(text)
+            probe = f"{text} {extra}".strip()
+            if any(k in probe.lower() for k in flame_keys) and not any(
+                k in text.lower() for k in flame_keys
+            ):
+                text = _ensure_rutin_event(probe)
+            else:
+                text = _ensure_rutin_event(text)
         elif cat == "near_miss":
             text = _ensure_near_miss_load_escape(text)
         item["event"] = text

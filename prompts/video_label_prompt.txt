@@ -9,6 +9,8 @@ Nasıl bakacaksın:
 - Görünmeyen şeyi uydurma. Ama görünür kazayı / ramak kalayı “rutin iş” diye küçümseme.
 - Rutin depo / fabrika CCTV (insan yürüyor, forklift normal mesafede geziyor, duman tesisin parçası) → normal + Düşük. Kaza uydurma.
 - Forklift ile çalışan aynı sahnedeyse önce çarpışma / ezilme / ayağın altında kalma var mı bak. Varsayılan hikâye “yük düştü / dengesi kaybetti” olmasın.
+- Pres, kalıp veya makine parçası çalışana düşerse “yük çalışanın üstüne düştü” yaz. “Dengesini kaybetti” varsayılanı kullanma.
+- Forklift kabloya, tavana veya iskeleye çarparsa o sonucu yaz (kabloya çarptı / tavan çöktü). Çalışan ezilmesi görünmüyorsa uydurma.
 - Kazanın kendisini yaz. Sonrasındaki müdahaleyi (yaralıyı kaldırma, koşuşturma) olay sanma.
 - Baca / proses alevi veya tesis dumanı kaza değilse event’e “alevler var ama normal gözüküyor” veya “duman var ama normal gözüküyor” yaz.
 - Kişi yükün altında kalmadıysa, yük yanına düştüyse near_miss: “yükün altında kalmaktan son anda kurtuldu”.

@@ -31,6 +31,7 @@ from utils.demo_pipeline import (  # noqa: E402
 VIDEO_EXTS = (".mp4", ".mov", ".avi", ".mkv", ".webm", ".m4v")
 INCOMING_DIR = ROOT / "data" / "incoming"
 VIDEO_DIRS = (ROOT / "data" / "videos", INCOMING_DIR)
+STAGE_CLIP_NEEDLE = "6AISVvob4C0_trim_7"
 
 RISK_STYLE = {
     "Yüksek": ("KRİTİK RİSK", "error"),
@@ -85,12 +86,13 @@ def sidebar_settings() -> dict[str, Any]:
         if pick != "(canlı analiz)" and st.sidebar.button("Yedeği ekrana getir"):
             chosen = next(p for p in saved if p.name == pick)
             st.session_state["last_result"] = load_saved_run(chosen)
+            st.session_state["showing_backup"] = True
             st.sidebar.success(f"Açıldı: {pick}")
 
     if provider == "ollama":
         st.sidebar.warning(
-            "Yerel 7B 2–4 dk sürebilir; bu jüri kaydı için sorun değil. "
-            "Sahnedeki 1 dk gösterimde **Hızlı mod** açın veya önceden koşulmuş sonucu gösterin."
+            "Yerel model 2–4 dk sürebilir; jüri kaydı için sorun değil. "
+            "Sahnedeki 1 dk gösterimde **Hızlı mod** açın veya kayıtlı yedeği gösterin."
         )
     return {"fast": fast, "max_frames": max_frames, "use_rag": use_rag}
 
@@ -174,9 +176,14 @@ def main() -> None:
 
     st.title("Otonom İSG Video Analizi — Canlı Demo")
     st.caption(
-        "Videoyu yükleyin, jürinin verdiği promptu yazın ve tek tuşla zaman damgalı "
-        "İSG kararını alın."
+        "Sahne (1 dk): merdiven klibi veya kayıtlı yedek. "
+        "Jüri videosu: yükle, promptu yapıştır, hızlı mod kapalı."
     )
+    if st.session_state.get("showing_backup"):
+        st.warning(
+            "Ekranda **kayıtlı sahne yedeği** var (canlı API sonucu değil). "
+            "Jüri videosunda Analiz Et ile taze koşu alın."
+        )
 
     source_col, prompt_col = st.columns([1, 1.4])
     with source_col:
@@ -187,7 +194,11 @@ def main() -> None:
             names = ["(yüklenen dosyayı kullan)"] + [
                 str(p.relative_to(ROOT)) for p in local_videos[:40]
             ]
-            choice = st.selectbox("veya klasörden seç", names)
+            default_idx = next(
+                (i for i, name in enumerate(names) if STAGE_CLIP_NEEDLE in name),
+                0,
+            )
+            choice = st.selectbox("veya klasörden seç", names, index=default_idx)
             if choice != names[0]:
                 picked = ROOT / choice
 
@@ -218,13 +229,25 @@ def main() -> None:
         except Exception as exc:
             status.update(label="Analiz başarısız", state="error")
             st.error(f"Analiz tamamlanamadı: {exc}")
-            st.info(
-                "Ortak API yanıt vermiyorsa kenar çubuğundan sağlayıcıyı 'ollama' "
-                "yapıp tekrar deneyin."
-            )
-            return
-        status.update(label=f"Tamamlandı ({result.total_s:.1f} sn)", state="complete")
-        st.session_state["last_result"] = result
+            backup = list_saved_runs(limit=1)
+            if backup:
+                st.session_state["last_result"] = load_saved_run(backup[0])
+                st.session_state["showing_backup"] = True
+                st.warning(
+                    f"EVREN yanıt vermedi. Kayıtlı sahne yedeği açıldı: `{backup[0].name}`."
+                )
+            else:
+                st.info(
+                    "Kayıtlı yedek yok. Sahneden önce "
+                    "`python scripts/analyze_video.py --video data/videos/accident/"
+                    "6AISVvob4C0_trim_7.mp4 --fast --run-name sahne_merdiven` "
+                    "ile yedek alın veya kenar çubuğundan ollama deneyin."
+                )
+                return
+        else:
+            status.update(label=f"Tamamlandı ({result.total_s:.1f} sn)", state="complete")
+            st.session_state["last_result"] = result
+            st.session_state["showing_backup"] = False
 
     result = st.session_state.get("last_result")
     if isinstance(result, DemoResult):

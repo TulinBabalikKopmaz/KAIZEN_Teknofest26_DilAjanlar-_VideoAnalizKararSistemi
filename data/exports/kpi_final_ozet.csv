@@ -1,0 +1,10 @@
+metric,value,note
+n_video,46,dev EVREN iç ölçüm; jüri skoru değil; test split kullanılmadı
+risk_accuracy,0.87,kural katmanı donduruldu
+event_recall,0.92,±2 sn + Jaccard
+critical_recall,1.00,kaza/near_miss
+false_alarm_rate,0.00,normalde yanlış kaza
+summary_ok_rate,0.83,
+action_ok_rate,1.00,
+gold,data/exports/kpi_wide_vlm_evren_gold.json,
+pred,data/predictions_wide_evren,

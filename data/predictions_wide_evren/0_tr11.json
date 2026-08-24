@@ -1,33 +1,33 @@
 {
   "video_id": "0_tr11",
   "filename": "0_tr11.mp4",
-  "category": "near_miss",
+  "category": "normal",
   "duration_sec": 15.02,
   "status": "auto",
   "labeled_by": "qwen:vlm",
-  "summary": "Forklift çalışanın çok yakınından geçti. Neredeyse temas edeceklerdi.",
+  "summary": "Çalışanlar rutin aktivitesini sürdürüyor. Forklift çalışanın çok yakınından geçti. Neredeyse temas edeceklerdi.",
   "events": [
     {
       "time": "00:00",
       "time_end": "00:15",
-      "event": "Forklift çalışanın çok yakınından geçti.",
+      "event": "Çalışanlar rutin aktivitesini sürdürüyor.",
       "event_type": "near_miss",
       "severity": "Orta"
     },
     {
       "time": "00:02",
       "time_end": "00:15",
-      "event": "Forklift çalışanın çok yakınından geçti.",
+      "event": "Çalışanlar rutin aktivitesini sürdürüyor.",
       "event_type": "near_miss",
       "severity": "Orta"
     }
   ],
-  "risk": "Orta",
+  "risk": "Düşük",
   "actions": [
     "Forklift sürücüsünün ve çalışanın mesafeye dikkat etmesi gerekiyor.",
     "Yakın geçişlerin önlenmesi için rotalar gözden geçirilsin."
   ],
-  "notes": "Otomatik taslak. Gold değil; Streamlit'te kontrol edin. | ikinci bakış uygulandı",
+  "notes": "Otomatik taslak. Gold değil; Streamlit'te kontrol edin. | ikinci bakış uygulandı | Kanıt birleştirme: kalabalık saha / hareketsiz YOLO → normal | Kanıt birleştirme: risk Düşük→Orta; category normal→near_miss; kalabalık saha / hareketsiz YOLO → normal | Kanıt birleştirme: risk Düşük→Orta; category normal→near_miss; kalabalık saha / hareketsiz YOLO → normal | Kanıt birleştirme: risk Düşük→Orta; category normal→near_miss; kalabalık saha / hareketsiz YOLO → normal",
   "evidence": {
     "duration_sec": 15.022150624244865,
     "motion_peak_sec": 12.88763592428514,

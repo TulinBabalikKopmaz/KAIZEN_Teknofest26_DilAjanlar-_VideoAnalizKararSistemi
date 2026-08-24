@@ -13,6 +13,34 @@
       "event": "Çalışanlar rutin aktivitesini sürdürüyor.",
       "event_type": "normal",
       "severity": "dusuk"
+    },
+    {
+      "time": "00:20",
+      "time_end": "00:28",
+      "event": "Çalışanlar rutin aktivitesini sürdürüyor.",
+      "event_type": "normal",
+      "severity": "dusuk"
+    },
+    {
+      "time": "00:24",
+      "time_end": "00:28",
+      "event": "Çalışanlar rutin aktivitesini sürdürüyor.",
+      "event_type": "normal",
+      "severity": "dusuk"
+    },
+    {
+      "time": "00:26",
+      "time_end": "00:28",
+      "event": "Çalışanlar rutin aktivitesini sürdürüyor.",
+      "event_type": "normal",
+      "severity": "dusuk"
+    },
+    {
+      "time": "00:28",
+      "time_end": "00:28",
+      "event": "Çalışanlar rutin aktivitesini sürdürüyor.",
+      "event_type": "normal",
+      "severity": "dusuk"
     }
   ],
   "risk": "Düşük",

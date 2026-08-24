@@ -5,35 +5,42 @@
   "duration_sec": 36.69,
   "status": "auto",
   "labeled_by": "qwen:vlm",
-  "summary": "Çalışan, makine yanında dengesini kaybederek yere düştü ve diğer çalışanlar müdahale etti.",
+  "summary": "Çalışan, makineye yakın bir alanda çalışırken düşerek yere serildi. Diğer çalışanlar hemen müdahale etti.",
   "events": [
     {
       "time": "00:18",
-      "time_end": "00:24",
-      "event": "Çalışan makine yanında dengesini kaybederek yere düştü.",
-      "event_type": "kaza",
-      "severity": "yuksek"
+      "time_end": "00:36",
+      "event": "Diğer çalışanlar düşen çalışanı kaldırmaya çalışırken etrafına toplandı.",
+      "event_type": "mudahale",
+      "severity": "Yüksek"
     },
     {
       "time": "00:21",
-      "time_end": "00:24",
+      "time_end": "00:36",
+      "event": "Diğer çalışanlar düşen çalışanı kaldırmaya çalışırken etrafına toplandı.",
+      "event_type": "mudahale",
+      "severity": "Yüksek"
+    },
+    {
+      "time": "00:21",
+      "time_end": "00:21",
       "event": "Çalışan makine yanında dengesini kaybederek yere düştü.",
       "event_type": "kaza",
-      "severity": "yuksek"
+      "severity": "Yüksek"
     },
     {
       "time": "00:24",
-      "time_end": "00:24",
-      "event": "Çalışan makine yanında dengesini kaybederek yere düştü.",
-      "event_type": "kaza",
-      "severity": "yuksek"
+      "time_end": "00:36",
+      "event": "Diğer çalışanlar düşen çalışanı kaldırmaya çalışırken etrafına toplandı.",
+      "event_type": "mudahale",
+      "severity": "Yüksek"
     }
   ],
   "risk": "Yüksek",
   "actions": [
-    "Yaralı çalışanı hemen sağlık ekiplerine bildirin.",
-    "Olay yerini izole edin ve diğer çalışanların yaklaşmasını engelleyin.",
-    "İş güvenliği incelemesi başlatın."
+    "Yaralı çalışanın sağlık durumu kontrol edilsin.",
+    "Olay yerinin güvenliği sağlansın, diğer çalışanlar uzaklaştırılsın.",
+    "İlgili yetkililere bildirilsin."
   ],
   "notes": "Otomatik taslak. Gold değil; Streamlit'te kontrol edin.",
   "evidence": {

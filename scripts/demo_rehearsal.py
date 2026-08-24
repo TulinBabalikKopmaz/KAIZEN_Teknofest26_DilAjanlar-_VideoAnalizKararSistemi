@@ -57,7 +57,7 @@ CHECKLIST = (
     "Ağ kesintisi: ortak API'yi kapatıp PROVIDER=ollama yedeğine düşüşü prova et.",
     "Soğuk başlangıç: ilk çağrı yavaş; demodan 5 dk önce bir kez ısıtma koşusu yap.",
     "Ekran: Streamlit'i demo çözünürlüğünde aç, tek ekranda kaydırma olmasın.",
-    "Yedek plan: son başarılı data/demo_runs klasörünü açık bir sekmede hazır tut.",
+    "Yedek plan: son başarılı data/demo_runs klasörünü hazır tut; Streamlit API düşünce yedeği kendisi açar.",
     "Süre: sunum sahnesi 1 dk (hızlı/kayıt); jüri videosunda doğruluk önce, 2–4 dk normal.",
 )
 

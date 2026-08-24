@@ -5,42 +5,35 @@
   "duration_sec": 7.0,
   "status": "auto",
   "labeled_by": "qwen:vlm",
-  "summary": "Forklift, çalışanın çok yakınından geçerken kontrolü kaybeder ve devrilen yükün altında kalan çalışan yere düşer.",
+  "summary": "Forklift, çalışanın çok yakınından geçerken kontrolü kaybeder ve devrilir; çalışan yere düşer.",
   "events": [
     {
-      "time": "00:00",
+      "time": "00:01",
       "time_end": "00:06",
-      "event": "Forklift kontrolü kaybederek devrilen yükün altında kalan çalışanı çarpar ve yere düşürür.",
-      "event_type": "kaza",
-      "severity": "Yüksek"
-    },
-    {
-      "time": "00:02",
-      "time_end": "00:06",
-      "event": "Forklift kontrolü kaybederek devrilen yükün altında kalan çalışanı çarpar ve yere düşürür.",
+      "event": "Forklift çalışanın çok yakınından geçerken devrildi ve çalışan yere düştü.",
       "event_type": "kaza",
       "severity": "Yüksek"
     },
     {
       "time": "00:04",
       "time_end": "00:06",
-      "event": "Forklift kontrolü kaybederek devrilen yükün altında kalan çalışanı çarpar ve yere düşürür.",
+      "event": "Forklift çalışanın çok yakınından geçerken devrildi ve çalışan yere düştü.",
       "event_type": "kaza",
       "severity": "Yüksek"
     },
     {
       "time": "00:06",
       "time_end": "00:06",
-      "event": "Forklift kontrolü kaybederek devrilen yükün altında kalan çalışanı çarpar ve yere düşürür.",
+      "event": "Forklift çalışanın çok yakınından geçerken devrildi ve çalışan yere düştü.",
       "event_type": "kaza",
       "severity": "Yüksek"
     }
   ],
   "risk": "Yüksek",
   "actions": [
-    "Acil sağlık ekiplerini çağırın.",
-    "Alanı hemen boşaltın ve güvenliği sağlayın.",
-    "İtfaiye ve güvenlik ekiplerini bilgilendirin."
+    "Acil müdahaleye geçin, yaralı çalışanı kontrol edin.",
+    "Alanı kapatin, diğer çalışanları uzaklaştırın.",
+    "İtfaiye ve sağlık ekiplerini çağırın."
   ],
   "notes": "Otomatik taslak. Gold değil; Streamlit'te kontrol edin.",
   "evidence": {

@@ -1,23 +1,23 @@
 {
-  "summary": "Çalışanlar kamyonun arkasından yük çıkarken dengesi kaybetti ve yük yere düştü. Çalışanlar yere düşen yükün etrafında duruyor.",
+  "summary": "Çalışanlar kamyonun arka kısmından yük çıkarken dengesi kaybetti ve yük yere düştü. Çalışanlar yere düşen yükün etrafında duruyor.",
   "events": [
     {
       "time": "00:01",
-      "event": "Yük kamyonun arkasından düşerek yere saçıldı ve çalışanlar etrafında durdu."
+      "event": "Çalışan yükün altında kalmaktan son anda kurtuldu."
     },
     {
       "time": "00:03",
-      "event": "Yük kamyonun arkasından düşerek yere saçıldı ve çalışanlar etrafında durdu."
+      "event": "Çalışan yükün altında kalmaktan son anda kurtuldu."
     },
     {
       "time": "00:06",
-      "event": "Yük kamyonun arkasından düşerek yere saçıldı ve çalışanlar etrafında durdu."
+      "event": "Çalışan yükün altında kalmaktan son anda kurtuldu."
     }
   ],
-  "risk": "Yüksek",
+  "risk": "Orta",
   "actions": [
-    "Yaralı varsa acil sağlık çağrısı yap",
-    "Alanı kapatarak diğer çalışanları tehlikeye sokmamak için önlem alın",
-    "İş güvenliği ekiplerine bildir"
+    "Yaralı varsa acil sağlık ekiplerini çağır.",
+    "Alanı kapatarak diğer çalışanları tehlikeye sokmamak için önlem alın.",
+    "Olay yerini koruma ve inceleme için yetkililere bildir."
   ]
 }

@@ -75,7 +75,8 @@ COMPLETED_PATTERNS = [
 ]
 _HEDGE_PREFIX = re.compile(r"(neredeyse|son\s+anda|az\s+kaldı)\s*$", re.IGNORECASE)
 _NEG_AFTER = re.compile(
-    r"^.{0,28}(gözlemlenmedi|tespit edilmedi|görülmedi|bulunmadı|yok(?:tur)?)",
+    r"^.{0,40}(gözlemlenmedi|tespit edilmedi|görülmedi|bulunmadı|"
+    r"yok(?:tur)?|ama normal|normal gözük|normal görünüm)",
     re.IGNORECASE,
 )
 _NEG_BEFORE = re.compile(
@@ -176,13 +177,83 @@ def evidence_floor(evidence: SceneEvidence | None) -> tuple[str, str | None]:
         return "Düşük", None
     if evidence.fire_suspect:
         return "Yüksek", "accident"
-    # Çok yakın: kaza yoksa near_miss; gold sözleşmesi risk=Orta.
-    # Metinde çarpışma/zarar varsa text_floor accident+Yüksek yapar.
-    if evidence.person_vehicle_very_close:
+    # YOLO yakınlığı yalnız hareket tepe ile ramak olsun. Kalabalık saha
+    # CCTV'sinde kutu örtüşmesi rutin geçişi near_miss yapmasın.
+    if evidence.motion_elevated and evidence.person_vehicle_very_close:
         return "Orta", "near_miss"
-    if evidence.person_vehicle_close:
+    if evidence.motion_elevated and evidence.person_vehicle_close:
         return "Orta", "near_miss"
     return "Düşük", None
+
+
+def _busy_yard_false_near_miss(
+    label: dict[str, Any],
+    evidence: SceneEvidence | None,
+    has_high: bool,
+    text: str,
+) -> bool:
+    """Hareket tepesi yok, kalabalık saha: VLM forklift görünce ramak uyduruyor."""
+    if evidence is None or evidence.motion_elevated:
+        return False
+    if has_high or has_unhedged_accident(text):
+        return False
+    if evidence.person_count_max < 3 or evidence.vehicle_count_max < 1:
+        return False
+    cat = label.get("category") or "normal"
+    return cat == "near_miss" or normalize_risk(label.get("risk")) == "Orta"
+
+
+def _worker_is_harmed(text: str) -> bool:
+    """Çalışanın kendisi düşmüş / ezilmiş / yükün altında kalmış mı."""
+    blob = text or ""
+    return bool(
+        re.search(
+            r"çalışan(?!lar).{0,28}(yere\s+düş|düşerek|hareketsiz|ezil|altında\s+kald)",
+            blob,
+            re.IGNORECASE,
+        )
+        or re.search(r"(üstüne|üzerine|ezil|hareketsiz|altında\s+kald)", blob, re.IGNORECASE)
+    )
+
+
+def _load_fell_workers_standing(text: str) -> bool:
+    """Yük düşmüş ama çalışanlar ayakta etrafta: tamamlanmış kaza değil, ramak."""
+    blob = text or ""
+    load_fell = re.search(
+        r"(yük|palet|koli).{0,40}(düş|saçıl|devril)",
+        blob,
+        re.IGNORECASE,
+    )
+    standing = re.search(
+        r"(etrafında|yanında|çevresinde)\s+(dur|bek)",
+        blob,
+        re.IGNORECASE,
+    )
+    return bool(load_fell and standing and not _worker_is_harmed(blob))
+
+
+def _snap_near_miss_load_drop(out: dict[str, Any]) -> None:
+    out["risk"] = "Orta"
+    out["category"] = "near_miss"
+
+
+def _force_normal_all_clear(out: dict[str, Any]) -> None:
+    from utils.label_json import NORMAL_RUTIN
+
+    out["risk"] = "Düşük"
+    out["category"] = "normal"
+    events = []
+    for event in out.get("events") or []:
+        if not isinstance(event, dict):
+            continue
+        item = dict(event)
+        item["event"] = f"{NORMAL_RUTIN}."
+        events.append(item)
+    if events:
+        out["events"] = events
+    summary = str(out.get("summary") or "")
+    if "rutin" not in summary.lower():
+        out["summary"] = f"{NORMAL_RUTIN}. {summary}".strip()
 
 
 def refine_label(label: dict[str, Any], evidence: SceneEvidence | None = None) -> dict[str, Any]:
@@ -251,11 +322,20 @@ def refine_label(label: dict[str, Any], evidence: SceneEvidence | None = None) -
         reasons.append(f"category {out.get('category')}→accident (tamamlanmış sonuç)")
         out["category"] = "accident"
 
+    # "Yük yere düştü" unhedged sayılır; çalışanlar ayaktaysa ramak kala
+    if _load_fell_workers_standing(text):
+        reasons.append("yük düştü / çalışanlar ayakta → near_miss")
+        _snap_near_miss_load_drop(out)
+
     # VLM 'olay yok' deyip kuralın şişirdiği rutin saha (ateşleme, negatif cümle)
     if _should_snap_all_clear(out, evidence, has_high, has_near, text):
         reasons.append("rutin saha / olay yok → normal")
         out["risk"] = "Düşük"
         out["category"] = "normal"
+
+    if _busy_yard_false_near_miss(out, evidence, has_high, text):
+        reasons.append("kalabalık saha / hareketsiz YOLO → normal")
+        _force_normal_all_clear(out)
 
     # Kaza/ramak: klip saati → orijinal saat, tepeye hizala, tepe±2sn aday ekle
     if (out.get("category") or "") in {"accident", "near_miss"} and evidence is not None:
@@ -283,13 +363,37 @@ def refine_label(label: dict[str, Any], evidence: SceneEvidence | None = None) -
             category=str(out.get("category") or ""),
         )
         events = align_events_to_motion(events, peaks, primary_peak_s=anchor)
-        events = seed_events_from_motion(events, peaks)
+        events = seed_events_from_motion(
+            events, peaks, duration_s=float(evidence.duration_sec or 0.0)
+        )
         if events:
             out["events"] = events
 
+    if (
+        (out.get("category") or "") == "normal"
+        and evidence is not None
+        and float(evidence.duration_sec or 0.0) >= 40.0
+    ):
+        from utils.label_json import seed_events_from_motion
+
+        peaks = list(evidence.motion_peaks or [])
+        if evidence.motion_peak_sec is not None:
+            peaks.append(float(evidence.motion_peak_sec))
+        seeded = seed_events_from_motion(
+            out.get("events") or [],
+            peaks,
+            duration_s=float(evidence.duration_sec or 0.0),
+        )
+        if seeded:
+            out["events"] = seeded
+
     from utils.label_json import sharpen_events
 
-    sharpened = sharpen_events(out.get("events") or [], out.get("category"))
+    sharpened = sharpen_events(
+        out.get("events") or [],
+        out.get("category"),
+        summary=str(out.get("summary") or ""),
+    )
     if sharpened:
         out["events"] = sharpened
 

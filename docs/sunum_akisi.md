@@ -15,7 +15,7 @@ doğru JSON üretin.
 | Süre | 4 dk konuşma + 1 dk gösterim | Belirtilmedi; 2–4 dk analiz normal |
 | Amaç | Anlatmak, ekranda karar göstermek | Sınıf, risk, zaman, aksiyon doğru olsun |
 | Ayar | Hızlı mod açık olabilir; önceden koşulmuş / kayıtlı yedek | Hızlı mod **kapalı**, 8 kare, ikinci bakış + eleştirmen + RAG açık |
-| Model | Isınmış ollama veya ortak API | Ortak 27B (gelince) |
+| Model | EVREN `vlm` + `llm-fast` (ısınmış); yedek ollama veya `demo_runs` | EVREN `vlm` + `llm-fast` |
 
 Sunumdaki 1 dk’da jüri videosunun bitmesini beklemeyin. O slot’ta **sizin
 seçtiğiniz** kısa klibi (veya önceden alınmış ekran kaydını) gösterin. Jüri
@@ -30,7 +30,7 @@ anlatırsınız.
 |---|---|---|
 | 0:00–0:25 | Problem | Kamera var, izleyen yok. Kaza sonrası kaydı bulmak saatler alıyor; ramak kala olayları hiç raporlanmıyor. |
 | 0:25–1:00 | Çözüm | Videoyu izleyip **karar veren** üç ajanlı sistem: algı → risk → aksiyon. Çıktı serbest metin değil, şartname JSON'u. |
-| 1:00–1:40 | Mimari | Wake-up sensör katmanı, VLM (Qwen 3 27B), kural katmanı, Risk Assessor, mevzuat RAG'i ile Action Recommender, LangGraph orkestrasyonu. |
+| 1:00–1:40 | Mimari | Wake-up, EVREN `vlm`, kural katmanı, Risk Assessor, mevzuat RAG, Action Recommender, LangGraph. |
 | 1:40–2:30 | Doğruluk kanıtı | KPI tablosu: risk doğruluğu, kritik olay yakalama, yanlış alarm. Ablasyon: kural katmanı açık/kapalı farkı. |
 | 2:30–3:05 | Veri ve metodoloji | Golden dataset dağılımı (%30 kaza, %30 normal, %20 ramak kala, %20 belirsiz), gold etiketleme süreci, teşhis aracı. |
 | 3:05–3:40 | Gerçek zamanlı yol haritası | RTSP akışında wake-up tetikli asenkron analiz; tek makinede çok kamera. |
@@ -79,16 +79,17 @@ sunumda "jüri skoru" demeyin):
 
 | Metrik | Değer | Sunumda nasıl anlatılır |
 |---|---|---|
-| Risk doğruluğu | %83 | Kural katmanı + VLM; holdout'a bakmadık, abartma. |
+| Risk doğruluğu | %87 | Kural katmanı + VLM; holdout'a bakmadık, abartma. |
 | Kritik olay yakalama | %100 | Kaza/ramak videolarında olayı kaçırmıyoruz. |
 | Yanlış alarm | %0 | Normal sahnede kritik alarm yok — saha güveni. |
 | Aksiyon doluluğu | %100 | Her çıktıda uygulanabilir müdahale var. |
-| Olay yakalama (±2 sn + metin) | %82 | Dil sıkıştırma + hedefli VLM tekrar; kalan kayıp sahne yanlış okuma. |
-| Özet benzerliği | %78 | Aynı dürüst çerçeve. |
+| Olay yakalama (±2 sn + metin) | %92 | Dil sıkıştırma + tepe tohumu + hedefli VLM; kalan kayıp sahne yanlış okuma. |
+| Özet benzerliği | %83 | Aynı dürüst çerçeve. |
 
-**Olay yakalama için dürüst çerçeve.** Bu sayı jüri skoru değil, 46 videoluk
-EVREN iç ölçüm. Kalan kaçırılanlar artık eşanlamlı cümle değil: VLM'nin
-olayı yanlış anlattığı kazalar. Bunu gizlemeyin; çalışmaya devam ediyoruz.
+**Olay yakalama için dürüst çerçeve.** Jüri skoru değil; 46 videoluk EVREN
+iç ölçüm. Kural katmanı **donduruldu** — kalan 4 miss VLM sahne okuması
+(pres yükü, kontrolden çıkan forklift, kamyon indirme, proses dumanı).
+Skorlayıcıya eşanlam veya test split ile şişirmedik.
 
 > Jüri zayıf sayıyı görürse kendimiz açıklamış olmak avantaj.
 > Sayıyı saklamak yerine nedenini ölçmüş olmak mühendislik olgunluğu gösterir.
@@ -145,9 +146,10 @@ wake-up katmanında kanıt üreticisi olarak kullanıyoruz.
 Kural katmanı model çıktısını sensör kanıtıyla karşılaştırıyor. Hareket kanıtı
 olmayan kaza iddiası düşürülüyor; yanlış alarm oranımızın sıfır olması bunun sonucu.
 
-**"Risk doğruluğu 1.00 fazla iyi değil mi?"**
-18 videoluk kümede evet, bu yüzden gold'u genişletiyoruz ve holdout ayrımıyla
-ölçüyoruz. Metriği tek sayı olarak değil, teşhis kırılımıyla birlikte sunuyoruz.
+**"Risk doğruluğu fazla iyi değil mi?"**
+İç ölçüm 46 videoluk **dev**; test split'e bakmadık. Yanlış alarm %0 ve kritik
+yakalama %100 saha için asıl sayı. Near miss risk ~%58: VLM tamamlanmış kaza
+yazınca gold ramak olsa bile indirmiyoruz.
 
 **"Gerçek zamanlı çalışır mı?"**
 Wake-up katmanı sayesinde model çağrısı sayısı video uzunluğundan bağımsız.
@@ -162,9 +164,10 @@ Tek H200 ile onlarca kamerayı, tetiklenmeleri kuyruğa alarak taşıyabiliriz.
 
 ## 5. Kontrol listesi (sunum sabahı)
 
-- [ ] `.env` ortak API bilgileriyle dolu, `scripts/smoke_api.py` yeşil
-- [ ] Sahne klibi seçildi, 1 dk koreografi provası + `data/demo_runs/` yedek
+- [ ] `.env` EVREN anahtarı dolu, `python scripts/smoke_api.py --provider teknofest` yeşil
+- [ ] Sahne klibi `6AISVvob4C0_trim_7` seçili; 1 dk prova + `data/demo_runs/` yedek
+- [ ] API düşünce Streamlit yedeği otomatik açıyor (en az bir `demo_runs` kaydı olsun)
 - [ ] Jüri yolu: hızlı mod kapalı, 8 kare; Streamlit açık ve ısıtıldı
-- [ ] KPI tablosu slayttaki değerlerle `kpi_final_ozet.csv` uyumlu (27B gelince güncelle)
+- [ ] KPI slaytı `docs/sunum_akisi.md` / `data/exports/kpi_final_ozet.csv` ile aynı (jüri skoru demeyin)
 - [ ] Sunum dosyası ve sahne demosu aynı ekranda, geçiş provası yapıldı
 - [ ] `python -m pytest tests -q` geçiyor

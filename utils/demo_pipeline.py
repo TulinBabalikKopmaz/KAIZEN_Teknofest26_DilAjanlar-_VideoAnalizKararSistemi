@@ -102,7 +102,10 @@ MAX_WAKE_SPAN_S: float = 45.0
 
 SECOND_LOOK_PROMPT = (
     "Önceki cevabın çok sakin / düşük risk görünüyor ama sensörler şüpheli diyor.\n"
-    "Sadece bu karelere tekrar bak. Özellikle: çarpışma, düşme, yanma, kişi-araç temas.\n"
+    "Sadece bu karelere tekrar bak. Sırayla kontrol et:\n"
+    "1) Yük / kalıp çalışanın ÜSTÜNE mi düştü, yoksa YANINA mı?\n"
+    "2) Forklift kabloya, tavana veya iskeleye çarptı mı / bir şey çöktü mü?\n"
+    "3) Çarpışma, düşme, yanma, kişi-araç temas var mı?\n"
     "Görmüyorsan uydurma. Görüyorsan category/risk'i yükselt.\n"
     "events[].time yalnızca verilen kare zamanlarından biri olsun.\n"
     "Yine sadece JSON döndür.\n"
@@ -110,7 +113,10 @@ SECOND_LOOK_PROMPT = (
 
 SECOND_LOOK_PROMPT_VIDEO = (
     "Önceki cevabın çok sakin / düşük risk görünüyor ama sensörler şüpheli diyor.\n"
-    "Aynı video klibine tekrar bak. Özellikle: çarpışma, düşme, yanma, kişi-araç temas.\n"
+    "Aynı video klibine tekrar bak. Sırayla kontrol et:\n"
+    "1) Yük / kalıp çalışanın ÜSTÜNE mi düştü, yoksa YANINA mı?\n"
+    "2) Forklift kabloya, tavana veya iskeleye çarptı mı / bir şey çöktü mü?\n"
+    "3) Çarpışma, düşme, yanma, kişi-araç temas var mı?\n"
     "Görmüyorsan uydurma. Görüyorsan category/risk'i yükselt.\n"
     "events[].time yalnızca verilen kare zamanlarından biri olsun.\n"
     "Yine sadece JSON döndür.\n"

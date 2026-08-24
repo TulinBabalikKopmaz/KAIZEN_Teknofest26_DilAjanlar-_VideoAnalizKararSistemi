@@ -5,7 +5,7 @@ Senaryo 3: Video Analiz ve Karar Destek Sistemi
 
 ## Model ayarı (ortak API)
 
-Yarışmada VLM ve LLM ortak bir API üzerinden geliyor (Qwen3-VL ~27B + Gemma ~27B-it).
+Yarışmada VLM ve LLM ortak EVREN API üzerinden geliyor (alias: `vlm` + `llm-fast`).
 Kodda hiçbir adres sabit değil; her şey `.env` üzerinden okunur.
 
 ```bash
