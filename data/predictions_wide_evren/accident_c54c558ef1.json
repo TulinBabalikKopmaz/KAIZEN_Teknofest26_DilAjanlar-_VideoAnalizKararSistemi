@@ -5,42 +5,42 @@
   "duration_sec": 10.67,
   "status": "auto",
   "labeled_by": "qwen:vlm",
-  "summary": "Çalışan, yükü taşırken dengesini kaybetti ve yere düştü. Yere yatarken hareketsiz kaldı.",
+  "summary": "Çalışan yükün yanında dururken forkliftin çarpması sonucu yere düştü ve hareketsiz kaldı.",
   "events": [
     {
       "time": "00:00",
       "time_end": "00:10",
-      "event": "Çalışan yükü taşırken dengesini kaybetti ve yere düştü.",
+      "event": "Çalışan forklift tarafından çarptı ve yere düştü.",
       "event_type": "kaza",
-      "severity": "yuksek"
+      "severity": "Yüksek"
     },
     {
       "time": "00:03",
       "time_end": "00:10",
-      "event": "Çalışan yükü taşırken dengesini kaybetti ve yere düştü.",
+      "event": "Çalışan forklift tarafından çarptı ve yere düştü.",
       "event_type": "kaza",
-      "severity": "yuksek"
+      "severity": "Yüksek"
     },
     {
       "time": "00:07",
       "time_end": "00:10",
-      "event": "Çalışan yükü taşırken dengesini kaybetti ve yere düştü.",
+      "event": "Çalışan forklift tarafından çarptı ve yere düştü.",
       "event_type": "kaza",
-      "severity": "yuksek"
+      "severity": "Yüksek"
     },
     {
       "time": "00:10",
       "time_end": "00:10",
-      "event": "Çalışan yükü taşırken dengesini kaybetti ve yere düştü.",
+      "event": "Çalışan forklift tarafından çarptı ve yere düştü.",
       "event_type": "kaza",
-      "severity": "yuksek"
+      "severity": "Yüksek"
     }
   ],
   "risk": "Yüksek",
   "actions": [
-    "Hemen sağlık ekiplerini çağırın.",
-    "Alanı kapatin ve diğer çalışanları uzaklaştırın.",
-    "Olayın detaylı raporunu hazırlayın."
+    "Acil sağlık ekiplerini çağırın.",
+    "Olay yerini hemen boşaltın ve güvenliği sağlayın.",
+    "İtfaiye ve İSG ekibini bilgilendirin."
   ],
   "notes": "Otomatik taslak. Gold değil; Streamlit'te kontrol edin.",
   "evidence": {

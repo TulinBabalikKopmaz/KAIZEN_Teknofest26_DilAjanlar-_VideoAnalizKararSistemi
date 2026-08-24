@@ -1,9 +1,13 @@
 {
-  "summary": "Çalışan depoda kutularla çalışırken, forkliftin geçişi sırasında herhangi bir temas veya tehlikeli yaklaşma olmamıştır. Rutin faaliyetler devam etmektedir.",
+  "summary": "Çalışan depoda kutularla çalışırken rutin aktivite sürdürüyor. Forklift sahneye girdi ama temas olmadı.",
   "events": [
     {
       "time": "00:00",
-      "event": "Çalışanlar rutin aktivitesini sürdürüyor."
+      "event": "Çalışan kutularla çalışırken rutin aktivite sürdürüyor."
+    },
+    {
+      "time": "00:57",
+      "event": "Çalışanlar rutin aktivitesini sürdürüyor. Forklift sahneye girdi ama çalışanla temas olmadı."
     }
   ],
   "risk": "Düşük",

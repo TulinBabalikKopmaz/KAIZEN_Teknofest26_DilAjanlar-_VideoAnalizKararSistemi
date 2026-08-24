@@ -1,27 +1,27 @@
 {
-  "summary": "Çalışan, yükü taşırken dengesini kaybetti ve yere düştü. Yere yatarken hareketsiz kaldı.",
+  "summary": "Çalışan yükün yanında dururken forkliftin çarpması sonucu yere düştü ve hareketsiz kaldı.",
   "events": [
     {
       "time": "00:00",
-      "event": "Çalışan yükü taşırken dengesini kaybetti ve yere düştü."
+      "event": "Çalışan forklift tarafından çarptı ve yere düştü."
     },
     {
       "time": "00:03",
-      "event": "Çalışan yükü taşırken dengesini kaybetti ve yere düştü."
+      "event": "Çalışan forklift tarafından çarptı ve yere düştü."
     },
     {
       "time": "00:07",
-      "event": "Çalışan yükü taşırken dengesini kaybetti ve yere düştü."
+      "event": "Çalışan forklift tarafından çarptı ve yere düştü."
     },
     {
       "time": "00:10",
-      "event": "Çalışan yükü taşırken dengesini kaybetti ve yere düştü."
+      "event": "Çalışan forklift tarafından çarptı ve yere düştü."
     }
   ],
   "risk": "Yüksek",
   "actions": [
-    "Hemen sağlık ekiplerini çağırın.",
-    "Alanı kapatin ve diğer çalışanları uzaklaştırın.",
-    "Olayın detaylı raporunu hazırlayın."
+    "Acil sağlık ekiplerini çağırın.",
+    "Olay yerini hemen boşaltın ve güvenliği sağlayın.",
+    "İtfaiye ve İSG ekibini bilgilendirin."
   ]
 }

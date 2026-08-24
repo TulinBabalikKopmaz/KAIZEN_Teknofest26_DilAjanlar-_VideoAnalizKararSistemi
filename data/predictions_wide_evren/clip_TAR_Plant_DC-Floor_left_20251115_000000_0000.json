@@ -5,12 +5,12 @@
   "duration_sec": 10.0,
   "status": "auto",
   "labeled_by": "qwen:vlm",
-  "summary": "Çalışan fabrikada makine yanında duruyor. Normal çalışma devam ediyor.",
+  "summary": "Çalışan makine altındaki alanda duruyor. Normal gözüküyor.",
   "events": [
     {
       "time": "00:00",
       "time_end": "00:09",
-      "event": "Çalışanlar rutin aktivitesini sürdürüyor.",
+      "event": "Çalışan makine altındaki alanda rutin aktivite yapıyor.",
       "event_type": "normal",
       "severity": "dusuk"
     }

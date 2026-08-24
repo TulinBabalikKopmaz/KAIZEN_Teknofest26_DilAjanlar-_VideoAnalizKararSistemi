@@ -5,42 +5,42 @@
   "duration_sec": 7.0,
   "status": "auto",
   "labeled_by": "qwen:vlm",
-  "summary": "Forklift, çalışanın çok yakınından geçerken kontrolü kaybeder ve devrilir; çalışan yere düşer ve hareketsiz kalır.",
+  "summary": "Forklift, çalışanın çok yakınından geçerken kontrolü kaybeder ve devrilen yükün altında kalan çalışan yere düşer.",
   "events": [
     {
       "time": "00:00",
       "time_end": "00:06",
-      "event": "Forklift çalışanın çok yakınından geçerken ani hareketle devrilir ve çalışan yere düşer.",
+      "event": "Forklift kontrolü kaybederek devrilen yükün altında kalan çalışanı çarpar ve yere düşürür.",
       "event_type": "kaza",
       "severity": "Yüksek"
     },
     {
       "time": "00:02",
       "time_end": "00:06",
-      "event": "Forklift çalışanın çok yakınından geçerken ani hareketle devrilir ve çalışan yere düşer.",
+      "event": "Forklift kontrolü kaybederek devrilen yükün altında kalan çalışanı çarpar ve yere düşürür.",
       "event_type": "kaza",
       "severity": "Yüksek"
     },
     {
       "time": "00:04",
       "time_end": "00:06",
-      "event": "Forklift çalışanın çok yakınından geçerken ani hareketle devrilir ve çalışan yere düşer.",
+      "event": "Forklift kontrolü kaybederek devrilen yükün altında kalan çalışanı çarpar ve yere düşürür.",
       "event_type": "kaza",
       "severity": "Yüksek"
     },
     {
       "time": "00:06",
       "time_end": "00:06",
-      "event": "Forklift çalışanın çok yakınından geçerken ani hareketle devrilir ve çalışan yere düşer.",
+      "event": "Forklift kontrolü kaybederek devrilen yükün altında kalan çalışanı çarpar ve yere düşürür.",
       "event_type": "kaza",
       "severity": "Yüksek"
     }
   ],
   "risk": "Yüksek",
   "actions": [
-    "Acil müdahaleye geçin, yaralı çalışanı tedavi altına alın.",
-    "Alanı kapatin, diğer çalışanları tahliye edin.",
-    "İtfaiye ve sağlık ekiplerini çağırın."
+    "Acil sağlık ekiplerini çağırın.",
+    "Alanı hemen boşaltın ve güvenliği sağlayın.",
+    "İtfaiye ve güvenlik ekiplerini bilgilendirin."
   ],
   "notes": "Otomatik taslak. Gold değil; Streamlit'te kontrol edin.",
   "evidence": {

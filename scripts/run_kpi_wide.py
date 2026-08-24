@@ -226,10 +226,20 @@ def main() -> None:
         action="store_true",
         help="pred-dir'de mevcut JSON varsa videoyu atla (Ollama crash sonrası devam)",
     )
+    parser.add_argument(
+        "--only",
+        default="",
+        help="Virgüllü dosya adı parçası; yalnız eşleşen videoları koş (yeniden etiket)",
+    )
+    parser.add_argument(
+        "--no-eval",
+        action="store_true",
+        help="Bitince evaluate_kpi çalıştırma (hedefli yeniden koşu)",
+    )
     args = parser.parse_args()
     n_videos = parse_n(str(args.n))
-    if n_videos is not None and n_videos < 6:
-        raise SystemExit("--n en az 6 olmalı (veya --n all)")
+    if n_videos is not None and n_videos < 6 and not str(args.only).strip():
+        raise SystemExit("--n en az 6 olmalı (veya --n all / --only)")
 
     if args.backend == "ollama":
         model_name = args.model or os.getenv("OLLAMA_MODEL", "qwen2.5vl:7b")
@@ -269,6 +279,15 @@ def main() -> None:
             mode = f"balanced/{n_videos}"
             if len(sample) < n_videos:
                 print(f"Uyarı: istenen {n_videos}, seçilen {len(sample)} (dosya/kategori yetmez)")
+
+    if str(args.only).strip():
+        needles = [s.strip().lower() for s in args.only.split(",") if s.strip()]
+        sample = [
+            row
+            for row in sample
+            if any(n in (row.get("filename") or "").lower() for n in needles)
+        ]
+        mode = f"{mode}+only/{len(sample)}"
 
     video_root = ROOT / "data" / "videos"
     if not sample:
@@ -397,6 +416,10 @@ def main() -> None:
             f"  tahmin risk={label.get('risk')}  cat={label.get('category')}  "
             f"olay={len(label.get('events') or [])}"
         )
+
+    if args.no_eval:
+        print(f"\nYeniden etiket bitti: {len(ok_gold)} video  ({args.pred_dir})")
+        return
 
     gold_out = ROOT / "data" / "exports" / f"kpi_wide_{safe_model}_gold.json"
     gold_out.write_text(json.dumps(ok_gold, ensure_ascii=False, indent=2), encoding="utf-8")

@@ -5,49 +5,28 @@
   "duration_sec": 22.92,
   "status": "auto",
   "labeled_by": "qwen:vlm",
-  "summary": "Çalışan, yükü taşıyarak kamyonun arkasından çekmek isterken dengesini kaybeder ve yere düşer. Yük de düşer.",
+  "summary": "Çalışan yükü kamyonun arkasından çekerek taşırken dengesi kaybetti, yük devrildi ve çalışan yere düştü.",
   "events": [
     {
-      "time": "00:00",
-      "time_end": "00:19",
-      "event": "Çalışan yükü çekmeye çalışırken dengesini kaybeder ve yere düşer; yük de düşer.",
-      "event_type": "kaza",
-      "severity": "yuksek"
-    },
-    {
-      "time": "00:02",
-      "time_end": "00:19",
-      "event": "Çalışan yükü çekmeye çalışırken dengesini kaybeder ve yere düşer; yük de düşer.",
-      "event_type": "kaza",
-      "severity": "yuksek"
-    },
-    {
-      "time": "00:04",
-      "time_end": "00:19",
-      "event": "Çalışan yükü çekmeye çalışırken dengesini kaybeder ve yere düşer; yük de düşer.",
-      "event_type": "kaza",
-      "severity": "yuksek"
-    },
-    {
-      "time": "00:06",
-      "time_end": "00:19",
-      "event": "Çalışan yükü çekmeye çalışırken dengesini kaybeder ve yere düşer; yük de düşer.",
-      "event_type": "kaza",
-      "severity": "yuksek"
-    },
-    {
       "time": "00:16",
-      "time_end": "00:19",
-      "event": "Çalışan yükü çekmeye çalışırken dengesini kaybeder ve yere düşer; yük de düşer.",
+      "time_end": "00:18",
+      "event": "Çalışan yükü çekerek taşırken dengesi kaybetti, yük devrildi ve çalışan yere düştü.",
       "event_type": "kaza",
-      "severity": "yuksek"
+      "severity": "Yüksek"
+    },
+    {
+      "time": "00:19",
+      "time_end": "00:18",
+      "event": "Çalışan yükü çekerek taşırken dengesi kaybetti, yük devrildi ve çalışan yere düştü.",
+      "event_type": "kaza",
+      "severity": "Yüksek"
     }
   ],
   "risk": "Yüksek",
   "actions": [
     "Yaralı çalışanı hemen sağlık ekiplerine bildirin.",
-    "Olay yerini izole edin ve diğer çalışanların yaklaşmasını engelleyin.",
-    "Kaza raporu oluşturun ve güvenlik incelemesi başlatın."
+    "Olay yerini izole edin ve diğer çalışanları uzaklaştırın.",
+    "İş güvenliği incelemesi başlatın."
   ],
   "notes": "Otomatik taslak. Gold değil; Streamlit'te kontrol edin.",
   "evidence": {

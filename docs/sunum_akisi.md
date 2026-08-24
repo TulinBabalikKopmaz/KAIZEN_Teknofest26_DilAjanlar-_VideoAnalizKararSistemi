@@ -83,7 +83,7 @@ sunumda "jüri skoru" demeyin):
 | Kritik olay yakalama | %100 | Kaza/ramak videolarında olayı kaçırmıyoruz. |
 | Yanlış alarm | %0 | Normal sahnede kritik alarm yok — saha güveni. |
 | Aksiyon doluluğu | %100 | Her çıktıda uygulanabilir müdahale var. |
-| Olay yakalama (±2 sn + metin) | %80 | Dil sıkıştırma + İSG kökleri; kalan kayıp çoğunlukla yanlış sahne okuması. |
+| Olay yakalama (±2 sn + metin) | %82 | Dil sıkıştırma + hedefli VLM tekrar; kalan kayıp sahne yanlış okuma. |
 | Özet benzerliği | %78 | Aynı dürüst çerçeve. |
 
 **Olay yakalama için dürüst çerçeve.** Bu sayı jüri skoru değil, 46 videoluk

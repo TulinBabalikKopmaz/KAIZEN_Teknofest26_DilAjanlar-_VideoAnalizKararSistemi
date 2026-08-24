@@ -5,20 +5,13 @@
   "duration_sec": 36.69,
   "status": "auto",
   "labeled_by": "qwen:vlm",
-  "summary": "Çalışan, makine yanında dengesini kaybederek yere düştü. Diğer çalışanlar hemen müdahale etti ve yere yatmış kişiyi kaldırmaya başladı.",
+  "summary": "Çalışan, makine yanında dengesini kaybederek yere düştü ve diğer çalışanlar müdahale etti.",
   "events": [
     {
       "time": "00:18",
-      "time_end": "00:36",
-      "event": "Diğer çalışanlar düştüğü yerdeki kişiyi kaldırmaya başladı.",
-      "event_type": "mudahale",
-      "severity": "yuksek"
-    },
-    {
-      "time": "00:21",
-      "time_end": "00:36",
-      "event": "Diğer çalışanlar düştüğü yerdeki kişiyi kaldırmaya başladı.",
-      "event_type": "mudahale",
+      "time_end": "00:24",
+      "event": "Çalışan makine yanında dengesini kaybederek yere düştü.",
+      "event_type": "kaza",
       "severity": "yuksek"
     },
     {
@@ -30,24 +23,17 @@
     },
     {
       "time": "00:24",
-      "time_end": "00:36",
-      "event": "Diğer çalışanlar düştüğü yerdeki kişiyi kaldırmaya başladı.",
-      "event_type": "mudahale",
-      "severity": "yuksek"
-    },
-    {
-      "time": "00:32",
-      "time_end": "00:36",
-      "event": "Diğer çalışanlar düştüğü yerdeki kişiyi kaldırmaya başladı.",
-      "event_type": "mudahale",
+      "time_end": "00:24",
+      "event": "Çalışan makine yanında dengesini kaybederek yere düştü.",
+      "event_type": "kaza",
       "severity": "yuksek"
     }
   ],
   "risk": "Yüksek",
   "actions": [
-    "Yere düşen çalışanın sağlık durumu kontrol edilsin.",
-    "Olay yerine ilk yardım ekibi çağrılmalı.",
-    "Alan geçici olarak kapalı tutulmalı, diğer çalışanlar uyarılmalı."
+    "Yaralı çalışanı hemen sağlık ekiplerine bildirin.",
+    "Olay yerini izole edin ve diğer çalışanların yaklaşmasını engelleyin.",
+    "İş güvenliği incelemesi başlatın."
   ],
   "notes": "Otomatik taslak. Gold değil; Streamlit'te kontrol edin.",
   "evidence": {

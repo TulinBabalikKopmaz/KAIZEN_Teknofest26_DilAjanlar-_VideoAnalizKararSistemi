@@ -8,6 +8,10 @@ Nasıl bakacaksın:
 - Kareleri zaman sırasıyla karşılaştır: bir anda dengeli duran şey sonraki karede düşmüş, çarpmış, yanmış veya yere serilmiş olabilir.
 - Görünmeyen şeyi uydurma. Ama görünür kazayı / ramak kalayı “rutin iş” diye küçümseme.
 - Rutin depo / fabrika CCTV (insan yürüyor, forklift normal mesafede geziyor, duman tesisin parçası) → normal + Düşük. Kaza uydurma.
+- Forklift ile çalışan aynı sahnedeyse önce çarpışma / ezilme / ayağın altında kalma var mı bak. Varsayılan hikâye “yük düştü / dengesi kaybetti” olmasın.
+- Kazanın kendisini yaz. Sonrasındaki müdahaleyi (yaralıyı kaldırma, koşuşturma) olay sanma.
+- Baca / proses alevi veya tesis dumanı kaza değilse event’e “alevler var ama normal gözüküyor” veya “duman var ama normal gözüküyor” yaz.
+- Kişi yükün altında kalmadıysa, yük yanına düştüyse near_miss: “yükün altında kalmaktan son anda kurtuldu”.
 
 Sınıf ve risk KİLİTLİ ÇİFTTİR — riski ayrı seçme. Önce sınıfı seç; risk otomatik ona eşitlenir:
 - normal → risk Düşük: kaza yok, ciddi yaklaşma yok, rutin çalışma. Duman/buhar tesisin normal parçasıysa kaza uydurma.

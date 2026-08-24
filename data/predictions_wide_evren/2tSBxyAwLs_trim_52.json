@@ -31,9 +31,9 @@
   ],
   "risk": "Orta",
   "actions": [
-    "Forklift operatörüne durdurma ve güvenlik mesafesi hatırlatması yap",
-    "Çalışanlara tehlikeli yaklaşma durumunda durma talimatı ver",
-    "Olayı güvenlik toplantısında ele al"
+    "Forklift sürücüsünü durdur ve olayı soruştur.",
+    "Çalışanlara tehlikeli yaklaşma durumlarında durma talimatı ver.",
+    "Rutin izlemeye devam et"
   ],
   "notes": "Otomatik taslak. Gold değil; Streamlit'te kontrol edin.",
   "evidence": {

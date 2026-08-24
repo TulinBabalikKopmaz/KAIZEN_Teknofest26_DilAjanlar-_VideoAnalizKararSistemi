@@ -4,7 +4,7 @@ filename,category,ambiguity,risk_gold,risk_pred,risk_ok,event_recall,critical_hi
 2uuwpx1ykPQ_trim_0.mp4,accident,belirsiz,Yüksek,Yüksek,True,1.0,True,False,False,True,False
 3XOG - Workplace accidents happen all the time! All we can do is try learn f... [1615153821189013504].mp4,accident,net,Yüksek,Yüksek,True,1.0,True,False,True,True,False
 6AISVvob4C0_trim_7.mp4,accident,net,Yüksek,Yüksek,True,1.0,True,False,True,True,False
-"Aykırı - İş kazası güvenlik kamerasında.  Fabrikada, forklift sürücüsü işçiye ... [1972267097397854208].mp4",accident,net,Yüksek,Yüksek,True,0.0,True,False,False,True,False
+"Aykırı - İş kazası güvenlik kamerasında.  Fabrikada, forklift sürücüsü işçiye ... [1972267097397854208].mp4",accident,net,Yüksek,Yüksek,True,1.0,True,False,True,True,False
 "Beylikdüzü.anlık - Beylikdüzü Yeşil Flamingo Sitesi’nde yaşanan, Aydın Dirikolu’nun (61)... [2088241217045774336].mp4",accident,belirsiz,Yüksek,Yüksek,True,1.0,True,False,True,True,False
 Forklift Accident [na3Bzrmljd0].mp4,accident,net,Yüksek,Yüksek,True,1.0,True,False,True,True,False
 Forklift Driver Causes an Entire Warehouse to Fall like Dominoes [g1l7g54wnlt41].mp4,accident,net,Yüksek,Yüksek,True,1.0,True,False,True,True,False

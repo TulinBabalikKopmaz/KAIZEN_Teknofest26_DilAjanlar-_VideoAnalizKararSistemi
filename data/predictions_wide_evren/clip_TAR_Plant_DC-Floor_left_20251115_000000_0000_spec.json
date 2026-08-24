@@ -1,9 +1,9 @@
 {
-  "summary": "Çalışan fabrikada makine yanında duruyor. Normal çalışma devam ediyor.",
+  "summary": "Çalışan makine altındaki alanda duruyor. Normal gözüküyor.",
   "events": [
     {
       "time": "00:00",
-      "event": "Çalışanlar rutin aktivitesini sürdürüyor."
+      "event": "Çalışan makine altındaki alanda rutin aktivite yapıyor."
     }
   ],
   "risk": "Düşük",

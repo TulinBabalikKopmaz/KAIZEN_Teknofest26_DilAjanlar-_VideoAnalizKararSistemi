@@ -5,12 +5,19 @@
   "duration_sec": 58.67,
   "status": "auto",
   "labeled_by": "qwen:vlm",
-  "summary": "Çalışan depoda kutularla çalışırken, forkliftin geçişi sırasında herhangi bir temas veya tehlikeli yaklaşma olmamıştır. Rutin faaliyetler devam etmektedir.",
+  "summary": "Çalışan depoda kutularla çalışırken rutin aktivite sürdürüyor. Forklift sahneye girdi ama temas olmadı.",
   "events": [
     {
       "time": "00:00",
+      "time_end": "00:05",
+      "event": "Çalışan kutularla çalışırken rutin aktivite sürdürüyor.",
+      "event_type": "normal",
+      "severity": "dusuk"
+    },
+    {
+      "time": "00:57",
       "time_end": "00:58",
-      "event": "Çalışanlar rutin aktivitesini sürdürüyor.",
+      "event": "Çalışanlar rutin aktivitesini sürdürüyor. Forklift sahneye girdi ama çalışanla temas olmadı.",
       "event_type": "normal",
       "severity": "dusuk"
     }
@@ -19,7 +26,7 @@
   "actions": [
     "Rutin izlemeye devam et"
   ],
-  "notes": "Otomatik taslak. Gold değil; Streamlit'te kontrol edin. | Kanıt birleştirme: risk Düşük→Orta; category normal→near_miss | Kanıt birleştirme: rutin saha / olay yok → normal",
+  "notes": "Otomatik taslak. Gold değil; Streamlit'te kontrol edin.",
   "evidence": {
     "duration_sec": 58.666666666666664,
     "motion_peak_sec": 58.5,

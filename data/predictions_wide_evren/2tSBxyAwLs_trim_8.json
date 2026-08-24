@@ -5,34 +5,35 @@
   "duration_sec": 7.01,
   "status": "auto",
   "labeled_by": "qwen:vlm",
-  "summary": "Çalışanlar kamyonun arkasından yük çıkarken dengesi kaybetti ve yük yere düştü. Yere serilmiş kovalar ve içeriği dağıldı.",
+  "summary": "Çalışanlar kamyonun arkasından yük çıkarken dengesi kaybetti ve yük yere düştü. Çalışanlar yere düşen yükün etrafında duruyor.",
   "events": [
     {
-      "time": "00:00",
+      "time": "00:01",
       "time_end": "00:04",
-      "event": "Yük kamyonun arkasından düşerek yere serildi ve içeriği dağıldı.",
+      "event": "Yük kamyonun arkasından düşerek yere saçıldı ve çalışanlar etrafında durdu.",
       "event_type": "kaza",
-      "severity": "yuksek"
+      "severity": "Yüksek"
     },
     {
       "time": "00:03",
       "time_end": "00:04",
-      "event": "Yük kamyonun arkasından düşerek yere serildi ve içeriği dağıldı.",
+      "event": "Yük kamyonun arkasından düşerek yere saçıldı ve çalışanlar etrafında durdu.",
       "event_type": "kaza",
-      "severity": "yuksek"
+      "severity": "Yüksek"
     },
     {
       "time": "00:06",
       "time_end": "00:04",
-      "event": "Yük kamyonun arkasından düşerek yere serildi ve içeriği dağıldı.",
+      "event": "Yük kamyonun arkasından düşerek yere saçıldı ve çalışanlar etrafında durdu.",
       "event_type": "kaza",
-      "severity": "yuksek"
+      "severity": "Yüksek"
     }
   ],
   "risk": "Yüksek",
   "actions": [
-    "Yere düşen yük ve içeriği kaldırılmalı, alan güvenli hale getirilmeli.",
-    "Çalışanlara sağlık kontrolü yapılmalı, olay raporlanmalı."
+    "Yaralı varsa acil sağlık çağrısı yap",
+    "Alanı kapatarak diğer çalışanları tehlikeye sokmamak için önlem alın",
+    "İş güvenliği ekiplerine bildir"
   ],
   "notes": "Otomatik taslak. Gold değil; Streamlit'te kontrol edin.",
   "evidence": {

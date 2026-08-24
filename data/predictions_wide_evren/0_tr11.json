@@ -8,31 +8,24 @@
   "summary": "Forklift çalışanın çok yakınından geçti. Neredeyse temas edeceklerdi.",
   "events": [
     {
-      "time": "00:10",
+      "time": "00:00",
       "time_end": "00:15",
       "event": "Forklift çalışanın çok yakınından geçti.",
       "event_type": "near_miss",
-      "severity": "orta"
+      "severity": "Orta"
     },
     {
-      "time": "00:12",
+      "time": "00:02",
       "time_end": "00:15",
       "event": "Forklift çalışanın çok yakınından geçti.",
       "event_type": "near_miss",
-      "severity": "orta"
-    },
-    {
-      "time": "00:15",
-      "time_end": "00:15",
-      "event": "Forklift çalışanın çok yakınından geçti.",
-      "event_type": "near_miss",
-      "severity": "orta"
+      "severity": "Orta"
     }
   ],
   "risk": "Orta",
   "actions": [
-    "Forklift sürücüsünün ve çalışanın güvenliği kontrol edilsin.",
-    "Tehlikeli yaklaşma nedeniyle sahada geçiş kurallarının gözden geçirilmesi gerekiyor."
+    "Forklift sürücüsünün ve çalışanın mesafeye dikkat etmesi gerekiyor.",
+    "Yakın geçişlerin önlenmesi için rotalar gözden geçirilsin."
   ],
   "notes": "Otomatik taslak. Gold değil; Streamlit'te kontrol edin. | ikinci bakış uygulandı",
   "evidence": {
