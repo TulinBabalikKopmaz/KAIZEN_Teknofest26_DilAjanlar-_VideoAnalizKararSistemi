@@ -22,7 +22,7 @@
       "severity": "Orta"
     },
     {
-      "time": "00:07",
+      "time": "00:06",
       "time_end": "00:09",
       "event": "Forklift çalışanın çok yakınından geçti, çalışan son anda kaçtı.",
       "event_type": "near_miss",

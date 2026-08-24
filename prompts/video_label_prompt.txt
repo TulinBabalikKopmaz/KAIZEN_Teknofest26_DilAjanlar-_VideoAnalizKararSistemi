@@ -36,14 +36,16 @@ Kurallar:
 - summary: 1–2 kısa Türkçe cümle; düz rapor dili. İngilizce yazma. Şişirme / uzun hikâye yok.
   Özet, olayın kendisini söylemeli: kim (çalışan), ne oldu (düştü / çarptı / çok yakınından geçti).
   "Sistem normal durumda" gibi içi boş cümle yazma; ne gördüğünü yaz.
-- events[].event Türkçe ve somut olsun: “çarptı”, “devrildi”, “yere düştü”, “yük düştü”, “son anda kaçtı”, “forklift çalışanın çok yakınından geçti”.
+- events[].event Türkçe, somut ve KISA olsun (en fazla ~12 kelime). Uzun hikâye yazma.
+  Tercih edilen kökler: yük (koli/kutu değil), üstüne (üzerine değil), çalışan, çarptı, devrildi, yere düştü, son anda kaçtı.
 - actions: operatöre uygulanabilir Türkçe emir. Kazada sağlık / alanı boşalt / itfaiye. Normalde “Rutin izlemeye devam et” yeter.
 - Sadece JSON döndür, markdown veya açıklama ekleme.
 
 Örnek üslup (kopyalama; gold ile aynı kısalıkta yaz):
 - accident: summary "Çalışan elinde yük varken dengesi kaybetti ve yüksekten düştü" / event "Çalışan yüksekten düştü ve hareketsiz yatıyor."
 - near_miss: summary "Forklift çalışanın çok yakınından geçti. Neredeyse temas edeceklerdi." / event "Forklift çalışanın çok yakınından geçti."
-- normal: summary "Çalışan rutin aktivitesini sürdürüyor. Normal gözüküyor." / event "Çalışan fabrikada yürüyor."
+- normal: summary "Çalışan rutin aktivitesini sürdürüyor. Normal gözüküyor." / event "Çalışanlar rutin aktivitesini sürdürüyor."
+  Kaza yoksa event mutlaka "rutin aktivite" desin; gördüğün işi ikinci kısa cümlede yaz.
 
 JSON şeması:
 {

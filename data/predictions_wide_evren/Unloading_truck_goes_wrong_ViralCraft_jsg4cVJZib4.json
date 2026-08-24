@@ -36,7 +36,7 @@
       "severity": "yuksek"
     },
     {
-      "time": "00:17",
+      "time": "00:16",
       "time_end": "00:19",
       "event": "Çalışan yükü çekmeye çalışırken dengesini kaybeder ve yere düşer; yük de düşer.",
       "event_type": "kaza",

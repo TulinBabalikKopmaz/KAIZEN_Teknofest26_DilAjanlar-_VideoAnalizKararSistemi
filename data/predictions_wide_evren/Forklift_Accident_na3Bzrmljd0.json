@@ -8,30 +8,30 @@
   "summary": "Raf sistemi çöktü ve üzerindeki tüm yükler yere düştü. Kazanın ardından sahada çalışan görünmemektedir.",
   "events": [
     {
-      "time": "00:37",
+      "time": "00:36",
       "time_end": "00:40",
-      "event": "Raf sistemi çöktü ve üzerindeki tüm yükler yere düştü.",
+      "event": "Raf sistemi çöktü ve üstündeki tüm yükler yere düştü.",
       "event_type": "kaza",
       "severity": "yuksek"
     },
     {
       "time": "00:39",
       "time_end": "00:40",
-      "event": "Raf sistemi çöktü ve üzerindeki tüm yükler yere düştü.",
+      "event": "Raf sistemi çöktü ve üstündeki tüm yükler yere düştü.",
       "event_type": "kaza",
       "severity": "yuksek"
     },
     {
-      "time": "00:42",
+      "time": "00:41",
       "time_end": "00:40",
-      "event": "Raf sistemi çöktü ve üzerindeki tüm yükler yere düştü.",
+      "event": "Raf sistemi çöktü ve üstündeki tüm yükler yere düştü.",
       "event_type": "kaza",
       "severity": "yuksek"
     },
     {
       "time": "00:44",
       "time_end": "00:40",
-      "event": "Raf sistemi çöktü ve üzerindeki tüm yükler yere düştü.",
+      "event": "Raf sistemi çöktü ve üstündeki tüm yükler yere düştü.",
       "event_type": "kaza",
       "severity": "yuksek"
     }

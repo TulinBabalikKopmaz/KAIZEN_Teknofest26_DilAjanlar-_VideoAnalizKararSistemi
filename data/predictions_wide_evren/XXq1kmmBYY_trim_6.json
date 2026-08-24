@@ -8,7 +8,14 @@
   "summary": "Forklift, çalışanın çok yakınından geçerken kontrolü kaybeder ve devrilir; çalışan yere düşer ve hareketsiz kalır.",
   "events": [
     {
-      "time": "00:01",
+      "time": "00:00",
+      "time_end": "00:06",
+      "event": "Forklift çalışanın çok yakınından geçerken ani hareketle devrilir ve çalışan yere düşer.",
+      "event_type": "kaza",
+      "severity": "Yüksek"
+    },
+    {
+      "time": "00:02",
       "time_end": "00:06",
       "event": "Forklift çalışanın çok yakınından geçerken ani hareketle devrilir ve çalışan yere düşer.",
       "event_type": "kaza",

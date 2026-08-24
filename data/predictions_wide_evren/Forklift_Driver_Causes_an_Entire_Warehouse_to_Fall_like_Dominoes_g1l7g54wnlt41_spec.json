@@ -2,20 +2,20 @@
   "summary": "Raf sistemi çöktü ve yere devrildi. Yığınlar halinde malzeme ve paletler yere düştü.",
   "events": [
     {
-      "time": "00:32",
-      "event": "Raf sistemi çöktü ve yere devrildi. Malzeme ve paletler yere düştü."
+      "time": "00:31",
+      "event": "Raf sistemi çöktü ve yere devrildi."
     },
     {
-      "time": "00:34",
-      "event": "Raf sistemi çöktü ve yere devrildi. Malzeme ve paletler yere düştü."
+      "time": "00:33",
+      "event": "Raf sistemi çöktü ve yere devrildi."
     },
     {
-      "time": "00:36",
-      "event": "Raf sistemi çöktü ve yere devrildi. Malzeme ve paletler yere düştü."
+      "time": "00:35",
+      "event": "Raf sistemi çöktü ve yere devrildi."
     },
     {
       "time": "00:38",
-      "event": "Raf sistemi çöktü ve yere devrildi. Malzeme ve paletler yere düştü."
+      "event": "Raf sistemi çöktü ve yere devrildi."
     }
   ],
   "risk": "Yüksek",

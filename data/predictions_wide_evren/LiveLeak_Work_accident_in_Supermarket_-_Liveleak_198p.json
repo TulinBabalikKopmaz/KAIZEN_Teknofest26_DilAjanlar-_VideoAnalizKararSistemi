@@ -8,14 +8,14 @@
   "summary": "Çalışan merdiven üzerinde dengesini kaybetti ve yere düştü. Yere yatarken hareketsiz kaldı.",
   "events": [
     {
-      "time": "00:12",
+      "time": "00:11",
       "time_end": "00:16",
       "event": "Çalışan merdiven üzerinde dengesini kaybetti ve yere düştü.",
       "event_type": "kaza",
       "severity": "Yüksek"
     },
     {
-      "time": "00:14",
+      "time": "00:13",
       "time_end": "00:16",
       "event": "Çalışan merdiven üzerinde dengesini kaybetti ve yere düştü.",
       "event_type": "kaza",

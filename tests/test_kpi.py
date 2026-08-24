@@ -40,6 +40,21 @@ class KpiTests(unittest.TestCase):
         self.assertEqual(total, 1)
         self.assertEqual(hits, 1)
 
+    def test_box_and_load_are_the_same_token(self) -> None:
+        hits, total = event_hits(
+            [{"time": "00:06", "event": "Kamyondaki yük çalışanın üstüne düşüyor."}],
+            [{"time": "00:04", "event": "Kamyonun arkasından bir koli düşerek çalışanın üzerine indi."}],
+        )
+        self.assertEqual(total, 1)
+        self.assertEqual(hits, 1)
+
+    def test_rutin_phrase_matches_generic_normal(self) -> None:
+        hits, total = event_hits(
+            [{"time": "00:00", "event": "Çalışanlar rutin aktivitesini sürdürüyor."}],
+            [{"time": "00:00", "event": "Çalışanlar rutin aktivitesini sürdürüyor. Çalışan fabrikada yürüyor."}],
+        )
+        self.assertEqual(hits, 1)
+
     def test_synonym_event_text_still_matches(self) -> None:
         hits, total = event_hits(
             [{"time": "00:03", "event": "Çalışan arabanın altında kaldı."}],

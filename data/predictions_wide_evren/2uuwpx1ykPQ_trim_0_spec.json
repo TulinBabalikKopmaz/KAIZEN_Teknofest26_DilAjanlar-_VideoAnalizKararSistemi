@@ -2,12 +2,12 @@
   "summary": "Çalışan araç altındaki platformda çalışırken araç düşerek üzerine çarptı ve yere düştü.",
   "events": [
     {
-      "time": "00:01",
-      "event": "Araç çalışanın üzerine düşerek çarptı ve çalışan yere düştü."
+      "time": "00:00",
+      "event": "Araç çalışanın üstüne düşerek çarptı ve çalışan yere düştü."
     },
     {
       "time": "00:03",
-      "event": "Araç çalışanın üzerine düşerek çarptı ve çalışan yere düştü."
+      "event": "Araç çalışanın üstüne düşerek çarptı ve çalışan yere düştü."
     }
   ],
   "risk": "Yüksek",

@@ -287,6 +287,12 @@ def refine_label(label: dict[str, Any], evidence: SceneEvidence | None = None) -
         if events:
             out["events"] = events
 
+    from utils.label_json import sharpen_events
+
+    sharpened = sharpen_events(out.get("events") or [], out.get("category"))
+    if sharpened:
+        out["events"] = sharpened
+
     # Anlaşmazlıkta daha ağır sinyali al (varsayılan severity_max)
     old_cat = out.get("category") or "normal"
     old_locked = normalize_risk(out.get("risk"))

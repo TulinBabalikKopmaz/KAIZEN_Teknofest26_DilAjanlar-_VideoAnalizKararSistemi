@@ -15,7 +15,7 @@
       "severity": "Orta"
     },
     {
-      "time": "00:03",
+      "time": "00:02",
       "time_end": "00:04",
       "event": "Çalışan forkliftin çok yakınından geçerken, forklift aniden hareket eder ve çalışan son anda kaçar.",
       "event_type": "near_miss",

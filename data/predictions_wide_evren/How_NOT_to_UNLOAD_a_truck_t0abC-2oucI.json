@@ -8,30 +8,37 @@
   "summary": "Çalışan elindeki yükü kontrol edemeyerek düşürdü, yük yere saçıldı ve çalışan yere doğru eğildi.",
   "events": [
     {
+      "time": "00:00",
+      "time_end": "00:05",
+      "event": "Çalışan yükün altında kalmaktan son anda kurtuldu.",
+      "event_type": "kaza",
+      "severity": "Yüksek"
+    },
+    {
       "time": "00:02",
       "time_end": "00:05",
-      "event": "Çalışan elindeki yükü kontrol edemeyerek düşürdü, yük yere saçıldı ve çalışan yere doğru eğildi.",
+      "event": "Çalışan yükün altında kalmaktan son anda kurtuldu.",
       "event_type": "kaza",
       "severity": "Yüksek"
     },
     {
       "time": "00:04",
       "time_end": "00:05",
-      "event": "Çalışan elindeki yükü kontrol edemeyerek düşürdü, yük yere saçıldı ve çalışan yere doğru eğildi.",
+      "event": "Çalışan yükün altında kalmaktan son anda kurtuldu.",
       "event_type": "kaza",
       "severity": "Yüksek"
     },
     {
-      "time": "00:07",
+      "time": "00:06",
       "time_end": "00:05",
-      "event": "Çalışan elindeki yükü kontrol edemeyerek düşürdü, yük yere saçıldı ve çalışan yere doğru eğildi.",
+      "event": "Çalışan yükün altında kalmaktan son anda kurtuldu.",
       "event_type": "kaza",
       "severity": "Yüksek"
     },
     {
       "time": "00:09",
       "time_end": "00:05",
-      "event": "Çalışan elindeki yükü kontrol edemeyerek düşürdü, yük yere saçıldı ve çalışan yere doğru eğildi.",
+      "event": "Çalışan yükün altında kalmaktan son anda kurtuldu.",
       "event_type": "kaza",
       "severity": "Yüksek"
     }

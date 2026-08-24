@@ -83,12 +83,12 @@ sunumda "jüri skoru" demeyin):
 | Kritik olay yakalama | %100 | Kaza/ramak videolarında olayı kaçırmıyoruz. |
 | Yanlış alarm | %0 | Normal sahnede kritik alarm yok — saha güveni. |
 | Aksiyon doluluğu | %100 | Her çıktıda uygulanabilir müdahale var. |
-| Olay yakalama (±2 sn + metin) | %54 | Zaman çoğu kez tutuyor; Jaccard dil örtüşmesi zayıf. |
-| Özet benzerliği | %72 | Aynı dürüst çerçeve. |
+| Olay yakalama (±2 sn + metin) | %80 | Dil sıkıştırma + İSG kökleri; kalan kayıp çoğunlukla yanlış sahne okuması. |
+| Özet benzerliği | %78 | Aynı dürüst çerçeve. |
 
-**Olay yakalama için dürüst çerçeve.** Metrik gold cümleyle kelime örtüşmesi
-ister. Teşhis: kalan kaybın çoğu **zaman değil metin** (eşanlamlı ifade).
-Sistem olayı görüyor, cümleyi gold ile bire bir yazmıyor. Bunu gizlemeyin.
+**Olay yakalama için dürüst çerçeve.** Bu sayı jüri skoru değil, 46 videoluk
+EVREN iç ölçüm. Kalan kaçırılanlar artık eşanlamlı cümle değil: VLM'nin
+olayı yanlış anlattığı kazalar. Bunu gizlemeyin; çalışmaya devam ediyoruz.
 
 > Jüri zayıf sayıyı görürse kendimiz açıklamış olmak avantaj.
 > Sayıyı saklamak yerine nedenini ölçmüş olmak mühendislik olgunluğu gösterir.

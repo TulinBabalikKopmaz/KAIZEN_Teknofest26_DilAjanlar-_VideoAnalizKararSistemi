@@ -8,30 +8,30 @@
   "summary": "Raf sistemi çöktü ve yere devrildi. Yığınlar halinde malzeme ve paletler yere düştü.",
   "events": [
     {
-      "time": "00:32",
+      "time": "00:31",
       "time_end": "00:35",
-      "event": "Raf sistemi çöktü ve yere devrildi. Malzeme ve paletler yere düştü.",
+      "event": "Raf sistemi çöktü ve yere devrildi.",
       "event_type": "kaza",
       "severity": "yuksek"
     },
     {
-      "time": "00:34",
+      "time": "00:33",
       "time_end": "00:35",
-      "event": "Raf sistemi çöktü ve yere devrildi. Malzeme ve paletler yere düştü.",
+      "event": "Raf sistemi çöktü ve yere devrildi.",
       "event_type": "kaza",
       "severity": "yuksek"
     },
     {
-      "time": "00:36",
+      "time": "00:35",
       "time_end": "00:35",
-      "event": "Raf sistemi çöktü ve yere devrildi. Malzeme ve paletler yere düştü.",
+      "event": "Raf sistemi çöktü ve yere devrildi.",
       "event_type": "kaza",
       "severity": "yuksek"
     },
     {
       "time": "00:38",
       "time_end": "00:35",
-      "event": "Raf sistemi çöktü ve yere devrildi. Malzeme ve paletler yere düştü.",
+      "event": "Raf sistemi çöktü ve yere devrildi.",
       "event_type": "kaza",
       "severity": "yuksek"
     }

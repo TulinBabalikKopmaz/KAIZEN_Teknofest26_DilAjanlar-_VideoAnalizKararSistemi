@@ -2,24 +2,24 @@
   "summary": "Yüksek rafdan bir palet düşerek çalışanın üzerine doğru kaydı, çalışan kaçtı ve palet yere düştü.",
   "events": [
     {
-      "time": "00:01",
-      "event": "Yüksek rafdan bir palet düşerek çalışanın üzerine doğru kaydı, çalışan kaçtı ve palet yere düştü."
+      "time": "00:00",
+      "event": "Yüksek rafdan bir palet düşerek çalışanın üstüne doğru kaydı, çalışan kaçtı ve palet yere."
     },
     {
       "time": "00:03",
-      "event": "Yüksek rafdan bir palet düşerek çalışanın üzerine doğru kaydı, çalışan kaçtı ve palet yere düştü."
+      "event": "Yüksek rafdan bir palet düşerek çalışanın üstüne doğru kaydı, çalışan kaçtı ve palet yere."
     },
     {
-      "time": "00:13",
-      "event": "Yüksek rafdan bir palet düşerek çalışanın üzerine doğru kaydı, çalışan kaçtı ve palet yere düştü."
+      "time": "00:12",
+      "event": "Yüksek rafdan bir palet düşerek çalışanın üstüne doğru kaydı, çalışan kaçtı ve palet yere."
     },
     {
       "time": "00:15",
-      "event": "Yüksek rafdan bir palet düşerek çalışanın üzerine doğru kaydı, çalışan kaçtı ve palet yere düştü."
+      "event": "Yüksek rafdan bir palet düşerek çalışanın üstüne doğru kaydı, çalışan kaçtı ve palet yere."
     },
     {
-      "time": "00:19",
-      "event": "Yüksek rafdan bir palet düşerek çalışanın üzerine doğru kaydı, çalışan kaçtı ve palet yere düştü."
+      "time": "00:18",
+      "event": "Yüksek rafdan bir palet düşerek çalışanın üstüne doğru kaydı, çalışan kaçtı ve palet yere."
     }
   ],
   "risk": "Yüksek",

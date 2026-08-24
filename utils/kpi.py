@@ -20,6 +20,10 @@ _TR_SUFFIXES = (
     "üyor",
     "ması",
     "mesi",
+    "daki",
+    "deki",
+    "taki",
+    "teki",
     "ler",
     "lar",
     "dan",
@@ -38,6 +42,38 @@ _TR_SUFFIXES = (
     "si",
 )
 
+# Bağlaç / dolgu; kesişim sayılmaz, birleşimi şişirip eşiğin altında bırakır.
+_STOP = {
+    "ve",
+    "bir",
+    "ile",
+    "bu",
+    "şu",
+    "da",
+    "de",
+    "ki",
+    "icin",
+    "için",
+    "olarak",
+    "sonra",
+    "sirasinda",
+    "sırasında",
+    "herhangi",
+    "sekilde",
+    "şekilde",
+    "dogru",
+    "doğru",
+    "tum",
+    "tüm",
+    "neden",
+    "oldu",
+    "olan",
+    "olmus",
+    "olmuş",
+    "olmamistir",
+    "olmamıştır",
+}
+
 
 # İSG fiil/nesne eşanlamlıları (gold cümlesine özel değil; genel saha dili).
 _CANON = {
@@ -53,6 +89,14 @@ _CANON = {
     "paletler": "yuk",
     "malzeme": "yuk",
     "malzemeler": "yuk",
+    "koli": "yuk",
+    "koliler": "yuk",
+    "kutu": "yuk",
+    "kutular": "yuk",
+    "paket": "yuk",
+    "paketler": "yuk",
+    "sandik": "yuk",
+    "sandık": "yuk",
     "kaçtı": "kac",
     "kaçarak": "kac",
     "kurtuldu": "kac",
@@ -64,12 +108,28 @@ _CANON = {
     "üstündeki": "ezil",
     "altında": "ezil",
     "altındaki": "ezil",
+    "capmasi": "carp",
+    "çapması": "carp",
+    "çapma": "carp",
+    "faaliyet": "rutin",
+    "faaliyetler": "rutin",
+    "aktivite": "rutin",
+    "aktivitesini": "rutin",
 }
 _STEM_CANON = {
     "cök": "devril",
     "çök": "devril",
     "araba": "arac",
     "palet": "yuk",
+    "koli": "yuk",
+    "kutu": "yuk",
+    "paket": "yuk",
+    "çap": "carp",
+    "cap": "carp",
+    "aktivite": "rutin",
+    "faaliyet": "rutin",
+    "surdur": "rutin",
+    "sürdür": "rutin",
 }
 
 
@@ -90,7 +150,12 @@ def _canon_token(word: str) -> str:
 
 def tokens(text: str | None) -> set[str]:
     words = re.findall(r"[A-Za-zÇĞİÖŞÜçğıöşü0-9]+", (text or "").lower())
-    return {_canon_token(w) for w in words if len(w) >= 2}
+    out: set[str] = set()
+    for word in words:
+        if len(word) < 2 or word in _STOP:
+            continue
+        out.add(_canon_token(word))
+    return out
 
 
 def jaccard(a: str | None, b: str | None) -> float:

@@ -8,14 +8,14 @@
   "summary": "Forklift çalışanın çok yakınından geçti. Neredeyse temas edeceklerdi.",
   "events": [
     {
-      "time": "00:11",
+      "time": "00:10",
       "time_end": "00:15",
       "event": "Forklift çalışanın çok yakınından geçti.",
       "event_type": "near_miss",
       "severity": "orta"
     },
     {
-      "time": "00:13",
+      "time": "00:12",
       "time_end": "00:15",
       "event": "Forklift çalışanın çok yakınından geçti.",
       "event_type": "near_miss",

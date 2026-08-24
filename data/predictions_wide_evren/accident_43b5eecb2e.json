@@ -10,35 +10,35 @@
     {
       "time": "00:00",
       "time_end": "00:04",
-      "event": "Araç kaldırma platformu üzerindeki beyaz araç ani olarak düşerek çalışanın üzerine çarptı ve çalışan yere düştü.",
+      "event": "Araç kaldırma platformu üstündeki beyaz araç ani olarak düşerek çalışanın üstüne çarptı ve çalışan.",
       "event_type": "kaza",
       "severity": "yuksek"
     },
     {
       "time": "00:02",
       "time_end": "00:04",
-      "event": "Araç kaldırma platformu üzerindeki beyaz araç ani olarak düşerek çalışanın üzerine çarptı ve çalışan yere düştü.",
+      "event": "Araç kaldırma platformu üstündeki beyaz araç ani olarak düşerek çalışanın üstüne çarptı ve çalışan.",
       "event_type": "kaza",
       "severity": "yuksek"
     },
     {
       "time": "00:05",
       "time_end": "00:04",
-      "event": "Araç kaldırma platformu üzerindeki beyaz araç ani olarak düşerek çalışanın üzerine çarptı ve çalışan yere düştü.",
+      "event": "Araç kaldırma platformu üstündeki beyaz araç ani olarak düşerek çalışanın üstüne çarptı ve çalışan.",
       "event_type": "kaza",
       "severity": "yuksek"
     },
     {
-      "time": "00:09",
+      "time": "00:08",
       "time_end": "00:04",
-      "event": "Araç kaldırma platformu üzerindeki beyaz araç ani olarak düşerek çalışanın üzerine çarptı ve çalışan yere düştü.",
+      "event": "Araç kaldırma platformu üstündeki beyaz araç ani olarak düşerek çalışanın üstüne çarptı ve çalışan.",
       "event_type": "kaza",
       "severity": "yuksek"
     },
     {
       "time": "00:11",
       "time_end": "00:04",
-      "event": "Araç kaldırma platformu üzerindeki beyaz araç ani olarak düşerek çalışanın üzerine çarptı ve çalışan yere düştü.",
+      "event": "Araç kaldırma platformu üstündeki beyaz araç ani olarak düşerek çalışanın üstüne çarptı ve çalışan.",
       "event_type": "kaza",
       "severity": "yuksek"
     }

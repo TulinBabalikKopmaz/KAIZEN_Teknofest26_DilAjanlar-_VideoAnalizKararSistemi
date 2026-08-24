@@ -2,11 +2,11 @@
   "summary": "Çalışanlar kamyonun arkasından yük çıkarken dengesi kaybetti ve yük yere düştü. Yere serilmiş kovalar ve içeriği dağıldı.",
   "events": [
     {
-      "time": "00:02",
+      "time": "00:00",
       "event": "Yük kamyonun arkasından düşerek yere serildi ve içeriği dağıldı."
     },
     {
-      "time": "00:04",
+      "time": "00:03",
       "event": "Yük kamyonun arkasından düşerek yere serildi ve içeriği dağıldı."
     },
     {

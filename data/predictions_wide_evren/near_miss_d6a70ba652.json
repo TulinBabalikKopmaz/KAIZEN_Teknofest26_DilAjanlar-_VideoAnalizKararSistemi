@@ -8,37 +8,37 @@
   "summary": "Yüksek rafdan bir palet düşerek çalışanın üzerine doğru kaydı, çalışan kaçtı ve palet yere düştü.",
   "events": [
     {
-      "time": "00:01",
+      "time": "00:00",
       "time_end": "00:15",
-      "event": "Yüksek rafdan bir palet düşerek çalışanın üzerine doğru kaydı, çalışan kaçtı ve palet yere düştü.",
+      "event": "Yüksek rafdan bir palet düşerek çalışanın üstüne doğru kaydı, çalışan kaçtı ve palet yere.",
       "event_type": "kaza",
       "severity": "yuksek"
     },
     {
       "time": "00:03",
       "time_end": "00:15",
-      "event": "Yüksek rafdan bir palet düşerek çalışanın üzerine doğru kaydı, çalışan kaçtı ve palet yere düştü.",
+      "event": "Yüksek rafdan bir palet düşerek çalışanın üstüne doğru kaydı, çalışan kaçtı ve palet yere.",
       "event_type": "kaza",
       "severity": "yuksek"
     },
     {
-      "time": "00:13",
+      "time": "00:12",
       "time_end": "00:15",
-      "event": "Yüksek rafdan bir palet düşerek çalışanın üzerine doğru kaydı, çalışan kaçtı ve palet yere düştü.",
+      "event": "Yüksek rafdan bir palet düşerek çalışanın üstüne doğru kaydı, çalışan kaçtı ve palet yere.",
       "event_type": "kaza",
       "severity": "yuksek"
     },
     {
       "time": "00:15",
       "time_end": "00:15",
-      "event": "Yüksek rafdan bir palet düşerek çalışanın üzerine doğru kaydı, çalışan kaçtı ve palet yere düştü.",
+      "event": "Yüksek rafdan bir palet düşerek çalışanın üstüne doğru kaydı, çalışan kaçtı ve palet yere.",
       "event_type": "kaza",
       "severity": "yuksek"
     },
     {
-      "time": "00:19",
+      "time": "00:18",
       "time_end": "00:15",
-      "event": "Yüksek rafdan bir palet düşerek çalışanın üzerine doğru kaydı, çalışan kaçtı ve palet yere düştü.",
+      "event": "Yüksek rafdan bir palet düşerek çalışanın üstüne doğru kaydı, çalışan kaçtı ve palet yere.",
       "event_type": "kaza",
       "severity": "yuksek"
     }

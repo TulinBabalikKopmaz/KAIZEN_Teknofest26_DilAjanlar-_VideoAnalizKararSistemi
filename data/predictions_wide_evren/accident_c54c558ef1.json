@@ -8,7 +8,7 @@
   "summary": "Çalışan, yükü taşırken dengesini kaybetti ve yere düştü. Yere yatarken hareketsiz kaldı.",
   "events": [
     {
-      "time": "00:01",
+      "time": "00:00",
       "time_end": "00:10",
       "event": "Çalışan yükü taşırken dengesini kaybetti ve yere düştü.",
       "event_type": "kaza",
@@ -22,7 +22,7 @@
       "severity": "yuksek"
     },
     {
-      "time": "00:08",
+      "time": "00:07",
       "time_end": "00:10",
       "event": "Çalışan yükü taşırken dengesini kaybetti ve yere düştü.",
       "event_type": "kaza",

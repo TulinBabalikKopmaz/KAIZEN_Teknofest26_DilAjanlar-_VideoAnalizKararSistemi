@@ -2,20 +2,24 @@
   "summary": "Çalışan elindeki yükü kontrol edemeyerek düşürdü, yük yere saçıldı ve çalışan yere doğru eğildi.",
   "events": [
     {
+      "time": "00:00",
+      "event": "Çalışan yükün altında kalmaktan son anda kurtuldu."
+    },
+    {
       "time": "00:02",
-      "event": "Çalışan elindeki yükü kontrol edemeyerek düşürdü, yük yere saçıldı ve çalışan yere doğru eğildi."
+      "event": "Çalışan yükün altında kalmaktan son anda kurtuldu."
     },
     {
       "time": "00:04",
-      "event": "Çalışan elindeki yükü kontrol edemeyerek düşürdü, yük yere saçıldı ve çalışan yere doğru eğildi."
+      "event": "Çalışan yükün altında kalmaktan son anda kurtuldu."
     },
     {
-      "time": "00:07",
-      "event": "Çalışan elindeki yükü kontrol edemeyerek düşürdü, yük yere saçıldı ve çalışan yere doğru eğildi."
+      "time": "00:06",
+      "event": "Çalışan yükün altında kalmaktan son anda kurtuldu."
     },
     {
       "time": "00:09",
-      "event": "Çalışan elindeki yükü kontrol edemeyerek düşürdü, yük yere saçıldı ve çalışan yere doğru eğildi."
+      "event": "Çalışan yükün altında kalmaktan son anda kurtuldu."
     }
   ],
   "risk": "Orta",

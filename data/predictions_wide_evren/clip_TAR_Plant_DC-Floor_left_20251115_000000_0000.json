@@ -10,7 +10,7 @@
     {
       "time": "00:00",
       "time_end": "00:09",
-      "event": "Çalışan makine yanında duruyor ve hareket etmiyor.",
+      "event": "Çalışanlar rutin aktivitesini sürdürüyor.",
       "event_type": "normal",
       "severity": "dusuk"
     }

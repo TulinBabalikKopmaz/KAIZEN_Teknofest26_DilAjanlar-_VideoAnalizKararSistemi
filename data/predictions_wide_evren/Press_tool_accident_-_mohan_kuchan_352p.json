@@ -8,7 +8,7 @@
   "summary": "Çalışan, makine yanında dengesini kaybederek yere düştü. Diğer çalışanlar hemen müdahale etti ve yere yatmış kişiyi kaldırmaya başladı.",
   "events": [
     {
-      "time": "00:19",
+      "time": "00:18",
       "time_end": "00:36",
       "event": "Diğer çalışanlar düştüğü yerdeki kişiyi kaldırmaya başladı.",
       "event_type": "mudahale",
@@ -36,7 +36,7 @@
       "severity": "yuksek"
     },
     {
-      "time": "00:33",
+      "time": "00:32",
       "time_end": "00:36",
       "event": "Diğer çalışanlar düştüğü yerdeki kişiyi kaldırmaya başladı.",
       "event_type": "mudahale",

@@ -15,6 +15,13 @@
       "severity": "Yüksek"
     },
     {
+      "time": "00:02",
+      "time_end": "00:14",
+      "event": "Çalışan yere düştü ve hareketsiz şekilde yatıyor.",
+      "event_type": "kaza",
+      "severity": "Yüksek"
+    },
+    {
       "time": "00:04",
       "time_end": "00:14",
       "event": "Çalışan yere düştü ve hareketsiz şekilde yatıyor.",
@@ -22,7 +29,7 @@
       "severity": "Yüksek"
     },
     {
-      "time": "00:06",
+      "time": "00:05",
       "time_end": "00:14",
       "event": "Çalışan yere düştü ve hareketsiz şekilde yatıyor.",
       "event_type": "kaza",

@@ -6,10 +6,12 @@ import unittest
 
 from utils.label_json import (
     align_events_to_motion,
+    compress_event_text,
     dedupe_events,
     label_to_spec,
     lift_clip_relative_times,
     seed_events_from_motion,
+    sharpen_events,
     snap_events_to_frame_times,
 )
 
@@ -107,13 +109,12 @@ class DedupeEventTests(unittest.TestCase):
         )
 
     def test_onset_seed_covers_two_seconds_before_peak(self) -> None:
-        """Gold 00:18, VLM/tepe 00:21 → 2 sn önceki aday ±2 sn içinde yakalar."""
+        """Gold 00:18, VLM/tepe 00:21 → 2–3 sn önceki aday ±2 sn içinde yakalar."""
         events = [{"time": "00:21", "event": "Çalışanın üzerine yük düştü."}]
         out = seed_events_from_motion(events, [21.0])
         times = {item["time"] for item in out}
-        self.assertTrue("00:19" in times or "00:21" in times)
-        # 00:21 ve 00:19 pencere=2 ile birleşirse erken zaman (00:19) kalır
-        self.assertIn(out[0]["time"], {"00:19", "00:21"})
+        self.assertTrue({"00:18", "00:19"} & times or "00:21" in times)
+        self.assertIn(out[0]["time"], {"00:18", "00:19", "00:21"})
 
     def test_repeat_near_miss_peaks_stay_separate(self) -> None:
         events = [{"time": "00:03", "event": "Forklift çalışanın çok yakınından geçti."}]
@@ -142,6 +143,37 @@ class DedupeEventTests(unittest.TestCase):
             }
         )
         self.assertEqual(spec["risk"], "Yüksek")
+
+    def test_koli_rewrites_to_yuk(self) -> None:
+        out = compress_event_text(
+            "Kamyonun arkasından bir koli düşerek çalışanın üzerine indi."
+        )
+        self.assertIn("yük", out.lower())
+        self.assertIn("üstüne", out.lower())
+        self.assertNotIn("koli", out.lower())
+
+    def test_normal_events_gain_rutin_phrase(self) -> None:
+        out = sharpen_events(
+            [{"time": "00:00", "event": "Çalışan fabrikada yürüyor."}],
+            "normal",
+        )
+        self.assertIn("rutin", out[0]["event"].lower())
+        self.assertIn("fabrika", out[0]["event"].lower())
+
+    def test_process_flame_stays_normal_wording(self) -> None:
+        out = sharpen_events(
+            [{"time": "00:00", "event": "Çalışan sahada duruyor. Ateşleme işlemi devam ediyor."}],
+            "normal",
+        )
+        self.assertIn("alev", out[0]["event"].lower())
+        self.assertIn("normal", out[0]["event"].lower())
+
+    def test_near_miss_load_drop_mentions_escape(self) -> None:
+        out = sharpen_events(
+            [{"time": "00:01", "event": "Çalışan elindeki yükü kontrol edemeyerek düşürdü."}],
+            "near_miss",
+        )
+        self.assertIn("kurtul", out[0]["event"].lower())
 
 
 if __name__ == "__main__":
