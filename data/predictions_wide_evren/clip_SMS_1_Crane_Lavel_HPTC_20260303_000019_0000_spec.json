@@ -1,0 +1,14 @@
+{
+  "summary": "Çalışan sahada duruyor. İşletme alanı normal görünümde. Ateşleme işlemi devam ediyor.",
+  "events": [
+    {
+      "time": "00:00",
+      "event": "Çalışan sahada duruyor. Ateşleme işlemi devam ediyor."
+    }
+  ],
+  "risk": "Düşük",
+  "actions": [
+    "Sağlık ekibini çağır",
+    "Alanı güvenlik altına al"
+  ]
+}

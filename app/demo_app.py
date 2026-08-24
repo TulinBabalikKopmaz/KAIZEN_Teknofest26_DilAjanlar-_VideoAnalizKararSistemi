@@ -23,6 +23,8 @@ from utils import config  # noqa: E402
 from utils.demo_pipeline import (  # noqa: E402
     DEFAULT_PROMPT,
     DemoResult,
+    list_saved_runs,
+    load_saved_run,
     run_demo_analysis_sync,
 )
 
@@ -73,6 +75,18 @@ def sidebar_settings() -> dict[str, Any]:
     use_rag = st.sidebar.toggle("İSG mevzuat referansı (RAG)", value=not fast)
 
     st.sidebar.caption(config.describe())
+
+    saved = list_saved_runs()
+    if saved:
+        st.sidebar.markdown("---")
+        st.sidebar.subheader("Sahne yedeği")
+        labels = [p.name for p in saved]
+        pick = st.sidebar.selectbox("Kayıtlı koşu", ["(canlı analiz)"] + labels)
+        if pick != "(canlı analiz)" and st.sidebar.button("Yedeği ekrana getir"):
+            chosen = next(p for p in saved if p.name == pick)
+            st.session_state["last_result"] = load_saved_run(chosen)
+            st.sidebar.success(f"Açıldı: {pick}")
+
     if provider == "ollama":
         st.sidebar.warning(
             "Yerel 7B 2–4 dk sürebilir; bu jüri kaydı için sorun değil. "

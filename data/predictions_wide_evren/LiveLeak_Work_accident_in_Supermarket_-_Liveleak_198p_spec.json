@@ -1,0 +1,31 @@
+{
+  "summary": "Çalışan merdiven üzerinde dengesini kaybetti ve yere düştü. Yere yatarken hareketsiz kaldı.",
+  "events": [
+    {
+      "time": "00:12",
+      "event": "Çalışan merdiven üzerinde dengesini kaybetti ve yere düştü."
+    },
+    {
+      "time": "00:14",
+      "event": "Çalışan merdiven üzerinde dengesini kaybetti ve yere düştü."
+    },
+    {
+      "time": "00:16",
+      "event": "Çalışan merdiven üzerinde dengesini kaybetti ve yere düştü."
+    },
+    {
+      "time": "00:18",
+      "event": "Çalışan merdiven üzerinde dengesini kaybetti ve yere düştü."
+    },
+    {
+      "time": "00:20",
+      "event": "Çalışan merdiven üzerinde dengesini kaybetti ve yere düştü."
+    }
+  ],
+  "risk": "Yüksek",
+  "actions": [
+    "Acil müdahaleye geçin, yaralı çalışanı kontrol edin.",
+    "Alanı kapatin, diğer çalışanları uzaklaştırın.",
+    "İlgili yetkililere bildirin, olay raporu oluşturun."
+  ]
+}

@@ -1,0 +1,60 @@
+{
+  "video_id": "worlds_best_forklift_driver_Not_vy6pNEFo_uE_-_Trim",
+  "filename": "worlds best forklift driver, Not!!! [vy6pNEFo_uE] - Trim.mp4",
+  "category": "accident",
+  "duration_sec": 26.08,
+  "status": "auto",
+  "labeled_by": "qwen:vlm",
+  "summary": "Forklift, raf sistemine çarptı ve raf çöktü; toz bulutu oluştu ve saha karıştı.",
+  "events": [
+    {
+      "time": "00:12",
+      "time_end": "00:17",
+      "event": "Forklift raf sistemine çarptı ve raf çöktü; toz bulutu yayıldı.",
+      "event_type": "kaza",
+      "severity": "yuksek"
+    },
+    {
+      "time": "00:14",
+      "time_end": "00:17",
+      "event": "Forklift raf sistemine çarptı ve raf çöktü; toz bulutu yayıldı.",
+      "event_type": "kaza",
+      "severity": "yuksek"
+    },
+    {
+      "time": "00:16",
+      "time_end": "00:17",
+      "event": "Forklift raf sistemine çarptı ve raf çöktü; toz bulutu yayıldı.",
+      "event_type": "kaza",
+      "severity": "yuksek"
+    }
+  ],
+  "risk": "Yüksek",
+  "actions": [
+    "Acil durum protokolüne geçin, sahada çalışanları güvenli alana çıkarın.",
+    "İtfaiye ve sağlık ekiplerini çağırın.",
+    "Sahayı kapatin ve inceleme başlatın."
+  ],
+  "notes": "Otomatik taslak. Gold değil; Streamlit'te kontrol edin.",
+  "evidence": {
+    "duration_sec": 26.08,
+    "motion_peak_sec": 13.6,
+    "motion_peak_score": 11.463819444444445,
+    "motion_peaks": [
+      2.24,
+      13.6,
+      15.68
+    ],
+    "motion_elevated": true,
+    "person_count_max": 1,
+    "vehicle_count_max": 2,
+    "min_person_vehicle_ratio": null,
+    "person_vehicle_close": false,
+    "person_vehicle_very_close": false,
+    "fire_like_ratio_max": 0.04041341145833333,
+    "fire_like_rise": 0.028942057291666667,
+    "fire_suspect": false,
+    "yolo_available": true,
+    "notes": []
+  }
+}

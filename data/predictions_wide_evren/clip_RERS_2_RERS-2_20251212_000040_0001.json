@@ -1,0 +1,43 @@
+{
+  "video_id": "clip_RERS_2_RERS-2_20251212_000040_0001",
+  "filename": "clip_RERS_2_RERS-2_20251212_000040_0001.mp4",
+  "category": "normal",
+  "duration_sec": 6.0,
+  "status": "auto",
+  "labeled_by": "qwen:vlm",
+  "summary": "Çalışan fabrikada yürüyor. Normal çalışma devam ediyor.",
+  "events": [
+    {
+      "time": "00:00",
+      "time_end": "00:05",
+      "event": "Çalışan fabrikada yürüyor.",
+      "event_type": "normal",
+      "severity": "dusuk"
+    }
+  ],
+  "risk": "Düşük",
+  "actions": [
+    "Rutin izlemeye devam et"
+  ],
+  "notes": "Otomatik taslak. Gold değil; Streamlit'te kontrol edin.",
+  "evidence": {
+    "duration_sec": 6.0,
+    "motion_peak_sec": 4.0,
+    "motion_peak_score": 2.636527777777778,
+    "motion_peaks": [
+      0.16,
+      4.0
+    ],
+    "motion_elevated": false,
+    "person_count_max": 1,
+    "vehicle_count_max": 0,
+    "min_person_vehicle_ratio": null,
+    "person_vehicle_close": false,
+    "person_vehicle_very_close": false,
+    "fire_like_ratio_max": 0.007776331018518519,
+    "fire_like_rise": 0.0005598958333333341,
+    "fire_suspect": false,
+    "yolo_available": true,
+    "notes": []
+  }
+}

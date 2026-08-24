@@ -1,0 +1,27 @@
+{
+  "summary": "Çalışan yere düşerek hareketsiz şekilde yatıyor. Olay anında araçla temas yok.",
+  "events": [
+    {
+      "time": "00:00",
+      "event": "Çalışan yere düştü ve hareketsiz şekilde yatıyor."
+    },
+    {
+      "time": "00:04",
+      "event": "Çalışan yere düştü ve hareketsiz şekilde yatıyor."
+    },
+    {
+      "time": "00:06",
+      "event": "Çalışan yere düştü ve hareketsiz şekilde yatıyor."
+    },
+    {
+      "time": "00:08",
+      "event": "Çalışan yere düştü ve hareketsiz şekilde yatıyor."
+    }
+  ],
+  "risk": "Yüksek",
+  "actions": [
+    "Acil sağlık ekiplerine haber verin.",
+    "Olay yerini izole edin ve diğer çalışanları uzaklaştırın.",
+    "Kamera kaydını koruyun ve olay raporu oluşturun."
+  ]
+}

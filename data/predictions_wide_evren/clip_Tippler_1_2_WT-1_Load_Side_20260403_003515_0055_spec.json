@@ -1,0 +1,13 @@
+{
+  "summary": "Çalışan, yüklenen tren vagonunun yanında durarak görevini yerine getirdikten sonra güvenli bir şekilde yürüyerek sahadan ayrılıyor.",
+  "events": [
+    {
+      "time": "00:00",
+      "event": "Çalışan tren vagonunun yanında duruyor ve ardından sahadan yürüyerek ayrılıyor."
+    }
+  ],
+  "risk": "Düşük",
+  "actions": [
+    "Rutin izlemeye devam et"
+  ]
+}

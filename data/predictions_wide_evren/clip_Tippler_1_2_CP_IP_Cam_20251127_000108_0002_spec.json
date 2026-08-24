@@ -1,0 +1,13 @@
+{
+  "summary": "Çalışanlar sahada yürüyor. Normal faaliyetler devam ediyor.",
+  "events": [
+    {
+      "time": "00:00",
+      "event": "Çalışanlar sahada yürüyor."
+    }
+  ],
+  "risk": "Düşük",
+  "actions": [
+    "Rutin izlemeye devam et"
+  ]
+}

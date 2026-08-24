@@ -1,0 +1,44 @@
+{
+  "video_id": "ClearPix_Camera_Warehouse_Dock_G8z74loJO7U",
+  "filename": "ClearPix Camera Warehouse Dock [G8z74loJO7U].mp4",
+  "category": "normal",
+  "duration_sec": 58.67,
+  "status": "auto",
+  "labeled_by": "qwen:vlm",
+  "summary": "Çalışan depoda kutularla çalışırken, forkliftin geçişi sırasında herhangi bir temas veya tehlikeli yaklaşma olmamıştır. Rutin faaliyetler devam etmektedir.",
+  "events": [
+    {
+      "time": "00:00",
+      "time_end": "00:58",
+      "event": "Çalışan depoda kutularla çalışırken, forkliftin geçişi sırasında herhangi bir tehlikeli yaklaşma veya çarpışma olmamıştır.",
+      "event_type": "normal",
+      "severity": "dusuk"
+    }
+  ],
+  "risk": "Düşük",
+  "actions": [
+    "Rutin izlemeye devam et"
+  ],
+  "notes": "Otomatik taslak. Gold değil; Streamlit'te kontrol edin. | Kanıt birleştirme: risk Düşük→Orta; category normal→near_miss | Kanıt birleştirme: rutin saha / olay yok → normal",
+  "evidence": {
+    "duration_sec": 58.666666666666664,
+    "motion_peak_sec": 58.5,
+    "motion_peak_score": 5.039861111111111,
+    "motion_peaks": [
+      2.6666666666666665,
+      5.333333333333333,
+      58.5
+    ],
+    "motion_elevated": false,
+    "person_count_max": 1,
+    "vehicle_count_max": 1,
+    "min_person_vehicle_ratio": null,
+    "person_vehicle_close": false,
+    "person_vehicle_very_close": false,
+    "fire_like_ratio_max": 0.014320023148148148,
+    "fire_like_rise": 0.004534143518518519,
+    "fire_suspect": false,
+    "yolo_available": true,
+    "notes": []
+  }
+}

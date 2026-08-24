@@ -1,0 +1,74 @@
+{
+  "video_id": "accident_43b5eecb2e",
+  "filename": "3XOG - Workplace accidents happen all the time! All we can do is try learn f... [1615153821189013504].mp4",
+  "category": "accident",
+  "duration_sec": 10.87,
+  "status": "auto",
+  "labeled_by": "qwen:vlm",
+  "summary": "Çalışan araç kaldırma platformunun altında çalışırken araç ani olarak düşerek üzerine çarptı. Çalışan yere düştü ve hareketsiz kaldı.",
+  "events": [
+    {
+      "time": "00:00",
+      "time_end": "00:04",
+      "event": "Araç kaldırma platformu üzerindeki beyaz araç ani olarak düşerek çalışanın üzerine çarptı ve çalışan yere düştü.",
+      "event_type": "kaza",
+      "severity": "yuksek"
+    },
+    {
+      "time": "00:02",
+      "time_end": "00:04",
+      "event": "Araç kaldırma platformu üzerindeki beyaz araç ani olarak düşerek çalışanın üzerine çarptı ve çalışan yere düştü.",
+      "event_type": "kaza",
+      "severity": "yuksek"
+    },
+    {
+      "time": "00:05",
+      "time_end": "00:04",
+      "event": "Araç kaldırma platformu üzerindeki beyaz araç ani olarak düşerek çalışanın üzerine çarptı ve çalışan yere düştü.",
+      "event_type": "kaza",
+      "severity": "yuksek"
+    },
+    {
+      "time": "00:09",
+      "time_end": "00:04",
+      "event": "Araç kaldırma platformu üzerindeki beyaz araç ani olarak düşerek çalışanın üzerine çarptı ve çalışan yere düştü.",
+      "event_type": "kaza",
+      "severity": "yuksek"
+    },
+    {
+      "time": "00:11",
+      "time_end": "00:04",
+      "event": "Araç kaldırma platformu üzerindeki beyaz araç ani olarak düşerek çalışanın üzerine çarptı ve çalışan yere düştü.",
+      "event_type": "kaza",
+      "severity": "yuksek"
+    }
+  ],
+  "risk": "Yüksek",
+  "actions": [
+    "Hemen sağlık ekiplerine bildirin.",
+    "Alanı acil olarak boşaltın ve diğer çalışanları koruyun.",
+    "İtfaiye ve acil müdahale ekiplerini çağırın."
+  ],
+  "notes": "Otomatik taslak. Gold değil; Streamlit'te kontrol edin.",
+  "evidence": {
+    "duration_sec": 10.866666666666667,
+    "motion_peak_sec": 10.833333333333334,
+    "motion_peak_score": 130.80659722222222,
+    "motion_peaks": [
+      2.3333333333333335,
+      4.833333333333333,
+      10.833333333333334
+    ],
+    "motion_elevated": true,
+    "person_count_max": 3,
+    "vehicle_count_max": 2,
+    "min_person_vehicle_ratio": 0.5112759198369967,
+    "person_vehicle_close": true,
+    "person_vehicle_very_close": true,
+    "fire_like_ratio_max": 0.23887094350961538,
+    "fire_like_rise": 0.23887094350961538,
+    "fire_suspect": true,
+    "yolo_available": true,
+    "notes": []
+  }
+}

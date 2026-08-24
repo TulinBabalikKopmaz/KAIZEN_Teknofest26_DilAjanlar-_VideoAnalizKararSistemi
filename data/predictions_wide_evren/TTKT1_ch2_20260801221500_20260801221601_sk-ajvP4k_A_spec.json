@@ -1,0 +1,17 @@
+{
+  "summary": "Çalışan taşımada görev yaparken kuyrukta duran paketleri kontrol ediyor. Normal faaliyet devam ediyor.",
+  "events": [
+    {
+      "time": "00:00",
+      "event": "Çalışan taşımada görev yaparken kuyrukta duran paketleri kontrol ediyor."
+    },
+    {
+      "time": "00:24",
+      "event": "Çalışan taşımada görev yaparken kuyrukta duran paketleri kontrol ediyor."
+    }
+  ],
+  "risk": "Düşük",
+  "actions": [
+    "Rutin izlemeye devam et"
+  ]
+}

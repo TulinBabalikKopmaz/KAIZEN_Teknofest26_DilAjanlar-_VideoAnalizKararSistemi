@@ -1,0 +1,67 @@
+{
+  "video_id": "accident_c54c558ef1",
+  "filename": "Aykırı - İş kazası güvenlik kamerasında.  Fabrikada, forklift sürücüsü işçiye ... [1972267097397854208].mp4",
+  "category": "accident",
+  "duration_sec": 10.67,
+  "status": "auto",
+  "labeled_by": "qwen:vlm",
+  "summary": "Çalışan, yükü taşırken dengesini kaybetti ve yere düştü. Yere yatarken hareketsiz kaldı.",
+  "events": [
+    {
+      "time": "00:01",
+      "time_end": "00:10",
+      "event": "Çalışan yükü taşırken dengesini kaybetti ve yere düştü.",
+      "event_type": "kaza",
+      "severity": "yuksek"
+    },
+    {
+      "time": "00:03",
+      "time_end": "00:10",
+      "event": "Çalışan yükü taşırken dengesini kaybetti ve yere düştü.",
+      "event_type": "kaza",
+      "severity": "yuksek"
+    },
+    {
+      "time": "00:08",
+      "time_end": "00:10",
+      "event": "Çalışan yükü taşırken dengesini kaybetti ve yere düştü.",
+      "event_type": "kaza",
+      "severity": "yuksek"
+    },
+    {
+      "time": "00:10",
+      "time_end": "00:10",
+      "event": "Çalışan yükü taşırken dengesini kaybetti ve yere düştü.",
+      "event_type": "kaza",
+      "severity": "yuksek"
+    }
+  ],
+  "risk": "Yüksek",
+  "actions": [
+    "Hemen sağlık ekiplerini çağırın.",
+    "Alanı kapatin ve diğer çalışanları uzaklaştırın.",
+    "Olayın detaylı raporunu hazırlayın."
+  ],
+  "notes": "Otomatik taslak. Gold değil; Streamlit'te kontrol edin.",
+  "evidence": {
+    "duration_sec": 10.666666666666666,
+    "motion_peak_sec": 9.666666666666666,
+    "motion_peak_score": 5.0495833333333335,
+    "motion_peaks": [
+      0.16666666666666666,
+      3.0,
+      9.666666666666666
+    ],
+    "motion_elevated": false,
+    "person_count_max": 2,
+    "vehicle_count_max": 1,
+    "min_person_vehicle_ratio": 0.9290775757955035,
+    "person_vehicle_close": true,
+    "person_vehicle_very_close": false,
+    "fire_like_ratio_max": 0.18191915011037527,
+    "fire_like_rise": 0.05332505518763794,
+    "fire_suspect": true,
+    "yolo_available": true,
+    "notes": []
+  }
+}

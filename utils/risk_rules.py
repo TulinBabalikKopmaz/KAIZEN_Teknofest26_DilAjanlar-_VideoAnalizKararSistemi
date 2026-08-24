@@ -31,7 +31,8 @@ HIGH_PATTERNS = [
     r"yandı",
     r"yanma",
     r"yangın",
-    r"ateş",
+    r"yangın",
+    r"\bateş\b",
     r"alev",
     r"yaralan",
     r"hareketsiz",
@@ -73,6 +74,19 @@ COMPLETED_PATTERNS = [
     r"yerde\s+yat",
 ]
 _HEDGE_PREFIX = re.compile(r"(neredeyse|son\s+anda|az\s+kaldı)\s*$", re.IGNORECASE)
+_NEG_AFTER = re.compile(
+    r"^.{0,28}(gözlemlenmedi|tespit edilmedi|görülmedi|bulunmadı|yok(?:tur)?)",
+    re.IGNORECASE,
+)
+_NEG_BEFORE = re.compile(
+    r"(herhangi bir|olmadı|yok|değil).{0,48}$",
+    re.IGNORECASE,
+)
+_ALL_CLEAR = re.compile(
+    r"gözlemlenmedi|tespit edilmedi|görülmedi|kaza yok|"
+    r"rutin (faaliyet|aktivite|izleme)|normal görünüm",
+    re.IGNORECASE,
+)
 
 
 def _joined_text(label: dict[str, Any]) -> str:
@@ -84,7 +98,16 @@ def _joined_text(label: dict[str, Any]) -> str:
 
 
 def _match_any(text: str, patterns: list[str]) -> bool:
-    return any(re.search(p, text, re.IGNORECASE) for p in patterns)
+    """Negasyon içindeki eşleşmeyi yok say ('tehlikeli yaklaşma gözlemlenmedi')."""
+    blob = text or ""
+    for pattern in patterns:
+        for match in re.finditer(pattern, blob, re.IGNORECASE):
+            after = blob[match.end() : match.end() + 32]
+            before = blob[max(0, match.start() - 48) : match.start()]
+            if _NEG_AFTER.search(after) or _NEG_BEFORE.search(before):
+                continue
+            return True
+    return False
 
 
 def has_unhedged_accident(text: str) -> bool:
@@ -93,6 +116,10 @@ def has_unhedged_accident(text: str) -> bool:
     for pattern in COMPLETED_PATTERNS:
         for match in re.finditer(pattern, blob, re.IGNORECASE):
             prefix = blob[max(0, match.start() - 24) : match.start()]
+            after = blob[match.end() : match.end() + 32]
+            before = blob[max(0, match.start() - 48) : match.start()]
+            if _NEG_AFTER.search(after) or _NEG_BEFORE.search(before):
+                continue
             if not _HEDGE_PREFIX.search(prefix.rstrip()):
                 return True
     return False
@@ -118,6 +145,30 @@ def text_risk_floor(label: dict[str, Any]) -> tuple[str, str | None]:
     if _match_any(text, HIGH_PATTERNS):
         return "Yüksek", "accident"
     return "Düşük", None
+
+
+def _should_snap_all_clear(
+    label: dict[str, Any],
+    evidence: SceneEvidence | None,
+    has_high: bool,
+    has_near: bool,
+    text: str,
+) -> bool:
+    """Pozitif kaza/ramak kanıtı yokken 'olay yok' metnini normalde bırak."""
+    if has_high or has_near:
+        return False
+    if has_unhedged_accident(text):
+        return False
+    if evidence and (
+        evidence.person_vehicle_close
+        or evidence.person_vehicle_very_close
+        or evidence.fire_suspect
+    ):
+        return False
+    if not _ALL_CLEAR.search(text or ""):
+        return False
+    hot = (label.get("category") or "normal") in {"near_miss", "accident"}
+    return hot or normalize_risk(label.get("risk")) != "Düşük"
 
 
 def evidence_floor(evidence: SceneEvidence | None) -> tuple[str, str | None]:
@@ -199,6 +250,42 @@ def refine_label(label: dict[str, Any], evidence: SceneEvidence | None = None) -
     if has_unhedged_accident(text) and (out.get("category") or "") != "accident":
         reasons.append(f"category {out.get('category')}→accident (tamamlanmış sonuç)")
         out["category"] = "accident"
+
+    # VLM 'olay yok' deyip kuralın şişirdiği rutin saha (ateşleme, negatif cümle)
+    if _should_snap_all_clear(out, evidence, has_high, has_near, text):
+        reasons.append("rutin saha / olay yok → normal")
+        out["risk"] = "Düşük"
+        out["category"] = "normal"
+
+    # Kaza/ramak: klip saati → orijinal saat, tepeye hizala, tepe±2sn aday ekle
+    if (out.get("category") or "") in {"accident", "near_miss"} and evidence is not None:
+        from utils.label_json import (
+            align_events_to_motion,
+            lift_clip_relative_times,
+            preferred_incident_peak_s,
+            seed_events_from_motion,
+        )
+        from utils.video_clip import clip_span
+
+        peaks = list(evidence.motion_peaks or [])
+        if evidence.motion_peak_sec is not None:
+            peaks.append(float(evidence.motion_peak_sec))
+        clip_start, _clip_end = clip_span(
+            float(evidence.duration_sec or 0.0),
+            evidence.motion_peak_sec,
+            evidence.motion_peaks,
+        )
+        events = lift_clip_relative_times(out.get("events") or [], clip_start, peaks)
+        anchor = preferred_incident_peak_s(
+            peaks,
+            evidence.motion_peak_sec,
+            duration_s=evidence.duration_sec,
+            category=str(out.get("category") or ""),
+        )
+        events = align_events_to_motion(events, peaks, primary_peak_s=anchor)
+        events = seed_events_from_motion(events, peaks)
+        if events:
+            out["events"] = events
 
     # Anlaşmazlıkta daha ağır sinyali al (varsayılan severity_max)
     old_cat = out.get("category") or "normal"

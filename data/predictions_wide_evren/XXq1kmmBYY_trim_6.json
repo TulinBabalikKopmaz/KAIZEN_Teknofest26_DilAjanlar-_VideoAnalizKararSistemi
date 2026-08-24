@@ -1,0 +1,60 @@
+{
+  "video_id": "XXq1kmmBYY_trim_6",
+  "filename": "_XXq1kmmBYY_trim_6.mp4",
+  "category": "accident",
+  "duration_sec": 7.0,
+  "status": "auto",
+  "labeled_by": "qwen:vlm",
+  "summary": "Forklift, çalışanın çok yakınından geçerken kontrolü kaybeder ve devrilir; çalışan yere düşer ve hareketsiz kalır.",
+  "events": [
+    {
+      "time": "00:01",
+      "time_end": "00:06",
+      "event": "Forklift çalışanın çok yakınından geçerken ani hareketle devrilir ve çalışan yere düşer.",
+      "event_type": "kaza",
+      "severity": "Yüksek"
+    },
+    {
+      "time": "00:04",
+      "time_end": "00:06",
+      "event": "Forklift çalışanın çok yakınından geçerken ani hareketle devrilir ve çalışan yere düşer.",
+      "event_type": "kaza",
+      "severity": "Yüksek"
+    },
+    {
+      "time": "00:06",
+      "time_end": "00:06",
+      "event": "Forklift çalışanın çok yakınından geçerken ani hareketle devrilir ve çalışan yere düşer.",
+      "event_type": "kaza",
+      "severity": "Yüksek"
+    }
+  ],
+  "risk": "Yüksek",
+  "actions": [
+    "Acil müdahaleye geçin, yaralı çalışanı tedavi altına alın.",
+    "Alanı kapatin, diğer çalışanları tahliye edin.",
+    "İtfaiye ve sağlık ekiplerini çağırın."
+  ],
+  "notes": "Otomatik taslak. Gold değil; Streamlit'te kontrol edin.",
+  "evidence": {
+    "duration_sec": 7.0,
+    "motion_peak_sec": 5.5,
+    "motion_peak_score": 36.969652777777775,
+    "motion_peaks": [
+      1.3333333333333333,
+      3.5,
+      5.5
+    ],
+    "motion_elevated": true,
+    "person_count_max": 2,
+    "vehicle_count_max": 1,
+    "min_person_vehicle_ratio": 2.3885430783260513,
+    "person_vehicle_close": false,
+    "person_vehicle_very_close": false,
+    "fire_like_ratio_max": 0.11868489583333333,
+    "fire_like_rise": 0.11456597222222221,
+    "fire_suspect": true,
+    "yolo_available": true,
+    "notes": []
+  }
+}

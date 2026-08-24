@@ -1,0 +1,31 @@
+{
+  "summary": "Çalışan araç kaldırma platformunun altında çalışırken araç ani olarak düşerek üzerine çarptı. Çalışan yere düştü ve hareketsiz kaldı.",
+  "events": [
+    {
+      "time": "00:00",
+      "event": "Araç kaldırma platformu üzerindeki beyaz araç ani olarak düşerek çalışanın üzerine çarptı ve çalışan yere düştü."
+    },
+    {
+      "time": "00:02",
+      "event": "Araç kaldırma platformu üzerindeki beyaz araç ani olarak düşerek çalışanın üzerine çarptı ve çalışan yere düştü."
+    },
+    {
+      "time": "00:05",
+      "event": "Araç kaldırma platformu üzerindeki beyaz araç ani olarak düşerek çalışanın üzerine çarptı ve çalışan yere düştü."
+    },
+    {
+      "time": "00:09",
+      "event": "Araç kaldırma platformu üzerindeki beyaz araç ani olarak düşerek çalışanın üzerine çarptı ve çalışan yere düştü."
+    },
+    {
+      "time": "00:11",
+      "event": "Araç kaldırma platformu üzerindeki beyaz araç ani olarak düşerek çalışanın üzerine çarptı ve çalışan yere düştü."
+    }
+  ],
+  "risk": "Yüksek",
+  "actions": [
+    "Hemen sağlık ekiplerine bildirin.",
+    "Alanı acil olarak boşaltın ve diğer çalışanları koruyun.",
+    "İtfaiye ve acil müdahale ekiplerini çağırın."
+  ]
+}

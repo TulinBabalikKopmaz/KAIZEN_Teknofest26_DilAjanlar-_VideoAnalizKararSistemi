@@ -1,0 +1,60 @@
+{
+  "video_id": "6AISVvob4C0_trim_7",
+  "filename": "6AISVvob4C0_trim_7.mp4",
+  "category": "accident",
+  "duration_sec": 6.0,
+  "status": "auto",
+  "labeled_by": "qwen:vlm",
+  "summary": "Çalışan merdivenin üst kısmında dengesini kaybetti ve yere düştü. Merdiven de devrildi.",
+  "events": [
+    {
+      "time": "00:01",
+      "time_end": "00:05",
+      "event": "Çalışan merdivenden yere düştü ve merdiven devrildi.",
+      "event_type": "kaza",
+      "severity": "Yüksek"
+    },
+    {
+      "time": "00:04",
+      "time_end": "00:05",
+      "event": "Çalışan merdivenden yere düştü ve merdiven devrildi.",
+      "event_type": "kaza",
+      "severity": "Yüksek"
+    },
+    {
+      "time": "00:06",
+      "time_end": "00:05",
+      "event": "Çalışan merdivenden yere düştü ve merdiven devrildi.",
+      "event_type": "kaza",
+      "severity": "Yüksek"
+    }
+  ],
+  "risk": "Yüksek",
+  "actions": [
+    "Sağlık ekiplerine bildirin.",
+    "Alanı kapatin ve diğer çalışanları uyarın.",
+    "Olay yerini koruyun ve inceleme başlatın."
+  ],
+  "notes": "Otomatik taslak. Gold değil; Streamlit'te kontrol edin.",
+  "evidence": {
+    "duration_sec": 6.0,
+    "motion_peak_sec": 1.0,
+    "motion_peak_score": 19.199166666666667,
+    "motion_peaks": [
+      1.0,
+      3.5,
+      5.5
+    ],
+    "motion_elevated": false,
+    "person_count_max": 1,
+    "vehicle_count_max": 1,
+    "min_person_vehicle_ratio": 0.5889835151400725,
+    "person_vehicle_close": true,
+    "person_vehicle_very_close": true,
+    "fire_like_ratio_max": 0.034135199652777774,
+    "fire_like_rise": 0.023180338541666665,
+    "fire_suspect": false,
+    "yolo_available": true,
+    "notes": []
+  }
+}

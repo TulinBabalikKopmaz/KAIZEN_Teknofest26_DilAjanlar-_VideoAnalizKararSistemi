@@ -1,0 +1,23 @@
+{
+  "summary": "Çalışan merdivenin üst kısmında dengesini kaybetti ve yere düştü. Merdiven de devrildi.",
+  "events": [
+    {
+      "time": "00:01",
+      "event": "Çalışan merdivenden yere düştü ve merdiven devrildi."
+    },
+    {
+      "time": "00:04",
+      "event": "Çalışan merdivenden yere düştü ve merdiven devrildi."
+    },
+    {
+      "time": "00:06",
+      "event": "Çalışan merdivenden yere düştü ve merdiven devrildi."
+    }
+  ],
+  "risk": "Yüksek",
+  "actions": [
+    "Sağlık ekiplerine bildirin.",
+    "Alanı kapatin ve diğer çalışanları uyarın.",
+    "Olay yerini koruyun ve inceleme başlatın."
+  ]
+}

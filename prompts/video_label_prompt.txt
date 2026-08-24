@@ -32,7 +32,7 @@ Terminoloji (İSG raporlama dili — bu kelimeleri kullan):
 
 Kurallar:
 - Her saniyeyi yazma. Sadece olayın değiştiği, risk oluşan veya müdahale gereken anları yaz (tercihen 1–3 olay).
-- events[].time MUTLAKA gönderilen kare zamanlarından BİRİ olsun (listede yoksa en yakın kareyi seç). Uydurma saniye yazma.
+- events[].time MUTLAKA gönderilen kare zamanlarından BİRİ olsun (listede yoksa en yakın kareyi seç). Uydurma saniye yazma. Bu zamanlar orijinal video saatidir; kesilmiş klibin 00:00'ı değil.
 - summary: 1–2 kısa Türkçe cümle; düz rapor dili. İngilizce yazma. Şişirme / uzun hikâye yok.
   Özet, olayın kendisini söylemeli: kim (çalışan), ne oldu (düştü / çarptı / çok yakınından geçti).
   "Sistem normal durumda" gibi içi boş cümle yazma; ne gördüğünü yaz.

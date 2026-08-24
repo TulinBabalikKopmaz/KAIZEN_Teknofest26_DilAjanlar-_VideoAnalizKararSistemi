@@ -1,0 +1,67 @@
+{
+  "video_id": "accident_bef38a0ce2",
+  "filename": "Beylikdüzü.anlık - Beylikdüzü Yeşil Flamingo Sitesi’nde yaşanan, Aydın Dirikolu’nun (61)... [2088241217045774336].mp4",
+  "category": "accident",
+  "duration_sec": 14.53,
+  "status": "auto",
+  "labeled_by": "qwen:vlm",
+  "summary": "Çalışan yere düşerek hareketsiz şekilde yatıyor. Olay anında araçla temas yok.",
+  "events": [
+    {
+      "time": "00:00",
+      "time_end": "00:14",
+      "event": "Çalışan yere düştü ve hareketsiz şekilde yatıyor.",
+      "event_type": "kaza",
+      "severity": "Yüksek"
+    },
+    {
+      "time": "00:04",
+      "time_end": "00:14",
+      "event": "Çalışan yere düştü ve hareketsiz şekilde yatıyor.",
+      "event_type": "kaza",
+      "severity": "Yüksek"
+    },
+    {
+      "time": "00:06",
+      "time_end": "00:14",
+      "event": "Çalışan yere düştü ve hareketsiz şekilde yatıyor.",
+      "event_type": "kaza",
+      "severity": "Yüksek"
+    },
+    {
+      "time": "00:08",
+      "time_end": "00:14",
+      "event": "Çalışan yere düştü ve hareketsiz şekilde yatıyor.",
+      "event_type": "kaza",
+      "severity": "Yüksek"
+    }
+  ],
+  "risk": "Yüksek",
+  "actions": [
+    "Acil sağlık ekiplerine haber verin.",
+    "Olay yerini izole edin ve diğer çalışanları uzaklaştırın.",
+    "Kamera kaydını koruyun ve olay raporu oluşturun."
+  ],
+  "notes": "Otomatik taslak. Gold değil; Streamlit'te kontrol edin.",
+  "evidence": {
+    "duration_sec": 14.533333333333333,
+    "motion_peak_sec": 5.5,
+    "motion_peak_score": 10.084791666666666,
+    "motion_peaks": [
+      0.5,
+      5.5,
+      7.666666666666667
+    ],
+    "motion_elevated": false,
+    "person_count_max": 0,
+    "vehicle_count_max": 1,
+    "min_person_vehicle_ratio": null,
+    "person_vehicle_close": false,
+    "person_vehicle_very_close": false,
+    "fire_like_ratio_max": 0.0003519290928050052,
+    "fire_like_rise": 0.0003089638126134476,
+    "fire_suspect": false,
+    "yolo_available": true,
+    "notes": []
+  }
+}

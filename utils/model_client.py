@@ -4,6 +4,8 @@ API şekli değişirse sadece bu dosya değişir; ajanlar ve demo yolu chat_vlm 
 chat_llm imzasını görür.
 
     result = await chat_vlm("Bu karede ne oluyor?", image_paths=[frame])
+    # EVREN resmi alias `vlm` JPEG kabul etmez; kısa mp4 klibi gönder:
+    result = await chat_vlm("Bu videoda ne oluyor?", video_path=clip_mp4)
     print(result.text, result.latency_s)
 """
 
@@ -102,19 +104,30 @@ def _openai_payload(
     temperature: float,
     max_tokens: int,
     json_mode: bool,
+    video_b64: str | None = None,
 ) -> dict[str, Any]:
     content: list[dict[str, Any]] = [{"type": "text", "text": prompt}]
-    for b64 in images:
+    # EVREN: `vlm` yalnız video_url; JPEG karışınca HTTP 400. İkisini birden gönderme.
+    if video_b64:
         content.append(
             {
-                "type": "image_url",
-                "image_url": {"url": f"data:image/jpeg;base64,{b64}"},
+                "type": "video_url",
+                "video_url": {"url": f"data:video/mp4;base64,{video_b64}"},
             }
         )
+    else:
+        for b64 in images:
+            content.append(
+                {
+                    "type": "image_url",
+                    "image_url": {"url": f"data:image/jpeg;base64,{b64}"},
+                }
+            )
     messages: list[dict[str, Any]] = []
     if system:
         messages.append({"role": "system", "content": system})
-    messages.append({"role": "user", "content": content if images else prompt})
+    use_list = bool(video_b64 or images)
+    messages.append({"role": "user", "content": content if use_list else prompt})
 
     payload: dict[str, Any] = {
         "model": ep.model,
@@ -135,7 +148,9 @@ def _ollama_payload(
     temperature: float,
     max_tokens: int,
     json_mode: bool,
+    video_b64: str | None = None,
 ) -> dict[str, Any]:
+    del video_b64  # Ollama native chat kare listesi kullanır; video_url yok.
     messages: list[dict[str, Any]] = []
     if system:
         messages.append({"role": "system", "content": system})
@@ -245,14 +260,23 @@ async def _call_provider(
     json_mode: bool,
     timeout_s: float,
     attempts_allowed: int,
+    video_b64: str | None = None,
 ) -> tuple[str, int]:
     """Tek sağlayıcıda retry + backoff. (metin, deneme sayısı) döner."""
     if ep.provider == "mock":
         await asyncio.sleep(0.05)
         return _mock_text(ep.role, json_mode), 1
 
+    # Resmi doküman: uzun video isteğini otomatik tekrarlama. Prefix cache de bozulur.
+    if video_b64 and not ep.native_ollama:
+        attempts_allowed = 1
+
+    send_video = video_b64 if not ep.native_ollama else None
+    send_images = images if not send_video else []
     build = _ollama_payload if ep.native_ollama else _openai_payload
-    payload = build(ep, prompt, images, system, temperature, max_tokens, json_mode)
+    payload = build(
+        ep, prompt, send_images, system, temperature, max_tokens, json_mode, send_video
+    )
 
     last_error: Exception | None = None
     for attempt in range(1, attempts_allowed + 1):
@@ -280,6 +304,7 @@ async def _chat(
     prompt: str,
     image_paths: Sequence[Path | str] = (),
     *,
+    video_path: Path | str | None = None,
     system: str | None = None,
     temperature: float = 0.1,
     max_tokens: int = 768,
@@ -291,6 +316,11 @@ async def _chat(
     timeout = timeout_s or request_timeout()
     attempts_allowed = max_retries()
     primary = endpoint(role)
+    video_b64: str | None = None
+    if video_path and primary.provider != "mock":
+        from utils.video_clip import encode_video_b64
+
+        video_b64 = await asyncio.to_thread(encode_video_b64, video_path)
 
     started = perf_counter()
     async with _semaphore(role):
@@ -305,6 +335,7 @@ async def _chat(
                 json_mode=json_mode,
                 timeout_s=timeout,
                 attempts_allowed=attempts_allowed,
+                video_b64=video_b64 if primary.provider == "teknofest" else None,
             )
             result = ChatResult(
                 text=text,
@@ -330,6 +361,7 @@ async def _chat(
                 json_mode=json_mode,
                 timeout_s=timeout,
                 attempts_allowed=attempts_allowed,
+                video_b64=video_b64 if fb.provider == "teknofest" else None,
             )
             result = ChatResult(
                 text=text,
@@ -350,17 +382,23 @@ async def chat_vlm(
     prompt: str,
     image_paths: Sequence[Path | str] = (),
     *,
+    video_path: Path | str | None = None,
     system: str | None = None,
     temperature: float = 0.1,
     max_tokens: int = 768,
     json_mode: bool = False,
     timeout_s: float | None = None,
 ) -> ChatResult:
-    """Görsel + metin isteği (Video Analyzer yolu)."""
+    """Görsel veya kısa video klibi + metin (Video Analyzer yolu).
+
+    PROVIDER=teknofest iken resmi `vlm` alias'ı JPEG reddeder; `video_path` ver.
+    Kareler yedek (Ollama) için durur; ikinci bakışta aynı klip baytlarını tekrar gönder.
+    """
     return await _chat(
         "vlm",
         prompt,
         image_paths,
+        video_path=video_path,
         system=system,
         temperature=temperature,
         max_tokens=max_tokens,
@@ -408,9 +446,23 @@ def chat_llm_sync(prompt: str, **kwargs: Any) -> ChatResult:
     return _run_sync(chat_llm(prompt, **kwargs))
 
 
-async def ping(role: str, image_path: Path | str | None = None) -> ChatResult:
+async def ping(
+    role: str,
+    image_path: Path | str | None = None,
+    video_path: Path | str | None = None,
+) -> ChatResult:
     """Endpoint doğrulama: kısa istek, düşük token, yedek kapalı."""
     if role == "vlm":
+        if video_path:
+            return await _chat(
+                "vlm",
+                "Bu kısa videoda ne oluyor? Tek cümle Türkçe cevap ver.",
+                (),
+                video_path=video_path,
+                max_tokens=64,
+                timeout_s=request_timeout(),
+                allow_fallback=False,
+            )
         return await _chat(
             "vlm",
             "Bu karede kaç kişi var? Tek cümle Türkçe cevap ver.",

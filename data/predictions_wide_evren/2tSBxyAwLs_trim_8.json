@@ -1,0 +1,59 @@
+{
+  "video_id": "2tSBxyAwLs_trim_8",
+  "filename": "_2tSBxyAwLs_trim_8.mp4",
+  "category": "accident",
+  "duration_sec": 7.01,
+  "status": "auto",
+  "labeled_by": "qwen:vlm",
+  "summary": "Çalışanlar kamyonun arkasından yük çıkarken dengesi kaybetti ve yük yere düştü. Yere serilmiş kovalar ve içeriği dağıldı.",
+  "events": [
+    {
+      "time": "00:02",
+      "time_end": "00:04",
+      "event": "Yük kamyonun arkasından düşerek yere serildi ve içeriği dağıldı.",
+      "event_type": "kaza",
+      "severity": "yuksek"
+    },
+    {
+      "time": "00:04",
+      "time_end": "00:04",
+      "event": "Yük kamyonun arkasından düşerek yere serildi ve içeriği dağıldı.",
+      "event_type": "kaza",
+      "severity": "yuksek"
+    },
+    {
+      "time": "00:06",
+      "time_end": "00:04",
+      "event": "Yük kamyonun arkasından düşerek yere serildi ve içeriği dağıldı.",
+      "event_type": "kaza",
+      "severity": "yuksek"
+    }
+  ],
+  "risk": "Yüksek",
+  "actions": [
+    "Yere düşen yük ve içeriği kaldırılmalı, alan güvenli hale getirilmeli.",
+    "Çalışanlara sağlık kontrolü yapılmalı, olay raporlanmalı."
+  ],
+  "notes": "Otomatik taslak. Gold değil; Streamlit'te kontrol edin.",
+  "evidence": {
+    "duration_sec": 7.007000000000001,
+    "motion_peak_sec": 3.6703333333333332,
+    "motion_peak_score": 27.348263888888887,
+    "motion_peaks": [
+      1.5015,
+      3.6703333333333332,
+      5.6723333333333334
+    ],
+    "motion_elevated": true,
+    "person_count_max": 4,
+    "vehicle_count_max": 4,
+    "min_person_vehicle_ratio": 0.48668281640829,
+    "person_vehicle_close": true,
+    "person_vehicle_very_close": true,
+    "fire_like_ratio_max": 0.12053493923611111,
+    "fire_like_rise": 0.034751519097222225,
+    "fire_suspect": true,
+    "yolo_available": true,
+    "notes": []
+  }
+}

@@ -55,6 +55,40 @@ from utils.spec_output import seconds_to_mmss  # noqa: E402
 VIDEO_PROMPT_PATH = ROOT / "prompts" / "video_label_prompt.txt"
 ANSWER_PROMPT_PATH = ROOT / "prompts" / "demo_answer_prompt.txt"
 DEMO_RUNS_DIR = ROOT / "data" / "demo_runs"
+
+
+def _run_result_path(run_dir: Path) -> Path | None:
+    for name in ("result.json", "result.json", "result.json"):
+        path = run_dir / name
+        if path.is_file():
+            return path
+    extras = [p for p in run_dir.glob("*.json") if p.name != "spec.json"]
+    return extras[0] if extras else None
+
+
+def list_saved_runs(limit: int = 8) -> list[Path]:
+    """En yeni demo yedek klasörleri (result.json / result.json olanlar)."""
+    if not DEMO_RUNS_DIR.is_dir():
+        return []
+    runs = [
+        path
+        for path in DEMO_RUNS_DIR.iterdir()
+        if path.is_dir() and _run_result_path(path) is not None
+    ]
+    runs.sort(key=lambda p: p.stat().st_mtime, reverse=True)
+    return runs[:limit]
+
+
+def load_saved_run(run_dir: Path) -> DemoResult:
+    payload = _run_result_path(run_dir)
+    if payload is None:
+        raise FileNotFoundError(f"Yedek JSON yok: {run_dir}")
+    raw = json.loads(payload.read_text(encoding="utf-8"))
+    result = DemoResult.from_dict(raw)
+    result.out_dir = str(run_dir)
+    return result
+
+
 FRAMES_DIR = ROOT / "data" / "frames"
 
 DEFAULT_PROMPT = "Bu videoda bir iş kazası var mı? Varsa ne olduğunu ve kaçıncı saniyede olduğunu söyle."
@@ -69,6 +103,14 @@ MAX_WAKE_SPAN_S: float = 45.0
 SECOND_LOOK_PROMPT = (
     "Önceki cevabın çok sakin / düşük risk görünüyor ama sensörler şüpheli diyor.\n"
     "Sadece bu karelere tekrar bak. Özellikle: çarpışma, düşme, yanma, kişi-araç temas.\n"
+    "Görmüyorsan uydurma. Görüyorsan category/risk'i yükselt.\n"
+    "events[].time yalnızca verilen kare zamanlarından biri olsun.\n"
+    "Yine sadece JSON döndür.\n"
+)
+
+SECOND_LOOK_PROMPT_VIDEO = (
+    "Önceki cevabın çok sakin / düşük risk görünüyor ama sensörler şüpheli diyor.\n"
+    "Aynı video klibine tekrar bak. Özellikle: çarpışma, düşme, yanma, kişi-araç temas.\n"
     "Görmüyorsan uydurma. Görüyorsan category/risk'i yükselt.\n"
     "events[].time yalnızca verilen kare zamanlarından biri olsun.\n"
     "Yine sadece JSON döndür.\n"
@@ -111,6 +153,26 @@ class DemoResult:
             "out_dir": self.out_dir,
             "warnings": self.warnings,
         }
+
+    @classmethod
+    def from_dict(cls, raw: dict[str, Any]) -> DemoResult:
+        """data/demo_runs/.../result.json yedeğini ekrana geri yükler."""
+        return cls(
+            video=str(raw.get("video") or ""),
+            user_prompt=str(raw.get("user_prompt") or ""),
+            answer=str(raw.get("answer") or ""),
+            spec=dict(raw.get("spec") or {}),
+            label=dict(raw.get("label") or {}),
+            frames=list(raw.get("frames") or []),
+            evidence=dict(raw.get("evidence") or {}),
+            timings=dict(raw.get("timings") or {}),
+            model_calls=list(raw.get("model_calls") or []),
+            provider=str(raw.get("provider") or ""),
+            total_s=float(raw.get("total_s") or 0.0),
+            fast_mode=bool(raw.get("fast_mode")),
+            out_dir=str(raw.get("out_dir") or ""),
+            warnings=list(raw.get("warnings") or []),
+        )
 
     def report_text(self) -> str:
         """Jüriye okunacak düz metin rapor."""
@@ -163,6 +225,7 @@ def _build_vlm_prompt(
     frames_meta: dict[str, Any],
     evidence: SceneEvidence,
     user_prompt: str,
+    clip_span: tuple[float, float] | None = None,
 ) -> str:
     """Jürinin sorusu + kare zamanları + sensör kanıtı + şartname şeması."""
     frames = frames_meta["frames"]
@@ -179,14 +242,24 @@ def _build_vlm_prompt(
         if question
         else ""
     )
+    if clip_span:
+        start_txt, end_txt = seconds_to_mmss(clip_span[0]), seconds_to_mmss(clip_span[1])
+        media_line = (
+            f"Gönderilen medya: orijinal videonun {start_txt}-{end_txt} aralığından "
+            "kesilmiş kısa video klibi (kare dizisi değil). Tüm klibi izle. "
+            "events[].time orijinal video saatine göre yaz (yukarıdaki kare zamanları); "
+            "klibin ilk anına 00:00 deme. "
+        )
+    else:
+        media_line = "Görseller aşağıda 1. kareden son kareye sıralı. "
     return (
         f"{question_block}"
         f"Süre: {frames_meta['duration_sec']} saniye\n"
         f"Kare zamanları (events[].time SADECE bunlardan biri): {times}\n"
         f"Gönderilen kare sayısı: {len(frames)}\n"
         f"{evidence.prompt_block()}\n"
-        "Görseller aşağıda 1. kareden son kareye sıralı. "
-        "İlk kare sakin olsa bile tüm diziyi oku; "
+        f"{media_line}"
+        "İlk an sakin olsa bile tüm diziyi oku; "
         "çarpışma, düşme, yanma, devrilme veya yerde kişi varsa onu yaz "
         "(accident + Yüksek). Sadece tehlikeli yaklaşma varsa near_miss.\n"
         f"{numbered}\n\n" + _load(VIDEO_PROMPT_PATH)
@@ -329,6 +402,8 @@ async def _answer_step(
     prompt = (
         f"Soru: {question}\n\n"
         f"Bulgular (JSON): {json.dumps(findings, ensure_ascii=False)}\n"
+        "Birden fazla olay varsa cevapta SON kaza/düşme zamanını kullan "
+        "(erken sallanmayı düşme sanma).\n"
     )
     if rag_text:
         prompt += f"\nİlgili mevzuat (referans için, kopyalama): {rag_text[:1200]}\n"
@@ -416,9 +491,30 @@ async def run_demo_analysis(
     say("[2/5] VLM analizi")
     step = perf_counter()
     frame_paths = [Path(frame["path"]) for frame in frames_meta["frames"]]
+    clip_path: Path | None = None
+    clip_range: tuple[float, float] | None = None
+    if config.provider() == "teknofest":
+        from utils.video_clip import prepare_clip
+
+        dest = ROOT / "data" / "clips" / f"{safe_id(video_path)}.mp4"
+        duration_s = float(frames_meta.get("duration_sec") or duration)
+        clip_path, clip_start, clip_end = await asyncio.to_thread(
+            prepare_clip,
+            video_path,
+            dest,
+            duration_s,
+            evidence.motion_peak_sec,
+            evidence.motion_peaks,
+        )
+        clip_range = (clip_start, clip_end)
+        say(
+            f"      EVREN klibi {seconds_to_mmss(clip_start)}-{seconds_to_mmss(clip_end)} "
+            f"({clip_path.stat().st_size / 1e6:.1f} MB)"
+        )
     vlm = await chat_vlm(
-        _build_vlm_prompt(frames_meta, evidence, user_prompt),
+        _build_vlm_prompt(frames_meta, evidence, user_prompt, clip_range),
         frame_paths,
+        video_path=clip_path,
         temperature=0.1,
         max_tokens=768,
         json_mode=True,
@@ -444,16 +540,32 @@ async def run_demo_analysis(
         step = perf_counter()
         focus = _pick_focus_frames(frames_meta["frames"], evidence)
         try:
-            second = await chat_vlm(
-                f"{SECOND_LOOK_PROMPT}\n{evidence.prompt_block()}\n"
-                f"Odak kareler: {', '.join(f['time'] for f in focus)}\n"
-                f"Önceki JSON özeti: risk={label.get('risk')}, summary={label.get('summary')}\n\n"
-                + _load(VIDEO_PROMPT_PATH),
-                [Path(frame["path"]) for frame in focus],
-                temperature=0.1,
-                max_tokens=640,
-                json_mode=True,
-            )
+            if clip_path:
+                second_prompt = (
+                    f"{SECOND_LOOK_PROMPT_VIDEO}\n{evidence.prompt_block()}\n"
+                    f"Odak zamanları: {', '.join(f['time'] for f in focus)}\n"
+                    f"Önceki JSON özeti: risk={label.get('risk')}, summary={label.get('summary')}\n\n"
+                    + _load(VIDEO_PROMPT_PATH)
+                )
+                second = await chat_vlm(
+                    second_prompt,
+                    frame_paths,
+                    video_path=clip_path,
+                    temperature=0.1,
+                    max_tokens=640,
+                    json_mode=True,
+                )
+            else:
+                second = await chat_vlm(
+                    f"{SECOND_LOOK_PROMPT}\n{evidence.prompt_block()}\n"
+                    f"Odak kareler: {', '.join(f['time'] for f in focus)}\n"
+                    f"Önceki JSON özeti: risk={label.get('risk')}, summary={label.get('summary')}\n\n"
+                    + _load(VIDEO_PROMPT_PATH),
+                    [Path(frame["path"]) for frame in focus],
+                    temperature=0.1,
+                    max_tokens=640,
+                    json_mode=True,
+                )
             parsed2 = parse_json(second.text)
             for key in ("summary", "events", "risk", "actions", "category"):
                 if parsed2.get(key) not in (None, "", []):
@@ -490,7 +602,9 @@ async def run_demo_analysis(
     step = perf_counter()
     label = refine_label(label, evidence)
     label["events"] = dedupe_events(
-        snap_events_to_frame_times(label.get("events") or [], frame_times)
+        snap_events_to_frame_times(label.get("events") or [], frame_times),
+        window_sec=2,
+        max_events=5,
     )
     spec = label_to_spec(label)
     timings["kural_katmani"] = perf_counter() - step

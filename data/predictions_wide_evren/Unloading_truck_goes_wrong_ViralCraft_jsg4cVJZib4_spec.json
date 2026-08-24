@@ -1,0 +1,31 @@
+{
+  "summary": "Çalışan, yükü taşıyarak kamyonun arkasından çekmek isterken dengesini kaybeder ve yere düşer. Yük de düşer.",
+  "events": [
+    {
+      "time": "00:00",
+      "event": "Çalışan yükü çekmeye çalışırken dengesini kaybeder ve yere düşer; yük de düşer."
+    },
+    {
+      "time": "00:02",
+      "event": "Çalışan yükü çekmeye çalışırken dengesini kaybeder ve yere düşer; yük de düşer."
+    },
+    {
+      "time": "00:04",
+      "event": "Çalışan yükü çekmeye çalışırken dengesini kaybeder ve yere düşer; yük de düşer."
+    },
+    {
+      "time": "00:06",
+      "event": "Çalışan yükü çekmeye çalışırken dengesini kaybeder ve yere düşer; yük de düşer."
+    },
+    {
+      "time": "00:17",
+      "event": "Çalışan yükü çekmeye çalışırken dengesini kaybeder ve yere düşer; yük de düşer."
+    }
+  ],
+  "risk": "Yüksek",
+  "actions": [
+    "Yaralı çalışanı hemen sağlık ekiplerine bildirin.",
+    "Olay yerini izole edin ve diğer çalışanların yaklaşmasını engelleyin.",
+    "Kaza raporu oluşturun ve güvenlik incelemesi başlatın."
+  ]
+}

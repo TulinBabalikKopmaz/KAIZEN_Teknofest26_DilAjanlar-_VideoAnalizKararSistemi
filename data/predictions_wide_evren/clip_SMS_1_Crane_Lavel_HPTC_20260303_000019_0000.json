@@ -1,0 +1,45 @@
+{
+  "video_id": "clip_SMS_1_Crane_Lavel_HPTC_20260303_000019_0000",
+  "filename": "clip_SMS_1_Crane_Lavel_HPTC_20260303_000019_0000.mp4",
+  "category": "normal",
+  "duration_sec": 9.0,
+  "status": "auto",
+  "labeled_by": "qwen:vlm",
+  "summary": "Çalışan sahada duruyor. İşletme alanı normal görünümde. Ateşleme işlemi devam ediyor.",
+  "events": [
+    {
+      "time": "00:00",
+      "time_end": "00:07",
+      "event": "Çalışan sahada duruyor. Ateşleme işlemi devam ediyor.",
+      "event_type": "normal",
+      "severity": "dusuk"
+    }
+  ],
+  "risk": "Düşük",
+  "actions": [
+    "Sağlık ekibini çağır",
+    "Alanı güvenlik altına al"
+  ],
+  "notes": "Otomatik taslak. Gold değil; Streamlit'te kontrol edin. | Kanıt birleştirme: risk Düşük→Yüksek; category normal→accident; aksiyon güçlendirildi | Kanıt birleştirme: zayıf Yüksek→Düşük/normal (FA dampen)",
+  "evidence": {
+    "duration_sec": 9.0,
+    "motion_peak_sec": 3.68,
+    "motion_peak_score": 6.331597222222222,
+    "motion_peaks": [
+      0.32,
+      3.68,
+      7.04
+    ],
+    "motion_elevated": false,
+    "person_count_max": 1,
+    "vehicle_count_max": 0,
+    "min_person_vehicle_ratio": null,
+    "person_vehicle_close": false,
+    "person_vehicle_very_close": false,
+    "fire_like_ratio_max": 0.01917824074074074,
+    "fire_like_rise": 0.01790461033950617,
+    "fire_suspect": false,
+    "yolo_available": true,
+    "notes": []
+  }
+}

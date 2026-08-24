@@ -1,0 +1,74 @@
+{
+  "video_id": "Unloading_truck_goes_wrong_ViralCraft_jsg4cVJZib4",
+  "filename": "Unloading truck goes wrong ｜ ViralCraft [jsg4cVJZib4].mp4",
+  "category": "accident",
+  "duration_sec": 22.92,
+  "status": "auto",
+  "labeled_by": "qwen:vlm",
+  "summary": "Çalışan, yükü taşıyarak kamyonun arkasından çekmek isterken dengesini kaybeder ve yere düşer. Yük de düşer.",
+  "events": [
+    {
+      "time": "00:00",
+      "time_end": "00:19",
+      "event": "Çalışan yükü çekmeye çalışırken dengesini kaybeder ve yere düşer; yük de düşer.",
+      "event_type": "kaza",
+      "severity": "yuksek"
+    },
+    {
+      "time": "00:02",
+      "time_end": "00:19",
+      "event": "Çalışan yükü çekmeye çalışırken dengesini kaybeder ve yere düşer; yük de düşer.",
+      "event_type": "kaza",
+      "severity": "yuksek"
+    },
+    {
+      "time": "00:04",
+      "time_end": "00:19",
+      "event": "Çalışan yükü çekmeye çalışırken dengesini kaybeder ve yere düşer; yük de düşer.",
+      "event_type": "kaza",
+      "severity": "yuksek"
+    },
+    {
+      "time": "00:06",
+      "time_end": "00:19",
+      "event": "Çalışan yükü çekmeye çalışırken dengesini kaybeder ve yere düşer; yük de düşer.",
+      "event_type": "kaza",
+      "severity": "yuksek"
+    },
+    {
+      "time": "00:17",
+      "time_end": "00:19",
+      "event": "Çalışan yükü çekmeye çalışırken dengesini kaybeder ve yere düşer; yük de düşer.",
+      "event_type": "kaza",
+      "severity": "yuksek"
+    }
+  ],
+  "risk": "Yüksek",
+  "actions": [
+    "Yaralı çalışanı hemen sağlık ekiplerine bildirin.",
+    "Olay yerini izole edin ve diğer çalışanların yaklaşmasını engelleyin.",
+    "Kaza raporu oluşturun ve güvenlik incelemesi başlatın."
+  ],
+  "notes": "Otomatik taslak. Gold değil; Streamlit'te kontrol edin.",
+  "evidence": {
+    "duration_sec": 22.922900000000002,
+    "motion_peak_sec": 1.6683333333333334,
+    "motion_peak_score": 30.97652777777778,
+    "motion_peaks": [
+      1.6683333333333334,
+      5.6723333333333334,
+      19.019000000000002
+    ],
+    "motion_elevated": true,
+    "person_count_max": 2,
+    "vehicle_count_max": 4,
+    "min_person_vehicle_ratio": 0.32874235709098254,
+    "person_vehicle_close": true,
+    "person_vehicle_very_close": true,
+    "fire_like_ratio_max": 0.00047634548611111114,
+    "fire_like_rise": 0.00023871527777777782,
+    "fire_suspect": false,
+    "yolo_available": true,
+    "notes": []
+  }
+}

@@ -1,0 +1,23 @@
+{
+  "summary": "Forklift, raf sistemine çarptı ve raf çöktü; toz bulutu oluştu ve saha karıştı.",
+  "events": [
+    {
+      "time": "00:12",
+      "event": "Forklift raf sistemine çarptı ve raf çöktü; toz bulutu yayıldı."
+    },
+    {
+      "time": "00:14",
+      "event": "Forklift raf sistemine çarptı ve raf çöktü; toz bulutu yayıldı."
+    },
+    {
+      "time": "00:16",
+      "event": "Forklift raf sistemine çarptı ve raf çöktü; toz bulutu yayıldı."
+    }
+  ],
+  "risk": "Yüksek",
+  "actions": [
+    "Acil durum protokolüne geçin, sahada çalışanları güvenli alana çıkarın.",
+    "İtfaiye ve sağlık ekiplerini çağırın.",
+    "Sahayı kapatin ve inceleme başlatın."
+  ]
+}

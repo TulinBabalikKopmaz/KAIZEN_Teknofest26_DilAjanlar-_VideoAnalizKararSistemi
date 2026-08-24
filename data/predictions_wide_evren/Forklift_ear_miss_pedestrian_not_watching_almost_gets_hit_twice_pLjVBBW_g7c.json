@@ -1,0 +1,74 @@
+{
+  "video_id": "Forklift_ear_miss_pedestrian_not_watching_almost_gets_hit_twice_pLjVBBW_g7c",
+  "filename": "Forklift ear miss pedestrian not watching almost gets hit twice [pLjVBBW_g7c].mp4",
+  "category": "accident",
+  "duration_sec": 14.21,
+  "status": "auto",
+  "labeled_by": "qwen:vlm",
+  "summary": "Forklift, çalışanın çok yakınından geçerken yükü kaybettirip yere düşürdü. Çalışan yere düşen yükün hemen yanında duruyor.",
+  "events": [
+    {
+      "time": "00:04",
+      "time_end": "00:12",
+      "event": "Forklift, çalışanın çok yakınından geçerken yükü kaybettirip yere düşürdü.",
+      "event_type": "kaza",
+      "severity": "Yüksek"
+    },
+    {
+      "time": "00:06",
+      "time_end": "00:12",
+      "event": "Forklift, çalışanın çok yakınından geçerken yükü kaybettirip yere düşürdü.",
+      "event_type": "kaza",
+      "severity": "Yüksek"
+    },
+    {
+      "time": "00:08",
+      "time_end": "00:12",
+      "event": "Forklift, çalışanın çok yakınından geçerken yükü kaybettirip yere düşürdü.",
+      "event_type": "kaza",
+      "severity": "Yüksek"
+    },
+    {
+      "time": "00:10",
+      "time_end": "00:12",
+      "event": "Forklift, çalışanın çok yakınından geçerken yükü kaybettirip yere düşürdü.",
+      "event_type": "kaza",
+      "severity": "Yüksek"
+    },
+    {
+      "time": "00:12",
+      "time_end": "00:12",
+      "event": "Forklift, çalışanın çok yakınından geçerken yükü kaybettirip yere düşürdü.",
+      "event_type": "kaza",
+      "severity": "Yüksek"
+    }
+  ],
+  "risk": "Yüksek",
+  "actions": [
+    "Yere düşen yükün çevresini hemen boşaltın.",
+    "Çalışanın durumunu kontrol edin, gerekirse acil tıbbi müdahaleye alın.",
+    "Olay yerini izole edin ve kazanın nedenini araştırın."
+  ],
+  "notes": "Otomatik taslak. Gold değil; Streamlit'te kontrol edin. | Kanıt birleştirme: zayıf Yüksek→Orta (FA dampen); category near_miss→accident (tamamlanmış sonuç); kilit accident/Orta→accident/Yüksek | Kanıt birleştirme: zayıf Yüksek→Orta (FA dampen); category near_miss→accident (tamamlanmış sonuç); kilit accident/Orta→accident/Yüksek | Kanıt birleştirme: zayıf Yüksek→Orta (FA dampen); category near_miss→accident (tamamlanmış sonuç); kilit accident/Orta→accident/Yüksek | Kanıt birleştirme: zayıf Yüksek→Orta (FA dampen); category near_miss→accident (tamamlanmış sonuç); kilit accident/Orta→accident/Yüksek | Kanıt birleştirme: zayıf Yüksek→Orta (FA dampen); category near_miss→accident (tamamlanmış sonuç); kilit accident/Orta→accident/Yüksek | Kanıt birleştirme: zayıf Yüksek→Orta (FA dampen); category near_miss→accident (tamamlanmış sonuç); kilit accident/Orta→accident/Yüksek",
+  "evidence": {
+    "duration_sec": 14.2142,
+    "motion_peak_sec": 11.5115,
+    "motion_peak_score": 5.535,
+    "motion_peaks": [
+      6.339666666666667,
+      9.509500000000001,
+      11.5115
+    ],
+    "motion_elevated": false,
+    "person_count_max": 1,
+    "vehicle_count_max": 4,
+    "min_person_vehicle_ratio": 1.4303393795067318,
+    "person_vehicle_close": false,
+    "person_vehicle_very_close": false,
+    "fire_like_ratio_max": 0.02692720530835285,
+    "fire_like_rise": 0.013497755659640906,
+    "fire_suspect": false,
+    "yolo_available": true,
+    "notes": []
+  }
+}

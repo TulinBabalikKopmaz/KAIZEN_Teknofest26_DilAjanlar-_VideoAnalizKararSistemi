@@ -1,0 +1,44 @@
+{
+  "video_id": "clip_Tippler_1_2_CP_IP_Cam_20251127_000108_0002",
+  "filename": "clip_Tippler_1&2_CP_IP_Cam_20251127_000108_0002.mp4",
+  "category": "normal",
+  "duration_sec": 6.56,
+  "status": "auto",
+  "labeled_by": "qwen:vlm",
+  "summary": "Çalışanlar sahada yürüyor. Normal faaliyetler devam ediyor.",
+  "events": [
+    {
+      "time": "00:00",
+      "time_end": "00:06",
+      "event": "Çalışanlar sahada yürüyor.",
+      "event_type": "normal",
+      "severity": "dusuk"
+    }
+  ],
+  "risk": "Düşük",
+  "actions": [
+    "Rutin izlemeye devam et"
+  ],
+  "notes": "Otomatik taslak. Gold değil; Streamlit'te kontrol edin.",
+  "evidence": {
+    "duration_sec": 6.56,
+    "motion_peak_sec": 2.56,
+    "motion_peak_score": 2.488263888888889,
+    "motion_peaks": [
+      0.16,
+      2.56,
+      4.8
+    ],
+    "motion_elevated": false,
+    "person_count_max": 3,
+    "vehicle_count_max": 0,
+    "min_person_vehicle_ratio": null,
+    "person_vehicle_close": false,
+    "person_vehicle_very_close": false,
+    "fire_like_ratio_max": 0.015016878858024692,
+    "fire_like_rise": 0.0023659336419753103,
+    "fire_suspect": false,
+    "yolo_available": true,
+    "notes": []
+  }
+}

@@ -1,0 +1,26 @@
+{
+  "summary": "Çalışan forkliftin çok yakınından geçerken dengesi kaybetti ve son anda kaçtı. Neredeyse çarpışacaktı.",
+  "events": [
+    {
+      "time": "00:00",
+      "event": "Çalışan forkliftin çok yakınından geçerken dengesi kaybetti ve son anda kaçtı."
+    },
+    {
+      "time": "00:03",
+      "event": "Çalışan forkliftin çok yakınından geçerken dengesi kaybetti ve son anda kaçtı."
+    },
+    {
+      "time": "00:05",
+      "event": "Çalışan forkliftin çok yakınından geçerken dengesi kaybetti ve son anda kaçtı."
+    },
+    {
+      "time": "00:07",
+      "event": "Çalışan forkliftin çok yakınından geçerken dengesi kaybetti ve son anda kaçtı."
+    }
+  ],
+  "risk": "Yüksek",
+  "actions": [
+    "Olayı kayıtlara al ve çalışanı uyar.",
+    "Forklift operatörüyle görüş, yakın geçişleri önleyen prosedürleri gözden geçir."
+  ]
+}

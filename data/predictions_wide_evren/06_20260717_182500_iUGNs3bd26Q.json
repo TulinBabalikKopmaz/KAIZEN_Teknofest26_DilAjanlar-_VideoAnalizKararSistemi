@@ -1,0 +1,44 @@
+{
+  "video_id": "06_20260717_182500_iUGNs3bd26Q",
+  "filename": "06 20260717 182500 [iUGNs3bd26Q].mp4",
+  "category": "normal",
+  "duration_sec": 50.35,
+  "status": "auto",
+  "labeled_by": "qwen:vlm",
+  "summary": "Çalışan kendi iş alanındaki sepetten malzemeleri masaya yerleştiriyor. Rutin faaliyetler devam ediyor.",
+  "events": [
+    {
+      "time": "00:00",
+      "time_end": "00:28",
+      "event": "Çalışan sepetten malzemeleri masaya yerleştiriyor.",
+      "event_type": "normal",
+      "severity": "dusuk"
+    }
+  ],
+  "risk": "Düşük",
+  "actions": [
+    "Rutin izlemeye devam et"
+  ],
+  "notes": "Otomatik taslak. Gold değil; Streamlit'te kontrol edin. | ikinci bakış uygulandı",
+  "evidence": {
+    "duration_sec": 50.35,
+    "motion_peak_sec": 0.16666666666666666,
+    "motion_peak_score": 14.353055555555555,
+    "motion_peaks": [
+      0.16666666666666666,
+      9.666666666666666,
+      27.5
+    ],
+    "motion_elevated": true,
+    "person_count_max": 2,
+    "vehicle_count_max": 1,
+    "min_person_vehicle_ratio": null,
+    "person_vehicle_close": false,
+    "person_vehicle_very_close": false,
+    "fire_like_ratio_max": 0.050128761574074074,
+    "fire_like_rise": 0.009598765432098762,
+    "fire_suspect": false,
+    "yolo_available": true,
+    "notes": []
+  }
+}

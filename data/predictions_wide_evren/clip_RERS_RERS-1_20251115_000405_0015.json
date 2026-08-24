@@ -1,0 +1,44 @@
+{
+  "video_id": "clip_RERS_RERS-1_20251115_000405_0015",
+  "filename": "clip_RERS_RERS-1_20251115_000405_0015.mp4",
+  "category": "normal",
+  "duration_sec": 15.0,
+  "status": "auto",
+  "labeled_by": "qwen:vlm",
+  "summary": "Çalışanlar fabrikada rutin faaliyetlerini sürdürüyor. Herhangi bir kaza veya tehlikeli yaklaşma gözlemlenmedi.",
+  "events": [
+    {
+      "time": "00:00",
+      "time_end": "00:13",
+      "event": "Çalışanlar makine etrafında hareket ediyor ve işlerine devam ediyor.",
+      "event_type": "normal",
+      "severity": "dusuk"
+    }
+  ],
+  "risk": "Düşük",
+  "actions": [
+    "Rutin izlemeye devam et"
+  ],
+  "notes": "Otomatik taslak. Gold değil; Streamlit'te kontrol edin. | Kanıt birleştirme: risk Düşük→Orta; category normal→near_miss | Kanıt birleştirme: rutin saha / olay yok → normal",
+  "evidence": {
+    "duration_sec": 15.0,
+    "motion_peak_sec": 3.04,
+    "motion_peak_score": 4.072222222222222,
+    "motion_peaks": [
+      3.04,
+      5.12,
+      9.12
+    ],
+    "motion_elevated": false,
+    "person_count_max": 2,
+    "vehicle_count_max": 0,
+    "min_person_vehicle_ratio": null,
+    "person_vehicle_close": false,
+    "person_vehicle_very_close": false,
+    "fire_like_ratio_max": 0.023148148148148147,
+    "fire_like_rise": 0.018716724537037037,
+    "fire_suspect": false,
+    "yolo_available": true,
+    "notes": []
+  }
+}

@@ -1,0 +1,22 @@
+{
+  "summary": "Çalışanlar kamyonun arkasından yük çıkarken dengesi kaybetti ve yük yere düştü. Yere serilmiş kovalar ve içeriği dağıldı.",
+  "events": [
+    {
+      "time": "00:02",
+      "event": "Yük kamyonun arkasından düşerek yere serildi ve içeriği dağıldı."
+    },
+    {
+      "time": "00:04",
+      "event": "Yük kamyonun arkasından düşerek yere serildi ve içeriği dağıldı."
+    },
+    {
+      "time": "00:06",
+      "event": "Yük kamyonun arkasından düşerek yere serildi ve içeriği dağıldı."
+    }
+  ],
+  "risk": "Yüksek",
+  "actions": [
+    "Yere düşen yük ve içeriği kaldırılmalı, alan güvenli hale getirilmeli.",
+    "Çalışanlara sağlık kontrolü yapılmalı, olay raporlanmalı."
+  ]
+}

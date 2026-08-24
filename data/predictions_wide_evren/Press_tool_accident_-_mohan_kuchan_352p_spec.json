@@ -1,0 +1,31 @@
+{
+  "summary": "Çalışan, makine yanında dengesini kaybederek yere düştü. Diğer çalışanlar hemen müdahale etti ve yere yatmış kişiyi kaldırmaya başladı.",
+  "events": [
+    {
+      "time": "00:19",
+      "event": "Diğer çalışanlar düştüğü yerdeki kişiyi kaldırmaya başladı."
+    },
+    {
+      "time": "00:21",
+      "event": "Diğer çalışanlar düştüğü yerdeki kişiyi kaldırmaya başladı."
+    },
+    {
+      "time": "00:21",
+      "event": "Çalışan makine yanında dengesini kaybederek yere düştü."
+    },
+    {
+      "time": "00:24",
+      "event": "Diğer çalışanlar düştüğü yerdeki kişiyi kaldırmaya başladı."
+    },
+    {
+      "time": "00:33",
+      "event": "Diğer çalışanlar düştüğü yerdeki kişiyi kaldırmaya başladı."
+    }
+  ],
+  "risk": "Yüksek",
+  "actions": [
+    "Yere düşen çalışanın sağlık durumu kontrol edilsin.",
+    "Olay yerine ilk yardım ekibi çağrılmalı.",
+    "Alan geçici olarak kapalı tutulmalı, diğer çalışanlar uyarılmalı."
+  ]
+}

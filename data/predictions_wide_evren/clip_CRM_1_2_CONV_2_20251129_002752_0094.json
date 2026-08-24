@@ -1,0 +1,44 @@
+{
+  "video_id": "clip_CRM_1_2_CONV_2_20251129_002752_0094",
+  "filename": "clip_CRM_1&2_CONV#2_20251129_002752_0094.mp4",
+  "category": "normal",
+  "duration_sec": 12.0,
+  "status": "auto",
+  "labeled_by": "qwen:vlm",
+  "summary": "Çalışan fabrika sahasında rutin aktivite yapmaktadır. Normal durumda.",
+  "events": [
+    {
+      "time": "00:00",
+      "time_end": "00:11",
+      "event": "Çalışan fabrikada yürüyor.",
+      "event_type": "normal",
+      "severity": "dusuk"
+    }
+  ],
+  "risk": "Düşük",
+  "actions": [
+    "Rutin izlemeye devam et"
+  ],
+  "notes": "Otomatik taslak. Gold değil; Streamlit'te kontrol edin.",
+  "evidence": {
+    "duration_sec": 12.0,
+    "motion_peak_sec": 3.2,
+    "motion_peak_score": 1.7678472222222221,
+    "motion_peaks": [
+      3.2,
+      7.2,
+      11.2
+    ],
+    "motion_elevated": false,
+    "person_count_max": 1,
+    "vehicle_count_max": 0,
+    "min_person_vehicle_ratio": null,
+    "person_vehicle_close": false,
+    "person_vehicle_very_close": false,
+    "fire_like_ratio_max": 0.01005931712962963,
+    "fire_like_rise": 0.0016406250000000015,
+    "fire_suspect": false,
+    "yolo_available": true,
+    "notes": []
+  }
+}

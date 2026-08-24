@@ -1,0 +1,13 @@
+{
+  "summary": "Çalışanlar atölyede rutin faaliyetlerini sürdürüyor. Herhangi bir kaza veya tehlikeli yaklaşma gözlemlenmedi.",
+  "events": [
+    {
+      "time": "00:00",
+      "event": "Çalışanlar atölyede çeşitli ekipmanlarla çalışırken, biri büyük bir makine parçasının yanında oturuyor."
+    }
+  ],
+  "risk": "Düşük",
+  "actions": [
+    "Rutin izlemeye devam et"
+  ]
+}

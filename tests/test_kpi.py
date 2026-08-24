@@ -32,6 +32,29 @@ class KpiTests(unittest.TestCase):
         self.assertEqual(total, 1)
         self.assertEqual(hits, 1)
 
+    def test_stemmed_event_text_still_matches(self) -> None:
+        hits, total = event_hits(
+            [{"time": "00:32", "event": "Forklift çapması sonucu yük dolu raflar devriliyor."}],
+            [{"time": "00:34", "event": "Raf sistemi çöktü ve yükler yere devrildi."}],
+        )
+        self.assertEqual(total, 1)
+        self.assertEqual(hits, 1)
+
+    def test_synonym_event_text_still_matches(self) -> None:
+        hits, total = event_hits(
+            [{"time": "00:03", "event": "Çalışan arabanın altında kaldı."}],
+            [{"time": "00:02", "event": "Araç çalışanın üzerine çarptı."}],
+        )
+        self.assertEqual(total, 1)
+        self.assertEqual(hits, 1)
+
+    def test_unrelated_event_text_does_not_match(self) -> None:
+        hits, total = event_hits(
+            [{"time": "00:00", "event": "Rutin saha yürüyüşü"}],
+            [{"time": "00:00", "event": "Depo rafı çöktü"}],
+        )
+        self.assertEqual(hits, 0)
+
     def test_missed_accident(self) -> None:
         gold = {
             "category": "accident",

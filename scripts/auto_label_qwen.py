@@ -42,6 +42,13 @@ SECOND_LOOK_PROMPT = (
     "events[].time yalnızca verilen kare zamanlarından biri olsun.\n"
     "Yine sadece JSON döndür.\n"
 )
+SECOND_LOOK_PROMPT_VIDEO = (
+    "Önceki cevabın çok sakin / düşük risk görünüyor ama sensörler şüpheli diyor.\n"
+    "Aynı video klibine tekrar bak. Özellikle: çarpışma, düşme, yanma, kişi-araç temas.\n"
+    "Görmüyorsan uydurma. Görüyorsan category/risk'i yükselt.\n"
+    "events[].time yalnızca verilen kare zamanlarından biri olsun.\n"
+    "Yine sadece JSON döndür.\n"
+)
 
 
 def load_prompt() -> str:
@@ -168,7 +175,7 @@ def build_client(backend: str) -> tuple[OpenAI, str]:
         return OpenAI(base_url=base_url, api_key="ollama"), model
     if backend == "teknofest":
         # Yarışmanın ortak API'si; adres ve model utils/config üzerinden env'den gelir
-        from utils.config import vlm_endpoint
+        from utils.config import request_timeout, vlm_endpoint
 
         ep = vlm_endpoint("teknofest")
         if not ep.base_url:
@@ -178,7 +185,12 @@ def build_client(backend: str) -> tuple[OpenAI, str]:
         base_url = ep.base_url.rstrip("/")
         if not base_url.endswith("/v1"):
             base_url = f"{base_url}/v1"
-        return OpenAI(base_url=base_url, api_key=ep.api_key or "teknofest"), ep.model
+        return OpenAI(
+            base_url=base_url,
+            api_key=ep.api_key or "teknofest",
+            timeout=request_timeout(),
+            max_retries=0,
+        ), ep.model
     if backend == "openai":
         base_url = os.getenv("OPENAI_BASE_URL", "http://127.0.0.1:8000/v1")
         model = os.getenv("OPENAI_MODEL", "Qwen/Qwen2.5-VL-7B-Instruct")
@@ -193,19 +205,30 @@ def _call_vlm(
     prompt: str,
     image_paths: list[Path],
     backend: str,
+    video_path: Path | None = None,
 ) -> str:
     if backend == "ollama":
         return ollama_chat(model, prompt, image_paths)
-    max_side = int(os.getenv("MAX_IMAGE_SIDE", "768")) if backend == "teknofest" else None
     content: list[dict] = [{"type": "text", "text": prompt}]
-    for path in image_paths:
-        b64 = encode_image(path, max_side=max_side)
+    if backend == "teknofest" and video_path:
+        from utils.video_clip import encode_video_b64
+
         content.append(
             {
-                "type": "image_url",
-                "image_url": {"url": f"data:image/jpeg;base64,{b64}"},
+                "type": "video_url",
+                "video_url": {"url": f"data:video/mp4;base64,{encode_video_b64(video_path)}"},
             }
         )
+    else:
+        max_side = int(os.getenv("MAX_IMAGE_SIDE", "768")) if backend == "teknofest" else None
+        for path in image_paths:
+            b64 = encode_image(path, max_side=max_side)
+            content.append(
+                {
+                    "type": "image_url",
+                    "image_url": {"url": f"data:image/jpeg;base64,{b64}"},
+                }
+            )
     kwargs: dict = {}
     if backend == "openai":
         # Yerel vLLM / LM Studio kurulumları bu alanları kullanıyor
@@ -268,21 +291,50 @@ def label_video(
     if use_folder_hint and folder_cat in {"normal", "near_miss", "accident"}:
         hint = f"Klasör ipucu (yanlış olabilir, gördüğüne göre düzelt): {folder_cat}\n"
 
+    clip_path: Path | None = None
+    clip_range: tuple[float, float] | None = None
+    if backend == "teknofest":
+        from utils.video_clip import prepare_clip
+
+        dest = ROOT / "data" / "clips" / f"{frames_meta.get('video_id') or video_path.stem}.mp4"
+        duration_s = float(frames_meta.get("duration_sec") or 0.0)
+        clip_path, clip_start, clip_end = prepare_clip(
+            video_path,
+            dest,
+            duration_s,
+            evidence.motion_peak_sec,
+            evidence.motion_peaks,
+        )
+        clip_range = (clip_start, clip_end)
+
+    if clip_range:
+        from utils.spec_output import seconds_to_mmss
+
+        media_line = (
+            f"Gönderilen medya: orijinal videonun "
+            f"{seconds_to_mmss(clip_range[0])}-{seconds_to_mmss(clip_range[1])} "
+            "aralığından kesilmiş kısa video klibi. Tüm klibi izle. "
+            "events[].time orijinal video saatine göre yaz (yukarıdaki kare zamanları); "
+            "klibin ilk anına 00:00 deme. "
+        )
+    else:
+        media_line = "Görseller aşağıda 1. kareden son kareye sıralı. "
+
     prompt = (
         f"Süre: {frames_meta['duration_sec']} saniye\n"
         f"Kare zamanları (events[].time SADECE bunlardan biri): {times}\n"
         f"Gönderilen kare sayısı: {len(frames)}\n"
         f"{hint}"
         f"{evidence.prompt_block()}\n"
-        "Görseller aşağıda 1. kareden son kareye sıralı. "
-        "İlk kare sakin olsa bile tüm diziyi oku; "
+        f"{media_line}"
+        "İlk an sakin olsa bile tüm diziyi oku; "
         "çarpışma, düşme, yanma, devrilme veya yerde kişi varsa onu yaz "
         "(accident + Yüksek). Sadece tehlikeli yaklaşma varsa near_miss.\n"
         f"{numbered}\n\n"
         + load_prompt()
     )
     image_paths = [Path(frame["path"]) for frame in frames]
-    raw = _call_vlm(client, model, prompt, image_paths, backend)
+    raw = _call_vlm(client, model, prompt, image_paths, backend, video_path=clip_path)
     parsed = parse_json(raw)
 
     parsed_cat = parsed.get("category", "")
@@ -316,7 +368,7 @@ def label_video(
         focus_paths = [Path(f["path"]) for f in focus]
         focus_times = ", ".join(f["time"] for f in focus)
         second_prompt = (
-            f"{SECOND_LOOK_PROMPT}\n"
+            f"{SECOND_LOOK_PROMPT_VIDEO if clip_path else SECOND_LOOK_PROMPT}\n"
             f"{evidence.prompt_block()}\n"
             f"Odak kareler: {focus_times}\n"
             f"Önceki JSON özeti: risk={label.get('risk')}, "
@@ -324,7 +376,14 @@ def label_video(
             + load_prompt()
         )
         try:
-            raw2 = _call_vlm(client, model, second_prompt, focus_paths, backend)
+            raw2 = _call_vlm(
+                client,
+                model,
+                second_prompt,
+                focus_paths if not clip_path else image_paths,
+                backend,
+                video_path=clip_path,
+            )
             parsed2 = parse_json(raw2)
             for key in ("summary", "events", "risk", "actions", "category"):
                 if parsed2.get(key) not in (None, "", []):

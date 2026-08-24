@@ -1,0 +1,27 @@
+{
+  "summary": "Raf sistemi çöktü ve üzerindeki tüm yükler yere düştü. Kazanın ardından sahada çalışan görünmemektedir.",
+  "events": [
+    {
+      "time": "00:37",
+      "event": "Raf sistemi çöktü ve üzerindeki tüm yükler yere düştü."
+    },
+    {
+      "time": "00:39",
+      "event": "Raf sistemi çöktü ve üzerindeki tüm yükler yere düştü."
+    },
+    {
+      "time": "00:42",
+      "event": "Raf sistemi çöktü ve üzerindeki tüm yükler yere düştü."
+    },
+    {
+      "time": "00:44",
+      "event": "Raf sistemi çöktü ve üzerindeki tüm yükler yere düştü."
+    }
+  ],
+  "risk": "Yüksek",
+  "actions": [
+    "Acil durum protokolüne geçin, sahada çalışanların durumunu kontrol edin.",
+    "Alanı hemen boşaltın ve itfaiye/İSG ekibini çağırın.",
+    "Kaza yerini koruyun, inceleme için erişimi kısıtlayın."
+  ]
+}

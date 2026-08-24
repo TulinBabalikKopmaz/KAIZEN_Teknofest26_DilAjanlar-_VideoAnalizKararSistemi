@@ -1,0 +1,44 @@
+{
+  "video_id": "clip_HME_Work_Shop_20251111_000740_0030",
+  "filename": "clip_HME_Work_Shop_20251111_000740_0030.mp4",
+  "category": "normal",
+  "duration_sec": 12.0,
+  "status": "auto",
+  "labeled_by": "qwen:vlm",
+  "summary": "Çalışanlar atölyede rutin faaliyetlerini sürdürüyor. Herhangi bir kaza veya tehlikeli yaklaşma gözlemlenmedi.",
+  "events": [
+    {
+      "time": "00:00",
+      "time_end": "00:10",
+      "event": "Çalışanlar atölyede yürüyor, oturuyor ve işlerine devam ediyor.",
+      "event_type": "normal",
+      "severity": "dusuk"
+    }
+  ],
+  "risk": "Düşük",
+  "actions": [
+    "Rutin izlemeye devam et"
+  ],
+  "notes": "Otomatik taslak. Gold değil; Streamlit'te kontrol edin. | Kanıt birleştirme: risk Düşük→Orta; category normal→near_miss | Kanıt birleştirme: rutin saha / olay yok → normal",
+  "evidence": {
+    "duration_sec": 12.0,
+    "motion_peak_sec": 10.08,
+    "motion_peak_score": 3.3516666666666666,
+    "motion_peaks": [
+      2.08,
+      4.16,
+      10.08
+    ],
+    "motion_elevated": false,
+    "person_count_max": 1,
+    "vehicle_count_max": 0,
+    "min_person_vehicle_ratio": null,
+    "person_vehicle_close": false,
+    "person_vehicle_very_close": false,
+    "fire_like_ratio_max": 0.04443045910493827,
+    "fire_like_rise": 0.0009828317901234562,
+    "fire_suspect": false,
+    "yolo_available": true,
+    "notes": []
+  }
+}

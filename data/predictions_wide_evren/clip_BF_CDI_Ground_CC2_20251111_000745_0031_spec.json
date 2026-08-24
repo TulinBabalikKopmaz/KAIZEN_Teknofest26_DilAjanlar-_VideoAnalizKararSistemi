@@ -1,0 +1,13 @@
+{
+  "summary": "Çalışan, metal ızgaralı alanda uzun bir çubukla toprak veya atık malzemeyle çalışırken dengesini koruyor. Rutin faaliyetler devam ediyor.",
+  "events": [
+    {
+      "time": "00:00",
+      "event": "Çalışan metal ızgaralı alanda çubukla toprak/ataş malzemeyle çalışıyor."
+    }
+  ],
+  "risk": "Düşük",
+  "actions": [
+    "Rutin izlemeye devam et"
+  ]
+}

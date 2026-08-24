@@ -21,9 +21,10 @@ load_dotenv()
 PROVIDERS: tuple[str, ...] = ("teknofest", "ollama", "mock")
 ROLES: tuple[str, ...] = ("vlm", "llm")
 
-# Yarışmada verilecek ortak modeller (env ile ezilebilir)
-DEFAULT_VLM_MODEL: str = "Qwen3-VL-27B-Instruct"
-DEFAULT_LLM_MODEL: str = "gemma-3-27b-it"
+# EVREN ortak API alias'ları (https://evren-teknofest.ssyz.org.tr/)
+DEFAULT_TEKNOFEST_BASE: str = "https://evren-llmapi.ssyz.org.tr/v1"
+DEFAULT_VLM_MODEL: str = "vlm"
+DEFAULT_LLM_MODEL: str = "llm-fast"
 DEFAULT_OLLAMA_VLM: str = "qwen2.5vl:7b"
 DEFAULT_OLLAMA_LLM: str = "qwen2.5:7b"
 
@@ -97,9 +98,9 @@ class ModelEndpoint:
 
 
 def _teknofest_endpoint(role: str) -> ModelEndpoint:
-    """Ortak API. Tek endpoint iki model senaryosu da desteklenir."""
-    shared_url = _env("TEKNOFEST_BASE_URL")
-    shared_key = _env("TEKNOFEST_API_KEY", "teknofest")
+    """EVREN ortak API. Tek base URL, model alias ile VLM/LLM ayrılır."""
+    shared_url = _env("TEKNOFEST_BASE_URL") or _env("EVREN_BASE_URL", DEFAULT_TEKNOFEST_BASE)
+    shared_key = _env("TEKNOFEST_API_KEY") or _env("EVREN_API_KEY", "teknofest")
     if role == "vlm":
         return ModelEndpoint(
             provider="teknofest",
@@ -155,7 +156,8 @@ def llm_endpoint(prov: str | None = None) -> ModelEndpoint:
 
 def request_timeout() -> float:
     """Tek model çağrısı için saniye cinsinden üst sınır."""
-    return _env_float("REQUEST_TIMEOUT", 120.0)
+    default = 1800.0 if provider() == "teknofest" else 120.0
+    return _env_float("REQUEST_TIMEOUT", default)
 
 
 def max_retries() -> int:

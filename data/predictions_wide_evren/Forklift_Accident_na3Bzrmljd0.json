@@ -1,0 +1,67 @@
+{
+  "video_id": "Forklift_Accident_na3Bzrmljd0",
+  "filename": "Forklift Accident [na3Bzrmljd0].mp4",
+  "category": "accident",
+  "duration_sec": 98.37,
+  "status": "auto",
+  "labeled_by": "qwen:vlm",
+  "summary": "Raf sistemi çöktü ve üzerindeki tüm yükler yere düştü. Kazanın ardından sahada çalışan görünmemektedir.",
+  "events": [
+    {
+      "time": "00:37",
+      "time_end": "00:40",
+      "event": "Raf sistemi çöktü ve üzerindeki tüm yükler yere düştü.",
+      "event_type": "kaza",
+      "severity": "yuksek"
+    },
+    {
+      "time": "00:39",
+      "time_end": "00:40",
+      "event": "Raf sistemi çöktü ve üzerindeki tüm yükler yere düştü.",
+      "event_type": "kaza",
+      "severity": "yuksek"
+    },
+    {
+      "time": "00:42",
+      "time_end": "00:40",
+      "event": "Raf sistemi çöktü ve üzerindeki tüm yükler yere düştü.",
+      "event_type": "kaza",
+      "severity": "yuksek"
+    },
+    {
+      "time": "00:44",
+      "time_end": "00:40",
+      "event": "Raf sistemi çöktü ve üzerindeki tüm yükler yere düştü.",
+      "event_type": "kaza",
+      "severity": "yuksek"
+    }
+  ],
+  "risk": "Yüksek",
+  "actions": [
+    "Acil durum protokolüne geçin, sahada çalışanların durumunu kontrol edin.",
+    "Alanı hemen boşaltın ve itfaiye/İSG ekibini çağırın.",
+    "Kaza yerini koruyun, inceleme için erişimi kısıtlayın."
+  ],
+  "notes": "Otomatik taslak. Gold değil; Streamlit'te kontrol edin.",
+  "evidence": {
+    "duration_sec": 98.36666666666666,
+    "motion_peak_sec": 39.0,
+    "motion_peak_score": 30.858055555555556,
+    "motion_peaks": [
+      39.0,
+      41.5,
+      44.166666666666664
+    ],
+    "motion_elevated": true,
+    "person_count_max": 0,
+    "vehicle_count_max": 3,
+    "min_person_vehicle_ratio": null,
+    "person_vehicle_close": false,
+    "person_vehicle_very_close": false,
+    "fire_like_ratio_max": 0.002718737613951645,
+    "fire_like_rise": 0.002718737613951645,
+    "fire_suspect": false,
+    "yolo_available": true,
+    "notes": []
+  }
+}

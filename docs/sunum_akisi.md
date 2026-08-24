@@ -74,26 +74,23 @@ akış hiç durmuyor. Tek makine birden fazla kamerayı böyle taşıyor.
 
 ## 2. KPI slaytı
 
-Güncel değerler (18 video, gold ile karşılaştırma — `kpi_final_ozet.csv`):
+İç ölçüm (dev **46 video**, resmi EVREN `vlm` + `llm-fast`, test split yok —
+sunumda "jüri skoru" demeyin):
 
 | Metrik | Değer | Sunumda nasıl anlatılır |
 |---|---|---|
-| Risk doğruluğu | 1.00 | Kural katmanı + VLM birlikte; jüri sorarsa holdout ayrımını söyle. |
-| Kritik olay yakalama | 0.92 | Kaza/ramak kala videolarında olayı kaçırma oranımız düşük. |
-| Yanlış alarm | 0.00 | Normal videolarda kritik alarm üretmiyoruz — sahada güven şartı. |
-| Aksiyon doluluğu | 1.00 | Her çıktıda uygulanabilir müdahale adımı var. |
-| Olay yakalama (±2 sn) | 0.21 | Aşağıdaki dürüst çerçeveyi kullan. |
-| Özet benzerliği | 0.00 | Aynı çerçeve. |
+| Risk doğruluğu | %83 | Kural katmanı + VLM; holdout'a bakmadık, abartma. |
+| Kritik olay yakalama | %100 | Kaza/ramak videolarında olayı kaçırmıyoruz. |
+| Yanlış alarm | %0 | Normal sahnede kritik alarm yok — saha güveni. |
+| Aksiyon doluluğu | %100 | Her çıktıda uygulanabilir müdahale var. |
+| Olay yakalama (±2 sn + metin) | %54 | Zaman çoğu kez tutuyor; Jaccard dil örtüşmesi zayıf. |
+| Özet benzerliği | %72 | Aynı dürüst çerçeve. |
 
-**Olay yakalama ve özet benzerliği için dürüst çerçeve.** Bu iki metrik gold
-cümleyle kelime örtüşmesine bakıyor. `diagnose_kpi.py` çıktısı şunu gösteriyor:
-kaçırdığımız gold olaylarının **%74'ü zaman olarak doğru yakalanmış, sadece
-ifade farkından eşleşmiyor** (ör. model "işçi forkliftin önünden geçiyor" derken
-gold "forklift çalışanın çok yakınından geçti" diyor). Zaman kaçırma sadece %5.
-Yani sistem olayı buluyor, dili henüz standart değil. Prompt'a İSG terminoloji
-sözlüğü ekledik ve ortak 27B model ile bu iki metriği yeniden ölçüyoruz.
+**Olay yakalama için dürüst çerçeve.** Metrik gold cümleyle kelime örtüşmesi
+ister. Teşhis: kalan kaybın çoğu **zaman değil metin** (eşanlamlı ifade).
+Sistem olayı görüyor, cümleyi gold ile bire bir yazmıyor. Bunu gizlemeyin.
 
-> Jüri bu slaytta zayıf sayıyı görürse kendimiz açıklamış olmak avantaj.
+> Jüri zayıf sayıyı görürse kendimiz açıklamış olmak avantaj.
 > Sayıyı saklamak yerine nedenini ölçmüş olmak mühendislik olgunluğu gösterir.
 
 ---
@@ -105,7 +102,7 @@ Jüri odaya girmeden:
 ```powershell
 python scripts/smoke_api.py
 streamlit run app/demo_app.py
-python scripts/analyze_video.py --video data/videos/accident/SEÇİLEN.mp4 --fast
+python scripts/analyze_video.py --video data/videos/accident/6AISVvob4C0_trim_7.mp4 --fast --run-name sahne_merdiven
 ```
 
 Son başarılı koşu `data/demo_runs/` altında dursun (kayıt yedek).

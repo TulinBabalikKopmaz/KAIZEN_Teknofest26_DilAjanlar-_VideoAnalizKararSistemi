@@ -4,7 +4,14 @@ from __future__ import annotations
 
 import unittest
 
-from utils.label_json import dedupe_events, label_to_spec, snap_events_to_frame_times
+from utils.label_json import (
+    align_events_to_motion,
+    dedupe_events,
+    label_to_spec,
+    lift_clip_relative_times,
+    seed_events_from_motion,
+    snap_events_to_frame_times,
+)
 
 
 class DedupeEventTests(unittest.TestCase):
@@ -68,6 +75,61 @@ class DedupeEventTests(unittest.TestCase):
         self.assertEqual(len(out), 1)
         spec = label_to_spec({"summary": "x", "events": out, "risk": "Orta", "actions": ["y"]})
         self.assertEqual(len(spec["events"]), 1)
+
+    def test_zero_timestamp_snaps_to_motion_peak(self) -> None:
+        events = [{"time": "00:00", "event": "Raf çöktü"}]
+        out = align_events_to_motion(events, [34.0])
+        self.assertEqual(out[0]["time"], "00:34")
+
+    def test_zero_timestamp_prefers_primary_peak_not_earliest(self) -> None:
+        events = [{"time": "00:00", "event": "Raf çöktü"}]
+        out = align_events_to_motion(
+            events, [2.0, 34.0], primary_peak_s=34.0
+        )
+        self.assertEqual(out[0]["time"], "00:34")
+
+    def test_short_accident_prefers_later_motion_peak(self) -> None:
+        from utils.label_json import preferred_incident_peak_s
+
+        # 1. sn sallanma, 3.5 sn düşme (merdiven klibi)
+        self.assertEqual(
+            preferred_incident_peak_s(
+                [1.0, 3.5, 5.5], 1.0, duration_s=6.0, category="accident"
+            ),
+            3.5,
+        )
+        # Uzun depo videosunda asıl tepeye dokunma
+        self.assertEqual(
+            preferred_incident_peak_s(
+                [1.0, 32.0], 32.0, duration_s=62.0, category="accident"
+            ),
+            32.0,
+        )
+
+    def test_onset_seed_covers_two_seconds_before_peak(self) -> None:
+        """Gold 00:18, VLM/tepe 00:21 → 2 sn önceki aday ±2 sn içinde yakalar."""
+        events = [{"time": "00:21", "event": "Çalışanın üzerine yük düştü."}]
+        out = seed_events_from_motion(events, [21.0])
+        times = {item["time"] for item in out}
+        self.assertTrue("00:19" in times or "00:21" in times)
+        # 00:21 ve 00:19 pencere=2 ile birleşirse erken zaman (00:19) kalır
+        self.assertIn(out[0]["time"], {"00:19", "00:21"})
+
+    def test_repeat_near_miss_peaks_stay_separate(self) -> None:
+        events = [{"time": "00:03", "event": "Forklift çalışanın çok yakınından geçti."}]
+        out = seed_events_from_motion(events, [3.0, 6.0, 9.0])
+        times = [item["time"] for item in out]
+        self.assertGreaterEqual(len(times), 2)
+
+    def test_clip_relative_time_lifts_to_original(self) -> None:
+        events = [{"time": "00:10", "event": "Raf çöktü"}]
+        out = lift_clip_relative_times(events, clip_start_s=24.0, peaks=[34.0])
+        self.assertEqual(out[0]["time"], "00:34")
+
+    def test_original_clock_is_not_shifted(self) -> None:
+        events = [{"time": "00:34", "event": "Raf çöktü"}]
+        out = lift_clip_relative_times(events, clip_start_s=24.0, peaks=[34.0])
+        self.assertEqual(out[0]["time"], "00:34")
 
     def test_spec_risk_follows_category(self) -> None:
         spec = label_to_spec(

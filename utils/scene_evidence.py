@@ -12,7 +12,7 @@ Bunlar model değil; sensör notu gibi düşün.
 from __future__ import annotations
 
 import math
-from dataclasses import asdict, dataclass, field
+from dataclasses import asdict, dataclass, field, fields
 from pathlib import Path
 from typing import Any
 
@@ -51,6 +51,27 @@ class SceneEvidence:
 
     def to_dict(self) -> dict[str, Any]:
         return asdict(self)
+
+    @classmethod
+    def from_dict(cls, raw: dict[str, Any] | None) -> SceneEvidence | None:
+        """Prediction JSON'daki kanıt bloğunu yükler (ek anahtarları yok sayar)."""
+        if not raw:
+            return None
+        aliases = {
+            "motion_elevated": "motion_elevated",
+            "person_count_max": "person_count_max",
+            "vehicle_count_max": "vehicle_count_max",
+            "fire_suspect": "fire_suspect",
+            "yolo_available": "yolo_available",
+            "person_vehicle_close": "person_vehicle_close",
+            "person_vehicle_very_close": "person_vehicle_very_close",
+        }
+        data = dict(raw)
+        for src, dest in aliases.items():
+            if src in data and dest not in data:
+                data[dest] = data[src]
+        allowed = {f.name for f in fields(cls)}
+        return cls(**{k: v for k, v in data.items() if k in allowed})
 
     def prompt_block(self) -> str:
         """Modele gidecek kısa Türkçe kanıt metni."""

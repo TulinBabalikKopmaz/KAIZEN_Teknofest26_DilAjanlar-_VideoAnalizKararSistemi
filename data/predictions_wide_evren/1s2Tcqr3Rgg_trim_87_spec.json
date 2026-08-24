@@ -1,0 +1,27 @@
+{
+  "summary": "Büyük bir depo tankının üst kısmından alev ve koyu duman yükseliyor. Yangın mevcut.",
+  "events": [
+    {
+      "time": "00:00",
+      "event": "Depo tankının üst kısmından alev ve koyu duman yükseliyor; yangın mevcut."
+    },
+    {
+      "time": "00:02",
+      "event": "Depo tankının üst kısmından alev ve koyu duman yükseliyor; yangın mevcut."
+    },
+    {
+      "time": "00:04",
+      "event": "Depo tankının üst kısmından alev ve koyu duman yükseliyor; yangın mevcut."
+    },
+    {
+      "time": "00:06",
+      "event": "Depo tankının üst kısmından alev ve koyu duman yükseliyor; yangın mevcut."
+    }
+  ],
+  "risk": "Yüksek",
+  "actions": [
+    "İtfaiyeye acil müdahale çağrısı yap",
+    "Alanı boşalt, personel güvenliği sağla",
+    "Yangın kontrolü için koordinasyon başlat"
+  ]
+}

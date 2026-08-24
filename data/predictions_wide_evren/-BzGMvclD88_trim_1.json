@@ -1,0 +1,59 @@
+{
+  "video_id": "-BzGMvclD88_trim_1",
+  "filename": "-BzGMvclD88_trim_1.mp4",
+  "category": "accident",
+  "duration_sec": 5.0,
+  "status": "auto",
+  "labeled_by": "qwen:vlm",
+  "summary": "Çalışan yük taşıırken dengesini kaybetti ve yere düştü. Yerde hareketsiz kalmış durumda.",
+  "events": [
+    {
+      "time": "00:00",
+      "time_end": "00:04",
+      "event": "Çalışan yük taşıırken dengesi kaybetti ve yere düştü.",
+      "event_type": "kaza",
+      "severity": "Yüksek"
+    },
+    {
+      "time": "00:02",
+      "time_end": "00:04",
+      "event": "Çalışan yük taşıırken dengesi kaybetti ve yere düştü.",
+      "event_type": "kaza",
+      "severity": "Yüksek"
+    },
+    {
+      "time": "00:05",
+      "time_end": "00:04",
+      "event": "Çalışan yük taşıırken dengesi kaybetti ve yere düştü.",
+      "event_type": "kaza",
+      "severity": "Yüksek"
+    }
+  ],
+  "risk": "Yüksek",
+  "actions": [
+    "Hemen sağlık ekiplerine bildirin.",
+    "Alanı kapatin ve diğer çalışanları uzaklaştırın.",
+    "Olayın detaylarını belgeleyin."
+  ],
+  "notes": "Otomatik taslak. Gold değil; Streamlit'te kontrol edin.",
+  "evidence": {
+    "duration_sec": 5.0,
+    "motion_peak_sec": 4.666666666666667,
+    "motion_peak_score": 4.979375,
+    "motion_peaks": [
+      2.1666666666666665,
+      4.666666666666667
+    ],
+    "motion_elevated": false,
+    "person_count_max": 3,
+    "vehicle_count_max": 0,
+    "min_person_vehicle_ratio": null,
+    "person_vehicle_close": false,
+    "person_vehicle_very_close": false,
+    "fire_like_ratio_max": 0.009527994791666666,
+    "fire_like_rise": 0.008831380208333333,
+    "fire_suspect": false,
+    "yolo_available": true,
+    "notes": []
+  }
+}

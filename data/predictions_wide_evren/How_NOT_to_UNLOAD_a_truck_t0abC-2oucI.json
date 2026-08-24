@@ -1,0 +1,67 @@
+{
+  "video_id": "How_NOT_to_UNLOAD_a_truck_t0abC-2oucI",
+  "filename": "How NOT to UNLOAD a truck [t0abC-2oucI].mp4",
+  "category": "near_miss",
+  "duration_sec": 14.0,
+  "status": "auto",
+  "labeled_by": "qwen:vlm",
+  "summary": "Çalışan elindeki yükü kontrol edemeyerek düşürdü, yük yere saçıldı ve çalışan yere doğru eğildi.",
+  "events": [
+    {
+      "time": "00:02",
+      "time_end": "00:05",
+      "event": "Çalışan elindeki yükü kontrol edemeyerek düşürdü, yük yere saçıldı ve çalışan yere doğru eğildi.",
+      "event_type": "kaza",
+      "severity": "Yüksek"
+    },
+    {
+      "time": "00:04",
+      "time_end": "00:05",
+      "event": "Çalışan elindeki yükü kontrol edemeyerek düşürdü, yük yere saçıldı ve çalışan yere doğru eğildi.",
+      "event_type": "kaza",
+      "severity": "Yüksek"
+    },
+    {
+      "time": "00:07",
+      "time_end": "00:05",
+      "event": "Çalışan elindeki yükü kontrol edemeyerek düşürdü, yük yere saçıldı ve çalışan yere doğru eğildi.",
+      "event_type": "kaza",
+      "severity": "Yüksek"
+    },
+    {
+      "time": "00:09",
+      "time_end": "00:05",
+      "event": "Çalışan elindeki yükü kontrol edemeyerek düşürdü, yük yere saçıldı ve çalışan yere doğru eğildi.",
+      "event_type": "kaza",
+      "severity": "Yüksek"
+    }
+  ],
+  "risk": "Orta",
+  "actions": [
+    "Sağlık ekiplerine bildirin",
+    "Alanı boşaltın ve güvenliği sağlayın",
+    "Olayın detaylı raporunu hazırlayın"
+  ],
+  "notes": "Otomatik taslak. Gold değil; Streamlit'te kontrol edin. | Kanıt birleştirme: zayıf Yüksek→Orta (yalnız hareket)",
+  "evidence": {
+    "duration_sec": 14.0,
+    "motion_peak_sec": 3.5,
+    "motion_peak_score": 13.77548611111111,
+    "motion_peaks": [
+      1.5,
+      3.5,
+      9.166666666666666
+    ],
+    "motion_elevated": true,
+    "person_count_max": 2,
+    "vehicle_count_max": 0,
+    "min_person_vehicle_ratio": null,
+    "person_vehicle_close": false,
+    "person_vehicle_very_close": false,
+    "fire_like_ratio_max": 0.0998342803030303,
+    "fire_like_rise": 0.030610795454545453,
+    "fire_suspect": false,
+    "yolo_available": true,
+    "notes": []
+  }
+}

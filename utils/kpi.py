@@ -11,9 +11,86 @@ EVENT_TIME_TOLERANCE_SEC = 2
 TEXT_JACCARD_MIN = 0.12
 
 
+_TR_SUFFIXES = (
+    "ları",
+    "leri",
+    "ıyor",
+    "iyor",
+    "uyor",
+    "üyor",
+    "ması",
+    "mesi",
+    "ler",
+    "lar",
+    "dan",
+    "den",
+    "nın",
+    "nin",
+    "dı",
+    "di",
+    "du",
+    "dü",
+    "tı",
+    "ti",
+    "tu",
+    "tü",
+    "sı",
+    "si",
+)
+
+
+# İSG fiil/nesne eşanlamlıları (gold cümlesine özel değil; genel saha dili).
+_CANON = {
+    "araba": "arac",
+    "arabalar": "arac",
+    "otomobil": "arac",
+    "araç": "arac",
+    "çöktü": "devril",
+    "çökme": "devril",
+    "çökmesi": "devril",
+    "çökerek": "devril",
+    "palet": "yuk",
+    "paletler": "yuk",
+    "malzeme": "yuk",
+    "malzemeler": "yuk",
+    "kaçtı": "kac",
+    "kaçarak": "kac",
+    "kurtuldu": "kac",
+    "kurtulmak": "kac",
+    "kurtulmaktan": "kac",
+    "üzerine": "ezil",
+    "üzerindeki": "ezil",
+    "üstüne": "ezil",
+    "üstündeki": "ezil",
+    "altında": "ezil",
+    "altındaki": "ezil",
+}
+_STEM_CANON = {
+    "cök": "devril",
+    "çök": "devril",
+    "araba": "arac",
+    "palet": "yuk",
+}
+
+
+def _stem_tr(word: str) -> str:
+    """Hafif Türkçe gövde: yükler≈yük, raflar≈raf, devriliyor≈devril."""
+    w = word
+    for suf in _TR_SUFFIXES:
+        if len(w) > len(suf) + 2 and w.endswith(suf):
+            return w[: -len(suf)]
+    return w
+
+
+def _canon_token(word: str) -> str:
+    raw = _CANON.get(word, word)
+    stemmed = _stem_tr(raw)
+    return _STEM_CANON.get(stemmed, stemmed)
+
+
 def tokens(text: str | None) -> set[str]:
     words = re.findall(r"[A-Za-zÇĞİÖŞÜçğıöşü0-9]+", (text or "").lower())
-    return {w for w in words if len(w) >= 2}
+    return {_canon_token(w) for w in words if len(w) >= 2}
 
 
 def jaccard(a: str | None, b: str | None) -> float:

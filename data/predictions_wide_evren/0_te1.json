@@ -1,0 +1,44 @@
+{
+  "video_id": "0_te1",
+  "filename": "0_te1.mp4",
+  "category": "normal",
+  "duration_sec": 14.98,
+  "status": "auto",
+  "labeled_by": "qwen:vlm",
+  "summary": "Çalışanlar fabrikada rutin aktivitelerini sürdürüyor. Herhangi bir kaza veya tehlikeli yaklaşma gözlemlenmedi.",
+  "events": [
+    {
+      "time": "00:00",
+      "time_end": "00:13",
+      "event": "Çalışanlar fabrikada yürüyor ve makinelere yakın çalışıyor.",
+      "event_type": "normal",
+      "severity": "dusuk"
+    }
+  ],
+  "risk": "Düşük",
+  "actions": [
+    "Rutin izlemeye devam et"
+  ],
+  "notes": "Otomatik taslak. Gold değil; Streamlit'te kontrol edin. | Kanıt birleştirme: risk Düşük→Orta; category normal→near_miss | Kanıt birleştirme: rutin saha / olay yok → normal",
+  "evidence": {
+    "duration_sec": 14.981876761981475,
+    "motion_peak_sec": 2.8997180829641565,
+    "motion_peak_score": 4.956388888888889,
+    "motion_peaks": [
+      2.8997180829641565,
+      6.927104309303263,
+      10.95449053564237
+    ],
+    "motion_elevated": false,
+    "person_count_max": 4,
+    "vehicle_count_max": 2,
+    "min_person_vehicle_ratio": 1.57521834703095,
+    "person_vehicle_close": false,
+    "person_vehicle_very_close": false,
+    "fire_like_ratio_max": 0.012010030864197531,
+    "fire_like_rise": 0.0007634066358024692,
+    "fire_suspect": false,
+    "yolo_available": true,
+    "notes": []
+  }
+}

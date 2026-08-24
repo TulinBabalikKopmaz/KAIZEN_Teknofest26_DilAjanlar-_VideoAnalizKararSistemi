@@ -1,0 +1,31 @@
+{
+  "summary": "Forklift, çalışanın çok yakınından geçerken yükü kaybettirip yere düşürdü. Çalışan yere düşen yükün hemen yanında duruyor.",
+  "events": [
+    {
+      "time": "00:04",
+      "event": "Forklift, çalışanın çok yakınından geçerken yükü kaybettirip yere düşürdü."
+    },
+    {
+      "time": "00:06",
+      "event": "Forklift, çalışanın çok yakınından geçerken yükü kaybettirip yere düşürdü."
+    },
+    {
+      "time": "00:08",
+      "event": "Forklift, çalışanın çok yakınından geçerken yükü kaybettirip yere düşürdü."
+    },
+    {
+      "time": "00:10",
+      "event": "Forklift, çalışanın çok yakınından geçerken yükü kaybettirip yere düşürdü."
+    },
+    {
+      "time": "00:12",
+      "event": "Forklift, çalışanın çok yakınından geçerken yükü kaybettirip yere düşürdü."
+    }
+  ],
+  "risk": "Yüksek",
+  "actions": [
+    "Yere düşen yükün çevresini hemen boşaltın.",
+    "Çalışanın durumunu kontrol edin, gerekirse acil tıbbi müdahaleye alın.",
+    "Olay yerini izole edin ve kazanın nedenini araştırın."
+  ]
+}

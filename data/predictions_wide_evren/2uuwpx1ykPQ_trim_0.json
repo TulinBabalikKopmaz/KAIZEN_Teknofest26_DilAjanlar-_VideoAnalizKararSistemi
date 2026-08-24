@@ -1,0 +1,52 @@
+{
+  "video_id": "2uuwpx1ykPQ_trim_0",
+  "filename": "2uuwpx1ykPQ_trim_0.mp4",
+  "category": "accident",
+  "duration_sec": 5.0,
+  "status": "auto",
+  "labeled_by": "qwen:vlm",
+  "summary": "Çalışan araç altındaki platformda çalışırken araç düşerek üzerine çarptı ve yere düştü.",
+  "events": [
+    {
+      "time": "00:01",
+      "time_end": "00:04",
+      "event": "Araç çalışanın üzerine düşerek çarptı ve çalışan yere düştü.",
+      "event_type": "kaza",
+      "severity": "Yüksek"
+    },
+    {
+      "time": "00:03",
+      "time_end": "00:04",
+      "event": "Araç çalışanın üzerine düşerek çarptı ve çalışan yere düştü.",
+      "event_type": "kaza",
+      "severity": "Yüksek"
+    }
+  ],
+  "risk": "Yüksek",
+  "actions": [
+    "Hemen sağlık ekiplerini çağır",
+    "Alanı kapatarak diğer çalışanları koru",
+    "Olay yerini koru ve inceleme başlat"
+  ],
+  "notes": "Otomatik taslak. Gold değil; Streamlit'te kontrol edin.",
+  "evidence": {
+    "duration_sec": 5.0,
+    "motion_peak_sec": 3.0,
+    "motion_peak_score": 2.76,
+    "motion_peaks": [
+      0.8333333333333334,
+      3.0
+    ],
+    "motion_elevated": false,
+    "person_count_max": 1,
+    "vehicle_count_max": 3,
+    "min_person_vehicle_ratio": 0.5063032833025712,
+    "person_vehicle_close": true,
+    "person_vehicle_very_close": true,
+    "fire_like_ratio_max": 0.004388020833333333,
+    "fire_like_rise": 0.0019368489583333334,
+    "fire_suspect": false,
+    "yolo_available": true,
+    "notes": []
+  }
+}

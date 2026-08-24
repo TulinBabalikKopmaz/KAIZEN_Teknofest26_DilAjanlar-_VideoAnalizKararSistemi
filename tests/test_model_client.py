@@ -14,6 +14,8 @@ TOUCHED_KEYS = (
     "FALLBACK_PROVIDER",
     "TEKNOFEST_BASE_URL",
     "TEKNOFEST_API_KEY",
+    "EVREN_API_KEY",
+    "EVREN_BASE_URL",
     "VLM_BASE_URL",
     "VLM_MODEL",
     "LLM_BASE_URL",
@@ -59,6 +61,13 @@ class ConfigTests(unittest.TestCase):
         vlm, llm = config.vlm_endpoint(), config.llm_endpoint()
         self.assertEqual(vlm.chat_url, llm.chat_url)
         self.assertEqual((vlm.model, llm.model), ("qwen3-vl", "gemma3"))
+
+    def test_evren_defaults_use_official_aliases(self) -> None:
+        os.environ["PROVIDER"] = "teknofest"
+        vlm, llm = config.vlm_endpoint(), config.llm_endpoint()
+        self.assertEqual(vlm.model, "vlm")
+        self.assertEqual(llm.model, "llm-fast")
+        self.assertIn("evren-llmapi.ssyz.org.tr", vlm.chat_url)
 
     def test_ollama_uses_native_chat_endpoint(self) -> None:
         os.environ["PROVIDER"] = "ollama"

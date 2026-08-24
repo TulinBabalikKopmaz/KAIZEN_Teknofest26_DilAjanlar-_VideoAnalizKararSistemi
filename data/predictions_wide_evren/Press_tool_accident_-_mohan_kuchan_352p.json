@@ -1,0 +1,74 @@
+{
+  "video_id": "Press_tool_accident_-_mohan_kuchan_352p",
+  "filename": "Press tool accident - mohan kuchan (352p).mp4",
+  "category": "accident",
+  "duration_sec": 36.69,
+  "status": "auto",
+  "labeled_by": "qwen:vlm",
+  "summary": "Çalışan, makine yanında dengesini kaybederek yere düştü. Diğer çalışanlar hemen müdahale etti ve yere yatmış kişiyi kaldırmaya başladı.",
+  "events": [
+    {
+      "time": "00:19",
+      "time_end": "00:36",
+      "event": "Diğer çalışanlar düştüğü yerdeki kişiyi kaldırmaya başladı.",
+      "event_type": "mudahale",
+      "severity": "yuksek"
+    },
+    {
+      "time": "00:21",
+      "time_end": "00:36",
+      "event": "Diğer çalışanlar düştüğü yerdeki kişiyi kaldırmaya başladı.",
+      "event_type": "mudahale",
+      "severity": "yuksek"
+    },
+    {
+      "time": "00:21",
+      "time_end": "00:24",
+      "event": "Çalışan makine yanında dengesini kaybederek yere düştü.",
+      "event_type": "kaza",
+      "severity": "yuksek"
+    },
+    {
+      "time": "00:24",
+      "time_end": "00:36",
+      "event": "Diğer çalışanlar düştüğü yerdeki kişiyi kaldırmaya başladı.",
+      "event_type": "mudahale",
+      "severity": "yuksek"
+    },
+    {
+      "time": "00:33",
+      "time_end": "00:36",
+      "event": "Diğer çalışanlar düştüğü yerdeki kişiyi kaldırmaya başladı.",
+      "event_type": "mudahale",
+      "severity": "yuksek"
+    }
+  ],
+  "risk": "Yüksek",
+  "actions": [
+    "Yere düşen çalışanın sağlık durumu kontrol edilsin.",
+    "Olay yerine ilk yardım ekibi çağrılmalı.",
+    "Alan geçici olarak kapalı tutulmalı, diğer çalışanlar uyarılmalı."
+  ],
+  "notes": "Otomatik taslak. Gold değil; Streamlit'te kontrol edin.",
+  "evidence": {
+    "duration_sec": 36.68864861245941,
+    "motion_peak_sec": 35.48354701569979,
+    "motion_peak_score": 16.218263888888888,
+    "motion_peaks": [
+      21.256653165065444,
+      24.436782378736652,
+      35.48354701569979
+    ],
+    "motion_elevated": true,
+    "person_count_max": 7,
+    "vehicle_count_max": 1,
+    "min_person_vehicle_ratio": 0.6766119453103038,
+    "person_vehicle_close": true,
+    "person_vehicle_very_close": true,
+    "fire_like_ratio_max": 0.017240767045454547,
+    "fire_like_rise": 0.01018732244318182,
+    "fire_suspect": false,
+    "yolo_available": true,
+    "notes": []
+  }
+}

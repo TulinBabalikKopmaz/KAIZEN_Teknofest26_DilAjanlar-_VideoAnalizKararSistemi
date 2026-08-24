@@ -1,0 +1,43 @@
+{
+  "video_id": "clip_Tippler_1_2_WT-1_Load_Side_20260403_003515_0055",
+  "filename": "clip_Tippler_1&2_WT-1_Load_Side_20260403_003515_0055.mp4",
+  "category": "normal",
+  "duration_sec": 7.0,
+  "status": "auto",
+  "labeled_by": "qwen:vlm",
+  "summary": "Çalışan, yüklenen tren vagonunun yanında durarak görevini yerine getirdikten sonra güvenli bir şekilde yürüyerek sahadan ayrılıyor.",
+  "events": [
+    {
+      "time": "00:00",
+      "time_end": "00:06",
+      "event": "Çalışan tren vagonunun yanında duruyor ve ardından sahadan yürüyerek ayrılıyor.",
+      "event_type": "normal",
+      "severity": "dusuk"
+    }
+  ],
+  "risk": "Düşük",
+  "actions": [
+    "Rutin izlemeye devam et"
+  ],
+  "notes": "Otomatik taslak. Gold değil; Streamlit'te kontrol edin.",
+  "evidence": {
+    "duration_sec": 7.0,
+    "motion_peak_sec": 4.96,
+    "motion_peak_score": 7.332986111111111,
+    "motion_peaks": [
+      0.96,
+      4.96
+    ],
+    "motion_elevated": false,
+    "person_count_max": 1,
+    "vehicle_count_max": 0,
+    "min_person_vehicle_ratio": null,
+    "person_vehicle_close": false,
+    "person_vehicle_very_close": false,
+    "fire_like_ratio_max": 0.07857349537037037,
+    "fire_like_rise": 0.03134693287037037,
+    "fire_suspect": false,
+    "yolo_available": true,
+    "notes": []
+  }
+}

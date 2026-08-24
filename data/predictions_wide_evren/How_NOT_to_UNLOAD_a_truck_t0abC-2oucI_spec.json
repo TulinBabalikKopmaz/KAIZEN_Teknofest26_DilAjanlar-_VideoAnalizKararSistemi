@@ -1,0 +1,27 @@
+{
+  "summary": "Çalışan elindeki yükü kontrol edemeyerek düşürdü, yük yere saçıldı ve çalışan yere doğru eğildi.",
+  "events": [
+    {
+      "time": "00:02",
+      "event": "Çalışan elindeki yükü kontrol edemeyerek düşürdü, yük yere saçıldı ve çalışan yere doğru eğildi."
+    },
+    {
+      "time": "00:04",
+      "event": "Çalışan elindeki yükü kontrol edemeyerek düşürdü, yük yere saçıldı ve çalışan yere doğru eğildi."
+    },
+    {
+      "time": "00:07",
+      "event": "Çalışan elindeki yükü kontrol edemeyerek düşürdü, yük yere saçıldı ve çalışan yere doğru eğildi."
+    },
+    {
+      "time": "00:09",
+      "event": "Çalışan elindeki yükü kontrol edemeyerek düşürdü, yük yere saçıldı ve çalışan yere doğru eğildi."
+    }
+  ],
+  "risk": "Orta",
+  "actions": [
+    "Sağlık ekiplerine bildirin",
+    "Alanı boşaltın ve güvenliği sağlayın",
+    "Olayın detaylı raporunu hazırlayın"
+  ]
+}

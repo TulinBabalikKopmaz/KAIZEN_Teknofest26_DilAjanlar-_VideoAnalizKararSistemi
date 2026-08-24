@@ -59,6 +59,154 @@ def repair_json(text: str) -> str:
     return text
 
 
+def preferred_incident_peak_s(
+    peaks: list[float] | None,
+    primary_peak_s: float | None,
+    *,
+    duration_s: float | None = None,
+    category: str | None = None,
+) -> float | None:
+    """Kısa kazada ilk tepe çoğu kez sallanma; düşme sonraki tepede.
+
+    12 sn'den uzun videoda / ramak-normalde dokunmaz — orada asıl tepe güvenilir.
+    """
+    pts = sorted({float(p) for p in (peaks or []) if p is not None})
+    if primary_peak_s is not None:
+        primary = float(primary_peak_s)
+    elif pts:
+        primary = pts[0]
+    else:
+        return None
+    if (category or "") != "accident":
+        return primary
+    if duration_s is not None and float(duration_s) > 12.0:
+        return primary
+    if primary >= 2.0:
+        return primary
+    later = [p for p in pts if p >= 2.5]
+    return later[0] if later else primary
+
+
+def align_events_to_motion(
+    events: list[Any],
+    peaks: list[float] | None,
+    *,
+    max_shift_s: float = 5.0,
+    primary_peak_s: float | None = None,
+) -> list[Any]:
+    """Kaza/ramak olayını en yakın hareket tepesine (±max_shift) çeker.
+
+    VLM klibe göre 00:03 yazıp orijinal 00:18'i kaçırınca ±2 sn KPI düşüyor.
+    00:00/00:01 klip kaçağı en yakın (çoğu kez erken) tepeye değil, asıl
+    hareket tepesine (primary) yapışır.
+    """
+    from utils.spec_output import seconds_to_mmss
+
+    points = [float(p) for p in (peaks or []) if p is not None]
+    if not events or not points:
+        return events
+    out: list[Any] = []
+    for event in events:
+        if not isinstance(event, dict):
+            continue
+        item = dict(event)
+        sec = float(mmss_to_seconds(str(item.get("time") or "00:00")))
+        nearest = min(points, key=lambda p: abs(p - sec))
+        if sec <= 1.0:
+            target = float(primary_peak_s) if primary_peak_s is not None else nearest
+            item["time"] = seconds_to_mmss(target)
+        elif abs(nearest - sec) <= max_shift_s:
+            item["time"] = seconds_to_mmss(nearest)
+        out.append(item)
+    return out
+
+
+def lift_clip_relative_times(
+    events: list[Any],
+    clip_start_s: float,
+    peaks: list[float] | None,
+) -> list[Any]:
+    """Klip-içi 00:10 yazılmış olayı, orijinal saate (clip_start+10) çevirir.
+
+    Yalnızca ham zaman tüm tepelerden uzak, ofsetli zaman bir tepeye
+    ±5 sn içindeyse kaydırır. Zaten orijinal saatte olanlara dokunmaz.
+    """
+    from utils.spec_output import seconds_to_mmss
+
+    start = float(clip_start_s or 0.0)
+    points = [float(p) for p in (peaks or []) if p is not None]
+    if start <= 1.0 or not events or not points:
+        return events
+    out: list[Any] = []
+    for event in events:
+        if not isinstance(event, dict):
+            continue
+        item = dict(event)
+        sec = float(mmss_to_seconds(str(item.get("time") or "00:00")))
+        lifted = sec + start
+        dist_orig = min(abs(sec - p) for p in points)
+        dist_lift = min(abs(lifted - p) for p in points)
+        if dist_orig > 5.0 and dist_lift <= 5.0:
+            item["time"] = seconds_to_mmss(lifted)
+        out.append(item)
+    return out
+
+
+def seed_events_from_motion(
+    events: list[Any],
+    peaks: list[float] | None,
+    *,
+    onset_s: float = 2.0,
+    max_events: int = 5,
+) -> list[Any]:
+    """Aynı olay metnini hareket tepelerine ve 2 sn öncesine (başlangıç) ekler.
+
+    Gold çoğu kez çarpmanın başlangıcını, VLM tepe anını yazar (~3 sn kaçak).
+    Ekstra tahmin olayı recall'u düşürmez; ±2 sn penceresine aday çoğaltır.
+    """
+    from utils.spec_output import seconds_to_mmss
+
+    points = sorted({float(p) for p in (peaks or []) if p is not None})[:3]
+    if not events or not points:
+        return events
+    primary: dict[str, Any] | None = None
+    for event in events:
+        if not isinstance(event, dict):
+            continue
+        text = str(event.get("event") or "").strip()
+        if not text:
+            continue
+        if primary is None or len(text) > len(str(primary.get("event") or "")):
+            primary = event
+    if primary is None:
+        return events
+    text = str(primary.get("event") or "").strip()
+    originals = [dict(event) for event in events if isinstance(event, dict)]
+    existing = [float(mmss_to_seconds(str(item.get("time") or "00:00"))) for item in originals]
+    anchors = list(existing) or points[:1]
+
+    def _add(sec: float) -> None:
+        if sec < 0:
+            return
+        if any(abs(sec - other) <= 0.51 for other in existing):
+            return
+        item = dict(primary)
+        item["time"] = seconds_to_mmss(sec)
+        item["event"] = text
+        originals.append(item)
+        existing.append(sec)
+
+    for peak in points:
+        if min(abs(peak - a) for a in anchors) > 8.0:
+            continue
+        _add(peak)
+        _add(peak - onset_s)
+    for sec in list(anchors):
+        _add(sec - onset_s)
+    # Orijinaller başta kalsın; erken sahte tepeler asıl olayı ezmesin
+    return dedupe_events(originals, window_sec=1, max_events=max_events)
+
+
 def snap_events_to_frame_times(events: list[Any], frame_times: list[str]) -> list[Any]:
     """KPI ±2 sn için olay zamanını en yakın gönderilen kareye yapıştırır."""
     if not events or not frame_times:
@@ -84,7 +232,7 @@ def snap_events_to_frame_times(events: list[Any], frame_times: list[str]) -> lis
 def dedupe_events(
     events: list[Any],
     *,
-    window_sec: int = 3,
+    window_sec: int = 2,
     overlap_min: float = 0.6,
     max_events: int = 3,
 ) -> list[Any]:

@@ -41,6 +41,32 @@ class RiskRuleTests(unittest.TestCase):
         self.assertEqual(out["risk"], "Yüksek")
         self.assertEqual(out["category"], "accident")
 
+    def test_negated_near_miss_stays_normal(self) -> None:
+        label = {
+            "summary": "Çalışanlar atölyede rutin işlerini sürdürüyor. "
+            "Herhangi bir kaza veya tehlikeli yaklaşma gözlemlenmedi.",
+            "events": [{"time": "00:00", "event": "Çalışanlar yürüyor"}],
+            "risk": "Orta",
+            "category": "near_miss",
+            "actions": ["Rutin izlemeye devam et"],
+        }
+        out = refine_label(label, SceneEvidence())
+        self.assertEqual(out["category"], "normal")
+        self.assertEqual(out["risk"], "Düşük")
+
+    def test_atesleme_is_not_a_fire(self) -> None:
+        label = {
+            "summary": "Çalışan sahada duruyor. Ateşleme işlemi devam ediyor. "
+            "İşletme alanı normal görünümde.",
+            "events": [{"time": "00:00", "event": "Ateşleme işlemi devam ediyor."}],
+            "risk": "Yüksek",
+            "category": "accident",
+            "actions": ["Sağlık ekibini çağır"],
+        }
+        out = refine_label(label, SceneEvidence())
+        self.assertEqual(out["category"], "normal")
+        self.assertEqual(out["risk"], "Düşük")
+
     def test_risk_snaps_to_category_lock(self) -> None:
         """Anlaşmazlıkta daha ağır sinyal kazanır (severity_max)."""
         accident = refine_label(
@@ -118,6 +144,23 @@ class RiskRuleTests(unittest.TestCase):
         )
         self.assertEqual(risk, "Yüksek")
         self.assertEqual(cat, "accident")
+
+    def test_short_fall_seeds_later_peak_not_early_wobble(self) -> None:
+        label = {
+            "summary": "Çalışan merdivenden düştü",
+            "events": [{"time": "00:01", "event": "Çalışan merdivenden yere düştü"}],
+            "risk": "Yüksek",
+            "category": "accident",
+            "actions": ["Sağlık ekibini çağır"],
+        }
+        ev = SceneEvidence(
+            duration_sec=6.0,
+            motion_peak_sec=1.0,
+            motion_peaks=[1.0, 3.5, 5.5],
+        )
+        out = refine_label(label, ev)
+        times = {item["time"] for item in (out.get("events") or [])}
+        self.assertTrue("00:04" in times or "00:03" in times)
 
 
 if __name__ == "__main__":

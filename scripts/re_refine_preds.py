@@ -24,7 +24,7 @@ sys.path.insert(0, str(ROOT / "scripts"))
 from auto_label_qwen import competition_view
 from extract_frames import safe_id
 from utils.risk_rules import refine_label
-from utils.scene_evidence import analyze_video
+from utils.scene_evidence import SceneEvidence, analyze_video
 
 GOLD_PATH = ROOT / "data" / "exports" / "gold_labels_hepsi.json"
 
@@ -84,8 +84,8 @@ def main() -> None:
         name = label.get("filename") or ""
         vid = label.get("video_id") or path.stem
         video = videos.get(name) or by_safe.get(vid) or by_stem.get(Path(name).stem)
-        evidence = None
-        if video is not None:
+        evidence = SceneEvidence.from_dict(label.get("evidence") if isinstance(label.get("evidence"), dict) else None)
+        if evidence is None and video is not None:
             try:
                 evidence = analyze_video(video)
             except Exception as exc:

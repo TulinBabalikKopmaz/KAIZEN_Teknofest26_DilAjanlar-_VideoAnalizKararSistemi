@@ -1,0 +1,44 @@
+{
+  "video_id": "clip_BF_CDI_Ground_CC2_20251111_000745_0031",
+  "filename": "clip_BF_CDI_Ground_CC2_20251111_000745_0031.mp4",
+  "category": "normal",
+  "duration_sec": 15.0,
+  "status": "auto",
+  "labeled_by": "qwen:vlm",
+  "summary": "Çalışan, metal ızgaralı alanda uzun bir çubukla toprak veya atık malzemeyle çalışırken dengesini koruyor. Rutin faaliyetler devam ediyor.",
+  "events": [
+    {
+      "time": "00:00",
+      "time_end": "00:13",
+      "event": "Çalışan metal ızgaralı alanda çubukla toprak/ataş malzemeyle çalışıyor.",
+      "event_type": "normal",
+      "severity": "dusuk"
+    }
+  ],
+  "risk": "Düşük",
+  "actions": [
+    "Rutin izlemeye devam et"
+  ],
+  "notes": "Otomatik taslak. Gold değil; Streamlit'te kontrol edin.",
+  "evidence": {
+    "duration_sec": 15.0,
+    "motion_peak_sec": 13.12,
+    "motion_peak_score": 6.032986111111111,
+    "motion_peaks": [
+      7.04,
+      9.12,
+      13.12
+    ],
+    "motion_elevated": false,
+    "person_count_max": 1,
+    "vehicle_count_max": 0,
+    "min_person_vehicle_ratio": null,
+    "person_vehicle_close": false,
+    "person_vehicle_very_close": false,
+    "fire_like_ratio_max": 0.047059220679012345,
+    "fire_like_rise": 0.011197916666666662,
+    "fire_suspect": false,
+    "yolo_available": true,
+    "notes": []
+  }
+}

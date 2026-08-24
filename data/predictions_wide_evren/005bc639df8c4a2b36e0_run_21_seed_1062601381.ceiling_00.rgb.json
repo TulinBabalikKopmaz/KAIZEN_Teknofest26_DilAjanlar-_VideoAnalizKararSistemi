@@ -1,0 +1,66 @@
+{
+  "video_id": "005bc639df8c4a2b36e0_run_21_seed_1062601381.ceiling_00.rgb",
+  "filename": "005bc639df8c4a2b36e0_run_21_seed_1062601381.ceiling_00.rgb.mp4",
+  "category": "accident",
+  "duration_sec": 10.0,
+  "status": "auto",
+  "labeled_by": "qwen:vlm",
+  "summary": "Çalışan forkliftin çok yakınından geçerken dengesi kaybetti ve son anda kaçtı. Neredeyse çarpışacaktı.",
+  "events": [
+    {
+      "time": "00:00",
+      "time_end": "00:07",
+      "event": "Çalışan forkliftin çok yakınından geçerken dengesi kaybetti ve son anda kaçtı.",
+      "event_type": "near_miss",
+      "severity": "orta"
+    },
+    {
+      "time": "00:03",
+      "time_end": "00:07",
+      "event": "Çalışan forkliftin çok yakınından geçerken dengesi kaybetti ve son anda kaçtı.",
+      "event_type": "near_miss",
+      "severity": "orta"
+    },
+    {
+      "time": "00:05",
+      "time_end": "00:07",
+      "event": "Çalışan forkliftin çok yakınından geçerken dengesi kaybetti ve son anda kaçtı.",
+      "event_type": "near_miss",
+      "severity": "orta"
+    },
+    {
+      "time": "00:07",
+      "time_end": "00:07",
+      "event": "Çalışan forkliftin çok yakınından geçerken dengesi kaybetti ve son anda kaçtı.",
+      "event_type": "near_miss",
+      "severity": "orta"
+    }
+  ],
+  "risk": "Yüksek",
+  "actions": [
+    "Olayı kayıtlara al ve çalışanı uyar.",
+    "Forklift operatörüyle görüş, yakın geçişleri önleyen prosedürleri gözden geçir."
+  ],
+  "notes": "Otomatik taslak. Gold değil; Streamlit'te kontrol edin. | ikinci bakış uygulandı | Kanıt birleştirme: risk Orta→Yüksek; category near_miss→accident",
+  "evidence": {
+    "duration_sec": 10.0,
+    "motion_peak_sec": 0.16666666666666666,
+    "motion_peak_score": 9.855416666666667,
+    "motion_peaks": [
+      0.16666666666666666,
+      3.0,
+      7.0
+    ],
+    "motion_elevated": true,
+    "person_count_max": 1,
+    "vehicle_count_max": 2,
+    "min_person_vehicle_ratio": null,
+    "person_vehicle_close": false,
+    "person_vehicle_very_close": false,
+    "fire_like_ratio_max": 0.6142804783950617,
+    "fire_like_rise": 0.17766878858024693,
+    "fire_suspect": true,
+    "yolo_available": true,
+    "notes": []
+  }
+}

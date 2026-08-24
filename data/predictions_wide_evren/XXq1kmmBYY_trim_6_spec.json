@@ -1,0 +1,23 @@
+{
+  "summary": "Forklift, çalışanın çok yakınından geçerken kontrolü kaybeder ve devrilir; çalışan yere düşer ve hareketsiz kalır.",
+  "events": [
+    {
+      "time": "00:01",
+      "event": "Forklift çalışanın çok yakınından geçerken ani hareketle devrilir ve çalışan yere düşer."
+    },
+    {
+      "time": "00:04",
+      "event": "Forklift çalışanın çok yakınından geçerken ani hareketle devrilir ve çalışan yere düşer."
+    },
+    {
+      "time": "00:06",
+      "event": "Forklift çalışanın çok yakınından geçerken ani hareketle devrilir ve çalışan yere düşer."
+    }
+  ],
+  "risk": "Yüksek",
+  "actions": [
+    "Acil müdahaleye geçin, yaralı çalışanı tedavi altına alın.",
+    "Alanı kapatin, diğer çalışanları tahliye edin.",
+    "İtfaiye ve sağlık ekiplerini çağırın."
+  ]
+}

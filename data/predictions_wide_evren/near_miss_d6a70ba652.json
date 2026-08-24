@@ -1,0 +1,74 @@
+{
+  "video_id": "near_miss_d6a70ba652",
+  "filename": "Daily Safety Fails🤯This is WHY You Stay Alert Around Forklifts – Near Miss🤯- #fail #safetyfails [GyU1XMIhu_o].mp4",
+  "category": "accident",
+  "duration_sec": 23.6,
+  "status": "auto",
+  "labeled_by": "qwen:vlm",
+  "summary": "Yüksek rafdan bir palet düşerek çalışanın üzerine doğru kaydı, çalışan kaçtı ve palet yere düştü.",
+  "events": [
+    {
+      "time": "00:01",
+      "time_end": "00:15",
+      "event": "Yüksek rafdan bir palet düşerek çalışanın üzerine doğru kaydı, çalışan kaçtı ve palet yere düştü.",
+      "event_type": "kaza",
+      "severity": "yuksek"
+    },
+    {
+      "time": "00:03",
+      "time_end": "00:15",
+      "event": "Yüksek rafdan bir palet düşerek çalışanın üzerine doğru kaydı, çalışan kaçtı ve palet yere düştü.",
+      "event_type": "kaza",
+      "severity": "yuksek"
+    },
+    {
+      "time": "00:13",
+      "time_end": "00:15",
+      "event": "Yüksek rafdan bir palet düşerek çalışanın üzerine doğru kaydı, çalışan kaçtı ve palet yere düştü.",
+      "event_type": "kaza",
+      "severity": "yuksek"
+    },
+    {
+      "time": "00:15",
+      "time_end": "00:15",
+      "event": "Yüksek rafdan bir palet düşerek çalışanın üzerine doğru kaydı, çalışan kaçtı ve palet yere düştü.",
+      "event_type": "kaza",
+      "severity": "yuksek"
+    },
+    {
+      "time": "00:19",
+      "time_end": "00:15",
+      "event": "Yüksek rafdan bir palet düşerek çalışanın üzerine doğru kaydı, çalışan kaçtı ve palet yere düştü.",
+      "event_type": "kaza",
+      "severity": "yuksek"
+    }
+  ],
+  "risk": "Yüksek",
+  "actions": [
+    "Yere düşen paletin etrafını hemen kapalı işaretleyin.",
+    "Yaralı olup olmadığını kontrol edin, gerekirse acil sağlık çağırın.",
+    "Olay yerini koruyun ve inceleme başlatın."
+  ],
+  "notes": "Otomatik taslak. Gold değil; Streamlit'te kontrol edin.",
+  "evidence": {
+    "duration_sec": 23.6,
+    "motion_peak_sec": 2.6666666666666665,
+    "motion_peak_score": 29.067777777777778,
+    "motion_peaks": [
+      2.6666666666666665,
+      15.166666666666666,
+      20.666666666666668
+    ],
+    "motion_elevated": true,
+    "person_count_max": 4,
+    "vehicle_count_max": 4,
+    "min_person_vehicle_ratio": 1.6502450957260517,
+    "person_vehicle_close": false,
+    "person_vehicle_very_close": false,
+    "fire_like_ratio_max": 0.00881028163580247,
+    "fire_like_rise": 0.0036521026234567905,
+    "fire_suspect": false,
+    "yolo_available": true,
+    "notes": []
+  }
+}

@@ -1,0 +1,68 @@
+{
+  "video_id": "Forklift_Driver_Causes_an_Entire_Warehouse_to_Fall_like_Dominoes_g1l7g54wnlt41",
+  "filename": "Forklift Driver Causes an Entire Warehouse to Fall like Dominoes [g1l7g54wnlt41].mp4",
+  "category": "accident",
+  "duration_sec": 62.28,
+  "status": "auto",
+  "labeled_by": "qwen:vlm",
+  "summary": "Raf sistemi çöktü ve yere devrildi. Yığınlar halinde malzeme ve paletler yere düştü.",
+  "events": [
+    {
+      "time": "00:32",
+      "time_end": "00:35",
+      "event": "Raf sistemi çöktü ve yere devrildi. Malzeme ve paletler yere düştü.",
+      "event_type": "kaza",
+      "severity": "yuksek"
+    },
+    {
+      "time": "00:34",
+      "time_end": "00:35",
+      "event": "Raf sistemi çöktü ve yere devrildi. Malzeme ve paletler yere düştü.",
+      "event_type": "kaza",
+      "severity": "yuksek"
+    },
+    {
+      "time": "00:36",
+      "time_end": "00:35",
+      "event": "Raf sistemi çöktü ve yere devrildi. Malzeme ve paletler yere düştü.",
+      "event_type": "kaza",
+      "severity": "yuksek"
+    },
+    {
+      "time": "00:38",
+      "time_end": "00:35",
+      "event": "Raf sistemi çöktü ve yere devrildi. Malzeme ve paletler yere düştü.",
+      "event_type": "kaza",
+      "severity": "yuksek"
+    }
+  ],
+  "risk": "Yüksek",
+  "actions": [
+    "Acil durum protokolüne geçin",
+    "Alanı hemen boşaltın",
+    "İtfaiye ve sağlık ekiplerini çağırın",
+    "Olay yerini izole edin"
+  ],
+  "notes": "Otomatik taslak. Gold değil; Streamlit'te kontrol edin.",
+  "evidence": {
+    "duration_sec": 62.280277777777776,
+    "motion_peak_sec": 34.03643147316656,
+    "motion_peak_score": 24.28465277777778,
+    "motion_peaks": [
+      34.03643147316656,
+      36.1137723612002,
+      38.3509087021595
+    ],
+    "motion_elevated": true,
+    "person_count_max": 0,
+    "vehicle_count_max": 0,
+    "min_person_vehicle_ratio": null,
+    "person_vehicle_close": false,
+    "person_vehicle_very_close": false,
+    "fire_like_ratio_max": 0.006912878787878787,
+    "fire_like_rise": 0.006549873737373737,
+    "fire_suspect": false,
+    "yolo_available": true,
+    "notes": []
+  }
+}

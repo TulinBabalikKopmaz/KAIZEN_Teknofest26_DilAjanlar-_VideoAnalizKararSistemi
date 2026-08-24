@@ -1,0 +1,60 @@
+{
+  "video_id": "2tSBxyAwLs_trim_52",
+  "filename": "_2tSBxyAwLs_trim_52.mp4",
+  "category": "near_miss",
+  "duration_sec": 8.01,
+  "status": "auto",
+  "labeled_by": "qwen:vlm",
+  "summary": "Forklift çalışanın çok yakınından geçerken çalışan son anda kaçar. Neredeyse temas edeceklerdi.",
+  "events": [
+    {
+      "time": "00:00",
+      "time_end": "00:06",
+      "event": "Forklift çalışanın çok yakınından geçti, çalışan son anda kaçtı.",
+      "event_type": "near_miss",
+      "severity": "Orta"
+    },
+    {
+      "time": "00:03",
+      "time_end": "00:06",
+      "event": "Forklift çalışanın çok yakınından geçti, çalışan son anda kaçtı.",
+      "event_type": "near_miss",
+      "severity": "Orta"
+    },
+    {
+      "time": "00:06",
+      "time_end": "00:06",
+      "event": "Forklift çalışanın çok yakınından geçti, çalışan son anda kaçtı.",
+      "event_type": "near_miss",
+      "severity": "Orta"
+    }
+  ],
+  "risk": "Orta",
+  "actions": [
+    "Forklift operatörüne durdurma ve güvenlik mesafesi hatırlatması yap",
+    "Çalışanlara tehlikeli yaklaşma durumunda durma talimatı ver",
+    "Olayı güvenlik toplantısında ele al"
+  ],
+  "notes": "Otomatik taslak. Gold değil; Streamlit'te kontrol edin.",
+  "evidence": {
+    "duration_sec": 8.008000000000001,
+    "motion_peak_sec": 0.33366666666666667,
+    "motion_peak_score": 5.2520138888888885,
+    "motion_peaks": [
+      0.33366666666666667,
+      2.8361666666666667,
+      5.6723333333333334
+    ],
+    "motion_elevated": false,
+    "person_count_max": 2,
+    "vehicle_count_max": 3,
+    "min_person_vehicle_ratio": 0.3225823907905163,
+    "person_vehicle_close": true,
+    "person_vehicle_very_close": true,
+    "fire_like_ratio_max": 0.00544921875,
+    "fire_like_rise": 0.0027256944444444446,
+    "fire_suspect": false,
+    "yolo_available": true,
+    "notes": []
+  }
+}

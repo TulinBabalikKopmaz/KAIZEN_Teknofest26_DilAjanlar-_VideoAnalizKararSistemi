@@ -1,0 +1,74 @@
+{
+  "video_id": "LiveLeak_Work_accident_in_Supermarket_-_Liveleak_198p",
+  "filename": "LiveLeak Work accident in Supermarket - Liveleak (198p).mp4",
+  "category": "accident",
+  "duration_sec": 21.97,
+  "status": "auto",
+  "labeled_by": "qwen:vlm",
+  "summary": "Çalışan merdiven üzerinde dengesini kaybetti ve yere düştü. Yere yatarken hareketsiz kaldı.",
+  "events": [
+    {
+      "time": "00:12",
+      "time_end": "00:16",
+      "event": "Çalışan merdiven üzerinde dengesini kaybetti ve yere düştü.",
+      "event_type": "kaza",
+      "severity": "Yüksek"
+    },
+    {
+      "time": "00:14",
+      "time_end": "00:16",
+      "event": "Çalışan merdiven üzerinde dengesini kaybetti ve yere düştü.",
+      "event_type": "kaza",
+      "severity": "Yüksek"
+    },
+    {
+      "time": "00:16",
+      "time_end": "00:16",
+      "event": "Çalışan merdiven üzerinde dengesini kaybetti ve yere düştü.",
+      "event_type": "kaza",
+      "severity": "Yüksek"
+    },
+    {
+      "time": "00:18",
+      "time_end": "00:16",
+      "event": "Çalışan merdiven üzerinde dengesini kaybetti ve yere düştü.",
+      "event_type": "kaza",
+      "severity": "Yüksek"
+    },
+    {
+      "time": "00:20",
+      "time_end": "00:16",
+      "event": "Çalışan merdiven üzerinde dengesini kaybetti ve yere düştü.",
+      "event_type": "kaza",
+      "severity": "Yüksek"
+    }
+  ],
+  "risk": "Yüksek",
+  "actions": [
+    "Acil müdahaleye geçin, yaralı çalışanı kontrol edin.",
+    "Alanı kapatin, diğer çalışanları uzaklaştırın.",
+    "İlgili yetkililere bildirin, olay raporu oluşturun."
+  ],
+  "notes": "Otomatik taslak. Gold değil; Streamlit'te kontrol edin.",
+  "evidence": {
+    "duration_sec": 21.966666666666665,
+    "motion_peak_sec": 13.666666666666666,
+    "motion_peak_score": 28.37576388888889,
+    "motion_peaks": [
+      13.666666666666666,
+      15.666666666666666,
+      19.666666666666668
+    ],
+    "motion_elevated": false,
+    "person_count_max": 1,
+    "vehicle_count_max": 0,
+    "min_person_vehicle_ratio": null,
+    "person_vehicle_close": false,
+    "person_vehicle_very_close": false,
+    "fire_like_ratio_max": 0.02727272727272727,
+    "fire_like_rise": 0.017213804713804712,
+    "fire_suspect": false,
+    "yolo_available": true,
+    "notes": []
+  }
+}

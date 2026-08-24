@@ -1,0 +1,44 @@
+{
+  "video_id": "clip_Sinter_Plant_Flux_Screening_20251115_001517_0042",
+  "filename": "clip_Sinter_Plant_Flux_Screening_20251115_001517_0042.mp4",
+  "category": "normal",
+  "duration_sec": 9.0,
+  "status": "auto",
+  "labeled_by": "qwen:vlm",
+  "summary": "Çalışan fabrika sahasında yürüyor. Normal çalışma devam ediyor.",
+  "events": [
+    {
+      "time": "00:00",
+      "time_end": "00:07",
+      "event": "Çalışan fabrikada yürüyor.",
+      "event_type": "normal",
+      "severity": "dusuk"
+    }
+  ],
+  "risk": "Düşük",
+  "actions": [
+    "Rutin izlemeye devam et"
+  ],
+  "notes": "Otomatik taslak. Gold değil; Streamlit'te kontrol edin.",
+  "evidence": {
+    "duration_sec": 9.0,
+    "motion_peak_sec": 7.36,
+    "motion_peak_score": 2.3338194444444444,
+    "motion_peaks": [
+      1.28,
+      3.36,
+      7.36
+    ],
+    "motion_elevated": false,
+    "person_count_max": 1,
+    "vehicle_count_max": 0,
+    "min_person_vehicle_ratio": null,
+    "person_vehicle_close": false,
+    "person_vehicle_very_close": false,
+    "fire_like_ratio_max": 0.0027980324074074075,
+    "fire_like_rise": 0.0007185570987654323,
+    "fire_suspect": false,
+    "yolo_available": true,
+    "notes": []
+  }
+}

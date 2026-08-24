@@ -1,0 +1,66 @@
+{
+  "video_id": "Near_miss_walk_into_the_path_of_a_forklift_EHyWjeJi1Oc",
+  "filename": "Near miss walk into the path of a forklift [EHyWjeJi1Oc].mp4",
+  "category": "near_miss",
+  "duration_sec": 7.17,
+  "status": "auto",
+  "labeled_by": "qwen:vlm",
+  "summary": "Forklift çalışanın çok yakınından geçti. Neredeyse temas edeceklerdi.",
+  "events": [
+    {
+      "time": "00:01",
+      "time_end": "00:06",
+      "event": "Forklift çalışanın çok yakınından geçti.",
+      "event_type": "near_miss",
+      "severity": "Orta"
+    },
+    {
+      "time": "00:03",
+      "time_end": "00:06",
+      "event": "Forklift çalışanın çok yakınından geçti.",
+      "event_type": "near_miss",
+      "severity": "Orta"
+    },
+    {
+      "time": "00:05",
+      "time_end": "00:06",
+      "event": "Forklift çalışanın çok yakınından geçti.",
+      "event_type": "near_miss",
+      "severity": "Orta"
+    },
+    {
+      "time": "00:07",
+      "time_end": "00:06",
+      "event": "Forklift çalışanın çok yakınından geçti.",
+      "event_type": "near_miss",
+      "severity": "Orta"
+    }
+  ],
+  "risk": "Orta",
+  "actions": [
+    "Forklift sürücüsüne güvenli mesafe koruma talimatı verin.",
+    "Çalışanlara yürüyüş yollarında dikkatli olmaları hatırlatılmalı."
+  ],
+  "notes": "Otomatik taslak. Gold değil; Streamlit'te kontrol edin.",
+  "evidence": {
+    "duration_sec": 7.1738333333333335,
+    "motion_peak_sec": 1.1678333333333333,
+    "motion_peak_score": 5.411319444444445,
+    "motion_peaks": [
+      1.1678333333333333,
+      3.1698333333333335,
+      7.007000000000001
+    ],
+    "motion_elevated": false,
+    "person_count_max": 1,
+    "vehicle_count_max": 0,
+    "min_person_vehicle_ratio": null,
+    "person_vehicle_close": false,
+    "person_vehicle_very_close": false,
+    "fire_like_ratio_max": 0.01563475800156128,
+    "fire_like_rise": 0.0093384074941452,
+    "fire_suspect": false,
+    "yolo_available": true,
+    "notes": []
+  }
+}

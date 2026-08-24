@@ -1,0 +1,23 @@
+{
+  "summary": "Forklift çalışanın çok yakınından geçerken çalışan son anda kaçar. Neredeyse temas edeceklerdi.",
+  "events": [
+    {
+      "time": "00:00",
+      "event": "Forklift çalışanın çok yakınından geçti, çalışan son anda kaçtı."
+    },
+    {
+      "time": "00:03",
+      "event": "Forklift çalışanın çok yakınından geçti, çalışan son anda kaçtı."
+    },
+    {
+      "time": "00:06",
+      "event": "Forklift çalışanın çok yakınından geçti, çalışan son anda kaçtı."
+    }
+  ],
+  "risk": "Orta",
+  "actions": [
+    "Forklift operatörüne durdurma ve güvenlik mesafesi hatırlatması yap",
+    "Çalışanlara tehlikeli yaklaşma durumunda durma talimatı ver",
+    "Olayı güvenlik toplantısında ele al"
+  ]
+}

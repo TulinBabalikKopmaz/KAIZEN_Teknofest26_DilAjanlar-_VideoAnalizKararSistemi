@@ -1,0 +1,13 @@
+{
+  "summary": "Çalışan kendi iş alanındaki sepetten malzemeleri masaya yerleştiriyor. Rutin faaliyetler devam ediyor.",
+  "events": [
+    {
+      "time": "00:00",
+      "event": "Çalışan sepetten malzemeleri masaya yerleştiriyor."
+    }
+  ],
+  "risk": "Düşük",
+  "actions": [
+    "Rutin izlemeye devam et"
+  ]
+}

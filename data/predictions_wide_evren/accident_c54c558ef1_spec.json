@@ -1,0 +1,27 @@
+{
+  "summary": "Çalışan, yükü taşırken dengesini kaybetti ve yere düştü. Yere yatarken hareketsiz kaldı.",
+  "events": [
+    {
+      "time": "00:01",
+      "event": "Çalışan yükü taşırken dengesini kaybetti ve yere düştü."
+    },
+    {
+      "time": "00:03",
+      "event": "Çalışan yükü taşırken dengesini kaybetti ve yere düştü."
+    },
+    {
+      "time": "00:08",
+      "event": "Çalışan yükü taşırken dengesini kaybetti ve yere düştü."
+    },
+    {
+      "time": "00:10",
+      "event": "Çalışan yükü taşırken dengesini kaybetti ve yere düştü."
+    }
+  ],
+  "risk": "Yüksek",
+  "actions": [
+    "Hemen sağlık ekiplerini çağırın.",
+    "Alanı kapatin ve diğer çalışanları uzaklaştırın.",
+    "Olayın detaylı raporunu hazırlayın."
+  ]
+}

@@ -1,0 +1,44 @@
+{
+  "video_id": "clip_Tippler_3_4_WT4_EMPTY_SIDE_20260403_001811_0046",
+  "filename": "clip_Tippler_3&4_WT4_EMPTY_SIDE_20260403_001811_0046.mp4",
+  "category": "normal",
+  "duration_sec": 15.0,
+  "status": "auto",
+  "labeled_by": "qwen:vlm",
+  "summary": "Çalışanlar büyük bir iş makinesinin yanında rutin faaliyetlerini sürdürüyor. Herhangi bir kaza veya tehlikeli yaklaşma gözlemlenmedi.",
+  "events": [
+    {
+      "time": "00:00",
+      "time_end": "00:14",
+      "event": "Çalışanlar iş makinesinin yanında duruyor ve hareket etmiyor.",
+      "event_type": "normal",
+      "severity": "dusuk"
+    }
+  ],
+  "risk": "Düşük",
+  "actions": [
+    "Rutin izlemeye devam et"
+  ],
+  "notes": "Otomatik taslak. Gold değil; Streamlit'te kontrol edin. | Kanıt birleştirme: risk Düşük→Orta; category normal→near_miss | Kanıt birleştirme: rutin saha / olay yok → normal",
+  "evidence": {
+    "duration_sec": 15.0,
+    "motion_peak_sec": 9.6,
+    "motion_peak_score": 2.289375,
+    "motion_peaks": [
+      1.76,
+      9.6,
+      13.6
+    ],
+    "motion_elevated": false,
+    "person_count_max": 1,
+    "vehicle_count_max": 0,
+    "min_person_vehicle_ratio": null,
+    "person_vehicle_close": false,
+    "person_vehicle_very_close": false,
+    "fire_like_ratio_max": 0.001488233024691358,
+    "fire_like_rise": 0.0006674382716049382,
+    "fire_suspect": false,
+    "yolo_available": true,
+    "notes": []
+  }
+}
