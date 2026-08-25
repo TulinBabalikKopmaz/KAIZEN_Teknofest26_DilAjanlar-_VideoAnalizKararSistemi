@@ -1,0 +1,60 @@
+{
+  "video_id": "Dumb_ass_fork_lift_driver_rofl_G4g4RN3AFD8",
+  "filename": "Dumb ass fork lift driver rofl [G4g4RN3AFD8].mp4",
+  "category": "accident",
+  "duration_sec": 32.93,
+  "status": "auto",
+  "labeled_by": "qwen:vlm",
+  "summary": "Forklift, yükü kaldırmaya çalışırken dengesini kaybetti ve devrildi. Çalışan araç içindeyken yere düştü.",
+  "events": [
+    {
+      "time": "00:06",
+      "time_end": "00:12",
+      "event": "Forklift dengesini kaybetti ve devrildi; çalışan araç içinde yere düştü.",
+      "event_type": "kaza",
+      "severity": "Yüksek"
+    },
+    {
+      "time": "00:08",
+      "time_end": "00:12",
+      "event": "Forklift dengesini kaybetti ve devrildi; çalışan araç içinde yere düştü.",
+      "event_type": "kaza",
+      "severity": "Yüksek"
+    },
+    {
+      "time": "00:11",
+      "time_end": "00:12",
+      "event": "Forklift dengesini kaybetti ve devrildi; çalışan araç içinde yere düştü.",
+      "event_type": "kaza",
+      "severity": "Yüksek"
+    }
+  ],
+  "risk": "Yüksek",
+  "actions": [
+    "Yaralı çalışanı hemen sağlık ekiplerine bildirin.",
+    "Alanı kapatin ve diğer çalışanları uzaklaştırın.",
+    "İtfaiye ve acil müdahale ekiplerini çağırın."
+  ],
+  "notes": "Otomatik taslak. Gold değil; Streamlit'te kontrol edin.",
+  "evidence": {
+    "duration_sec": 32.93333333333333,
+    "motion_peak_sec": 11.166666666666666,
+    "motion_peak_score": 7.813125,
+    "motion_peaks": [
+      9.166666666666666,
+      11.166666666666666,
+      29.166666666666668
+    ],
+    "motion_elevated": false,
+    "person_count_max": 3,
+    "vehicle_count_max": 3,
+    "min_person_vehicle_ratio": 0.19914554025934864,
+    "person_vehicle_close": true,
+    "person_vehicle_very_close": true,
+    "fire_like_ratio_max": 0.014661458333333334,
+    "fire_like_rise": 0.006953125,
+    "fire_suspect": false,
+    "yolo_available": true,
+    "notes": []
+  }
+}

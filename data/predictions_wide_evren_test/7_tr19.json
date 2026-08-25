@@ -1,0 +1,44 @@
+{
+  "video_id": "7_tr19",
+  "filename": "7_tr19.mp4",
+  "category": "normal",
+  "duration_sec": 11.97,
+  "status": "auto",
+  "labeled_by": "qwen:vlm",
+  "summary": "Forklift, yüküyle birlikte sahne üzerinden geçiyor. Çalışan makine başında oturuyor. Normal çalışma gözüküyor.",
+  "events": [
+    {
+      "time": "00:00",
+      "time_end": "00:07",
+      "event": "Çalışanlar rutin aktivitesini sürdürüyor. Forklift yüküyle sahne üzerinden geçiyor.",
+      "event_type": "normal",
+      "severity": "dusuk"
+    }
+  ],
+  "risk": "Düşük",
+  "actions": [
+    "Rutin izlemeye devam et"
+  ],
+  "notes": "Otomatik taslak. Gold değil; Streamlit'te kontrol edin.",
+  "evidence": {
+    "duration_sec": 11.968984375000002,
+    "motion_peak_sec": 0.9575187500000001,
+    "motion_peak_score": 7.834722222222222,
+    "motion_peaks": [
+      0.9575187500000001,
+      4.947180208333334,
+      8.936841666666668
+    ],
+    "motion_elevated": false,
+    "person_count_max": 1,
+    "vehicle_count_max": 2,
+    "min_person_vehicle_ratio": 3.193767788447031,
+    "person_vehicle_close": false,
+    "person_vehicle_very_close": false,
+    "fire_like_ratio_max": 0.03387731481481481,
+    "fire_like_rise": 0.017329764660493824,
+    "fire_suspect": false,
+    "yolo_available": true,
+    "notes": []
+  }
+}

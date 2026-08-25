@@ -1,0 +1,23 @@
+{
+  "summary": "Forklift, yükü kaldırmaya çalışırken dengesini kaybetti ve devrildi. Çalışan araç içindeyken yere düştü.",
+  "events": [
+    {
+      "time": "00:06",
+      "event": "Forklift dengesini kaybetti ve devrildi; çalışan araç içinde yere düştü."
+    },
+    {
+      "time": "00:08",
+      "event": "Forklift dengesini kaybetti ve devrildi; çalışan araç içinde yere düştü."
+    },
+    {
+      "time": "00:11",
+      "event": "Forklift dengesini kaybetti ve devrildi; çalışan araç içinde yere düştü."
+    }
+  ],
+  "risk": "Yüksek",
+  "actions": [
+    "Yaralı çalışanı hemen sağlık ekiplerine bildirin.",
+    "Alanı kapatin ve diğer çalışanları uzaklaştırın.",
+    "İtfaiye ve acil müdahale ekiplerini çağırın."
+  ]
+}

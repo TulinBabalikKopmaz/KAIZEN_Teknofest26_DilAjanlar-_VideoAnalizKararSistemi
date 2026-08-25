@@ -1,0 +1,52 @@
+{
+  "video_id": "forklift_guy_was_chilling_when_a_woman_attacks_his_forks_s-UHzuOh3B4",
+  "filename": "forklift guy was chilling when a woman attacks his forks [s-UHzuOh3B4].mp4",
+  "category": "accident",
+  "duration_sec": 4.63,
+  "status": "auto",
+  "labeled_by": "qwen:vlm",
+  "summary": "Çalışan forkliftin çok yakınından geçerken yere düşdü ve hareketsiz kaldı.",
+  "events": [
+    {
+      "time": "00:01",
+      "time_end": "00:04",
+      "event": "Çalışan forkliftin çok yakınından geçerken yere düştü ve hareketsiz kaldı.",
+      "event_type": "kaza",
+      "severity": "Yüksek"
+    },
+    {
+      "time": "00:04",
+      "time_end": "00:04",
+      "event": "Çalışan forkliftin çok yakınından geçerken yere düştü ve hareketsiz kaldı.",
+      "event_type": "kaza",
+      "severity": "Yüksek"
+    }
+  ],
+  "risk": "Yüksek",
+  "actions": [
+    "Acil müdahaleye geçin, yaralıyı kontrol edin.",
+    "Alanı kapatin, diğer çalışanları uzaklaştırın.",
+    "İtfaiye ve sağlık ekiplerini çağırın."
+  ],
+  "notes": "Otomatik taslak. Gold değil; Streamlit'te kontrol edin.",
+  "evidence": {
+    "duration_sec": 4.633333333333334,
+    "motion_peak_sec": 1.1666666666666667,
+    "motion_peak_score": 2.1815972222222224,
+    "motion_peaks": [
+      1.1666666666666667,
+      4.166666666666667
+    ],
+    "motion_elevated": false,
+    "person_count_max": 1,
+    "vehicle_count_max": 1,
+    "min_person_vehicle_ratio": 0.4577159370062041,
+    "person_vehicle_close": true,
+    "person_vehicle_very_close": true,
+    "fire_like_ratio_max": 0.003399122807017544,
+    "fire_like_rise": 0.0008162768031189085,
+    "fire_suspect": false,
+    "yolo_available": true,
+    "notes": []
+  }
+}

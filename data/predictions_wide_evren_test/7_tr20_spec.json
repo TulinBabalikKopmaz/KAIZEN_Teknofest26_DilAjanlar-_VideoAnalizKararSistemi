@@ -1,0 +1,30 @@
+{
+  "summary": "Forklift, çalışanın çok yakınından geçti. Neredeyse temas edeceklerdi.",
+  "events": [
+    {
+      "time": "00:00",
+      "event": "Forklift çalışanın çok yakınından geçti."
+    },
+    {
+      "time": "00:02",
+      "event": "Forklift çalışanın çok yakınından geçti."
+    },
+    {
+      "time": "00:05",
+      "event": "Forklift çalışanın çok yakınından geçti."
+    },
+    {
+      "time": "00:07",
+      "event": "Forklift çalışanın çok yakınından geçti."
+    },
+    {
+      "time": "00:10",
+      "event": "Forklift çalışanın çok yakınından geçti."
+    }
+  ],
+  "risk": "Orta",
+  "actions": [
+    "Forklift sürücüsünün güvenli mesafede hareket etmesi için uyarı verin.",
+    "Çalışanın çalışma alanını belirleyin ve geçiş yollarını kontrol edin."
+  ]
+}

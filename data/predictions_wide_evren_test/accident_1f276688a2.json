@@ -1,0 +1,60 @@
+{
+  "video_id": "accident_1f276688a2",
+  "filename": "sunil kumar rana - ⚠️ A routine warehouse task turned dangerous when an overloaded forkl... [2063292024804327424].mp4",
+  "category": "accident",
+  "duration_sec": 16.03,
+  "status": "auto",
+  "labeled_by": "qwen:vlm",
+  "summary": "Forklift, yükü indirirken dengesini kaybetti ve devrildi. Çalışan yere düştü.",
+  "events": [
+    {
+      "time": "00:06",
+      "time_end": "00:14",
+      "event": "Forklift dengesini kaybetti, devrildi ve çalışan yere düştü.",
+      "event_type": "kaza",
+      "severity": "yuksek"
+    },
+    {
+      "time": "00:09",
+      "time_end": "00:14",
+      "event": "Forklift dengesini kaybetti, devrildi ve çalışan yere düştü.",
+      "event_type": "kaza",
+      "severity": "yuksek"
+    },
+    {
+      "time": "00:12",
+      "time_end": "00:14",
+      "event": "Forklift dengesini kaybetti, devrildi ve çalışan yere düştü.",
+      "event_type": "kaza",
+      "severity": "yuksek"
+    }
+  ],
+  "risk": "Yüksek",
+  "actions": [
+    "Yaralı çalışanı hemen sağlık ekiplerine bildirin.",
+    "Alanı kapatin ve diğer çalışanları uzaklaştırın.",
+    "İtfaiye ve acil müdahale ekiplerini çağırın."
+  ],
+  "notes": "Otomatik taslak. Gold değil; Streamlit'te kontrol edin.",
+  "evidence": {
+    "duration_sec": 16.03425,
+    "motion_peak_sec": 12.125073347107438,
+    "motion_peak_score": 8.527430555555556,
+    "motion_peaks": [
+      3.1803471074380165,
+      9.143497933884298,
+      12.125073347107438
+    ],
+    "motion_elevated": true,
+    "person_count_max": 3,
+    "vehicle_count_max": 3,
+    "min_person_vehicle_ratio": 0.18907652418015417,
+    "person_vehicle_close": true,
+    "person_vehicle_very_close": true,
+    "fire_like_ratio_max": 0.14333433493589745,
+    "fire_like_rise": 0.04237279647435899,
+    "fire_suspect": true,
+    "yolo_available": true,
+    "notes": []
+  }
+}

@@ -1,0 +1,27 @@
+{
+  "summary": "Çalışan forkliftin çok yakınından geçerken dengesini kaybeder ve son anda kaçar. Neredeyse ezilme tehlikesi.",
+  "events": [
+    {
+      "time": "00:00",
+      "event": "Çalışan forkliftin çok yakınından geçerken dengesini kaybeder ve son anda kaçar."
+    },
+    {
+      "time": "00:02",
+      "event": "Çalışan forkliftin çok yakınından geçerken dengesini kaybeder ve son anda kaçar."
+    },
+    {
+      "time": "00:04",
+      "event": "Çalışan forkliftin çok yakınından geçerken dengesini kaybeder ve son anda kaçar."
+    },
+    {
+      "time": "00:07",
+      "event": "Çalışan forkliftin çok yakınından geçerken dengesini kaybeder ve son anda kaçar."
+    }
+  ],
+  "risk": "Yüksek",
+  "actions": [
+    "Çalışanın güvenliği kontrol edilsin.",
+    "Forklift operatörüne uyarı verilsin.",
+    "Yakın geçişlerin önlenmesi için rotalar gözden geçirilsin."
+  ]
+}

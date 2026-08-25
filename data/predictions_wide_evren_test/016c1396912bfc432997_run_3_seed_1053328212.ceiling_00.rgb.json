@@ -1,0 +1,66 @@
+{
+  "video_id": "016c1396912bfc432997_run_3_seed_1053328212.ceiling_00.rgb",
+  "filename": "016c1396912bfc432997_run_3_seed_1053328212.ceiling_00.rgb.mp4",
+  "category": "near_miss",
+  "duration_sec": 10.0,
+  "status": "auto",
+  "labeled_by": "qwen:vlm",
+  "summary": "Forklift çalışanın çok yakınından geçti. Çalışan son anda kaçtı.",
+  "events": [
+    {
+      "time": "00:00",
+      "time_end": "00:04",
+      "event": "Forklift çalışanın çok yakınından geçti, çalışan son anda kaçtı.",
+      "event_type": "near_miss",
+      "severity": "Orta"
+    },
+    {
+      "time": "00:02",
+      "time_end": "00:04",
+      "event": "Forklift çalışanın çok yakınından geçti, çalışan son anda kaçtı.",
+      "event_type": "near_miss",
+      "severity": "Orta"
+    },
+    {
+      "time": "00:03",
+      "time_end": "00:04",
+      "event": "Forklift çalışanın çok yakınından geçti, çalışan son anda kaçtı.",
+      "event_type": "near_miss",
+      "severity": "Orta"
+    },
+    {
+      "time": "00:06",
+      "time_end": "00:04",
+      "event": "Forklift çalışanın çok yakınından geçti, çalışan son anda kaçtı.",
+      "event_type": "near_miss",
+      "severity": "Orta"
+    }
+  ],
+  "risk": "Orta",
+  "actions": [
+    "Forklift operatörüne güvenli mesafe koruma talimatı verin.",
+    "Çalışanlara tehlikeli yaklaşma durumlarında durma ve uyarı verme eğitimi hatırlatın."
+  ],
+  "notes": "Otomatik taslak. Gold değil; Streamlit'te kontrol edin.",
+  "evidence": {
+    "duration_sec": 10.0,
+    "motion_peak_sec": 0.16666666666666666,
+    "motion_peak_score": 3.913263888888889,
+    "motion_peaks": [
+      0.16666666666666666,
+      4.0,
+      6.0
+    ],
+    "motion_elevated": false,
+    "person_count_max": 1,
+    "vehicle_count_max": 0,
+    "min_person_vehicle_ratio": null,
+    "person_vehicle_close": false,
+    "person_vehicle_very_close": false,
+    "fire_like_ratio_max": 0.005752314814814815,
+    "fire_like_rise": 0.0022337962962962967,
+    "fire_suspect": false,
+    "yolo_available": true,
+    "notes": []
+  }
+}

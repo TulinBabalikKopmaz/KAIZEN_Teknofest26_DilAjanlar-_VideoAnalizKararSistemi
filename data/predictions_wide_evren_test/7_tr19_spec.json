@@ -1,0 +1,13 @@
+{
+  "summary": "Forklift, yüküyle birlikte sahne üzerinden geçiyor. Çalışan makine başında oturuyor. Normal çalışma gözüküyor.",
+  "events": [
+    {
+      "time": "00:00",
+      "event": "Çalışanlar rutin aktivitesini sürdürüyor. Forklift yüküyle sahne üzerinden geçiyor."
+    }
+  ],
+  "risk": "Düşük",
+  "actions": [
+    "Rutin izlemeye devam et"
+  ]
+}

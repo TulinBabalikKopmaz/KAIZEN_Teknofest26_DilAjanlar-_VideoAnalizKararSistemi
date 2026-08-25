@@ -1,0 +1,23 @@
+{
+  "summary": "Çalışan forkliftin ön tekerlerinin hemen önünde yere düştü ve hareketsiz kaldı.",
+  "events": [
+    {
+      "time": "00:00",
+      "event": "Çalışan forkliftin ön tekerlerinin hemen önünde yere düştü ve hareketsiz yatıyor."
+    },
+    {
+      "time": "00:03",
+      "event": "Çalışan forkliftin ön tekerlerinin hemen önünde yere düştü ve hareketsiz yatıyor."
+    },
+    {
+      "time": "00:06",
+      "event": "Çalışan forkliftin ön tekerlerinin hemen önünde yere düştü ve hareketsiz yatıyor."
+    }
+  ],
+  "risk": "Yüksek",
+  "actions": [
+    "Acil sağlık ekiplerine haber verin.",
+    "Alanı kapatin ve diğer çalışanları uzaklaştırın.",
+    "Olay yerini koruyun ve inceleme başlatın."
+  ]
+}

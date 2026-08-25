@@ -84,6 +84,14 @@ sayısını, `--cooldown` aynı olayın tekrar raporlanmasını sınırlar.
 }
 ```
 
+Ekran ve sunum bu token'ları ham basmaz. İç kod `normal` / `near_miss` /
+`accident` klasör ve KPI içindir. İnsan yüzü: **rutin operasyon · kontrol
+altında**, **ramak kala · yüksek dikkat**, **iş kazası · kritik durum**
+(`utils/display.py`). Jüri JSON'unda `risk` yine Düşük | Orta | Yüksek kalır.
+
+UI arkadaşı: [`docs/ui_taslak.md`](docs/ui_taslak.md). Sunum:
+[`docs/sunum_akisi.md`](docs/sunum_akisi.md). Cursor özeti: `AGENTS.md`.
+
 Her saniyeyi yazmayın. Her video için:
 
 1. `category`: `normal` / `near_miss` / `accident`

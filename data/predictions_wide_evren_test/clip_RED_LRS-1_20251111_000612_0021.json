@@ -1,0 +1,44 @@
+{
+  "video_id": "clip_RED_LRS-1_20251111_000612_0021",
+  "filename": "clip_RED_LRS-1_20251111_000612_0021.mp4",
+  "category": "normal",
+  "duration_sec": 15.0,
+  "status": "auto",
+  "labeled_by": "qwen:vlm",
+  "summary": "Çalışanlar sahada rutin faaliyetlerini sürdürüyor. Herhangi bir kaza veya tehlikeli yaklaşma gözlemlenmedi.",
+  "events": [
+    {
+      "time": "00:00",
+      "time_end": "00:14",
+      "event": "Çalışanlar sahada rutin aktivitesini sürdürüyor.",
+      "event_type": "normal",
+      "severity": "dusuk"
+    }
+  ],
+  "risk": "Düşük",
+  "actions": [
+    "Rutin izlemeye devam et"
+  ],
+  "notes": "Otomatik taslak. Gold değil; Streamlit'te kontrol edin.",
+  "evidence": {
+    "duration_sec": 15.0,
+    "motion_peak_sec": 10.08,
+    "motion_peak_score": 2.9068055555555556,
+    "motion_peaks": [
+      6.08,
+      10.08,
+      14.08
+    ],
+    "motion_elevated": false,
+    "person_count_max": 2,
+    "vehicle_count_max": 0,
+    "min_person_vehicle_ratio": null,
+    "person_vehicle_close": false,
+    "person_vehicle_very_close": false,
+    "fire_like_ratio_max": 0.0006515239197530864,
+    "fire_like_rise": 0.00011911651234567907,
+    "fire_suspect": false,
+    "yolo_available": true,
+    "notes": []
+  }
+}

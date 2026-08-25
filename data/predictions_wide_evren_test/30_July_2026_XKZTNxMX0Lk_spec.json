@@ -1,0 +1,29 @@
+{
+  "summary": "Çalışanlar ofis ortamında bilgisayar başında rutin faaliyetlerini sürdürüyor. Normal gözüküyor.",
+  "events": [
+    {
+      "time": "00:00",
+      "event": "Çalışanlar bilgisayar başında rutin aktivite yapıyor."
+    },
+    {
+      "time": "00:22",
+      "event": "Çalışanlar bilgisayar başında rutin aktivite yapıyor."
+    },
+    {
+      "time": "00:26",
+      "event": "Çalışanlar bilgisayar başında rutin aktivite yapıyor."
+    },
+    {
+      "time": "00:28",
+      "event": "Çalışanlar bilgisayar başında rutin aktivite yapıyor."
+    },
+    {
+      "time": "00:30",
+      "event": "Çalışanlar bilgisayar başında rutin aktivite yapıyor."
+    }
+  ],
+  "risk": "Düşük",
+  "actions": [
+    "Rutin izlemeye devam et"
+  ]
+}

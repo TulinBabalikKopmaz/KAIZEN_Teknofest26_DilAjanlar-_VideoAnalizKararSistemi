@@ -33,6 +33,7 @@ if str(ROOT / "scripts") not in sys.path:
 from extract_frames import extract_video, safe_id  # noqa: E402
 
 from utils import config  # noqa: E402
+from utils.display import verdict  # noqa: E402
 from utils.label_json import (  # noqa: E402
     dedupe_events,
     label_to_spec,
@@ -323,16 +324,14 @@ def _label_from_parsed(
 def _fallback_answer(spec: dict[str, Any], label: dict[str, Any]) -> str:
     """LLM cevap adımı düşerse yapılandırılmış bulgudan cümle kurar."""
     events = spec.get("events") or []
-    risk = spec.get("risk", "Orta")
-    category_text = {
-        "accident": "iş kazası tespit edildi",
-        "near_miss": "ramak kala (kazaya çok yakın) durum tespit edildi",
-        "normal": "belirgin bir kaza tespit edilmedi",
-    }.get(label.get("category", "normal"), "durum değerlendirildi")
+    v = verdict(label.get("category"), spec.get("risk") or label.get("risk"))
     first = events[0] if events else None
     when = f" İlk kritik an {first['time']}." if first else ""
     what = f" {first.get('event')}" if first and first.get("event") else ""
-    return f"Videoda {category_text}. Risk seviyesi {risk}.{when}{what}".strip()
+    return (
+        f"Videoda {v['situation'].lower()} görüldü. "
+        f"Karar: {v['decision']}.{when}{what}"
+    ).strip()
 
 
 def probe_duration(video_path: Path) -> float:
@@ -654,7 +653,11 @@ async def run_demo_analysis(
         result.out_dir = str(out_dir)
         say(f"Kaydedildi: {out_dir}")
 
-    say(f"Toplam süre: {total:.1f} sn | Risk: {spec.get('risk')} | Cevap: {answer}")
+    v = verdict(label.get("category"), spec.get("risk"))
+    say(
+        f"Toplam süre: {total:.1f} sn | {v['situation']} · {v['decision']} "
+        f"(şartname: {v['spec_risk']}) | Cevap: {answer}"
+    )
     return result
 
 

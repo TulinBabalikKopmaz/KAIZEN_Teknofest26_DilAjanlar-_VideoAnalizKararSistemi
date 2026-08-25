@@ -1,0 +1,17 @@
+---
+description: Demo/etiket UI — kopya kilidi ve Streamlit taslağı
+globs: app/**/*.py
+alwaysApply: false
+---
+
+# UI katmanı
+
+Kaynak kopya: `utils/display.py`. Taslak: `docs/ui_taslak.md`.
+
+- Ekranda `accident` / `near_miss` / "Risk: Düşük" basma
+- Şartname JSON expander'da ham token kalsın (Düşük|Orta|Yüksek)
+- Karar kartı tek: saha durumu · karar + alt metin
+- Pipeline, kural, prompt, gold'a dokunma
+- React'e geçme; Streamlit cilası
+- Sahne klibini varsayılan kilitleme
+- `.env` ve video/frame commit etme

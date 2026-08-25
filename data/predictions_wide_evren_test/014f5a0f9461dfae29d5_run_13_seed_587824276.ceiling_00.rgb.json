@@ -1,0 +1,67 @@
+{
+  "video_id": "014f5a0f9461dfae29d5_run_13_seed_587824276.ceiling_00.rgb",
+  "filename": "014f5a0f9461dfae29d5_run_13_seed_587824276.ceiling_00.rgb.mp4",
+  "category": "accident",
+  "duration_sec": 10.0,
+  "status": "auto",
+  "labeled_by": "qwen:vlm",
+  "summary": "Çalışan forkliftin yanından geçerken dengesini kaybetti ve forkliftin altına düştü.",
+  "events": [
+    {
+      "time": "00:00",
+      "time_end": "00:06",
+      "event": "Çalışan forkliftin yanından geçerken dengesini kaybetti ve forkliftin altına düştü.",
+      "event_type": "kaza",
+      "severity": "yuksek"
+    },
+    {
+      "time": "00:02",
+      "time_end": "00:06",
+      "event": "Çalışan forkliftin yanından geçerken dengesini kaybetti ve forkliftin altına düştü.",
+      "event_type": "kaza",
+      "severity": "yuksek"
+    },
+    {
+      "time": "00:03",
+      "time_end": "00:06",
+      "event": "Çalışan forkliftin yanından geçerken dengesini kaybetti ve forkliftin altına düştü.",
+      "event_type": "kaza",
+      "severity": "yuksek"
+    },
+    {
+      "time": "00:06",
+      "time_end": "00:06",
+      "event": "Çalışan forkliftin yanından geçerken dengesini kaybetti ve forkliftin altına düştü.",
+      "event_type": "kaza",
+      "severity": "yuksek"
+    }
+  ],
+  "risk": "Yüksek",
+  "actions": [
+    "Acil müdahaleye geçin, yaralıyı kontrol edin.",
+    "Alanı kapatin, diğer çalışanları uzaklaştırın.",
+    "İtfaiye ve sağlık ekiplerini çağırın."
+  ],
+  "notes": "Otomatik taslak. Gold değil; Streamlit'te kontrol edin.",
+  "evidence": {
+    "duration_sec": 10.0,
+    "motion_peak_sec": 0.16666666666666666,
+    "motion_peak_score": 2.549375,
+    "motion_peaks": [
+      0.16666666666666666,
+      4.0,
+      6.0
+    ],
+    "motion_elevated": false,
+    "person_count_max": 1,
+    "vehicle_count_max": 0,
+    "min_person_vehicle_ratio": null,
+    "person_vehicle_close": false,
+    "person_vehicle_very_close": false,
+    "fire_like_ratio_max": 0.6964149305555556,
+    "fire_like_rise": 0.02035493827160506,
+    "fire_suspect": true,
+    "yolo_available": true,
+    "notes": []
+  }
+}

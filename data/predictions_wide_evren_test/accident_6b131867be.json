@@ -1,0 +1,67 @@
+{
+  "video_id": "accident_6b131867be",
+  "filename": "İZMİR’İN NABZI - İZMİR’DE FECİ İŞ KAZASI： İSKELE BÖYLE ÇÖKTÜ!  İzmir’in Balçova ilçesi... [2079890562375634944].mp4",
+  "category": "accident",
+  "duration_sec": 25.13,
+  "status": "auto",
+  "labeled_by": "qwen:vlm",
+  "summary": "Çalışan yüksekten düşerken patlama ve duman oluşur. Yere düşmüş durumda.",
+  "events": [
+    {
+      "time": "00:06",
+      "time_end": "00:16",
+      "event": "Çalışan yüksekten düştü, patlama ve duman oluştu, yerde hareketsiz.",
+      "event_type": "kaza",
+      "severity": "Yüksek"
+    },
+    {
+      "time": "00:09",
+      "time_end": "00:16",
+      "event": "Çalışan yüksekten düştü, patlama ve duman oluştu, yerde hareketsiz.",
+      "event_type": "kaza",
+      "severity": "Yüksek"
+    },
+    {
+      "time": "00:12",
+      "time_end": "00:16",
+      "event": "Çalışan yüksekten düştü, patlama ve duman oluştu, yerde hareketsiz.",
+      "event_type": "kaza",
+      "severity": "Yüksek"
+    },
+    {
+      "time": "00:15",
+      "time_end": "00:16",
+      "event": "Çalışan yüksekten düştü, patlama ve duman oluştu, yerde hareketsiz.",
+      "event_type": "kaza",
+      "severity": "Yüksek"
+    }
+  ],
+  "risk": "Yüksek",
+  "actions": [
+    "Acil sağlık ekiplerini çağır",
+    "Alanı kapalı tut, itfaiyeyi bilgilendir",
+    "Olay yerini koru, inceleme yap"
+  ],
+  "notes": "Otomatik taslak. Gold değil; Streamlit'te kontrol edin.",
+  "evidence": {
+    "duration_sec": 25.133333333333333,
+    "motion_peak_sec": 15.0,
+    "motion_peak_score": 7.955555555555556,
+    "motion_peaks": [
+      8.833333333333334,
+      12.5,
+      15.0
+    ],
+    "motion_elevated": false,
+    "person_count_max": 1,
+    "vehicle_count_max": 0,
+    "min_person_vehicle_ratio": null,
+    "person_vehicle_close": false,
+    "person_vehicle_very_close": false,
+    "fire_like_ratio_max": 0.0008231162196679438,
+    "fire_like_rise": 0.0008231162196679438,
+    "fire_suspect": false,
+    "yolo_available": true,
+    "notes": []
+  }
+}

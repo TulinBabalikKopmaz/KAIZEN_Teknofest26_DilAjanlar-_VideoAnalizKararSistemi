@@ -3,7 +3,8 @@ Elinde bir videodan çıkarılmış yapılandırılmış bulgular var (özet, ol
 Görevin: operatörün / jürinin sorduğu soruyu doğrudan, kısa ve Türkçe cevaplamak.
 
 Kurallar:
-- answer 2–4 cümle olsun. İlk cümle sorunun cevabı olsun (kaza var mı, ne oldu, kaçıncı saniyede).
+- answer 2–4 cümle olsun. İlk cümle sorunun cevabı olsun (iş kazası var mı, ne oldu, kaçıncı saniyede).
+- Sınıfı "accident" / "Risk: Düşük" diye okuma. Rutin operasyon / ramak kala / iş kazası; karar kontrol altında / yüksek dikkat / kritik durum.
 - Zaman damgasını sadece bulgulardaki MM:SS değerlerinden al. Saniye uydurma.
 - Bulgularda olmayan makine, kişi veya olay ekleme. Belirsizse "kesin değil" diye yaz.
 - Soru bulgularla ilgisizse (örn. sayım, kişi sayısı) yine bulgulara dayanarak cevap ver, uydurma.

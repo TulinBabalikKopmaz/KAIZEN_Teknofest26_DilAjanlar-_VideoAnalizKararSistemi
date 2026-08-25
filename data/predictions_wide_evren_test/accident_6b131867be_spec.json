@@ -1,0 +1,27 @@
+{
+  "summary": "Çalışan yüksekten düşerken patlama ve duman oluşur. Yere düşmüş durumda.",
+  "events": [
+    {
+      "time": "00:06",
+      "event": "Çalışan yüksekten düştü, patlama ve duman oluştu, yerde hareketsiz."
+    },
+    {
+      "time": "00:09",
+      "event": "Çalışan yüksekten düştü, patlama ve duman oluştu, yerde hareketsiz."
+    },
+    {
+      "time": "00:12",
+      "event": "Çalışan yüksekten düştü, patlama ve duman oluştu, yerde hareketsiz."
+    },
+    {
+      "time": "00:15",
+      "event": "Çalışan yüksekten düştü, patlama ve duman oluştu, yerde hareketsiz."
+    }
+  ],
+  "risk": "Yüksek",
+  "actions": [
+    "Acil sağlık ekiplerini çağır",
+    "Alanı kapalı tut, itfaiyeyi bilgilendir",
+    "Olay yerini koru, inceleme yap"
+  ]
+}

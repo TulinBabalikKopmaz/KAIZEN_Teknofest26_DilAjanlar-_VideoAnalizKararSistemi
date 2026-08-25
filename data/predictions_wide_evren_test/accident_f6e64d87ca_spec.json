@@ -1,0 +1,31 @@
+{
+  "summary": "Çalışan yüksekten düşen yükün altında kalarak yere devrildi. Diğer çalışanlar müdahale etti.",
+  "events": [
+    {
+      "time": "00:01",
+      "event": "Yük yüksekten düşerek çalışanın üstüne çarptı ve yere devirdi."
+    },
+    {
+      "time": "00:05",
+      "event": "Yük yüksekten düşerek çalışanın üstüne çarptı ve yere devirdi."
+    },
+    {
+      "time": "00:09",
+      "event": "Yük yüksekten düşerek çalışanın üstüne çarptı ve yere devirdi."
+    },
+    {
+      "time": "00:11",
+      "event": "Yük yüksekten düşerek çalışanın üstüne çarptı ve yere devirdi."
+    },
+    {
+      "time": "00:17",
+      "event": "Yük yüksekten düşerek çalışanın üstüne çarptı ve yere devirdi."
+    }
+  ],
+  "risk": "Yüksek",
+  "actions": [
+    "Yaralı çalışanı hemen sağlık ekiplerine bildirin.",
+    "Olay yerini izole edin ve diğer çalışanları uzaklaştırın.",
+    "İş güvenliği incelemesi başlatın."
+  ]
+}

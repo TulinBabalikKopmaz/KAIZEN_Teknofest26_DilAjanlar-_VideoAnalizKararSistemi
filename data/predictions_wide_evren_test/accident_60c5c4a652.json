@@ -1,0 +1,74 @@
+{
+  "video_id": "accident_60c5c4a652",
+  "filename": "Hate Detector 🔍 - A tragic industrial accident occurred at Pramukh Industries in the GI... [2062441335727284224].mp4",
+  "category": "accident",
+  "duration_sec": 14.2,
+  "status": "auto",
+  "labeled_by": "qwen:vlm",
+  "summary": "Çalışan yük taşıırken dengesini kaybetti, yere düştü ve hareketsiz kaldı. Diğer çalışanlar müdahale etti.",
+  "events": [
+    {
+      "time": "00:03",
+      "time_end": "00:14",
+      "event": "Çalışan yük taşıırken dengesini kaybetti, yere düştü ve hareketsiz yatıyor.",
+      "event_type": "kaza",
+      "severity": "Yüksek"
+    },
+    {
+      "time": "00:06",
+      "time_end": "00:14",
+      "event": "Çalışan yük taşıırken dengesini kaybetti, yere düştü ve hareketsiz yatıyor.",
+      "event_type": "kaza",
+      "severity": "Yüksek"
+    },
+    {
+      "time": "00:09",
+      "time_end": "00:14",
+      "event": "Çalışan yük taşıırken dengesini kaybetti, yere düştü ve hareketsiz yatıyor.",
+      "event_type": "kaza",
+      "severity": "Yüksek"
+    },
+    {
+      "time": "00:11",
+      "time_end": "00:14",
+      "event": "Çalışan yük taşıırken dengesini kaybetti, yere düştü ve hareketsiz yatıyor.",
+      "event_type": "kaza",
+      "severity": "Yüksek"
+    },
+    {
+      "time": "00:13",
+      "time_end": "00:14",
+      "event": "Çalışan yük taşıırken dengesini kaybetti, yere düştü ve hareketsiz yatıyor.",
+      "event_type": "kaza",
+      "severity": "Yüksek"
+    }
+  ],
+  "risk": "Yüksek",
+  "actions": [
+    "Yaralı çalışanı hemen sağlık ekiplerine bildirin.",
+    "Olay yerini izole edin ve diğer çalışanları alandan uzaklaştırın.",
+    "İtfaiye veya acil müdahale ekipleri gerekirse çağırın."
+  ],
+  "notes": "Otomatik taslak. Gold değil; Streamlit'te kontrol edin.",
+  "evidence": {
+    "duration_sec": 14.2,
+    "motion_peak_sec": 13.0,
+    "motion_peak_score": 6.051180555555556,
+    "motion_peaks": [
+      6.0,
+      9.0,
+      13.0
+    ],
+    "motion_elevated": false,
+    "person_count_max": 4,
+    "vehicle_count_max": 0,
+    "min_person_vehicle_ratio": null,
+    "person_vehicle_close": false,
+    "person_vehicle_very_close": false,
+    "fire_like_ratio_max": 0.01105451062347614,
+    "fire_like_rise": 0.005834204110066178,
+    "fire_suspect": false,
+    "yolo_available": true,
+    "notes": []
+  }
+}

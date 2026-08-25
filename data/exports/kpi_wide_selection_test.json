@@ -1,0 +1,12 @@
+{
+  "mode": "all/test+only/1",
+  "seed": 42,
+  "backend": "teknofest",
+  "model": "vlm",
+  "videos": [
+    {
+      "filename": "019b03676f77ba21f644_run_5_seed_946900070.ceiling_00.rgb.mp4",
+      "category": "near_miss"
+    }
+  ]
+}

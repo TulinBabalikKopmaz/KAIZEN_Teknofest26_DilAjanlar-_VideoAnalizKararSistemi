@@ -13,10 +13,11 @@ from pathlib import Path
 import streamlit as st
 
 ROOT = Path(__file__).resolve().parents[1]
+sys.path.insert(0, str(ROOT))
 sys.path.insert(0, str(ROOT / "scripts"))
 from extract_frames import safe_id
+from utils.display import CATEGORY_LABEL, RISK_LABEL, verdict
 
-ROOT = Path(__file__).resolve().parents[1]
 VIDEO_ROOT = ROOT / "data" / "videos"
 LABEL_ROOT = ROOT / "data" / "labels"
 PRED_ROOT = ROOT / "data" / "predictions"
@@ -24,9 +25,9 @@ FRAMES_ROOT = ROOT / "data" / "frames"
 VIDEO_EXTS = {".mp4", ".mov", ".avi", ".mkv", ".webm", ".m4v"}
 
 CATEGORIES = {
-    "normal": "Normal — kaza yok, ciddi risk yok",
-    "near_miss": "Near miss — kaza olmadı ama neredeyse olacaktı",
-    "accident": "Kaza — fiili çarpışma, düşme, devrilme, yaralanma",
+    "normal": "Rutin operasyon — kaza yok, acil müdahale gerekmez",
+    "near_miss": "Ramak kala — kaza olmadı, eşiğe gelindi",
+    "accident": "İş kazası — fiili çarpışma, düşme, devrilme, yaralanma",
 }
 RISKS = ["Düşük", "Orta", "Yüksek"]
 # Belirsizlik dördüncü bir sonuç sınıfı değil; sahnenin okunabilirliği.
@@ -46,9 +47,9 @@ AMBIGUITY_REASONS = {
     "diger": "Diğer — notta açıkla",
 }
 EVENT_TYPES = {
-    "normal": "Normal akış",
-    "near_miss": "Near miss",
-    "kaza": "Kaza",
+    "normal": "Rutin akış",
+    "near_miss": "Ramak kala",
+    "kaza": "İş kazası",
     "risk": "Riskli durum",
     "mudahale": "Müdahale / toplanma",
     "diger": "Diğer",
@@ -119,7 +120,11 @@ def spec_card(title: str, data: dict | None) -> None:
     if not data:
         st.info("Bu video için Qwen tahmini yok.")
         return
-    st.markdown(f"**Risk:** {data.get('risk', '-')}")
+    v = verdict(data.get("category"), data.get("risk"))
+    st.markdown(f"**Saha durumu:** {v['situation']}")
+    st.markdown(
+        f"**Karar:** {v['decision']}  ·  şartname `{v['spec_risk']}`"
+    )
     st.markdown(f"**Özet:** {data.get('summary') or '-'}")
     events = data.get("events") or []
     if events:
@@ -190,9 +195,9 @@ if not videos:
         """
 Videolarınızı Finder ile şu üç klasöre kopyalayın, sonra bu sayfayı yenileyin:
 
-- `data/videos/normal/` — kaza olmayanlar
-- `data/videos/near_miss/` — neredeyse kaza
-- `data/videos/accident/` — kaza olanlar
+- `data/videos/normal/` — rutin operasyon
+- `data/videos/near_miss/` — ramak kala
+- `data/videos/accident/` — iş kazası
         """
     )
     st.code(str(VIDEO_ROOT), language="text")
@@ -214,9 +219,9 @@ cat_filter = st.sidebar.selectbox(
     ["hepsi", "accident", "near_miss", "normal"],
     format_func=lambda x: {
         "hepsi": "Hepsi",
-        "accident": "Kaza",
-        "near_miss": "Near miss",
-        "normal": "Normal",
+        "accident": CATEGORY_LABEL["accident"],
+        "near_miss": CATEGORY_LABEL["near_miss"],
+        "normal": CATEGORY_LABEL["normal"],
     }[x],
 )
 only_gold = False
@@ -338,10 +343,11 @@ with right:
         format_func=lambda k: CATEGORIES[k],
     )
     risk = st.selectbox(
-        "Operatör için risk seviyesi",
+        "Karar (şartname riski)",
         RISKS,
         index=RISKS.index(label["risk"]) if label["risk"] in RISKS else 1,
-        help="Normal sahnede genelde Düşük, near miss Orta, kaza Yüksek.",
+        format_func=lambda k: f"{k} — {RISK_LABEL[k]}",
+        help="Rutin operasyon → Düşük, ramak kala → Orta, iş kazası → Yüksek.",
     )
     amb_keys = list(AMBIGUITY)
     current_amb = label.get("ambiguity") or "net"

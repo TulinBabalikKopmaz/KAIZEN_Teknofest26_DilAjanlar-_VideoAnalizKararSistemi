@@ -1,0 +1,44 @@
+{
+  "video_id": "clip_BF_Conveyor_JN_21_20251111_001456_0058",
+  "filename": "clip_BF_Conveyor_JN_21_20251111_001456_0058.mp4",
+  "category": "normal",
+  "duration_sec": 15.0,
+  "status": "auto",
+  "labeled_by": "qwen:vlm",
+  "summary": "Çalışanlar taşınır şerit üzerinde bakım yaparken normal aktivite sürdürüyor. Herhangi bir kaza veya tehlikeli yaklaşma gözlemlenmiyor.",
+  "events": [
+    {
+      "time": "00:00",
+      "time_end": "00:12",
+      "event": "Çalışanlar taşınır şerit üzerinde rutin bakım çalışması yapıyor.",
+      "event_type": "normal",
+      "severity": "dusuk"
+    }
+  ],
+  "risk": "Düşük",
+  "actions": [
+    "Rutin izlemeye devam et"
+  ],
+  "notes": "Otomatik taslak. Gold değil; Streamlit'te kontrol edin.",
+  "evidence": {
+    "duration_sec": 15.0,
+    "motion_peak_sec": 10.08,
+    "motion_peak_score": 3.8808333333333334,
+    "motion_peaks": [
+      4.0,
+      8.0,
+      10.08
+    ],
+    "motion_elevated": false,
+    "person_count_max": 1,
+    "vehicle_count_max": 0,
+    "min_person_vehicle_ratio": null,
+    "person_vehicle_close": false,
+    "person_vehicle_very_close": false,
+    "fire_like_ratio_max": 0.0012229938271604939,
+    "fire_like_rise": 0.00031876929012345683,
+    "fire_suspect": false,
+    "yolo_available": true,
+    "notes": []
+  }
+}

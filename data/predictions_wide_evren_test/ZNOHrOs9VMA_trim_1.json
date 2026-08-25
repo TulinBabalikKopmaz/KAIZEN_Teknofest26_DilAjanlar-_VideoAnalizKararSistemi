@@ -1,0 +1,66 @@
+{
+  "video_id": "ZNOHrOs9VMA_trim_1",
+  "filename": "ZNOHrOs9VMA_trim_1.mp4",
+  "category": "accident",
+  "duration_sec": 8.0,
+  "status": "auto",
+  "labeled_by": "qwen:vlm",
+  "summary": "Forkliftteki çalışan, araçta ani alevlenme sonucu yere düşerek kaçtı. Forklift alev aldı.",
+  "events": [
+    {
+      "time": "00:00",
+      "time_end": "00:08",
+      "event": "Forkliftte ani alevlenme oldu, çalışan yere düşerek kaçtı ve forklift alev aldı.",
+      "event_type": "kaza",
+      "severity": "Yüksek"
+    },
+    {
+      "time": "00:02",
+      "time_end": "00:08",
+      "event": "Forkliftte ani alevlenme oldu, çalışan yere düşerek kaçtı ve forklift alev aldı.",
+      "event_type": "kaza",
+      "severity": "Yüksek"
+    },
+    {
+      "time": "00:05",
+      "time_end": "00:08",
+      "event": "Forkliftte ani alevlenme oldu, çalışan yere düşerek kaçtı ve forklift alev aldı.",
+      "event_type": "kaza",
+      "severity": "Yüksek"
+    },
+    {
+      "time": "00:08",
+      "time_end": "00:08",
+      "event": "Forkliftte ani alevlenme oldu, çalışan yere düşerek kaçtı ve forklift alev aldı.",
+      "event_type": "kaza",
+      "severity": "Yüksek"
+    }
+  ],
+  "risk": "Yüksek",
+  "actions": [
+    "Acil durum protokolüne geçin, itfaiyeye haber verin.",
+    "Alanı boşaltın, çalışanın durumunu kontrol edin."
+  ],
+  "notes": "Otomatik taslak. Gold değil; Streamlit'te kontrol edin.",
+  "evidence": {
+    "duration_sec": 8.0,
+    "motion_peak_sec": 5.333333333333333,
+    "motion_peak_score": 20.553402777777777,
+    "motion_peaks": [
+      3.1666666666666665,
+      5.333333333333333,
+      7.833333333333333
+    ],
+    "motion_elevated": false,
+    "person_count_max": 2,
+    "vehicle_count_max": 1,
+    "min_person_vehicle_ratio": 1.0124978601218158,
+    "person_vehicle_close": true,
+    "person_vehicle_very_close": false,
+    "fire_like_ratio_max": 0.14689453125,
+    "fire_like_rise": 0.049297960069444424,
+    "fire_suspect": true,
+    "yolo_available": true,
+    "notes": []
+  }
+}

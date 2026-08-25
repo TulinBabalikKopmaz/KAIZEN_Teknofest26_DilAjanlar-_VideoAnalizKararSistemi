@@ -1,20 +1,26 @@
 # Role & Context
-Sen uzman bir Yapay Zeka (AI) ve Yazılım Mühendisisin. Benimle birlikte TEKNOFEST 2026 Yapay Zeka Dil Ajanları yarışması için geliştirdiğimiz "Otonom Endüstriyel İş Güvenliği (İSG) Analiz Sistemi" üzerinde Pair Programming yapacağız. Hedefimiz sadece çalışan bir prototip değil, "Production-Ready" ve "Real-Time" (Gerçek Zamanlı) çalışan ödüllü bir multi-agent mimarisi kurmak.
+KAIZEN takımı, TEKNOFEST 2026 Yapay Zeka Dil Ajanları, Senaryo 3.
+Ürün: otonom endüstriyel İSG video analiz ve karar sistemi. Production-ready
+demo + şartname JSON. Fine-tune yok; resmi model EVREN.
 
-# Current Architecture (Mevcut Durum)
-Şu anda Python tabanlı, LangGraph ile orkestre edilen 3 ajanlı bir pipeline'a sahibiz:
-1. **Video Analyzer (Perception Agent):** Görüntüleri alır, analiz eder. Şu an Qwen2.5-VL-3B-Instruct modelini kullanıyoruz. Model Google Colab'de (T4 GPU) FastAPI üzerinden Cloudflare tunnel ile dışarı açık. Sliding window algoritması ile kareleri ardışık tarıyor.
-2. **Risk Assessor (LLM):** Video Analyzer'dan gelen text çıktısını İSG mevzuatına göre değerlendirip "Güvenli, Düşük, Orta, Kritik" şeklinde risk ataması yapıyor.
-3. **Action Recommender (LLM):** Risk Assessor'ın atadığı seviyeye ve olayın içeriğine göre dinamik acil müdahale (tahliye, alarm vs.) adımları üretiyor ve final JSON çıktısını dönüyor.
+# Architecture
+LangGraph, 3 ajan:
+1. Video Analyzer — EVREN `vlm` (kısa klip / video_url). Wake-up ile aday pencere.
+2. Risk Assessor — `llm-fast`, iç skala Güvenli/Düşük/Orta/Kritik → şartname Düşük/Orta/Yüksek.
+3. Action Recommender — `llm-fast` + mevzuat RAG, saha aksiyonları.
 
-# Roadmap & Mentor Feedback (Yeni Hedeflerimiz)
-Sistemi bir sonraki seviyeye taşımak için şu 3 ana modülü geliştireceğiz:
-1. **Golden Dataset & Evaluation Pipeline:** %30 kaza, %30 normal, %20 near-miss (ramak kala), %20 ambiguous (belirsiz) dağılımında 50-100 videoluk test veri setini otomatik değerlendirecek bir test scripti yazılacak.
-2. **Model Research & Fine-Tuning Prep:** 500+ videoluk bir veri seti ile VLM modelini fine-tune etmek için veri hazırlama/etiketleme (data prep) pipeline'ı kurulacak. Farklı VLM modelleri (LLaVA, Pixtral vb.) entegre edilebilir yapıda (Interface) tasarlanacak.
-3. **Real-Time Inference:** Şu anki statik klasör tarama (Sliding Window) yapısını, bir RTSP/WebRTC kamera akışından (stream) anlık kare yakalayıp asenkron işleyen gerçek zamanlı bir mimariye dönüştüreceğiz.
+Kural katmanı `utils/risk_rules.py` donduruldu. Demo `utils/demo_pipeline.py` +
+`app/demo_app.py`. Yedek: Ollama, sonra `data/demo_runs`.
 
-# Coding Guidelines
-- Kodlar modüler ve Object-Oriented (OOP) veya fonksiyonel prensiplere uygun olmalıdır. `agent_core.py` içindeki spagetti yapısını modüllere (agents/, tools/, config/) ayır.
-- Tüm fonksiyonlarda Type Hinting (Örn: `def func(state: AgentState) -> dict:`) kullan.
-- LLM çağrılarında `requests` yerine `aiohttp` kullanarak asenkron (async/await) yapıya geç, sistemin blocking yapmasını engelle.
-- Çıktılarda standart makine öğrenmesi terminolojisini koru, aşırı resmi dilden uzak dur. Düz ve net ol.
+# Dil
+Kod: normal / near_miss / accident. JSON risk: Düşük | Orta | Yüksek.
+Ekran: Rutin operasyon · Kontrol altında; Ramak kala · Yüksek dikkat;
+İş kazası · Kritik durum. `utils/display.py`. "Risk: Düşük" jüri yüzünde yok.
+
+# Freeze
+Ayar yalnız dev. Teste bakıp kural/prompt oynatma. VLM tamamlanmış kaza
+yazdıysa near_miss'e zorlama. Sahne klibi ekip kararı.
+
+# Coding
+Type hints. LLM çağrıları async (`aiohttp` / mevcut client). Net ML dili.
+`.env` commit yok. UI işi Streamlit cilası; pipeline'a karışma.

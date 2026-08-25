@@ -1,0 +1,13 @@
+{
+  "summary": "Çalışanlar makine üzerinde rutin bakım çalışması yapıyor. Normal gözüküyor.",
+  "events": [
+    {
+      "time": "00:00",
+      "event": "Çalışanlar makine üzerinde rutin aktivite yapıyor."
+    }
+  ],
+  "risk": "Düşük",
+  "actions": [
+    "Rutin izlemeye devam et"
+  ]
+}

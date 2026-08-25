@@ -1,0 +1,60 @@
+{
+  "video_id": "R4pN50yYI5k_trim_2",
+  "filename": "R4pN50yYI5k_trim_2.mp4",
+  "category": "accident",
+  "duration_sec": 6.01,
+  "status": "auto",
+  "labeled_by": "qwen:vlm",
+  "summary": "Forklift, çalışanın üstüne düşen yükün altında kalmış durumda. Çalışan yere devrilmiş ve hareketsiz.",
+  "events": [
+    {
+      "time": "00:01",
+      "time_end": "00:05",
+      "event": "Forklift, çalışanın üstüne düşen yükün altında kalmış durumda; çalışan yere devrilmiş ve hareketsiz.",
+      "event_type": "kaza",
+      "severity": "Yüksek"
+    },
+    {
+      "time": "00:03",
+      "time_end": "00:05",
+      "event": "Forklift, çalışanın üstüne düşen yükün altında kalmış durumda; çalışan yere devrilmiş ve hareketsiz.",
+      "event_type": "kaza",
+      "severity": "Yüksek"
+    },
+    {
+      "time": "00:06",
+      "time_end": "00:05",
+      "event": "Forklift, çalışanın üstüne düşen yükün altında kalmış durumda; çalışan yere devrilmiş ve hareketsiz.",
+      "event_type": "kaza",
+      "severity": "Yüksek"
+    }
+  ],
+  "risk": "Yüksek",
+  "actions": [
+    "Acil müdahaleye geçin, yaralıyı tedavi etmek için sağlık ekiplerini çağırın.",
+    "Alanı kapatin, diğer çalışanları tehlikeli alandan uzaklaştırın.",
+    "Olay yerini koruyun, inceleme için izleme kaydını saklayın."
+  ],
+  "notes": "Otomatik taslak. Gold değil; Streamlit'te kontrol edin.",
+  "evidence": {
+    "duration_sec": 6.006,
+    "motion_peak_sec": 5.6723333333333334,
+    "motion_peak_score": 20.605416666666667,
+    "motion_peaks": [
+      0.5005000000000001,
+      2.8361666666666667,
+      5.6723333333333334
+    ],
+    "motion_elevated": true,
+    "person_count_max": 0,
+    "vehicle_count_max": 1,
+    "min_person_vehicle_ratio": null,
+    "person_vehicle_close": false,
+    "person_vehicle_very_close": false,
+    "fire_like_ratio_max": 0.0005478395061728396,
+    "fire_like_rise": 0.0005478395061728396,
+    "fire_suspect": false,
+    "yolo_available": true,
+    "notes": []
+  }
+}

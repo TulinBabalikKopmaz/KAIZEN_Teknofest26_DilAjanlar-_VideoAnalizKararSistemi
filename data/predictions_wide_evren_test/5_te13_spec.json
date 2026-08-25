@@ -1,0 +1,13 @@
+{
+  "summary": "Çalışanlar makine başında rutin bakım ve kontrol faaliyetlerini sürdürüyor. Sahne genelde sakin ve normal gözüküyor.",
+  "events": [
+    {
+      "time": "00:00",
+      "event": "Çalışanlar makine başında rutin aktivitesini sürdürüyor."
+    }
+  ],
+  "risk": "Düşük",
+  "actions": [
+    "Rutin izlemeye devam et"
+  ]
+}

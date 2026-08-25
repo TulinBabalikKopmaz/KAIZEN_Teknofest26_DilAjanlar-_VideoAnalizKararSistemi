@@ -1,0 +1,46 @@
+---
+description: TEKNOFEST freeze, dil katmanı, KPI ve ekip rolleri
+alwaysApply: true
+---
+
+# KAIZEN final (2 gün)
+
+Takım KAIZEN, Senaryo 3. Çek `origin/main`. `.env` commit etme.
+
+## Mimari (güncel)
+
+LangGraph: Video Analyzer (`vlm`, kısa klip / video_url) → Risk Assessor
+(`llm-fast`) → Action Recommender (`llm-fast` + RAG). Wake-up + YOLO kanıt,
+kural katmanı `utils/risk_rules.py`. Demo: `utils/demo_pipeline.py` +
+`app/demo_app.py`. Resmi API EVREN; yedek Ollama.
+
+Colab/Qwen tüneli artık ana yol değil. Fine-tune yok (hosted model).
+
+## Dil
+
+- Kod/KPI: `normal` | `near_miss` | `accident`
+- Şartname JSON: `summary`, `events[{time,event}]`, `risk` ∈ Düşük|Orta|Yüksek, `actions`
+- Ekran/sunum: Rutin operasyon / Ramak kala / İş kazası ve karar
+  Kontrol altında / Yüksek dikkat / Kritik durum (`utils/display.py`)
+- "Risk: Düşük" veya ham `accident` jüri ekranında yok
+
+## Dondurma — yapma
+
+- Test split'e bakıp prompt, eşik, kural, Jaccard eşanlam şişirme
+- VLM "düştü / çöktü" deyince near_miss'e zorla indirme
+- Sahne klibini merdiven videosuna kilitleme (ekip seçecek)
+- Spec alan adlarını veya risk token'larını değiştirme
+
+## KPI (iç ölçüm, jüri skoru değil)
+
+Dev 46: risk %87, olay %92, kritik %100, yanlış alarm %0, özet %83, aksiyon %100.
+Near miss risk ~%58, kaza %93, rutin %100.
+
+Test 31 (bir kez, dondurulmuş): risk %74, olay %73, kritik %100, normalde yanlış
+kaza %0. Near miss risk %14 — slaytta jüri skoru demeyin.
+
+Sayılar: `docs/sunum_akisi.md`, `data/exports/kpi_final_ozet.csv`.
+
+## Roller
+
+UI: `docs/ui_taslak.md`. Sunum: `docs/sunum_akisi.md`. Pipeline kuralı oynatma.

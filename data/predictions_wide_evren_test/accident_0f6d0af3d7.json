@@ -1,0 +1,59 @@
+{
+  "video_id": "accident_0f6d0af3d7",
+  "filename": "Dude at my work slammed into a pole with a forklift and bent the blad... [hzvtKncHvyQ].mp4",
+  "category": "near_miss",
+  "duration_sec": 9.5,
+  "status": "auto",
+  "labeled_by": "qwen:vlm",
+  "summary": "Forklift, çalışanın çok yakınından geçti. Neredeyse temas edeceklerdi.",
+  "events": [
+    {
+      "time": "00:01",
+      "time_end": "00:06",
+      "event": "Forklift çalışanın çok yakınından geçti.",
+      "event_type": "near_miss",
+      "severity": "Orta"
+    },
+    {
+      "time": "00:04",
+      "time_end": "00:06",
+      "event": "Forklift çalışanın çok yakınından geçti.",
+      "event_type": "near_miss",
+      "severity": "Orta"
+    },
+    {
+      "time": "00:06",
+      "time_end": "00:06",
+      "event": "Forklift çalışanın çok yakınından geçti.",
+      "event_type": "near_miss",
+      "severity": "Orta"
+    }
+  ],
+  "risk": "Orta",
+  "actions": [
+    "Forklift sürücüsünün geçiş mesafesini kontrol et",
+    "Çalışanlara tehlikeli yaklaşma durumunda durma talimatı ver"
+  ],
+  "notes": "Otomatik taslak. Gold değil; Streamlit'te kontrol edin.",
+  "evidence": {
+    "duration_sec": 9.5,
+    "motion_peak_sec": 3.8333333333333335,
+    "motion_peak_score": 25.574583333333333,
+    "motion_peaks": [
+      1.8333333333333333,
+      3.8333333333333335,
+      6.5
+    ],
+    "motion_elevated": false,
+    "person_count_max": 0,
+    "vehicle_count_max": 1,
+    "min_person_vehicle_ratio": null,
+    "person_vehicle_close": false,
+    "person_vehicle_very_close": false,
+    "fire_like_ratio_max": 0.008071082746478872,
+    "fire_like_rise": 0.006948723591549294,
+    "fire_suspect": false,
+    "yolo_available": true,
+    "notes": []
+  }
+}

@@ -1,0 +1,31 @@
+{
+  "summary": "Makine bölgesinde ani alev ve duman çıkışı oldu. Çalışanlar panikle kaçtı, yangın kontrol altına alınmaya çalışıldı.",
+  "events": [
+    {
+      "time": "00:00",
+      "event": "Makinede ani alev ve duman çıkışı oldu, çalışanlar kaçtı."
+    },
+    {
+      "time": "00:02",
+      "event": "Makinede ani alev ve duman çıkışı oldu, çalışanlar kaçtı."
+    },
+    {
+      "time": "00:04",
+      "event": "Makinede ani alev ve duman çıkışı oldu, çalışanlar kaçtı."
+    },
+    {
+      "time": "00:07",
+      "event": "Makinede ani alev ve duman çıkışı oldu, çalışanlar kaçtı."
+    },
+    {
+      "time": "00:10",
+      "event": "Makinede ani alev ve duman çıkışı oldu, çalışanlar kaçtı."
+    }
+  ],
+  "risk": "Yüksek",
+  "actions": [
+    "Yangın söndürme ekiplerini çağır",
+    "Alanı acil olarak boşalt",
+    "Çalışanların durumunu kontrol et"
+  ]
+}

@@ -1,0 +1,60 @@
+{
+  "video_id": "4GgKoR0OOw_trim_130",
+  "filename": "_4GgKoR0OOw_trim_130.mp4",
+  "category": "accident",
+  "duration_sec": 7.0,
+  "status": "auto",
+  "labeled_by": "qwen:vlm",
+  "summary": "Çalışan forkliftin ön tekerlerinin hemen önünde yere düştü ve hareketsiz kaldı.",
+  "events": [
+    {
+      "time": "00:00",
+      "time_end": "00:06",
+      "event": "Çalışan forkliftin ön tekerlerinin hemen önünde yere düştü ve hareketsiz yatıyor.",
+      "event_type": "kaza",
+      "severity": "Yüksek"
+    },
+    {
+      "time": "00:03",
+      "time_end": "00:06",
+      "event": "Çalışan forkliftin ön tekerlerinin hemen önünde yere düştü ve hareketsiz yatıyor.",
+      "event_type": "kaza",
+      "severity": "Yüksek"
+    },
+    {
+      "time": "00:06",
+      "time_end": "00:06",
+      "event": "Çalışan forkliftin ön tekerlerinin hemen önünde yere düştü ve hareketsiz yatıyor.",
+      "event_type": "kaza",
+      "severity": "Yüksek"
+    }
+  ],
+  "risk": "Yüksek",
+  "actions": [
+    "Acil sağlık ekiplerine haber verin.",
+    "Alanı kapatin ve diğer çalışanları uzaklaştırın.",
+    "Olay yerini koruyun ve inceleme başlatın."
+  ],
+  "notes": "Otomatik taslak. Gold değil; Streamlit'te kontrol edin.",
+  "evidence": {
+    "duration_sec": 7.0,
+    "motion_peak_sec": 6.08,
+    "motion_peak_score": 47.48576388888889,
+    "motion_peaks": [
+      0.32,
+      2.56,
+      6.08
+    ],
+    "motion_elevated": true,
+    "person_count_max": 1,
+    "vehicle_count_max": 3,
+    "min_person_vehicle_ratio": 0.7594821925715599,
+    "person_vehicle_close": true,
+    "person_vehicle_very_close": true,
+    "fire_like_ratio_max": 0.05081597222222223,
+    "fire_like_rise": 0.028675130208333337,
+    "fire_suspect": false,
+    "yolo_available": true,
+    "notes": []
+  }
+}

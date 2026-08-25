@@ -1,0 +1,74 @@
+{
+  "video_id": "accident_c242306419",
+  "filename": "3XOG - Another workplace accident resulting in a crazy faceplant 😅 #StaySafe... [1617839956331823104].mp4",
+  "category": "accident",
+  "duration_sec": 12.0,
+  "status": "auto",
+  "labeled_by": "qwen:vlm",
+  "summary": "Çalışan yükü iten taşımada dengesi kaybetti ve yük yere devrildi.",
+  "events": [
+    {
+      "time": "00:00",
+      "time_end": "00:06",
+      "event": "Çalışan yükü iterken dengesi kaybetti ve yük yere devrildi.",
+      "event_type": "kaza",
+      "severity": "Yüksek"
+    },
+    {
+      "time": "00:02",
+      "time_end": "00:06",
+      "event": "Çalışan yükü iterken dengesi kaybetti ve yük yere devrildi.",
+      "event_type": "kaza",
+      "severity": "Yüksek"
+    },
+    {
+      "time": "00:05",
+      "time_end": "00:06",
+      "event": "Çalışan yükü iterken dengesi kaybetti ve yük yere devrildi.",
+      "event_type": "kaza",
+      "severity": "Yüksek"
+    },
+    {
+      "time": "00:07",
+      "time_end": "00:06",
+      "event": "Çalışan yükü iterken dengesi kaybetti ve yük yere devrildi.",
+      "event_type": "kaza",
+      "severity": "Yüksek"
+    },
+    {
+      "time": "00:09",
+      "time_end": "00:06",
+      "event": "Çalışan yükü iterken dengesi kaybetti ve yük yere devrildi.",
+      "event_type": "kaza",
+      "severity": "Yüksek"
+    }
+  ],
+  "risk": "Yüksek",
+  "actions": [
+    "Yerleşim alanını hemen boşalt",
+    "Yaralı varsa acil sağlık ekiplerini çağır",
+    "Olay yerini koru ve inceleme başlat"
+  ],
+  "notes": "Otomatik taslak. Gold değil; Streamlit'te kontrol edin.",
+  "evidence": {
+    "duration_sec": 12.0,
+    "motion_peak_sec": 5.44,
+    "motion_peak_score": 12.616319444444445,
+    "motion_peaks": [
+      2.08,
+      5.44,
+      9.12
+    ],
+    "motion_elevated": true,
+    "person_count_max": 0,
+    "vehicle_count_max": 0,
+    "min_person_vehicle_ratio": null,
+    "person_vehicle_close": false,
+    "person_vehicle_very_close": false,
+    "fire_like_ratio_max": 0.0,
+    "fire_like_rise": 0.0,
+    "fire_suspect": false,
+    "yolo_available": true,
+    "notes": []
+  }
+}

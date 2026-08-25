@@ -1,0 +1,74 @@
+{
+  "video_id": "accident_8e16c30e1a",
+  "filename": "HPDC Die casting machine accident (Hydraulic core hose connection removed) [aG0wEiV4XX0].mp4",
+  "category": "accident",
+  "duration_sec": 35.43,
+  "status": "auto",
+  "labeled_by": "qwen:vlm",
+  "summary": "Makine bölgesinde ani alev ve duman çıkışı oldu. Çalışanlar panikle kaçtı, yangın kontrol altına alınmaya çalışıldı.",
+  "events": [
+    {
+      "time": "00:00",
+      "time_end": "00:12",
+      "event": "Makinede ani alev ve duman çıkışı oldu, çalışanlar kaçtı.",
+      "event_type": "kaza",
+      "severity": "Yüksek"
+    },
+    {
+      "time": "00:02",
+      "time_end": "00:12",
+      "event": "Makinede ani alev ve duman çıkışı oldu, çalışanlar kaçtı.",
+      "event_type": "kaza",
+      "severity": "Yüksek"
+    },
+    {
+      "time": "00:04",
+      "time_end": "00:12",
+      "event": "Makinede ani alev ve duman çıkışı oldu, çalışanlar kaçtı.",
+      "event_type": "kaza",
+      "severity": "Yüksek"
+    },
+    {
+      "time": "00:07",
+      "time_end": "00:12",
+      "event": "Makinede ani alev ve duman çıkışı oldu, çalışanlar kaçtı.",
+      "event_type": "kaza",
+      "severity": "Yüksek"
+    },
+    {
+      "time": "00:10",
+      "time_end": "00:12",
+      "event": "Makinede ani alev ve duman çıkışı oldu, çalışanlar kaçtı.",
+      "event_type": "kaza",
+      "severity": "Yüksek"
+    }
+  ],
+  "risk": "Yüksek",
+  "actions": [
+    "Yangın söndürme ekiplerini çağır",
+    "Alanı acil olarak boşalt",
+    "Çalışanların durumunu kontrol et"
+  ],
+  "notes": "Otomatik taslak. Gold değil; Streamlit'te kontrol edin.",
+  "evidence": {
+    "duration_sec": 35.43333333333333,
+    "motion_peak_sec": 2.5,
+    "motion_peak_score": 31.23402777777778,
+    "motion_peaks": [
+      2.5,
+      4.5,
+      9.833333333333334
+    ],
+    "motion_elevated": true,
+    "person_count_max": 7,
+    "vehicle_count_max": 0,
+    "min_person_vehicle_ratio": null,
+    "person_vehicle_close": false,
+    "person_vehicle_very_close": false,
+    "fire_like_ratio_max": 0.03307883522727272,
+    "fire_like_rise": 0.014803799715909085,
+    "fire_suspect": false,
+    "yolo_available": true,
+    "notes": []
+  }
+}

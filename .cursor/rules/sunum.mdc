@@ -1,0 +1,19 @@
+---
+description: Sunum akışı, KPI cümleleri, jüri soruları
+globs: docs/**
+alwaysApply: false
+---
+
+# Sunum
+
+Tek kaynak: `docs/sunum_akisi.md`. 4 dk slayt + 1 dk kendi demo. Jüri videosu
+ayrı iş; sahne süresinde bekletme.
+
+Konuşma dili İSG: rutin operasyon, ramak kala, iş kazası. "Normal video" /
+"risk düşük" deme. JSON'da risk Düşük = kontrol altında.
+
+KPI jüri skoru değil. Dev ve testi karıştırma. Teste kural uydurma.
+
+Sahne klibi henüz kilitli değil. API düşünce `demo_runs` yedeği.
+
+Yeni slayt uydurma sayı ekleme; tabloyu `kpi_final_ozet.csv` ile tut.

@@ -1,0 +1,27 @@
+{
+  "summary": "Çalışan forkliftin çok yakınından geçerken dengesini kaybeder ve yere düşer.",
+  "events": [
+    {
+      "time": "00:00",
+      "event": "Çalışan forkliftin çok yakınından geçerken yere düşer."
+    },
+    {
+      "time": "00:04",
+      "event": "Çalışan forkliftin çok yakınından geçerken yere düşer."
+    },
+    {
+      "time": "00:06",
+      "event": "Çalışan forkliftin çok yakınından geçerken yere düşer."
+    },
+    {
+      "time": "00:09",
+      "event": "Çalışan forkliftin çok yakınından geçerken yere düşer."
+    }
+  ],
+  "risk": "Yüksek",
+  "actions": [
+    "Yaralı çalışanı hemen sağlık ekiplerine bildirin.",
+    "Alanı kapatin ve diğer çalışanları uyarın.",
+    "Forkliftin hareketini durdurun ve inceleme başlatın."
+  ]
+}

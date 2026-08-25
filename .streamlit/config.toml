@@ -7,3 +7,14 @@ headless = true
 # Küçük takım aracı (auth yok) — URL'yi yalnızca takım arkadaşıyla paylaşın.
 enableCORS = false
 enableXsrfProtection = false
+
+[theme]
+base = "dark"
+primaryColor = "#C9A227"
+backgroundColor = "#0B1117"
+secondaryBackgroundColor = "#151D27"
+textColor = "#E6EDF3"
+font = "sans serif"
+
+[browser]
+gatherUsageStats = false

@@ -1,0 +1,67 @@
+{
+  "video_id": "Accident_at_work",
+  "filename": "Accident at work!!.mp4",
+  "category": "accident",
+  "duration_sec": 36.0,
+  "status": "auto",
+  "labeled_by": "qwen:vlm",
+  "summary": "Çalışanlar büyük bir levha taşıırken dengesi kaybetti ve levha yere düştü. Çalışanlar yere düşen levha nedeniyle etkilendi.",
+  "events": [
+    {
+      "time": "00:21",
+      "time_end": "00:28",
+      "event": "Levha dengesini kaybetti ve yere düştü, çalışanlar etkilendi.",
+      "event_type": "kaza",
+      "severity": "Yüksek"
+    },
+    {
+      "time": "00:24",
+      "time_end": "00:28",
+      "event": "Levha dengesini kaybetti ve yere düştü, çalışanlar etkilendi.",
+      "event_type": "kaza",
+      "severity": "Yüksek"
+    },
+    {
+      "time": "00:26",
+      "time_end": "00:28",
+      "event": "Levha dengesini kaybetti ve yere düştü, çalışanlar etkilendi.",
+      "event_type": "kaza",
+      "severity": "Yüksek"
+    },
+    {
+      "time": "00:28",
+      "time_end": "00:28",
+      "event": "Levha dengesini kaybetti ve yere düştü, çalışanlar etkilendi.",
+      "event_type": "kaza",
+      "severity": "Yüksek"
+    }
+  ],
+  "risk": "Yüksek",
+  "actions": [
+    "Yaralı çalışanlara acil tıbbi yardım sağlayın.",
+    "Olay yerini izole edin ve diğer çalışanları uzaklaştırın.",
+    "İSG sorumlusuyla olayı raporlayın."
+  ],
+  "notes": "Otomatik taslak. Gold değil; Streamlit'te kontrol edin.",
+  "evidence": {
+    "duration_sec": 36.0,
+    "motion_peak_sec": 28.0,
+    "motion_peak_score": 20.854305555555555,
+    "motion_peaks": [
+      8.0,
+      24.0,
+      28.0
+    ],
+    "motion_elevated": true,
+    "person_count_max": 4,
+    "vehicle_count_max": 0,
+    "min_person_vehicle_ratio": null,
+    "person_vehicle_close": false,
+    "person_vehicle_very_close": false,
+    "fire_like_ratio_max": 0.004536405005688282,
+    "fire_like_rise": 0.004081342434584755,
+    "fire_suspect": false,
+    "yolo_available": true,
+    "notes": []
+  }
+}

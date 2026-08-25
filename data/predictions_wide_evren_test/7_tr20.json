@@ -1,0 +1,73 @@
+{
+  "video_id": "7_tr20",
+  "filename": "7_tr20.mp4",
+  "category": "near_miss",
+  "duration_sec": 11.24,
+  "status": "auto",
+  "labeled_by": "qwen:vlm",
+  "summary": "Forklift, çalışanın çok yakınından geçti. Neredeyse temas edeceklerdi.",
+  "events": [
+    {
+      "time": "00:00",
+      "time_end": "00:10",
+      "event": "Forklift çalışanın çok yakınından geçti.",
+      "event_type": "near_miss",
+      "severity": "Orta"
+    },
+    {
+      "time": "00:02",
+      "time_end": "00:10",
+      "event": "Forklift çalışanın çok yakınından geçti.",
+      "event_type": "near_miss",
+      "severity": "Orta"
+    },
+    {
+      "time": "00:05",
+      "time_end": "00:10",
+      "event": "Forklift çalışanın çok yakınından geçti.",
+      "event_type": "near_miss",
+      "severity": "Orta"
+    },
+    {
+      "time": "00:07",
+      "time_end": "00:10",
+      "event": "Forklift çalışanın çok yakınından geçti.",
+      "event_type": "near_miss",
+      "severity": "Orta"
+    },
+    {
+      "time": "00:10",
+      "time_end": "00:10",
+      "event": "Forklift çalışanın çok yakınından geçti.",
+      "event_type": "near_miss",
+      "severity": "Orta"
+    }
+  ],
+  "risk": "Orta",
+  "actions": [
+    "Forklift sürücüsünün güvenli mesafede hareket etmesi için uyarı verin.",
+    "Çalışanın çalışma alanını belirleyin ve geçiş yollarını kontrol edin."
+  ],
+  "notes": "Otomatik taslak. Gold değil; Streamlit'te kontrol edin.",
+  "evidence": {
+    "duration_sec": 11.24,
+    "motion_peak_sec": 10.08,
+    "motion_peak_score": 4.105972222222222,
+    "motion_peaks": [
+      2.08,
+      8.0,
+      10.08
+    ],
+    "motion_elevated": false,
+    "person_count_max": 1,
+    "vehicle_count_max": 3,
+    "min_person_vehicle_ratio": null,
+    "person_vehicle_close": false,
+    "person_vehicle_very_close": false,
+    "fire_like_ratio_max": 0.019932002314814814,
+    "fire_like_rise": 0.008592785493827158,
+    "fire_suspect": false,
+    "yolo_available": true,
+    "notes": []
+  }
+}

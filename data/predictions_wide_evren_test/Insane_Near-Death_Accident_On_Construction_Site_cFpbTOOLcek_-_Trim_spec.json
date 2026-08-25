@@ -1,0 +1,23 @@
+{
+  "summary": "Çalışanlar arasında biri yüksekten düşen ahşap malzemelerin altında kalarak yere düştü. Diğer çalışanlar müdahale etti.",
+  "events": [
+    {
+      "time": "00:06",
+      "event": "Yüksekten düşen ahşap malzemeler çalışanın üstüne düştü ve yere devrildi."
+    },
+    {
+      "time": "00:09",
+      "event": "Yüksekten düşen ahşap malzemeler çalışanın üstüne düştü ve yere devrildi."
+    },
+    {
+      "time": "00:12",
+      "event": "Yüksekten düşen ahşap malzemeler çalışanın üstüne düştü ve yere devrildi."
+    }
+  ],
+  "risk": "Yüksek",
+  "actions": [
+    "Yaralı çalışanı hemen sağlık ekiplerine bildirin.",
+    "Olay yerini izole edin ve diğer çalışanların yaklaşmasını engelleyin.",
+    "İş güvenliği ekiplerini çağırın ve olayı raporlayın."
+  ]
+}

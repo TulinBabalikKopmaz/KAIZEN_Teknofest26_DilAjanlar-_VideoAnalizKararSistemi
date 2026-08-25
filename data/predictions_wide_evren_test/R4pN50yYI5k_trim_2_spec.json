@@ -1,0 +1,23 @@
+{
+  "summary": "Forklift, çalışanın üstüne düşen yükün altında kalmış durumda. Çalışan yere devrilmiş ve hareketsiz.",
+  "events": [
+    {
+      "time": "00:01",
+      "event": "Forklift, çalışanın üstüne düşen yükün altında kalmış durumda; çalışan yere devrilmiş ve hareketsiz."
+    },
+    {
+      "time": "00:03",
+      "event": "Forklift, çalışanın üstüne düşen yükün altında kalmış durumda; çalışan yere devrilmiş ve hareketsiz."
+    },
+    {
+      "time": "00:06",
+      "event": "Forklift, çalışanın üstüne düşen yükün altında kalmış durumda; çalışan yere devrilmiş ve hareketsiz."
+    }
+  ],
+  "risk": "Yüksek",
+  "actions": [
+    "Acil müdahaleye geçin, yaralıyı tedavi etmek için sağlık ekiplerini çağırın.",
+    "Alanı kapatin, diğer çalışanları tehlikeli alandan uzaklaştırın.",
+    "Olay yerini koruyun, inceleme için izleme kaydını saklayın."
+  ]
+}

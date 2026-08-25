@@ -1,0 +1,26 @@
+{
+  "summary": "Forkliftteki çalışan, araçta ani alevlenme sonucu yere düşerek kaçtı. Forklift alev aldı.",
+  "events": [
+    {
+      "time": "00:00",
+      "event": "Forkliftte ani alevlenme oldu, çalışan yere düşerek kaçtı ve forklift alev aldı."
+    },
+    {
+      "time": "00:02",
+      "event": "Forkliftte ani alevlenme oldu, çalışan yere düşerek kaçtı ve forklift alev aldı."
+    },
+    {
+      "time": "00:05",
+      "event": "Forkliftte ani alevlenme oldu, çalışan yere düşerek kaçtı ve forklift alev aldı."
+    },
+    {
+      "time": "00:08",
+      "event": "Forkliftte ani alevlenme oldu, çalışan yere düşerek kaçtı ve forklift alev aldı."
+    }
+  ],
+  "risk": "Yüksek",
+  "actions": [
+    "Acil durum protokolüne geçin, itfaiyeye haber verin.",
+    "Alanı boşaltın, çalışanın durumunu kontrol edin."
+  ]
+}

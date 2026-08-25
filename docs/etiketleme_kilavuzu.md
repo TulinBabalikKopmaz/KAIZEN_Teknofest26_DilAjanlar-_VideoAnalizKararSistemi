@@ -13,11 +13,11 @@ Arayüz: `streamlit run app/review_app.py` → "Gold etiketleme".
 Kategori **olayın gerçek sonucuna** göre seçilir. Görüntünün ne kadar net olduğu
 kategoriyi etkilemez, onu bir sonraki bölümde ayrıca işaretliyoruz.
 
-| Kategori | Tanım | Ayırt edici soru |
-|---|---|---|
-| `accident` | Fiili temas veya zarar var: çarpma, düşme, devrilme, yükün üstüne düşmesi, yanma, yaralanma. | Bir şey **gerçekten oldu** mu? |
-| `near_miss` | Temas olmadı ama bir adım kalmıştı: forklift çalışanın çok yakınından geçti, yük çalışanın yanına düştü, çalışan son anda kaçtı. | Şans veya son saniye tepkisi olmasa kaza olur muydu? |
-| `normal` | Rutin iş akışı. Riskli görünen ama olağan işlemler (kaynak kıvılcımı, makine dumanı, hızlı ama kontrollü hareket) buraya girer. | Sahada İSG uzmanı müdahale eder miydi? Hayırsa normal. |
+| Kategori (kod) | Ekranda / sunumda | Tanım | Ayırt edici soru |
+|---|---|---|---|
+| `accident` | İş kazası | Fiili temas veya zarar: çarpma, düşme, devrilme, yükün üstüne düşmesi, yanma, yaralanma. | Bir şey **gerçekten oldu** mu? |
+| `near_miss` | Ramak kala | Temas olmadı ama bir adım kalmıştı: forklift çalışanın çok yakınından geçti, yük çalışanın yanına düştü, çalışan son anda kaçtı. | Şans veya son saniye tepkisi olmasa kaza olur muydu? |
+| `normal` | Rutin operasyon | Rutin iş akışı. Riskli görünen ama olağan işlemler (kaynak kıvılcımı, makine dumanı, hızlı ama kontrollü hareket) buraya girer. | Sahada İSG uzmanı müdahale eder miydi? Hayırsa rutin. |
 
 Sık karışan durumlar:
 
@@ -86,8 +86,9 @@ karar değil, sıralama aracıdır.
 
 - **Özet:** 1–2 kısa cümle, ne olduğunu söyleyen. "Çalışan yüksekten yere düştü ve
   hareketsiz kaldı." gibi.
-- **Risk:** normal → `Düşük`, ramak kala → `Orta`, kaza → `Yüksek`. İstisna olursa
-  notta gerekçelendirin.
+- **Karar (şartname `risk`):** rutin operasyon → `Düşük` (kontrol altında),
+  ramak kala → `Orta` (yüksek dikkat), iş kazası → `Yüksek` (kritik durum).
+  İstisna olursa notta gerekçelendirin. JSON token'ı değişmez.
 - **Aksiyon:** 1–3 madde, sahada uygulanabilir olsun ("Sağlık ekibini çağır",
   "Alanı güvenlik altına al"). Kaza videosunda ilk aksiyon müdahale olmalı.
 

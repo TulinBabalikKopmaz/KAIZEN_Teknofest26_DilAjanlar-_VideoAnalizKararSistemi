@@ -3,10 +3,12 @@
     streamlit run app/demo_app.py
 
 Etiketleme aracı ayrı dosyada (app/review_app.py); bu ekran sadece demo içindir.
+Görsel cilayı UI arkadaşı üstlenir — kopya ve karar kartı burada kilitlidir.
 """
 
 from __future__ import annotations
 
+import html
 import json
 import os
 import sys
@@ -27,19 +29,55 @@ from utils.demo_pipeline import (  # noqa: E402
     load_saved_run,
     run_demo_analysis_sync,
 )
+from utils.display import spec_footnote, verdict  # noqa: E402
 
 VIDEO_EXTS = (".mp4", ".mov", ".avi", ".mkv", ".webm", ".m4v")
 INCOMING_DIR = ROOT / "data" / "incoming"
 VIDEO_DIRS = (ROOT / "data" / "videos", INCOMING_DIR)
-STAGE_CLIP_NEEDLE = "6AISVvob4C0_trim_7"
 
-RISK_STYLE = {
-    "Yüksek": ("KRİTİK RİSK", "error"),
-    "Orta": ("ORTA RİSK", "warning"),
-    "Düşük": ("DÜŞÜK RİSK", "success"),
+_UI_CSS = """
+<style>
+#MainMenu {visibility: hidden;}
+footer {visibility: hidden;}
+header {background: transparent;}
+.block-container {padding-top: 1.4rem; max-width: 1280px;}
+.kz-brand {
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    font-size: 0.72rem;
+    color: #C9A227;
+    margin-bottom: 0.15rem;
 }
+.kz-verdict {
+    border-left: 4px solid;
+    padding: 1.05rem 1.25rem 1.15rem;
+    border-radius: 6px;
+    margin: 0.35rem 0 1.1rem;
+}
+.kz-verdict.ok { border-color: #3D8B6E; background: #12211C; }
+.kz-verdict.watch { border-color: #C9A227; background: #211C12; }
+.kz-verdict.critical { border-color: #C45C4A; background: #231512; }
+.kz-kicker {
+    font-size: 0.7rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    opacity: 0.65;
+}
+.kz-title { font-size: 1.55rem; font-weight: 650; margin: 0.2rem 0 0.15rem; line-height: 1.2; }
+.kz-sub { opacity: 0.88; margin: 0; font-size: 0.95rem; }
+.kz-answer { margin-top: 0.85rem; font-size: 1.02rem; line-height: 1.45; }
+</style>
+"""
 
-st.set_page_config(page_title="İSG Canlı Demo", layout="wide")
+st.set_page_config(
+    page_title="KAIZEN · Saha İSG",
+    layout="wide",
+    initial_sidebar_state="expanded",
+)
+
+
+def inject_chrome() -> None:
+    st.markdown(_UI_CSS, unsafe_allow_html=True)
 
 
 def list_local_videos() -> list[Path]:
@@ -58,7 +96,9 @@ def save_upload(uploaded: Any) -> Path:
 
 
 def sidebar_settings() -> dict[str, Any]:
-    st.sidebar.header("Sistem")
+    st.sidebar.markdown("**KAIZEN**")
+    st.sidebar.caption("Saha İSG karar sistemi")
+    st.sidebar.header("Altyapı")
     provider = st.sidebar.selectbox(
         "Model sağlayıcı",
         options=list(config.PROVIDERS),
@@ -97,27 +137,39 @@ def sidebar_settings() -> dict[str, Any]:
     return {"fast": fast, "max_frames": max_frames, "use_rag": use_rag}
 
 
-def risk_banner(risk: str, answer: str) -> None:
-    title, kind = RISK_STYLE.get(risk, ("DEĞERLENDİRİLDİ", "info"))
-    body = f"**{title}**\n\n{answer}"
-    getattr(st, kind)(body)
+def verdict_card(result: DemoResult) -> dict[str, str]:
+    v = verdict(result.label.get("category"), result.spec.get("risk"))
+    answer_html = html.escape(result.answer or "").replace("\n", "<br>")
+    st.markdown(
+        f"""
+<div class="kz-verdict {v['tone']}">
+  <div class="kz-kicker">{v['kicker']}</div>
+  <div class="kz-title">{v['situation']} · {v['decision']}</div>
+  <p class="kz-sub">{v['subtitle']}</p>
+  <div class="kz-answer">{answer_html}</div>
+</div>
+""",
+        unsafe_allow_html=True,
+    )
+    return v
 
 
 def show_result(result: DemoResult) -> None:
     spec = result.spec
     events = spec.get("events") or []
+    v = verdict(result.label.get("category"), spec.get("risk"))
 
     cols = st.columns(4)
-    cols[0].metric("Risk", spec.get("risk", "-"))
-    cols[1].metric("Kategori", result.label.get("category", "-"))
-    cols[2].metric("Toplam süre", f"{result.total_s:.1f} sn")
-    cols[3].metric("Olay sayısı", len(events))
+    cols[0].metric("Saha durumu", v["situation"])
+    cols[1].metric("Karar", v["decision"])
+    cols[2].metric("Analiz süresi", f"{result.total_s:.1f} sn")
+    cols[3].metric("İşaretlenen olay", len(events))
 
-    risk_banner(spec.get("risk", ""), result.answer)
+    verdict_card(result)
 
     left, right = st.columns([1.1, 1])
     with left:
-        st.subheader("Video ve kanıt kareleri")
+        st.subheader("Kayıt ve kanıt kareleri")
         video_path = Path(result.video)
         if video_path.exists():
             st.video(str(video_path))
@@ -135,7 +187,7 @@ def show_result(result: DemoResult) -> None:
             for item in events:
                 st.markdown(f"**{item.get('time', '00:00')}** — {item.get('event', '')}")
         else:
-            st.info("Modelin işaretlediği ayrı bir olay yok.")
+            st.info("Ayrı bir olay satırı işaretlenmedi; rutin akış.")
 
         st.subheader("Özet")
         st.write(spec.get("summary") or "-")
@@ -143,6 +195,10 @@ def show_result(result: DemoResult) -> None:
         st.subheader("Saha aksiyonları")
         for i, action in enumerate(spec.get("actions") or [], start=1):
             st.markdown(f"{i}. {action}")
+
+        with st.expander("Jüri çıktısı (şartname JSON)"):
+            st.caption(spec_footnote())
+            st.json(spec)
 
         with st.expander("Aşama süreleri ve model çağrıları"):
             st.table(
@@ -172,12 +228,15 @@ def show_result(result: DemoResult) -> None:
 
 
 def main() -> None:
+    inject_chrome()
     settings = sidebar_settings()
 
-    st.title("Otonom İSG Video Analizi — Canlı Demo")
+    st.markdown('<div class="kz-brand">KAIZEN · TEKNOFEST 2026</div>', unsafe_allow_html=True)
+    st.title("Saha İSG Karar Sistemi")
     st.caption(
-        "Sahne (1 dk): merdiven klibi veya kayıtlı yedek. "
-        "Jüri videosu: yükle, promptu yapıştır, hızlı mod kapalı."
+        "Kamera kaydını arşiv değil karar haline getirir. "
+        "Sahne (1 dk): ekibin seçtiği kısa klip veya kayıtlı yedek. "
+        "Jüri videosu: yükle, soruyu yapıştır, hızlı mod kapalı."
     )
     if st.session_state.get("showing_backup"):
         st.warning(
@@ -194,17 +253,13 @@ def main() -> None:
             names = ["(yüklenen dosyayı kullan)"] + [
                 str(p.relative_to(ROOT)) for p in local_videos[:40]
             ]
-            default_idx = next(
-                (i for i, name in enumerate(names) if STAGE_CLIP_NEEDLE in name),
-                0,
-            )
-            choice = st.selectbox("veya klasörden seç", names, index=default_idx)
+            choice = st.selectbox("veya klasörden seç", names)
             if choice != names[0]:
                 picked = ROOT / choice
 
     with prompt_col:
-        prompt = st.text_area("Prompt (jürinin sorusu)", value=DEFAULT_PROMPT, height=120)
-        run = st.button("Analiz Et", type="primary", use_container_width=True)
+        prompt = st.text_area("Operatör sorusu", value=DEFAULT_PROMPT, height=120)
+        run = st.button("Analiz et", type="primary", use_container_width=True)
 
     video_path: Path | None = None
     if uploaded is not None:
@@ -238,10 +293,9 @@ def main() -> None:
                 )
             else:
                 st.info(
-                    "Kayıtlı yedek yok. Sahneden önce "
-                    "`python scripts/analyze_video.py --video data/videos/accident/"
-                    "6AISVvob4C0_trim_7.mp4 --fast --run-name sahne_merdiven` "
-                    "ile yedek alın veya kenar çubuğundan ollama deneyin."
+                    "Kayıtlı yedek yok. Sahneden önce ekibin seçtiği klibi "
+                    "`python scripts/analyze_video.py --video <klip> --fast --run-name sahne_yedek` "
+                    "ile bir kez koşun veya kenar çubuğundan ollama deneyin."
                 )
                 return
         else:
@@ -253,7 +307,7 @@ def main() -> None:
     if isinstance(result, DemoResult):
         show_result(result)
     else:
-        st.info("Henüz analiz yapılmadı. Video ve prompt verip 'Analiz Et'e basın.")
+        st.info("Kayıt ve soruyu verip Analiz et'e basın. Karar kartı burada açılır.")
 
 
 main()

@@ -1,0 +1,44 @@
+{
+  "video_id": "5_te13",
+  "filename": "5_te13.mp4",
+  "category": "normal",
+  "duration_sec": 10.45,
+  "status": "auto",
+  "labeled_by": "qwen:vlm",
+  "summary": "Çalışanlar makine başında rutin bakım ve kontrol faaliyetlerini sürdürüyor. Sahne genelde sakin ve normal gözüküyor.",
+  "events": [
+    {
+      "time": "00:00",
+      "time_end": "00:10",
+      "event": "Çalışanlar makine başında rutin aktivitesini sürdürüyor.",
+      "event_type": "normal",
+      "severity": "dusuk"
+    }
+  ],
+  "risk": "Düşük",
+  "actions": [
+    "Rutin izlemeye devam et"
+  ],
+  "notes": "Otomatik taslak. Gold değil; Streamlit'te kontrol edin.",
+  "evidence": {
+    "duration_sec": 10.448098820658805,
+    "motion_peak_sec": 0.6404964794273597,
+    "motion_peak_score": 6.974027777777778,
+    "motion_peaks": [
+      0.6404964794273597,
+      4.323351236134678,
+      8.646702472269356
+    ],
+    "motion_elevated": false,
+    "person_count_max": 3,
+    "vehicle_count_max": 2,
+    "min_person_vehicle_ratio": 4.0570458438851995,
+    "person_vehicle_close": false,
+    "person_vehicle_very_close": false,
+    "fire_like_ratio_max": 0.013389274691358026,
+    "fire_like_rise": 0.001139081790123458,
+    "fire_suspect": false,
+    "yolo_available": true,
+    "notes": []
+  }
+}

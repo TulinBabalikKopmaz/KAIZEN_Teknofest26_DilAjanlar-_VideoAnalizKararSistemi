@@ -1,0 +1,44 @@
+{
+  "video_id": "normal_cded9f70a7",
+  "filename": "Example of Hi-Definition Video Surveillance of a Factory Floor - by CCTVDOC.COM [8DJi4PrdFCg].mp4",
+  "category": "normal",
+  "duration_sec": 17.0,
+  "status": "auto",
+  "labeled_by": "qwen:vlm",
+  "summary": "Çalışanlar depoda rutin paketleme ve stoklama faaliyetlerini sürdürüyor. Normal gözüküyor.",
+  "events": [
+    {
+      "time": "00:00",
+      "time_end": "00:16",
+      "event": "Çalışanlar rutin aktivitesini sürdürüyor.",
+      "event_type": "normal",
+      "severity": "dusuk"
+    }
+  ],
+  "risk": "Düşük",
+  "actions": [
+    "Rutin izlemeye devam et"
+  ],
+  "notes": "Otomatik taslak. Gold değil; Streamlit'te kontrol edin.",
+  "evidence": {
+    "duration_sec": 17.0,
+    "motion_peak_sec": 8.0,
+    "motion_peak_score": 3.6724305555555556,
+    "motion_peaks": [
+      8.0,
+      10.666666666666666,
+      16.0
+    ],
+    "motion_elevated": false,
+    "person_count_max": 5,
+    "vehicle_count_max": 3,
+    "min_person_vehicle_ratio": 0.845420612487928,
+    "person_vehicle_close": true,
+    "person_vehicle_very_close": true,
+    "fire_like_ratio_max": 0.008563368055555555,
+    "fire_like_rise": 0.001417824074074074,
+    "fire_suspect": false,
+    "yolo_available": true,
+    "notes": []
+  }
+}

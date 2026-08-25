@@ -1,0 +1,67 @@
+{
+  "video_id": "018461e5b5cf7a482d3f_run_7_seed_659607876.ceiling_00.rgb",
+  "filename": "018461e5b5cf7a482d3f_run_7_seed_659607876.ceiling_00.rgb.mp4",
+  "category": "accident",
+  "duration_sec": 10.0,
+  "status": "auto",
+  "labeled_by": "qwen:vlm",
+  "summary": "Çalışan forkliftin çok yakınından geçerken dengesini kaybeder ve yere düşer.",
+  "events": [
+    {
+      "time": "00:00",
+      "time_end": "00:07",
+      "event": "Çalışan forkliftin çok yakınından geçerken yere düşer.",
+      "event_type": "kaza",
+      "severity": "yuksek"
+    },
+    {
+      "time": "00:04",
+      "time_end": "00:07",
+      "event": "Çalışan forkliftin çok yakınından geçerken yere düşer.",
+      "event_type": "kaza",
+      "severity": "yuksek"
+    },
+    {
+      "time": "00:06",
+      "time_end": "00:07",
+      "event": "Çalışan forkliftin çok yakınından geçerken yere düşer.",
+      "event_type": "kaza",
+      "severity": "yuksek"
+    },
+    {
+      "time": "00:09",
+      "time_end": "00:07",
+      "event": "Çalışan forkliftin çok yakınından geçerken yere düşer.",
+      "event_type": "kaza",
+      "severity": "yuksek"
+    }
+  ],
+  "risk": "Yüksek",
+  "actions": [
+    "Yaralı çalışanı hemen sağlık ekiplerine bildirin.",
+    "Alanı kapatin ve diğer çalışanları uyarın.",
+    "Forkliftin hareketini durdurun ve inceleme başlatın."
+  ],
+  "notes": "Otomatik taslak. Gold değil; Streamlit'te kontrol edin.",
+  "evidence": {
+    "duration_sec": 10.0,
+    "motion_peak_sec": 0.16666666666666666,
+    "motion_peak_score": 3.361597222222222,
+    "motion_peaks": [
+      0.16666666666666666,
+      7.0,
+      9.0
+    ],
+    "motion_elevated": false,
+    "person_count_max": 1,
+    "vehicle_count_max": 0,
+    "min_person_vehicle_ratio": null,
+    "person_vehicle_close": false,
+    "person_vehicle_very_close": false,
+    "fire_like_ratio_max": 0.3195360725308642,
+    "fire_like_rise": 0.059776234567901265,
+    "fire_suspect": true,
+    "yolo_available": true,
+    "notes": []
+  }
+}

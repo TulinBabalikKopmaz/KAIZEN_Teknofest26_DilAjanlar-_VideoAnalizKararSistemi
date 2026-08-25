@@ -1,0 +1,13 @@
+{
+  "summary": "Çalışanlar taşınır şerit üzerinde bakım yaparken normal aktivite sürdürüyor. Herhangi bir kaza veya tehlikeli yaklaşma gözlemlenmiyor.",
+  "events": [
+    {
+      "time": "00:00",
+      "event": "Çalışanlar taşınır şerit üzerinde rutin bakım çalışması yapıyor."
+    }
+  ],
+  "risk": "Düşük",
+  "actions": [
+    "Rutin izlemeye devam et"
+  ]
+}

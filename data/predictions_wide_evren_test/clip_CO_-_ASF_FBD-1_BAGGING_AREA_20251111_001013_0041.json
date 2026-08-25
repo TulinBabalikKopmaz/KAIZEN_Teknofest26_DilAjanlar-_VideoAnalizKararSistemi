@@ -1,0 +1,44 @@
+{
+  "video_id": "clip_CO_-_ASF_FBD-1_BAGGING_AREA_20251111_001013_0041",
+  "filename": "clip_CO_-_ASF_FBD-1_BAGGING_AREA_20251111_001013_0041.mp4",
+  "category": "normal",
+  "duration_sec": 15.0,
+  "status": "auto",
+  "labeled_by": "qwen:vlm",
+  "summary": "Çalışanlar paketleme alanında rutin faaliyetlerini sürdürüyor. Normal gözüküyor.",
+  "events": [
+    {
+      "time": "00:00",
+      "time_end": "00:14",
+      "event": "Çalışanlar rutin aktivitesini sürdürüyor.",
+      "event_type": "normal",
+      "severity": "dusuk"
+    }
+  ],
+  "risk": "Düşük",
+  "actions": [
+    "Rutin izlemeye devam et"
+  ],
+  "notes": "Otomatik taslak. Gold değil; Streamlit'te kontrol edin.",
+  "evidence": {
+    "duration_sec": 15.0,
+    "motion_peak_sec": 10.4,
+    "motion_peak_score": 2.962013888888889,
+    "motion_peaks": [
+      6.4,
+      10.4,
+      14.4
+    ],
+    "motion_elevated": false,
+    "person_count_max": 1,
+    "vehicle_count_max": 0,
+    "min_person_vehicle_ratio": null,
+    "person_vehicle_close": false,
+    "person_vehicle_very_close": false,
+    "fire_like_ratio_max": 0.0007339891975308643,
+    "fire_like_rise": 0.00019868827160493833,
+    "fire_suspect": false,
+    "yolo_available": true,
+    "notes": []
+  }
+}

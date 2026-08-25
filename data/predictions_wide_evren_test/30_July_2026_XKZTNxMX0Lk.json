@@ -1,0 +1,72 @@
+{
+  "video_id": "30_July_2026_XKZTNxMX0Lk",
+  "filename": "30 July 2026 [XKZTNxMX0Lk].mp4",
+  "category": "normal",
+  "duration_sec": 49.5,
+  "status": "auto",
+  "labeled_by": "qwen:vlm",
+  "summary": "Çalışanlar ofis ortamında bilgisayar başında rutin faaliyetlerini sürdürüyor. Normal gözüküyor.",
+  "events": [
+    {
+      "time": "00:00",
+      "time_end": "00:49",
+      "event": "Çalışanlar bilgisayar başında rutin aktivite yapıyor.",
+      "event_type": "normal",
+      "severity": "dusuk"
+    },
+    {
+      "time": "00:22",
+      "time_end": "00:49",
+      "event": "Çalışanlar bilgisayar başında rutin aktivite yapıyor.",
+      "event_type": "normal",
+      "severity": "dusuk"
+    },
+    {
+      "time": "00:26",
+      "time_end": "00:49",
+      "event": "Çalışanlar bilgisayar başında rutin aktivite yapıyor.",
+      "event_type": "normal",
+      "severity": "dusuk"
+    },
+    {
+      "time": "00:28",
+      "time_end": "00:49",
+      "event": "Çalışanlar bilgisayar başında rutin aktivite yapıyor.",
+      "event_type": "normal",
+      "severity": "dusuk"
+    },
+    {
+      "time": "00:30",
+      "time_end": "00:49",
+      "event": "Çalışanlar bilgisayar başında rutin aktivite yapıyor.",
+      "event_type": "normal",
+      "severity": "dusuk"
+    }
+  ],
+  "risk": "Düşük",
+  "actions": [
+    "Rutin izlemeye devam et"
+  ],
+  "notes": "Otomatik taslak. Gold değil; Streamlit'te kontrol edin.",
+  "evidence": {
+    "duration_sec": 49.5,
+    "motion_peak_sec": 25.333333333333332,
+    "motion_peak_score": 3.2799305555555556,
+    "motion_peaks": [
+      21.166666666666668,
+      25.333333333333332,
+      29.5
+    ],
+    "motion_elevated": false,
+    "person_count_max": 4,
+    "vehicle_count_max": 0,
+    "min_person_vehicle_ratio": null,
+    "person_vehicle_close": false,
+    "person_vehicle_very_close": false,
+    "fire_like_ratio_max": 0.018935667438271606,
+    "fire_like_rise": 0.001577932098765434,
+    "fire_suspect": false,
+    "yolo_available": true,
+    "notes": []
+  }
+}

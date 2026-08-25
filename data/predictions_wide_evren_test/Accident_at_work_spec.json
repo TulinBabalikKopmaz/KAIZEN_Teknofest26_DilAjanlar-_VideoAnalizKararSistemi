@@ -1,0 +1,27 @@
+{
+  "summary": "Çalışanlar büyük bir levha taşıırken dengesi kaybetti ve levha yere düştü. Çalışanlar yere düşen levha nedeniyle etkilendi.",
+  "events": [
+    {
+      "time": "00:21",
+      "event": "Levha dengesini kaybetti ve yere düştü, çalışanlar etkilendi."
+    },
+    {
+      "time": "00:24",
+      "event": "Levha dengesini kaybetti ve yere düştü, çalışanlar etkilendi."
+    },
+    {
+      "time": "00:26",
+      "event": "Levha dengesini kaybetti ve yere düştü, çalışanlar etkilendi."
+    },
+    {
+      "time": "00:28",
+      "event": "Levha dengesini kaybetti ve yere düştü, çalışanlar etkilendi."
+    }
+  ],
+  "risk": "Yüksek",
+  "actions": [
+    "Yaralı çalışanlara acil tıbbi yardım sağlayın.",
+    "Olay yerini izole edin ve diğer çalışanları uzaklaştırın.",
+    "İSG sorumlusuyla olayı raporlayın."
+  ]
+}

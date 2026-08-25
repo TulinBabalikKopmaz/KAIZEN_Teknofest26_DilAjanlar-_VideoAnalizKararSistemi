@@ -22,6 +22,26 @@ seçtiğiniz** kısa klibi (veya önceden alınmış ekran kaydını) gösterin.
 dosyası gelince Streamlit’te tam pipeline çalıştırın; beklerken mimariyi
 anlatırsınız.
 
+Cursor’da bu dosya + `AGENTS.md` yeterli bağlamdır. UI arkadaşı
+`docs/ui_taslak.md`.
+
+---
+
+## 0.1 Nasıl konuşulur (jüri kulağı)
+
+İç kod (`normal` / `near_miss` / `accident`) slaytta görünmesin. JSON’daki
+`risk: Düşük` token’ını ekranda “risk düşük” diye okumayın.
+
+| İç kod | Şartname | Söylenen |
+|---|---|---|
+| `normal` + Düşük | Düşük | Rutin operasyon, saha **kontrol altında** |
+| `near_miss` + Orta | Orta | **Ramak kala** — kaza olmadı, **yüksek dikkat** |
+| `accident` + Yüksek | Yüksek | **İş kazası** — **kritik durum**, derhal müdahale |
+
+Belirsizlik dördüncü sınıf değil; sahnenin okunabilirlik bayrağı.
+
+Kapanış cümlesi aynı: kayıtları arşiv değil karar verici hale getiriyoruz.
+
 ---
 
 ## 1. Sunum zaman çizelgesi (240 sn)
@@ -74,17 +94,28 @@ akış hiç durmuyor. Tek makine birden fazla kamerayı böyle taşıyor.
 
 ## 2. KPI slaytı
 
-İç ölçüm (dev **46 video**, resmi EVREN `vlm` + `llm-fast`, test split yok —
-sunumda "jüri skoru" demeyin):
+İç ölçüm (dev **46 video**, resmi EVREN `vlm` + `llm-fast`).
+Sunumda "jüri skoru" demeyin. Test ayrı satır; ayar için kullanılmadı.
 
 | Metrik | Değer | Sunumda nasıl anlatılır |
 |---|---|---|
-| Risk doğruluğu | %87 | Kural katmanı + VLM; holdout'a bakmadık, abartma. |
+| Risk doğruluğu | %87 | Kural katmanı + VLM; ayar yalnız dev'de. |
 | Kritik olay yakalama | %100 | Kaza/ramak videolarında olayı kaçırmıyoruz. |
 | Yanlış alarm | %0 | Normal sahnede kritik alarm yok — saha güveni. |
 | Aksiyon doluluğu | %100 | Her çıktıda uygulanabilir müdahale var. |
-| Olay yakalama (±2 sn + metin) | %92 | Dil sıkıştırma + tepe tohumu + hedefli VLM; kalan kayıp sahne yanlış okuma. |
+| Olay yakalama (±2 sn + metin) | %92 | Dil sıkıştırma + tepe tohumu; kalan kayıp sahne yanlış okuma. |
 | Özet benzerliği | %83 | Aynı dürüst çerçeve. |
+
+Tutulmuş **test** (31 video, aynı dondurulmuş pipeline, bir kez, üzerine kural yok):
+
+| Metrik | Test |
+|---|---|
+| Risk doğruluğu | %74 |
+| Olay yakalama | %73 |
+| Kritik olay yakalama | %100 |
+| Yanlış kaza (normal) | %0 |
+
+Near miss testte zayıf (%14 risk): VLM tamamlanmış kaza yazınca indirmedik. Dev–test düşüşü beklenen; slaytta jüri skoru demeyin.
 
 **Olay yakalama için dürüst çerçeve.** Jüri skoru değil; 46 videoluk EVREN
 iç ölçüm. Kural katmanı **donduruldu** — kalan 4 miss VLM sahne okuması
@@ -98,12 +129,13 @@ Skorlayıcıya eşanlam veya test split ile şişirmedik.
 
 ## 3. Sahne demosu (1 dk, kendi videomuz)
 
-Jüri odaya girmeden:
+Sahne klibi **ekip kararı**. Merdiven (`6AISVvob4C0_trim_7`) bir aday; kilitli değil.
+Jüri odaya girmeden, seçilen klibi bir kez koşup `data/demo_runs/` yedeğini alın:
 
 ```powershell
 python scripts/smoke_api.py
 streamlit run app/demo_app.py
-python scripts/analyze_video.py --video data/videos/accident/6AISVvob4C0_trim_7.mp4 --fast --run-name sahne_merdiven
+python scripts/analyze_video.py --video <SECILEN_KLIP> --fast --run-name sahne_yedek
 ```
 
 Son başarılı koşu `data/demo_runs/` altında dursun (kayıt yedek).
@@ -115,7 +147,7 @@ Canlı 60 sn (önceden bildiğiniz klip; hızlı mod açık):
 | 0–8 | Kendi videoyu seç / bırak | "Sahadaki kaydı sisteme veriyorum." |
 | 8–14 | Prompt, Analiz Et (veya önceden bitmiş sonucu aç) | "Operatör sorusunu olduğu gibi giriyorum." |
 | 14–40 | İlerleme veya hazır sonuç | "Wake-up aday pencereyi buldu, VLM o karelere bakıyor." |
-| 40–50 | Risk + zaman çizelgesi | "Olay 00:0X, risk bu." |
+| 40–50 | Karar kartı + zaman çizelgesi | Durumu ve kararı oku; olay zamanını göster. |
 | 50–58 | Aksiyonlar + JSON | "Çıktı şartname JSON'u, aksiyonlar uygulanabilir." |
 | 58–60 | Süre metriği | "Bu gösterim X saniye." |
 
@@ -165,9 +197,10 @@ Tek H200 ile onlarca kamerayı, tetiklenmeleri kuyruğa alarak taşıyabiliriz.
 ## 5. Kontrol listesi (sunum sabahı)
 
 - [ ] `.env` EVREN anahtarı dolu, `python scripts/smoke_api.py --provider teknofest` yeşil
-- [ ] Sahne klibi `6AISVvob4C0_trim_7` seçili; 1 dk prova + `data/demo_runs/` yedek
+- [ ] Sahne klibi ekipçe seçildi; 1 dk prova + `data/demo_runs/` yedek
 - [ ] API düşünce Streamlit yedeği otomatik açıyor (en az bir `demo_runs` kaydı olsun)
 - [ ] Jüri yolu: hızlı mod kapalı, 8 kare; Streamlit açık ve ısıtıldı
 - [ ] KPI slaytı `docs/sunum_akisi.md` / `data/exports/kpi_final_ozet.csv` ile aynı (jüri skoru demeyin)
+- [ ] Dil: rutin operasyon / ramak kala / iş kazası; "risk düşük" demeyin
 - [ ] Sunum dosyası ve sahne demosu aynı ekranda, geçiş provası yapıldı
 - [ ] `python -m pytest tests -q` geçiyor

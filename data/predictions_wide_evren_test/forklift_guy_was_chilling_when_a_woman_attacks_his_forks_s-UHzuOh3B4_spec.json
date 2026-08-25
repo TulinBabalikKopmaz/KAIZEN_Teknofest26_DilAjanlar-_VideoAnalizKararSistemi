@@ -1,0 +1,19 @@
+{
+  "summary": "Çalışan forkliftin çok yakınından geçerken yere düşdü ve hareketsiz kaldı.",
+  "events": [
+    {
+      "time": "00:01",
+      "event": "Çalışan forkliftin çok yakınından geçerken yere düştü ve hareketsiz kaldı."
+    },
+    {
+      "time": "00:04",
+      "event": "Çalışan forkliftin çok yakınından geçerken yere düştü ve hareketsiz kaldı."
+    }
+  ],
+  "risk": "Yüksek",
+  "actions": [
+    "Acil müdahaleye geçin, yaralıyı kontrol edin.",
+    "Alanı kapatin, diğer çalışanları uzaklaştırın.",
+    "İtfaiye ve sağlık ekiplerini çağırın."
+  ]
+}

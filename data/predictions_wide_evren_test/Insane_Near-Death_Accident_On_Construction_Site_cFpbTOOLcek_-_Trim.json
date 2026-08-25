@@ -1,0 +1,60 @@
+{
+  "video_id": "Insane_Near-Death_Accident_On_Construction_Site_cFpbTOOLcek_-_Trim",
+  "filename": "Insane Near-Death Accident On Construction Site! [cFpbTOOLcek] - Trim.mp4",
+  "category": "accident",
+  "duration_sec": 24.51,
+  "status": "auto",
+  "labeled_by": "qwen:vlm",
+  "summary": "Çalışanlar arasında biri yüksekten düşen ahşap malzemelerin altında kalarak yere düştü. Diğer çalışanlar müdahale etti.",
+  "events": [
+    {
+      "time": "00:06",
+      "time_end": "00:10",
+      "event": "Yüksekten düşen ahşap malzemeler çalışanın üstüne düştü ve yere devrildi.",
+      "event_type": "kaza",
+      "severity": "Yüksek"
+    },
+    {
+      "time": "00:09",
+      "time_end": "00:10",
+      "event": "Yüksekten düşen ahşap malzemeler çalışanın üstüne düştü ve yere devrildi.",
+      "event_type": "kaza",
+      "severity": "Yüksek"
+    },
+    {
+      "time": "00:12",
+      "time_end": "00:10",
+      "event": "Yüksekten düşen ahşap malzemeler çalışanın üstüne düştü ve yere devrildi.",
+      "event_type": "kaza",
+      "severity": "Yüksek"
+    }
+  ],
+  "risk": "Yüksek",
+  "actions": [
+    "Yaralı çalışanı hemen sağlık ekiplerine bildirin.",
+    "Olay yerini izole edin ve diğer çalışanların yaklaşmasını engelleyin.",
+    "İş güvenliği ekiplerini çağırın ve olayı raporlayın."
+  ],
+  "notes": "Otomatik taslak. Gold değil; Streamlit'te kontrol edin.",
+  "evidence": {
+    "duration_sec": 24.511990601960626,
+    "motion_peak_sec": 9.060537780262674,
+    "motion_peak_score": 4.439652777777778,
+    "motion_peaks": [
+      9.060537780262674,
+      12.134648812851795,
+      18.121075560525348
+    ],
+    "motion_elevated": false,
+    "person_count_max": 3,
+    "vehicle_count_max": 1,
+    "min_person_vehicle_ratio": 4.18356110424169,
+    "person_vehicle_close": false,
+    "person_vehicle_very_close": false,
+    "fire_like_ratio_max": 0.023650568181818182,
+    "fire_like_rise": 0.019016335227272727,
+    "fire_suspect": false,
+    "yolo_available": true,
+    "notes": []
+  }
+}

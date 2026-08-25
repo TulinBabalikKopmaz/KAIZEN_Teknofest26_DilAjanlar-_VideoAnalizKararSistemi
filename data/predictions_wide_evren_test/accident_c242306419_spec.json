@@ -1,0 +1,31 @@
+{
+  "summary": "Çalışan yükü iten taşımada dengesi kaybetti ve yük yere devrildi.",
+  "events": [
+    {
+      "time": "00:00",
+      "event": "Çalışan yükü iterken dengesi kaybetti ve yük yere devrildi."
+    },
+    {
+      "time": "00:02",
+      "event": "Çalışan yükü iterken dengesi kaybetti ve yük yere devrildi."
+    },
+    {
+      "time": "00:05",
+      "event": "Çalışan yükü iterken dengesi kaybetti ve yük yere devrildi."
+    },
+    {
+      "time": "00:07",
+      "event": "Çalışan yükü iterken dengesi kaybetti ve yük yere devrildi."
+    },
+    {
+      "time": "00:09",
+      "event": "Çalışan yükü iterken dengesi kaybetti ve yük yere devrildi."
+    }
+  ],
+  "risk": "Yüksek",
+  "actions": [
+    "Yerleşim alanını hemen boşalt",
+    "Yaralı varsa acil sağlık ekiplerini çağır",
+    "Olay yerini koru ve inceleme başlat"
+  ]
+}

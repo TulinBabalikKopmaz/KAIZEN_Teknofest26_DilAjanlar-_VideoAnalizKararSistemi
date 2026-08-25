@@ -313,7 +313,9 @@ def main() -> None:
 
     print("Dağılım:", dict(Counter(r.get("category") for r in sample)))
 
-    list_path = ROOT / "data" / "exports" / "kpi_wide_selection.json"
+    list_path = ROOT / "data" / "exports" / (
+        f"kpi_wide_selection_{args.tag}.json" if str(args.tag).strip() else "kpi_wide_selection.json"
+    )
     list_path.write_text(
         json.dumps(
             {

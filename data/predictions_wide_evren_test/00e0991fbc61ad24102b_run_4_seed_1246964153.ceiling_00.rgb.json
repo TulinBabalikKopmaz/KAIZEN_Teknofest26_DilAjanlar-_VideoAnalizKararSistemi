@@ -1,0 +1,67 @@
+{
+  "video_id": "00e0991fbc61ad24102b_run_4_seed_1246964153.ceiling_00.rgb",
+  "filename": "00e0991fbc61ad24102b_run_4_seed_1246964153.ceiling_00.rgb.mp4",
+  "category": "accident",
+  "duration_sec": 10.0,
+  "status": "auto",
+  "labeled_by": "qwen:vlm",
+  "summary": "Çalışan forkliftin yanından geçerken dengesini kaybetti ve yere düştü.",
+  "events": [
+    {
+      "time": "00:00",
+      "time_end": "00:07",
+      "event": "Çalışan forkliftin yanından geçerken dengesini kaybetti ve yere düştü.",
+      "event_type": "kaza",
+      "severity": "yuksek"
+    },
+    {
+      "time": "00:04",
+      "time_end": "00:07",
+      "event": "Çalışan forkliftin yanından geçerken dengesini kaybetti ve yere düştü.",
+      "event_type": "kaza",
+      "severity": "yuksek"
+    },
+    {
+      "time": "00:06",
+      "time_end": "00:07",
+      "event": "Çalışan forkliftin yanından geçerken dengesini kaybetti ve yere düştü.",
+      "event_type": "kaza",
+      "severity": "yuksek"
+    },
+    {
+      "time": "00:09",
+      "time_end": "00:07",
+      "event": "Çalışan forkliftin yanından geçerken dengesini kaybetti ve yere düştü.",
+      "event_type": "kaza",
+      "severity": "yuksek"
+    }
+  ],
+  "risk": "Yüksek",
+  "actions": [
+    "Yaralı çalışanı hemen sağlık ekiplerine bildirin.",
+    "Alanı kapatin ve diğer çalışanları uyarın.",
+    "Forkliftin durumunu kontrol edin, tekrar kullanılmaması için durdurun."
+  ],
+  "notes": "Otomatik taslak. Gold değil; Streamlit'te kontrol edin.",
+  "evidence": {
+    "duration_sec": 10.0,
+    "motion_peak_sec": 7.166666666666667,
+    "motion_peak_score": 2.437986111111111,
+    "motion_peaks": [
+      0.16666666666666666,
+      7.166666666666667,
+      9.333333333333334
+    ],
+    "motion_elevated": false,
+    "person_count_max": 1,
+    "vehicle_count_max": 0,
+    "min_person_vehicle_ratio": null,
+    "person_vehicle_close": false,
+    "person_vehicle_very_close": false,
+    "fire_like_ratio_max": 0.22339313271604938,
+    "fire_like_rise": 0.0322709297839506,
+    "fire_suspect": true,
+    "yolo_available": true,
+    "notes": []
+  }
+}
