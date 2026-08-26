@@ -37,35 +37,247 @@ VIDEO_DIRS = (ROOT / "data" / "videos", INCOMING_DIR)
 
 _UI_CSS = """
 <style>
-#MainMenu {visibility: hidden;}
-footer {visibility: hidden;}
-header {background: transparent;}
-.block-container {padding-top: 1.4rem; max-width: 1280px;}
+@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Serif:wght@600&display=swap');
+
+:root {
+  --kz-bg: #0C1014;
+  --kz-panel: #141A21;
+  --kz-panel-2: #1A222C;
+  --kz-line: #2A3542;
+  --kz-text: #E8EEF4;
+  --kz-muted: #8B9AAB;
+  --kz-brass: #B8952E;
+  --kz-ok: #3D7A62;
+  --kz-watch: #B8952E;
+  --kz-critical: #A84A3C;
+  --kz-font: "IBM Plex Sans", "Segoe UI", sans-serif;
+  --kz-display: "IBM Plex Serif", Georgia, serif;
+}
+
+html, body, [class*="css"] {
+  font-family: var(--kz-font) !important;
+}
+
+#MainMenu, footer, [data-testid="stToolbar"] { visibility: hidden; }
+header { background: transparent; }
+
+.stApp {
+  background:
+    radial-gradient(1200px 500px at 12% -10%, rgba(184, 149, 46, 0.07), transparent 55%),
+    radial-gradient(900px 420px at 100% 0%, rgba(61, 122, 98, 0.05), transparent 50%),
+    var(--kz-bg);
+}
+
+.block-container {
+  padding-top: 1.6rem;
+  padding-bottom: 3rem;
+  max-width: 1240px;
+}
+
+[data-testid="stSidebar"] {
+  background: #0A0E12;
+  border-right: 1px solid var(--kz-line);
+}
+[data-testid="stSidebar"] * { color: var(--kz-text); }
+
+.kz-top {
+  display: flex;
+  flex-direction: column;
+  gap: 0.55rem;
+  margin-bottom: 1.35rem;
+  padding-bottom: 1.15rem;
+  border-bottom: 1px solid var(--kz-line);
+}
 .kz-brand {
-    letter-spacing: 0.22em;
-    text-transform: uppercase;
-    font-size: 0.72rem;
-    color: #C9A227;
-    margin-bottom: 0.15rem;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  font-size: 0.68rem;
+  font-weight: 600;
+  color: var(--kz-brass);
 }
+.kz-hero {
+  font-family: var(--kz-display);
+  font-size: 2rem;
+  font-weight: 600;
+  line-height: 1.15;
+  color: var(--kz-text);
+  margin: 0;
+}
+.kz-lede {
+  max-width: 42rem;
+  color: var(--kz-muted);
+  font-size: 0.98rem;
+  line-height: 1.55;
+  margin: 0;
+}
+
+.kz-panel {
+  background: var(--kz-panel);
+  border: 1px solid var(--kz-line);
+  border-radius: 4px;
+  padding: 1rem 1.1rem 1.15rem;
+  margin-bottom: 0.85rem;
+}
+.kz-panel-label {
+  font-size: 0.68rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--kz-muted);
+  margin-bottom: 0.65rem;
+  font-weight: 600;
+}
+
+.kz-metrics {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 0.65rem;
+  margin: 0.2rem 0 1rem;
+}
+.kz-metric {
+  background: var(--kz-panel);
+  border: 1px solid var(--kz-line);
+  border-radius: 4px;
+  padding: 0.85rem 0.95rem;
+}
+.kz-metric .l {
+  font-size: 0.65rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--kz-muted);
+  margin-bottom: 0.35rem;
+}
+.kz-metric .v {
+  font-family: var(--kz-display);
+  font-size: 1.15rem;
+  font-weight: 600;
+  color: var(--kz-text);
+  line-height: 1.25;
+}
+
 .kz-verdict {
-    border-left: 4px solid;
-    padding: 1.05rem 1.25rem 1.15rem;
-    border-radius: 6px;
-    margin: 0.35rem 0 1.1rem;
+  border: 1px solid var(--kz-line);
+  border-left-width: 3px;
+  padding: 1.15rem 1.3rem 1.25rem;
+  border-radius: 4px;
+  margin: 0 0 1.15rem;
+  background: var(--kz-panel);
 }
-.kz-verdict.ok { border-color: #3D8B6E; background: #12211C; }
-.kz-verdict.watch { border-color: #C9A227; background: #211C12; }
-.kz-verdict.critical { border-color: #C45C4A; background: #231512; }
+.kz-verdict.ok { border-left-color: var(--kz-ok); }
+.kz-verdict.watch { border-left-color: var(--kz-watch); }
+.kz-verdict.critical {
+  border-left-color: var(--kz-critical);
+  background: linear-gradient(90deg, rgba(168, 74, 60, 0.12), var(--kz-panel) 42%);
+}
 .kz-kicker {
-    font-size: 0.7rem;
-    letter-spacing: 0.18em;
-    text-transform: uppercase;
-    opacity: 0.65;
+  font-size: 0.65rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--kz-muted);
+  font-weight: 600;
 }
-.kz-title { font-size: 1.55rem; font-weight: 650; margin: 0.2rem 0 0.15rem; line-height: 1.2; }
-.kz-sub { opacity: 0.88; margin: 0; font-size: 0.95rem; }
-.kz-answer { margin-top: 0.85rem; font-size: 1.02rem; line-height: 1.45; }
+.kz-title {
+  font-family: var(--kz-display);
+  font-size: 1.55rem;
+  font-weight: 600;
+  margin: 0.35rem 0 0.25rem;
+  line-height: 1.2;
+  color: var(--kz-text);
+}
+.kz-sub { color: var(--kz-muted); margin: 0; font-size: 0.92rem; line-height: 1.45; }
+.kz-answer {
+  margin-top: 0.95rem;
+  padding-top: 0.85rem;
+  border-top: 1px solid var(--kz-line);
+  font-size: 1.02rem;
+  line-height: 1.5;
+  color: var(--kz-text);
+}
+
+.kz-section {
+  font-size: 0.68rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--kz-muted);
+  font-weight: 600;
+  margin: 0.2rem 0 0.7rem;
+}
+
+.kz-timeline { list-style: none; padding: 0; margin: 0 0 1rem; }
+.kz-timeline li {
+  display: grid;
+  grid-template-columns: 4.2rem 1fr;
+  gap: 0.75rem;
+  padding: 0.55rem 0;
+  border-bottom: 1px solid rgba(42, 53, 66, 0.85);
+}
+.kz-timeline li:last-child { border-bottom: none; }
+.kz-time {
+  font-variant-numeric: tabular-nums;
+  font-weight: 600;
+  color: var(--kz-brass);
+  font-size: 0.9rem;
+}
+.kz-event { color: var(--kz-text); line-height: 1.4; font-size: 0.95rem; }
+
+.kz-actions { list-style: none; padding: 0; margin: 0; counter-reset: act; }
+.kz-actions li {
+  counter-increment: act;
+  display: grid;
+  grid-template-columns: 1.6rem 1fr;
+  gap: 0.65rem;
+  padding: 0.5rem 0;
+  border-bottom: 1px solid rgba(42, 53, 66, 0.7);
+  color: var(--kz-text);
+  line-height: 1.4;
+}
+.kz-actions li::before {
+  content: counter(act, decimal-leading-zero);
+  color: var(--kz-brass);
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+  font-size: 0.85rem;
+}
+
+.kz-empty {
+  color: var(--kz-muted);
+  font-size: 0.92rem;
+  padding: 0.35rem 0 0.6rem;
+}
+
+div[data-testid="stMetric"] {
+  background: var(--kz-panel);
+  border: 1px solid var(--kz-line);
+  border-radius: 4px;
+  padding: 0.65rem 0.8rem;
+}
+div[data-testid="stMetricLabel"] { color: var(--kz-muted) !important; }
+div[data-testid="stFileUploader"] {
+  background: var(--kz-panel);
+  border: 1px dashed var(--kz-line);
+  border-radius: 4px;
+  padding: 0.4rem 0.6rem;
+}
+.stButton > button[kind="primary"] {
+  background: var(--kz-brass) !important;
+  color: #11161c !important;
+  border: none !important;
+  font-weight: 600 !important;
+  letter-spacing: 0.04em;
+  border-radius: 3px !important;
+}
+.stButton > button[kind="primary"]:hover {
+  filter: brightness(1.06);
+}
+.stTextArea textarea {
+  background: var(--kz-panel-2) !important;
+  border-color: var(--kz-line) !important;
+  color: var(--kz-text) !important;
+}
+
+@media (max-width: 900px) {
+  .kz-metrics { grid-template-columns: 1fr 1fr; }
+  .kz-hero { font-size: 1.55rem; }
+}
 </style>
 """
 
@@ -96,9 +308,13 @@ def save_upload(uploaded: Any) -> Path:
 
 
 def sidebar_settings() -> dict[str, Any]:
-    st.sidebar.markdown("**KAIZEN**")
+    st.sidebar.markdown(
+        '<div class="kz-brand" style="margin-bottom:0.75rem">KAIZEN</div>',
+        unsafe_allow_html=True,
+    )
     st.sidebar.caption("Saha İSG karar sistemi")
-    st.sidebar.header("Altyapı")
+    st.sidebar.markdown("---")
+    st.sidebar.markdown("**Altyapı**")
     provider = st.sidebar.selectbox(
         "Model sağlayıcı",
         options=list(config.PROVIDERS),
@@ -120,7 +336,7 @@ def sidebar_settings() -> dict[str, Any]:
     saved = list_saved_runs()
     if saved:
         st.sidebar.markdown("---")
-        st.sidebar.subheader("Sahne yedeği")
+        st.sidebar.markdown("**Sahne yedeği**")
         labels = [p.name for p in saved]
         pick = st.sidebar.selectbox("Kayıtlı koşu", ["(canlı analiz)"] + labels)
         if pick != "(canlı analiz)" and st.sidebar.button("Yedeği ekrana getir"):
@@ -131,8 +347,8 @@ def sidebar_settings() -> dict[str, Any]:
 
     if provider == "ollama":
         st.sidebar.warning(
-            "Yerel model 2–4 dk sürebilir; jüri kaydı için sorun değil. "
-            "Sahnedeki 1 dk gösterimde **Hızlı mod** açın veya kayıtlı yedeği gösterin."
+            "Yerel model 2–4 dk sürebilir. "
+            "1 dk sahnede hızlı mod veya kayıtlı yedek kullanın."
         )
     return {"fast": fast, "max_frames": max_frames, "use_rag": use_rag}
 
@@ -143,9 +359,9 @@ def verdict_card(result: DemoResult) -> dict[str, str]:
     st.markdown(
         f"""
 <div class="kz-verdict {v['tone']}">
-  <div class="kz-kicker">{v['kicker']}</div>
-  <div class="kz-title">{v['situation']} · {v['decision']}</div>
-  <p class="kz-sub">{v['subtitle']}</p>
+  <div class="kz-kicker">{html.escape(v['kicker'])}</div>
+  <div class="kz-title">{html.escape(v['situation'])} · {html.escape(v['decision'])}</div>
+  <p class="kz-sub">{html.escape(v['subtitle'])}</p>
   <div class="kz-answer">{answer_html}</div>
 </div>
 """,
@@ -154,22 +370,56 @@ def verdict_card(result: DemoResult) -> dict[str, str]:
     return v
 
 
+def metrics_strip(result: DemoResult, v: dict[str, str]) -> None:
+    events = result.spec.get("events") or []
+    cells = [
+        ("Saha durumu", v["situation"]),
+        ("Karar", v["decision"]),
+        ("Analiz süresi", f"{result.total_s:.1f} sn"),
+        ("İşaretlenen olay", str(len(events))),
+    ]
+    parts = ['<div class="kz-metrics">']
+    for label, value in cells:
+        parts.append(
+            "<div class='kz-metric'>"
+            f"<div class='l'>{html.escape(label)}</div>"
+            f"<div class='v'>{html.escape(value)}</div>"
+            "</div>"
+        )
+    parts.append("</div>")
+    st.markdown("".join(parts), unsafe_allow_html=True)
+
+
+def timeline_html(events: list[dict[str, Any]]) -> str:
+    if not events:
+        return '<p class="kz-empty">Ayrı bir olay satırı işaretlenmedi; rutin akış.</p>'
+    items = []
+    for item in events:
+        t = html.escape(str(item.get("time") or "00:00"))
+        e = html.escape(str(item.get("event") or ""))
+        items.append(f'<li><span class="kz-time">{t}</span><span class="kz-event">{e}</span></li>')
+    return f'<ul class="kz-timeline">{"".join(items)}</ul>'
+
+
+def actions_html(actions: list[str]) -> str:
+    clean = [a for a in actions if a]
+    if not clean:
+        return '<p class="kz-empty">Aksiyon önerisi üretilmedi.</p>'
+    items = "".join(f"<li>{html.escape(a)}</li>" for a in clean)
+    return f'<ol class="kz-actions">{items}</ol>'
+
+
 def show_result(result: DemoResult) -> None:
     spec = result.spec
     events = spec.get("events") or []
     v = verdict(result.label.get("category"), spec.get("risk"))
 
-    cols = st.columns(4)
-    cols[0].metric("Saha durumu", v["situation"])
-    cols[1].metric("Karar", v["decision"])
-    cols[2].metric("Analiz süresi", f"{result.total_s:.1f} sn")
-    cols[3].metric("İşaretlenen olay", len(events))
-
+    metrics_strip(result, v)
     verdict_card(result)
 
-    left, right = st.columns([1.1, 1])
+    left, right = st.columns([1.1, 1], gap="large")
     with left:
-        st.subheader("Kayıt ve kanıt kareleri")
+        st.markdown('<div class="kz-section">Kayıt ve kanıt</div>', unsafe_allow_html=True)
         video_path = Path(result.video)
         if video_path.exists():
             st.video(str(video_path))
@@ -182,19 +432,14 @@ def show_result(result: DemoResult) -> None:
                     grid[i % len(grid)].image(path, caption=frame.get("time", ""))
 
     with right:
-        st.subheader("Olay zaman çizelgesi")
-        if events:
-            for item in events:
-                st.markdown(f"**{item.get('time', '00:00')}** — {item.get('event', '')}")
-        else:
-            st.info("Ayrı bir olay satırı işaretlenmedi; rutin akış.")
+        st.markdown('<div class="kz-section">Olay zaman çizelgesi</div>', unsafe_allow_html=True)
+        st.markdown(timeline_html(events), unsafe_allow_html=True)
 
-        st.subheader("Özet")
-        st.write(spec.get("summary") or "-")
+        st.markdown('<div class="kz-section">Özet</div>', unsafe_allow_html=True)
+        st.write(spec.get("summary") or "—")
 
-        st.subheader("Saha aksiyonları")
-        for i, action in enumerate(spec.get("actions") or [], start=1):
-            st.markdown(f"{i}. {action}")
+        st.markdown('<div class="kz-section">Saha aksiyonları</div>', unsafe_allow_html=True)
+        st.markdown(actions_html(list(spec.get("actions") or [])), unsafe_allow_html=True)
 
         with st.expander("Jüri çıktısı (şartname JSON)"):
             st.caption(spec_footnote())
@@ -210,17 +455,20 @@ def show_result(result: DemoResult) -> None:
         with st.expander("Sensör kanıtı (hareket / yakınlık / yangın)"):
             st.json(result.evidence)
 
-        st.download_button(
-            "Şartname JSON indir",
+        d1, d2 = st.columns(2)
+        d1.download_button(
+            "Şartname JSON",
             data=json.dumps(spec, ensure_ascii=False, indent=2),
             file_name=f"{Path(result.video).stem}_spec.json",
             mime="application/json",
+            use_container_width=True,
         )
-        st.download_button(
-            "Tam sonuç JSON indir",
+        d2.download_button(
+            "Tam sonuç JSON",
             data=json.dumps(result.to_dict(), ensure_ascii=False, indent=2),
             file_name=f"{Path(result.video).stem}_result.json",
             mime="application/json",
+            use_container_width=True,
         )
 
     for warning in result.warnings:
@@ -231,22 +479,35 @@ def main() -> None:
     inject_chrome()
     settings = sidebar_settings()
 
-    st.markdown('<div class="kz-brand">KAIZEN · TEKNOFEST 2026</div>', unsafe_allow_html=True)
-    st.title("Saha İSG Karar Sistemi")
-    st.caption(
-        "Kamera kaydını arşiv değil karar haline getirir. "
-        "Sahne (1 dk): ekibin seçtiği kısa klip veya kayıtlı yedek. "
-        "Jüri videosu: yükle, soruyu yapıştır, hızlı mod kapalı."
+    st.markdown(
+        """
+<div class="kz-top">
+  <div class="kz-brand">KAIZEN · TEKNOFEST 2026</div>
+  <h1 class="kz-hero">Saha İSG Karar Sistemi</h1>
+  <p class="kz-lede">
+    Kamera kaydını arşiv değil karar haline getirir.
+    Sahne için kısa klip veya kayıtlı yedek; jüri videosunda yükle, soruyu yapıştır, analiz et.
+  </p>
+</div>
+""",
+        unsafe_allow_html=True,
     )
+
     if st.session_state.get("showing_backup"):
         st.warning(
-            "Ekranda **kayıtlı sahne yedeği** var (canlı API sonucu değil). "
-            "Jüri videosunda Analiz Et ile taze koşu alın."
+            "Ekranda kayıtlı sahne yedeği var (canlı API sonucu değil). "
+            "Jüri videosunda Analiz et ile taze koşu alın."
         )
 
-    source_col, prompt_col = st.columns([1, 1.4])
+    source_col, prompt_col = st.columns([1, 1.35], gap="large")
     with source_col:
-        uploaded = st.file_uploader("Jürinin videosu", type=[e.strip(".") for e in VIDEO_EXTS])
+        st.markdown('<div class="kz-panel-label">Girdi</div>', unsafe_allow_html=True)
+        uploaded = st.file_uploader(
+            "Jürinin videosu",
+            type=[e.strip(".") for e in VIDEO_EXTS],
+            label_visibility="collapsed",
+        )
+        st.caption("Video yükle (mp4, mov, …)")
         local_videos = list_local_videos()
         picked = None
         if local_videos:
@@ -258,7 +519,13 @@ def main() -> None:
                 picked = ROOT / choice
 
     with prompt_col:
-        prompt = st.text_area("Operatör sorusu", value=DEFAULT_PROMPT, height=120)
+        st.markdown('<div class="kz-panel-label">Operatör</div>', unsafe_allow_html=True)
+        prompt = st.text_area(
+            "Operatör sorusu",
+            value=DEFAULT_PROMPT,
+            height=130,
+            label_visibility="collapsed",
+        )
         run = st.button("Analiz et", type="primary", use_container_width=True)
 
     video_path: Path | None = None
@@ -271,7 +538,7 @@ def main() -> None:
         if video_path is None:
             st.error("Önce bir video yükleyin veya klasörden seçin.")
             return
-        status = st.status("Analiz çalışıyor...", expanded=True)
+        status = st.status("Analiz çalışıyor…", expanded=True)
         try:
             result = run_demo_analysis_sync(
                 video_path,
@@ -293,7 +560,7 @@ def main() -> None:
                 )
             else:
                 st.info(
-                    "Kayıtlı yedek yok. Sahneden önce ekibin seçtiği klibi "
+                    "Kayıtlı yedek yok. Sahneden önce seçilen klibi "
                     "`python scripts/analyze_video.py --video <klip> --fast --run-name sahne_yedek` "
                     "ile bir kez koşun veya kenar çubuğundan ollama deneyin."
                 )
@@ -307,7 +574,10 @@ def main() -> None:
     if isinstance(result, DemoResult):
         show_result(result)
     else:
-        st.info("Kayıt ve soruyu verip Analiz et'e basın. Karar kartı burada açılır.")
+        st.markdown(
+            '<p class="kz-empty">Kayıt ve soruyu verip Analiz et’e basın. Karar kartı burada açılır.</p>',
+            unsafe_allow_html=True,
+        )
 
 
 main()
