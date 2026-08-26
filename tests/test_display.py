@@ -8,7 +8,9 @@ from __future__ import annotations
 import unittest
 
 from utils.display import (
+    attach_hard_case_sentence,
     category_label,
+    hard_case_note,
     humanize_label,
     risk_label,
     spec_footnote,
@@ -55,6 +57,118 @@ class DisplayTests(unittest.TestCase):
         )
         self.assertEqual(out["situation"], "Rutin operasyon")
         self.assertEqual(out["spec_risk"], "Düşük")
+
+    def test_process_flame_is_hard_case_on_normal(self) -> None:
+        note = hard_case_note(
+            {
+                "category": "normal",
+                "summary": "Görüntüde alevler var ama normal gözüküyor.",
+                "events": [
+                    {"time": "00:00", "event": "Görüntüde alevler var ama normal gözüküyor."}
+                ],
+            },
+            {"risk": "Düşük"},
+        )
+        assert note is not None
+        self.assertEqual(note["kind"], "flame")
+        self.assertEqual(note["kicker"], "Zor sahne")
+        self.assertIn("proses", note["text"].casefold())
+        self.assertNotIn("Düşük", note["text"])
+        self.assertNotIn("accident", note["text"])
+
+    def test_process_smoke_is_hard_case_on_normal(self) -> None:
+        note = hard_case_note(
+            {
+                "category": "normal",
+                "summary": "Çalışanlar rutin aktivitesini sürdürüyor. Duman var ama normal gözüküyor.",
+                "events": [{"time": "00:00", "event": "Görüntüde duman var ama normal gözüküyor."}],
+            },
+            {"risk": "Düşük"},
+        )
+        assert note is not None
+        self.assertEqual(note["kind"], "smoke")
+
+    def test_hard_case_without_risk_field_trusts_normal_category(self) -> None:
+        note = hard_case_note(
+            {
+                "category": "normal",
+                "summary": "Görüntüde alevler var ama normal gözüküyor.",
+                "events": [{"time": "00:00", "event": "Görüntüde alevler var ama normal gözüküyor."}],
+            }
+        )
+        assert note is not None
+        self.assertEqual(note["kind"], "flame")
+
+    def test_hard_case_skips_real_fire_accident(self) -> None:
+        self.assertIsNone(
+            hard_case_note(
+                {
+                    "category": "accident",
+                    "summary": "Forklift alev aldı. Çalışan alevlerin arasında kaldı.",
+                    "events": [{"time": "00:02", "event": "Forklift alev aldı."}],
+                },
+                {"risk": "Yüksek"},
+            )
+        )
+
+    def test_hard_case_skips_plain_routine(self) -> None:
+        self.assertIsNone(
+            hard_case_note(
+                {
+                    "category": "normal",
+                    "summary": "Çalışanlar rutin aktivitesini sürdürüyor. Normal gözüküyor.",
+                    "events": [{"time": "00:00", "event": "Çalışanlar rutin aktivitesini sürdürüyor."}],
+                }
+            )
+        )
+
+    def test_unhedged_flame_on_normal_is_not_claimed(self) -> None:
+        self.assertIsNone(
+            hard_case_note(
+                {
+                    "category": "normal",
+                    "summary": "Fabrikadan alevler yükseliyor.",
+                    "events": [{"time": "00:01", "event": "Binadan alevler yükseliyor."}],
+                }
+            )
+        )
+
+    def test_sensor_fire_on_normal_is_hard_case(self) -> None:
+        note = hard_case_note(
+            {
+                "category": "normal",
+                "summary": "Çalışanlar rutin aktivitesini sürdürüyor.",
+                "events": [{"time": "00:00", "event": "Çalışanlar rutin aktivitesini sürdürüyor."}],
+            },
+            {"risk": "Düşük"},
+            {"fire_suspect": True},
+        )
+        assert note is not None
+        self.assertEqual(note["kind"], "sensor")
+
+    def test_sensor_fire_on_accident_is_not_process_note(self) -> None:
+        self.assertIsNone(
+            hard_case_note(
+                {"category": "accident", "summary": "Makine alev alıyor."},
+                {"risk": "Yüksek"},
+                {"fire_suspect": True},
+            )
+        )
+
+    def test_attach_hard_case_once(self) -> None:
+        note = {
+            "kind": "flame",
+            "kicker": "Zor sahne",
+            "text": "Ortamda alev görünüyor; bu makinenin olağan proses ateşi, kaçış veya zarar yok.",
+        }
+        first = attach_hard_case_sentence("İş kazası yok. Saha kontrol altında.", note)
+        self.assertIn("proses ateşi", first)
+        self.assertEqual(attach_hard_case_sentence(first, note), first)
+        skipped = attach_hard_case_sentence(
+            "Rutin operasyon. Alev proses kaynaklı, alarm yok.",
+            note,
+        )
+        self.assertEqual(skipped, "Rutin operasyon. Alev proses kaynaklı, alarm yok.")
 
 
 if __name__ == "__main__":

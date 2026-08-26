@@ -31,6 +31,11 @@ Tema: `.streamlit/config.toml` (koyu zemin, altın vurgu `#C9A227`).
 Ham `accident` veya "Risk: Düşük" basma. Düşük token'ı JSON'da kalır; insana
 "kontrol altında" dersin. Kaynak: `utils.display.verdict`.
 
+Zor sahne satırı (`utils.display.hard_case_note`): rutin operasyon + proses
+alevi/dumanı/kıvılcımı (veya yangın benzeri sensör) varsa kartın altına
+**Zor sahne** cümlesi gelir. Kararı değiştirmez, şartname JSON'una yazılmaz.
+Kaza / ramak kalada bu satır çıkmaz — gerçek yangını proses diye yumuşatma.
+
 ---
 
 ## Mevcut iskelet (senin işin buradan)
@@ -38,12 +43,13 @@ Ham `accident` veya "Risk: Düşük" basma. Düşük token'ı JSON'da kalır; in
 1. Üst: KAIZEN markası + başlık + tek satır iddia.
 2. Sol: video yükle / klasörden seç. Sağ: operatör sorusu + **Analiz et**.
 3. Sonuç: dört metrik (saha durumu, karar, süre, olay sayısı) + karar kartı
-   (durum · karar + alt başlık + düz Türkçe cevap).
+   (durum · karar + alt başlık + düz Türkçe cevap; varsa **Zor sahne** satırı).
 4. Sol kolon: video + kanıt kareleri. Sağ: zaman çizelgesi, özet, aksiyonlar.
 5. Expander: jüri JSON'u, süreler, sensör kanıtı. İndirme düğmeleri.
 6. Kenar: sağlayıcı, hızlı mod, kare sayısı, RAG, sahne yedeği.
 
 CSS sınıfı: `.kz-verdict.{ok|watch|critical}`. Ton `verdict(...)["tone"]`.
+Zor sahne: `.kz-hard` / `.kz-hard-kicker`.
 
 ---
 

@@ -33,7 +33,7 @@ if str(ROOT / "scripts") not in sys.path:
 from extract_frames import extract_video, safe_id  # noqa: E402
 
 from utils import config  # noqa: E402
-from utils.display import verdict  # noqa: E402
+from utils.display import attach_hard_case_sentence, hard_case_note, verdict  # noqa: E402
 from utils.label_json import (  # noqa: E402
     dedupe_events,
     label_to_spec,
@@ -196,8 +196,11 @@ class DemoResult:
             f"Risk       : {self.spec.get('risk', '-')}  "
             f"(kategori: {self.label.get('category', '-')})",
             f"Özet       : {self.spec.get('summary', '-')}",
-            "Olaylar    :",
         ]
+        note = hard_case_note(self.label, self.spec, self.evidence)
+        if note:
+            lines.append(f"Zor sahne  : {note['text']}")
+        lines.append("Olaylar    :")
         if events:
             lines.extend(f"  {item.get('time', '00:00')}  {item.get('event', '')}" for item in events)
         else:
@@ -321,17 +324,23 @@ def _label_from_parsed(
     }
 
 
-def _fallback_answer(spec: dict[str, Any], label: dict[str, Any]) -> str:
+def _fallback_answer(
+    spec: dict[str, Any],
+    label: dict[str, Any],
+    evidence: SceneEvidence | dict[str, Any] | None = None,
+) -> str:
     """LLM cevap adımı düşerse yapılandırılmış bulgudan cümle kurar."""
     events = spec.get("events") or []
     v = verdict(label.get("category"), spec.get("risk") or label.get("risk"))
     first = events[0] if events else None
     when = f" İlk kritik an {first['time']}." if first else ""
     what = f" {first.get('event')}" if first and first.get("event") else ""
-    return (
+    raw = (
         f"Videoda {v['situation'].lower()} görüldü. "
         f"Karar: {v['decision']}.{when}{what}"
     ).strip()
+    ev = evidence.to_dict() if isinstance(evidence, SceneEvidence) else evidence
+    return attach_hard_case_sentence(raw, hard_case_note(label, spec, ev))
 
 
 def probe_duration(video_path: Path) -> float:
@@ -390,6 +399,7 @@ async def _answer_step(
 ) -> tuple[str, list[str], str]:
     """(cevap, aksiyonlar, uyarı) döner."""
     question = user_prompt.strip() or DEFAULT_PROMPT
+    note = hard_case_note(label, spec, evidence.to_dict())
     findings = {
         "kategori": label.get("category"),
         "risk": spec.get("risk"),
@@ -404,6 +414,8 @@ async def _answer_step(
             "yangin_suphesi": evidence.fire_suspect,
         },
     }
+    if note:
+        findings["zor_sahne"] = note["text"]
     prompt = (
         f"Soru: {question}\n\n"
         f"Bulgular (JSON): {json.dumps(findings, ensure_ascii=False)}\n"
@@ -426,11 +438,11 @@ async def _answer_step(
         actions = [str(a) for a in (parsed.get("actions") or []) if str(a).strip()]
         if not answer:
             raise ValueError("boş answer")
-        return answer, actions, ""
+        return attach_hard_case_sentence(answer, note), actions, ""
     except (ModelCallError, ValueError) as exc:
         warning = f"Cevap adımı LLM'siz üretildi: {exc}"
         print(f"  [cevap] {warning}")
-        return _fallback_answer(spec, label), spec.get("actions") or [], warning
+        return _fallback_answer(spec, label, evidence), spec.get("actions") or [], warning
 
 
 async def run_demo_analysis(
