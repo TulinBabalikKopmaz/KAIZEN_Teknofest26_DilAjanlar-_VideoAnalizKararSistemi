@@ -11,7 +11,8 @@ Kaynak kopya: `utils/display.py`. Taslak: `docs/ui_taslak.md`.
 - Ekranda `accident` / `near_miss` / "Risk: Düşük" basma
 - Şartname JSON expander'da ham token kalsın (Düşük|Orta|Yüksek)
 - Karar kartı tek: saha durumu · karar + alt metin
-- Pipeline, kural, prompt, gold'a dokunma
+- Zor sahne satırı `display.hard_case_note`'tan gelir; şartname JSON'a yazılmaz
+- Pipeline, kural, gold'a dokunma; video etiket prompt'unu oynatma
 - React'e geçme; Streamlit cilası
 - Sahne klibini varsayılan kilitleme
 - `.env` ve video/frame commit etme

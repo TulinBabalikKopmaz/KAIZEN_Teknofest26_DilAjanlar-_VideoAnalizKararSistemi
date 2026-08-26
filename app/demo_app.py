@@ -29,7 +29,7 @@ from utils.demo_pipeline import (  # noqa: E402
     load_saved_run,
     run_demo_analysis_sync,
 )
-from utils.display import spec_footnote, verdict  # noqa: E402
+from utils.display import hard_case_note, spec_footnote, verdict  # noqa: E402
 
 VIDEO_EXTS = (".mp4", ".mov", ".avi", ".mkv", ".webm", ".m4v")
 INCOMING_DIR = ROOT / "data" / "incoming"
@@ -191,6 +191,22 @@ header { background: transparent; }
   font-size: 1.02rem;
   line-height: 1.5;
   color: var(--kz-text);
+}
+.kz-hard {
+  margin-top: 0.85rem;
+  padding-top: 0.75rem;
+  border-top: 1px solid rgba(184, 149, 46, 0.28);
+  font-size: 0.92rem;
+  line-height: 1.45;
+  color: var(--kz-text);
+}
+.kz-hard-kicker {
+  font-size: 0.65rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--kz-brass);
+  font-weight: 600;
+  margin-bottom: 0.2rem;
 }
 
 .kz-section {
@@ -356,6 +372,15 @@ def sidebar_settings() -> dict[str, Any]:
 def verdict_card(result: DemoResult) -> dict[str, str]:
     v = verdict(result.label.get("category"), result.spec.get("risk"))
     answer_html = html.escape(result.answer or "").replace("\n", "<br>")
+    note = hard_case_note(result.label, result.spec, result.evidence)
+    hard_html = ""
+    if note:
+        hard_html = (
+            '<div class="kz-hard">'
+            f'<div class="kz-hard-kicker">{html.escape(note["kicker"])}</div>'
+            f"{html.escape(note['text'])}"
+            "</div>"
+        )
     st.markdown(
         f"""
 <div class="kz-verdict {v['tone']}">
@@ -363,6 +388,7 @@ def verdict_card(result: DemoResult) -> dict[str, str]:
   <div class="kz-title">{html.escape(v['situation'])} · {html.escape(v['decision'])}</div>
   <p class="kz-sub">{html.escape(v['subtitle'])}</p>
   <div class="kz-answer">{answer_html}</div>
+  {hard_html}
 </div>
 """,
         unsafe_allow_html=True,

@@ -74,3 +74,143 @@ def humanize_label(label: dict[str, Any] | None, spec: dict[str, Any] | None = N
     row = label or {}
     spec_row = spec or {}
     return verdict(row.get("category"), spec_row.get("risk") or row.get("risk"))
+
+
+# Rutin sahnede alarm verdirebilecek görünüm (gold: alarm_gorunumlu_normal).
+# Şartname JSON'una yazılmaz; karar kartı ve düz Türkçe cevap içindir.
+_FLAME_KEYS = ("alev", "ateş", "ates", "yangın", "yangin")
+_SMOKE_KEYS = ("duman",)
+_SPARK_KEYS = ("kıvılcım", "kivilcim", "kaynak")
+_STEAM_KEYS = ("buhar",)
+_HEDGE_KEYS = (
+    "ama normal",
+    "normal gözük",
+    "normal goruk",
+    "normal görün",
+    "normal gorun",
+    "proses",
+    "tesisin",
+    "ateşleme işlem",
+    "atesleme islem",
+    "olağan",
+    "olagan",
+)
+_ANSWER_ALREADY_COVERS = (
+    "proses",
+    "ama normal",
+    "olağan proses",
+    "olagan proses",
+    "tesisin olağan",
+    "kontrollü işlem",
+    "kontrollu islem",
+    "kaynak kıvılcım",
+    "proses ateş",
+    "proses duman",
+)
+
+HARD_CASE_COPY: dict[str, str] = {
+    "flame": (
+        "Ortamda alev görünüyor; bu makinenin olağan proses ateşi, "
+        "kaçış veya zarar yok."
+    ),
+    "smoke": (
+        "Görüntüde duman var; tesisin olağan proses dumanı, kaza veya kaçış yok."
+    ),
+    "spark": (
+        "Kaynak kıvılcımı / ateşleme görünüyor; kontrollü işlem, acil müdahale gerekmez."
+    ),
+    "steam": "Buhar görünümü proses kaynaklı; saha rutin, acil müdahale gerekmez.",
+    "sensor": (
+        "Sensör alev/duman benzeri renk gördü; saha rutin, proses kaynaklı görünüyor."
+    ),
+}
+
+
+def _scene_blob(label: dict[str, Any] | None, spec: dict[str, Any] | None) -> str:
+    row = label or {}
+    spec_row = spec or {}
+    parts: list[str] = [
+        str(spec_row.get("summary") or row.get("summary") or ""),
+    ]
+    for src in (spec_row.get("events"), row.get("events")):
+        for event in src or []:
+            if isinstance(event, dict):
+                parts.append(str(event.get("event") or ""))
+            else:
+                parts.append(str(event))
+    return " ".join(parts).casefold()
+
+
+def _has_any(blob: str, keys: tuple[str, ...]) -> bool:
+    return any(key in blob for key in keys)
+
+
+def _fire_suspect(evidence: Any) -> bool:
+    if evidence is None:
+        return False
+    if isinstance(evidence, dict):
+        return bool(evidence.get("fire_suspect"))
+    return bool(getattr(evidence, "fire_suspect", False))
+
+
+def hard_case_note(
+    label: dict[str, Any] | None,
+    spec: dict[str, Any] | None = None,
+    evidence: Any | None = None,
+) -> dict[str, str] | None:
+    """Rutin kararda görünen alev/duman sahte alarm değilse ekran cümlesi.
+
+    Kaza / ramak kala çıktısında None döner — gerçek yangını proses diye
+    yumuşatmamak için. Şartname alanlarına yazılmaz.
+    """
+    row = label or {}
+    spec_row = spec or {}
+    raw_risk = spec_row.get("risk") or row.get("risk")
+    if raw_risk:
+        cat, _rsk = lock_pair(row.get("category"), raw_risk)
+    else:
+        cat = str(row.get("category") or "").strip().lower()
+    if cat != "normal":
+        return None
+
+    blob = _scene_blob(row, spec_row)
+    hedged = _has_any(blob, _HEDGE_KEYS)
+    cue = ""
+    if _has_any(blob, _FLAME_KEYS):
+        cue = "flame"
+    elif _has_any(blob, _SMOKE_KEYS):
+        cue = "smoke"
+    elif _has_any(blob, _SPARK_KEYS):
+        cue = "spark"
+    elif _has_any(blob, _STEAM_KEYS):
+        cue = "steam"
+
+    sensor = _fire_suspect(evidence)
+    if cue and not (hedged or sensor):
+        return None
+    if not cue and not sensor:
+        return None
+    kind = cue or "sensor"
+    return {
+        "kind": kind,
+        "kicker": "Zor sahne",
+        "text": HARD_CASE_COPY[kind],
+    }
+
+
+def attach_hard_case_sentence(answer: str, note: dict[str, str] | None) -> str:
+    """LLM cevabına proses notunu bir kez ekler; spec JSON'una yazmaz."""
+    body = (answer or "").strip()
+    if not note:
+        return body
+    text = str(note.get("text") or "").strip()
+    if not text:
+        return body
+    low = body.casefold()
+    if text.casefold() in low:
+        return body
+    if _has_any(low, _ANSWER_ALREADY_COVERS):
+        return body
+    if not body:
+        return text
+    return f"{body.rstrip('.')} {text}"

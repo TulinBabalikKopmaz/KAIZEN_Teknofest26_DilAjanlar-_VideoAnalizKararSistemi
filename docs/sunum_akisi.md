@@ -147,7 +147,7 @@ Canlı 60 sn (önceden bildiğiniz klip; hızlı mod açık):
 | 0–8 | Kendi videoyu seç / bırak | "Sahadaki kaydı sisteme veriyorum." |
 | 8–14 | Prompt, Analiz Et (veya önceden bitmiş sonucu aç) | "Operatör sorusunu olduğu gibi giriyorum." |
 | 14–40 | İlerleme veya hazır sonuç | "Wake-up aday pencereyi buldu, VLM o karelere bakıyor." |
-| 40–50 | Karar kartı + zaman çizelgesi | Durumu ve kararı oku; olay zamanını göster. |
+| 40–50 | Karar kartı + zaman çizelgesi | Durumu ve kararı oku; olay zamanını göster. Proses alevi/dumanı varsa **Zor sahne** satırını oku: görünen ateş kaza değil. |
 | 50–58 | Aksiyonlar + JSON | "Çıktı şartname JSON'u, aksiyonlar uygulanabilir." |
 | 58–60 | Süre metriği | "Bu gösterim X saniye." |
 
