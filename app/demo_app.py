@@ -9,6 +9,7 @@ Görsel cilayı UI arkadaşı üstlenir — kopya ve karar kartı burada kilitli
 from __future__ import annotations
 
 import html
+import importlib
 import json
 import os
 import re
@@ -23,22 +24,24 @@ if str(ROOT) not in sys.path:
     sys.path.insert(0, str(ROOT))
 
 from utils import config  # noqa: E402
+from utils import demo_pipeline as kz_pipeline  # noqa: E402
 from utils import display as kz_display  # noqa: E402
 
-if not hasattr(kz_display, "model_source"):
-    import importlib
+# Streamlit eski utils.* nesnesini tutar; from-import yeni isimde patlar.
+kz_display = importlib.reload(kz_display)
+kz_pipeline = importlib.reload(kz_pipeline)
 
-    kz_display = importlib.reload(kz_display)
-
-from utils.demo_pipeline import (  # noqa: E402
-    DEFAULT_PROMPT,
-    DemoResult,
-    list_saved_runs,
-    load_saved_run,
-    polish_demo_result,
-    run_demo_analysis_sync,
-)
-from utils.display import hard_case_note, model_source, spec_footnote, verdict  # noqa: E402
+hard_case_note = kz_display.hard_case_note
+law_support_card = kz_display.law_support_card
+model_source = kz_display.model_source
+spec_footnote = kz_display.spec_footnote
+verdict = kz_display.verdict
+DEFAULT_PROMPT = kz_pipeline.DEFAULT_PROMPT
+DemoResult = kz_pipeline.DemoResult
+list_saved_runs = kz_pipeline.list_saved_runs
+load_saved_run = kz_pipeline.load_saved_run
+polish_demo_result = kz_pipeline.polish_demo_result
+run_demo_analysis_sync = kz_pipeline.run_demo_analysis_sync
 
 VIDEO_EXTS = (".mp4", ".mov", ".avi", ".mkv", ".webm", ".m4v")
 INCOMING_DIR = ROOT / "data" / "incoming"
@@ -398,6 +401,31 @@ def actions_html(actions: list[str]) -> str:
     return f'<ol class="kz-actions">{items}</ol>'
 
 
+def show_law_support(result: DemoResult) -> None:
+    """Kapalı: kısa kicker. Açık: ilgili madde özetleri. Şartname JSON'a yazılmaz."""
+    law_note = getattr(result, "law_note", "") or ""
+    law_detail = getattr(result, "law_detail", "") or ""
+    card = law_support_card(law_detail) if law_detail else None
+    if not law_note and not card:
+        return
+    label = str((card or {}).get("kicker") or law_note)
+    articles = (card or {}).get("articles") or []
+    body_parts: list[str] = []
+    for item in articles:
+        title = html.escape(str(item.get("title") or ""))
+        text = html.escape(str(item.get("text") or ""))
+        body_parts.append(
+            f'<div class="kz-law-item"><div class="t">{title}</div><p>{text}</p></div>'
+        )
+    inner = "".join(body_parts) or (
+        f'<p class="kz-law">{html.escape(law_detail or law_note)}</p>'
+    )
+    st.markdown('<div class="kz-law-wrap">', unsafe_allow_html=True)
+    with st.expander(label, expanded=False):
+        st.markdown(f'<div class="kz-law-body">{inner}</div>', unsafe_allow_html=True)
+    st.markdown("</div>", unsafe_allow_html=True)
+
+
 def show_result(result: DemoResult) -> None:
     result = polish_demo_result(result)
     spec = result.spec
@@ -441,12 +469,7 @@ def show_result(result: DemoResult) -> None:
 
         st.markdown('<div class="kz-section">Saha aksiyonları</div>', unsafe_allow_html=True)
         st.markdown(actions_html(list(spec.get("actions") or [])), unsafe_allow_html=True)
-        law_note = getattr(result, "law_note", "") or ""
-        if law_note:
-            st.markdown(
-                f'<p class="kz-law">{html.escape(law_note)}</p>',
-                unsafe_allow_html=True,
-            )
+        show_law_support(result)
 
         with st.expander("Jüri çıktısı (şartname JSON)"):
             st.caption(spec_footnote())

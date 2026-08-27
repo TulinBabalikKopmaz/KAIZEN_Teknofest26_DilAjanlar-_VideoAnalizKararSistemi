@@ -293,3 +293,27 @@ def law_support_note(rag_text: str) -> str:
         refs = ", ".join(f"md. {item}" for item in found[:2])
         return f"Mevzuat da benzer öneriyor ({refs})."
     return "Mevzuat da benzer saha önlemleri öneriyor."
+
+
+def law_support_card(rag_text: str) -> dict[str, Any] | None:
+    """Kısa kicker + madde özetleri. Şartname JSON'una yazılmaz."""
+    blob = (rag_text or "").strip()
+    if not blob:
+        return None
+    articles: list[dict[str, str]] = []
+    for line in blob.splitlines():
+        row = line.strip()
+        if not row:
+            continue
+        if ": " in row:
+            title, text = row.split(": ", 1)
+        else:
+            title, text = "Mevzuat", row
+        articles.append({"title": title.strip(), "text": text.strip()})
+    if not articles:
+        return None
+    return {
+        "kicker": law_support_note(blob),
+        "body": blob,
+        "articles": articles,
+    }

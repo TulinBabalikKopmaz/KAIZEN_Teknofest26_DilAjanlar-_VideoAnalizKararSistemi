@@ -154,6 +154,7 @@ class DemoResult:
     out_dir: str = ""
     warnings: list[str] = field(default_factory=list)
     law_note: str = ""
+    law_detail: str = ""
 
     def to_dict(self) -> dict[str, Any]:
         return {
@@ -172,6 +173,7 @@ class DemoResult:
             "out_dir": self.out_dir,
             "warnings": self.warnings,
             "law_note": self.law_note,
+            "law_detail": self.law_detail,
         }
 
     @classmethod
@@ -193,6 +195,7 @@ class DemoResult:
             out_dir=str(raw.get("out_dir") or ""),
             warnings=list(raw.get("warnings") or []),
             law_note=str(raw.get("law_note") or ""),
+            law_detail=str(raw.get("law_detail") or ""),
         )
 
     @classmethod
@@ -219,6 +222,7 @@ class DemoResult:
                 "out_dir": getattr(raw, "out_dir", "") or "",
                 "warnings": list(getattr(raw, "warnings", None) or []),
                 "law_note": getattr(raw, "law_note", "") or "",
+                "law_detail": getattr(raw, "law_detail", "") or "",
             }
         )
 
@@ -254,6 +258,10 @@ class DemoResult:
             lines.append("  (aksiyon yok)")
         if self.law_note:
             lines.append(f"Mevzuat    : {self.law_note}")
+        if self.law_detail:
+            for line in self.law_detail.splitlines():
+                if line.strip():
+                    lines.append(f"             {line.strip()}")
         lines.append("-" * 56)
         lines.append("Aşama süreleri: " + ", ".join(f"{k}={v:.1f}s" for k, v in self.timings.items()))
         if self.warnings:
@@ -292,14 +300,18 @@ def polish_demo_result(result: DemoResult) -> DemoResult:
             spec["actions"] = ["Rutin izlemeye devam et"]
             label["actions"] = spec["actions"]
     note = (result.law_note or "").strip()
-    if not note:
+    detail = (result.law_detail or "").strip()
+    if not note or not detail:
         from utils.evren_rag import retrieve_mevzuat_lexical
 
         rag = retrieve_mevzuat_lexical(
             f"{result.answer} {summary} {spec.get('risk')} "
             f"{' '.join(str(a) for a in (spec.get('actions') or []))}"
         )
-        note = law_support_note(rag)
+        if not note:
+            note = law_support_note(rag)
+        if not detail:
+            detail = rag
     return DemoResult(
         video=result.video,
         user_prompt=result.user_prompt,
@@ -316,6 +328,7 @@ def polish_demo_result(result: DemoResult) -> DemoResult:
         out_dir=result.out_dir,
         warnings=result.warnings,
         law_note=note,
+        law_detail=detail,
     )
 
 
@@ -776,6 +789,7 @@ async def run_demo_analysis(
         fast_mode=fast_mode,
         warnings=warnings,
         law_note=law_note,
+        law_detail=rag_text,
     )
     result = polish_demo_result(result)
 

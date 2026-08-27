@@ -46,7 +46,8 @@ Kaza / ramak kalada bu satır çıkmaz — gerçek yangını proses diye yumuşa
    beş metrik (kaynak, saha durumu, karar, süre, olay sayısı) + düz Türkçe cevap;
    varsa **Zor sahne** satırı.
 4. Sol kolon: video + kanıt kareleri. Sağ: zaman çizelgesi (aynı cümle tek saniye),
-   özet, model aksiyonları; varsa küçük **Mevzuat da benzer öneriyor** satırı.
+   özet, model aksiyonları; **Mevzuat da benzer öneriyor** kapalı expander —
+   açılınca madde özetleri.
 5. Expander: jüri JSON'u, süreler, sensör kanıtı. İndirme düğmeleri.
 6. Kenar: **Sunum kilidi: yalnız EVREN** (varsayılan açık — Ollama'ya düşmez),
    hızlı mod, kare sayısı, RAG, sahne yedeği. Kilidi kapatınca kaynak seçilir.

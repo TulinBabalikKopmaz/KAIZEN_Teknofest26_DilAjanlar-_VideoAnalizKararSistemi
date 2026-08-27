@@ -44,6 +44,8 @@ class PolishDemoTests(unittest.TestCase):
         self.assertEqual(len(out.spec["events"]), 1)
         self.assertTrue(out.law_note)
         self.assertIn("Mevzuat", out.law_note)
+        self.assertTrue(out.law_detail)
+        self.assertIn("Madde", out.law_detail)
 
     def test_coerce_old_object_without_law_note(self) -> None:
         class Old:
@@ -64,8 +66,11 @@ class PolishDemoTests(unittest.TestCase):
 
         out = DemoResult.coerce(Old())
         self.assertEqual(out.law_note, "")
+        self.assertEqual(out.law_detail, "")
         polished = polish_demo_result(Old())
         self.assertTrue(hasattr(polished, "law_note"))
+        self.assertTrue(polished.law_note)
+        self.assertTrue(polished.law_detail)
 
 
 if __name__ == "__main__":

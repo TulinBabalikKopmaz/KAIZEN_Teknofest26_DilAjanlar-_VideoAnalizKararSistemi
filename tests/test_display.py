@@ -12,6 +12,7 @@ from utils.display import (
     category_label,
     hard_case_note,
     humanize_label,
+    law_support_card,
     law_support_note,
     model_source,
     risk_label,
@@ -228,6 +229,19 @@ class DisplayTests(unittest.TestCase):
         self.assertIn("Mevzuat da benzer öneriyor", note)
         self.assertIn("md. 13", note)
         self.assertNotIn("durdurun", note)
+
+    def test_law_card_keeps_article_summaries_for_expander(self) -> None:
+        blob = (
+            "6331 sayılı İSG Kanunu md. 13: Madde 13. Ciddi ve yakın tehlike halinde "
+            "çalışmayı durdurabilir.\n"
+            "6331 sayılı İSG Kanunu md. 4: Madde 4. İşveren sağlık ve güvenliği sağlar."
+        )
+        card = law_support_card(blob)
+        assert card is not None
+        self.assertIn("md. 13", card["kicker"])
+        self.assertEqual(len(card["articles"]), 2)
+        self.assertIn("durdurabilir", card["articles"][0]["text"])
+        self.assertNotIn("accident", card["kicker"])
 
 
 if __name__ == "__main__":

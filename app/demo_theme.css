@@ -280,6 +280,36 @@ button:focus-visible, textarea:focus-visible, input:focus-visible {
   color: var(--color-muted);
   letter-spacing: 0.01em;
 }
+.kz-law-wrap {
+  margin: 0.85rem 0 0.2rem;
+}
+.kz-law-wrap [data-testid="stExpander"] {
+  border: 1px solid var(--color-line);
+  border-radius: 12px;
+  background: rgba(12, 10, 9, 0.35);
+}
+.kz-law-wrap [data-testid="stExpander"] summary,
+.kz-law-wrap [data-testid="stExpander"] p {
+  color: var(--color-muted);
+  font-size: 0.82rem;
+  letter-spacing: 0.01em;
+}
+.kz-law-body { padding: 0.15rem 0 0.25rem; }
+.kz-law-item { padding: 0.7rem 0 0.2rem; border-top: 1px solid var(--color-line); }
+.kz-law-item:first-child { border-top: 0; padding-top: 0.2rem; }
+.kz-law-item .t {
+  font-size: 0.68rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--color-gold);
+  margin-bottom: 0.35rem;
+}
+.kz-law-item p {
+  margin: 0;
+  font-size: 0.9rem;
+  line-height: 1.5;
+  color: var(--color-fg);
+}
 
 .kz-empty {
   text-align: center;
