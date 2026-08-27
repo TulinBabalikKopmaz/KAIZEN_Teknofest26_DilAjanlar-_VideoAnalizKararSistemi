@@ -18,6 +18,7 @@ from utils.display import (
     risk_label,
     spec_footnote,
     verdict,
+    watch_banner,
 )
 
 
@@ -242,6 +243,18 @@ class DisplayTests(unittest.TestCase):
         self.assertEqual(len(card["articles"]), 2)
         self.assertIn("durdurabilir", card["articles"][0]["text"])
         self.assertNotIn("accident", card["kicker"])
+
+    def test_watch_banner_is_operator_language_not_spec_tokens(self) -> None:
+        watching = watch_banner("watching")
+        self.assertIn("izleme", watching["title"].casefold() + watching["kicker"].casefold())
+        self.assertNotIn("accident", watching["title"])
+        self.assertNotIn("Risk: Düşük", watching["title"])
+        self.assertNotIn("Risk: Düşük", watching["subtitle"])
+        decided = watch_banner("decided", "accident", "Yüksek")
+        self.assertEqual(decided["title"], "İş kazası · Kritik durum")
+        self.assertNotIn("accident", decided["title"])
+        candidate = watch_banner("candidate")
+        self.assertIn("Aday", candidate["title"] + candidate["kicker"])
 
 
 if __name__ == "__main__":

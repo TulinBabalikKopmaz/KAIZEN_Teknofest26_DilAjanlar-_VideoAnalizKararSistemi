@@ -317,3 +317,54 @@ def law_support_card(rag_text: str) -> dict[str, Any] | None:
         "body": blob,
         "articles": articles,
     }
+
+
+WATCH_PHASE: dict[str, dict[str, str]] = {
+    "idle": {
+        "kicker": "Operatör konsolu",
+        "title": "Kamera bekleniyor",
+        "subtitle": "Güvenlik kamerası veya webcam bağlanınca wake-up izlemeye geçer.",
+        "tone": "ok",
+    },
+    "watching": {
+        "kicker": "Canlı izleme",
+        "title": "Saha kontrol altında",
+        "subtitle": "Wake-up kareleri tarıyor; görsel model uyuyor. Her kare EVREN'e gitmez.",
+        "tone": "ok",
+    },
+    "candidate": {
+        "kicker": "Aday pencere",
+        "title": "Hareket tetiklendi",
+        "subtitle": "Kısa klip kuyruğa alındı. Akış durmadı; karar katmanı bu pencereye bakacak.",
+        "tone": "watch",
+    },
+    "analyzing": {
+        "kicker": "Karar katmanı",
+        "title": "Görsel model bakıyor",
+        "subtitle": "EVREN bu klibi okuyor. Uyarı kartı model dönünce güncellenir.",
+        "tone": "watch",
+    },
+}
+
+
+def watch_banner(
+    phase: str,
+    category: str | None = None,
+    risk: str | None = None,
+) -> dict[str, str]:
+    """Canlı konsol kopyası. Şartname token'ı ve ham accident basılmaz."""
+    key = (phase or "").strip().lower()
+    if key in {"decided", "alert"}:
+        v = verdict(category, risk)
+        return {
+            "kicker": "Saha kararı",
+            "title": f"{v['situation']} · {v['decision']}",
+            "subtitle": v["subtitle"],
+            "tone": v["tone"],
+            "situation": v["situation"],
+            "decision": v["decision"],
+        }
+    row = dict(WATCH_PHASE.get(key) or WATCH_PHASE["idle"])
+    row["situation"] = row["title"]
+    row["decision"] = ""
+    return row

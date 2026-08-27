@@ -517,6 +517,37 @@ div[data-testid="stFileUploader"] button {
 }
 div[data-testid="stVideo"] { border-radius: 16px; overflow: hidden; }
 
+.kz-live-feed {
+  border: 1px solid var(--color-line);
+  border-radius: 16px;
+  overflow: hidden;
+  background: #0C0A09;
+  min-height: 220px;
+}
+.kz-live-dot {
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--color-ok);
+  margin-right: 0.45rem;
+  box-shadow: 0 0 0 4px rgba(125, 155, 122, 0.25);
+}
+.kz-live-dot.is-wait { background: var(--color-gold); }
+.kz-live-dot.is-alert { background: var(--color-critical); }
+.kz-live-note {
+  color: var(--color-muted);
+  font-size: 0.82rem;
+  line-height: 1.5;
+  margin-top: 0.6rem;
+}
+.kz-brief {
+  margin-top: 1.8rem;
+  padding-top: 1.4rem;
+  border-top: 1px solid var(--color-line);
+}
+.kz-brief .kz-section:first-child { margin-top: 0; }
+
 @media (max-width: 900px) {
   .kz-hero { font-size: 2.4rem; }
   .kz-metrics { gap: 1.2rem; }

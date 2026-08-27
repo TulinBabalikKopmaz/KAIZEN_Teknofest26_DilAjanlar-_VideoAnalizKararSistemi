@@ -6,6 +6,7 @@ import base64
 import shutil
 import subprocess
 from pathlib import Path
+from typing import Sequence
 
 CLIP_MAX_S = 45.0
 PAD_BEFORE_S = 10.0
@@ -128,6 +129,47 @@ def assert_under_body_limit(path: Path | str) -> None:
             f"{path} {size / 1e6:.1f} MB — EVREN gövde sınırı (~190 MB ham) aşılır. "
             "Klibi kısaltın."
         )
+
+
+def frames_to_clip(
+    frame_paths: Sequence[Path | str],
+    dest: Path | str,
+    *,
+    fps: float = 6.0,
+    hold: int = 4,
+) -> Path:
+    """JPEG kare listesini kısa mp4 yapar (canlı tetik → EVREN `vlm`)."""
+    import cv2
+
+    paths = [Path(item) for item in frame_paths if Path(item).is_file()]
+    if not paths:
+        raise FileNotFoundError("Klip için kare yok")
+    dest = Path(dest)
+    dest.parent.mkdir(parents=True, exist_ok=True)
+    first = cv2.imread(str(paths[0]))
+    if first is None:
+        raise RuntimeError(f"Kare okunamadı: {paths[0]}")
+    height, width = first.shape[:2]
+    width = max(2, width // 2 * 2)
+    height = max(2, height // 2 * 2)
+    fourcc = cv2.VideoWriter_fourcc(*"mp4v")
+    writer = cv2.VideoWriter(str(dest), fourcc, max(fps, 1.0), (width, height))
+    repeats = max(1, hold)
+    try:
+        for path in paths:
+            frame = cv2.imread(str(path))
+            if frame is None:
+                continue
+            if frame.shape[1] != width or frame.shape[0] != height:
+                frame = cv2.resize(frame, (width, height))
+            for _ in range(repeats):
+                writer.write(frame)
+    finally:
+        writer.release()
+    if not dest.exists() or dest.stat().st_size <= 0:
+        raise RuntimeError(f"Klip yazılamadı: {dest}")
+    assert_under_body_limit(dest)
+    return dest
 
 
 def encode_video_b64(path: Path | str) -> str:

@@ -2,11 +2,15 @@
 
 Jüriye gösterilen yüzey `app/demo_app.py` (Streamlit). Çekirdek `utils/demo_pipeline.py`;
 kopya `utils/display.py`. Etiketleme aracı `app/review_app.py` jüri sahnesi değil.
+Canlı operatör konsolu `app/live_app.py` (port 8502) — sunum şovu, jüri videosu değil.
+Karar sonrası: algılanan an, olay özeti, saha aksiyonları, kapalı mevzuat expander.
+Canlı konsolda bu blok kayıt/kartın **altında** tam genişlik; tetikte iskelet, kararda dolar.
 
 Çalıştırma:
 
 ```bash
 streamlit run app/demo_app.py
+py -m streamlit run app/live_app.py --server.port 8502
 ```
 
 Tema: `.streamlit/config.toml` (koyu zemin, altın vurgu `#C9A227`).
