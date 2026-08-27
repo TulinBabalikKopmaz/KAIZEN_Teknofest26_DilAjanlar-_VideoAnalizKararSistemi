@@ -42,11 +42,15 @@ Kaza / ramak kalada bu satır çıkmaz — gerçek yangını proses diye yumuşa
 
 1. Üst: KAIZEN markası + başlık + tek satır iddia.
 2. Sol: video yükle / klasörden seç. Sağ: operatör sorusu + **Analiz et**.
-3. Sonuç: dört metrik (saha durumu, karar, süre, olay sayısı) + karar kartı
-   (durum · karar + alt başlık + düz Türkçe cevap; varsa **Zor sahne** satırı).
-4. Sol kolon: video + kanıt kareleri. Sağ: zaman çizelgesi, özet, aksiyonlar.
+3. Sonuç: karar kartında **Kaynak · EVREN** (veya Ollama / kayıtlı yedek) rozeti,
+   beş metrik (kaynak, saha durumu, karar, süre, olay sayısı) + düz Türkçe cevap;
+   varsa **Zor sahne** satırı.
+4. Sol kolon: video + kanıt kareleri. Sağ: zaman çizelgesi (aynı cümle tek saniye),
+   özet, model aksiyonları; varsa küçük **Mevzuat da benzer öneriyor** satırı.
 5. Expander: jüri JSON'u, süreler, sensör kanıtı. İndirme düğmeleri.
-6. Kenar: sağlayıcı, hızlı mod, kare sayısı, RAG, sahne yedeği.
+6. Kenar: **Sunum kilidi: yalnız EVREN** (varsayılan açık — Ollama'ya düşmez),
+   hızlı mod, kare sayısı, RAG, sahne yedeği. Kilidi kapatınca kaynak seçilir.
+   Karar kartında **Kaynak · EVREN** / Ollama / kayıtlı yedek rozeti durur.
 
 CSS sınıfı: `.kz-verdict.{ok|watch|critical}`. Ton `verdict(...)["tone"]`.
 Zor sahne: `.kz-hard` / `.kz-hard-kicker`.

@@ -12,6 +12,8 @@ from utils.display import (
     category_label,
     hard_case_note,
     humanize_label,
+    law_support_note,
+    model_source,
     risk_label,
     spec_footnote,
     verdict,
@@ -75,6 +77,27 @@ class DisplayTests(unittest.TestCase):
         self.assertIn("proses", note["text"].casefold())
         self.assertNotIn("Düşük", note["text"])
         self.assertNotIn("accident", note["text"])
+
+    def test_process_flame_normal_proses_is_hard_case(self) -> None:
+        note = hard_case_note(
+            {
+                "category": "normal",
+                "summary": (
+                    "Görüntülerdeki alevler ve duman tesisin yüksek sıcaklıkta "
+                    "metal işleme prosesinin normal bir parçasıdır."
+                ),
+                "events": [
+                    {
+                        "time": "00:07",
+                        "event": "Alevler ve duman tesisin normal prosesinden kaynaklanıyor.",
+                    }
+                ],
+            },
+            {"risk": "Düşük"},
+        )
+        assert note is not None
+        self.assertEqual(note["kind"], "flame")
+        self.assertEqual(note["kicker"], "Zor sahne")
 
     def test_process_smoke_is_hard_case_on_normal(self) -> None:
         note = hard_case_note(
@@ -169,6 +192,42 @@ class DisplayTests(unittest.TestCase):
             note,
         )
         self.assertEqual(skipped, "Rutin operasyon. Alev proses kaynaklı, alarm yok.")
+
+    def test_model_source_names_evren_not_teknofest(self) -> None:
+        src = model_source(
+            "teknofest:vlm",
+            [{"provider": "teknofest", "model": "vlm", "fallback": False}],
+        )
+        self.assertEqual(src["kind"], "evren")
+        self.assertEqual(src["label"], "EVREN")
+        self.assertNotIn("teknofest", src["label"].casefold())
+        self.assertNotIn("ollama", src["label"].casefold())
+
+    def test_model_source_flags_ollama_and_fallback(self) -> None:
+        ollama = model_source(
+            "ollama:qwen2.5vl:7b",
+            [{"provider": "ollama", "model": "qwen2.5vl:7b"}],
+        )
+        self.assertEqual(ollama["kind"], "ollama")
+        self.assertEqual(ollama["tone"], "critical")
+        mixed = model_source(
+            "teknofest:vlm",
+            [
+                {"provider": "teknofest", "model": "vlm", "fallback": False},
+                {"provider": "ollama", "model": "qwen2.5:7b", "fallback": True},
+            ],
+        )
+        self.assertEqual(mixed["kind"], "mixed")
+        backup = model_source("teknofest:vlm", backup=True)
+        self.assertEqual(backup["kind"], "backup")
+        self.assertIn("yedek", backup["label"].casefold())
+
+    def test_law_note_is_small_and_keeps_model_actions_untouched(self) -> None:
+        self.assertEqual(law_support_note(""), "")
+        note = law_support_note("Madde 13. Ciddi ve yakın tehlike halinde çalışmayı durdurun.")
+        self.assertIn("Mevzuat da benzer öneriyor", note)
+        self.assertIn("md. 13", note)
+        self.assertNotIn("durdurun", note)
 
 
 if __name__ == "__main__":

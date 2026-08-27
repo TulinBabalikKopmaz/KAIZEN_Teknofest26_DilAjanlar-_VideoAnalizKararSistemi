@@ -33,11 +33,18 @@ if str(ROOT / "scripts") not in sys.path:
 from extract_frames import extract_video, safe_id  # noqa: E402
 
 from utils import config  # noqa: E402
-from utils.display import attach_hard_case_sentence, hard_case_note, verdict  # noqa: E402
+from utils.display import (  # noqa: E402
+    attach_hard_case_sentence,
+    hard_case_note,
+    law_support_note,
+    verdict,
+)
 from utils.label_json import (  # noqa: E402
+    collapse_cloned_events,
     dedupe_events,
     label_to_spec,
     parse_json,
+    preferred_incident_peak_s,
     snap_events_to_frame_times,
 )
 from utils.model_client import (  # noqa: E402
@@ -49,7 +56,11 @@ from utils.model_client import (  # noqa: E402
     reset_call_log,
 )
 from agents.label_critic import critique_label, needs_critic  # noqa: E402
-from utils.risk_rules import needs_second_look, refine_label  # noqa: E402
+from utils.risk_rules import (  # noqa: E402
+    needs_second_look,
+    refine_label,
+    scene_is_process_routine,
+)
 from utils.scene_evidence import SceneEvidence, analyze_video  # noqa: E402
 from utils.spec_output import seconds_to_mmss  # noqa: E402
 
@@ -142,6 +153,7 @@ class DemoResult:
     fast_mode: bool = False
     out_dir: str = ""
     warnings: list[str] = field(default_factory=list)
+    law_note: str = ""
 
     def to_dict(self) -> dict[str, Any]:
         return {
@@ -159,6 +171,7 @@ class DemoResult:
             "fast_mode": self.fast_mode,
             "out_dir": self.out_dir,
             "warnings": self.warnings,
+            "law_note": self.law_note,
         }
 
     @classmethod
@@ -179,6 +192,34 @@ class DemoResult:
             fast_mode=bool(raw.get("fast_mode")),
             out_dir=str(raw.get("out_dir") or ""),
             warnings=list(raw.get("warnings") or []),
+            law_note=str(raw.get("law_note") or ""),
+        )
+
+    @classmethod
+    def coerce(cls, raw: Any) -> DemoResult:
+        """Streamlit eski oturum nesnesini / dict yedeği yeni alana çevirir."""
+        if raw is None:
+            raise TypeError("DemoResult yok")
+        if isinstance(raw, dict):
+            return cls.from_dict(raw)
+        return cls.from_dict(
+            {
+                "video": getattr(raw, "video", "") or "",
+                "user_prompt": getattr(raw, "user_prompt", "") or "",
+                "answer": getattr(raw, "answer", "") or "",
+                "spec": dict(getattr(raw, "spec", None) or {}),
+                "label": dict(getattr(raw, "label", None) or {}),
+                "frames": list(getattr(raw, "frames", None) or []),
+                "evidence": dict(getattr(raw, "evidence", None) or {}),
+                "timings": dict(getattr(raw, "timings", None) or {}),
+                "model_calls": list(getattr(raw, "model_calls", None) or []),
+                "provider": getattr(raw, "provider", "") or "",
+                "total_s": float(getattr(raw, "total_s", 0.0) or 0.0),
+                "fast_mode": bool(getattr(raw, "fast_mode", False)),
+                "out_dir": getattr(raw, "out_dir", "") or "",
+                "warnings": list(getattr(raw, "warnings", None) or []),
+                "law_note": getattr(raw, "law_note", "") or "",
+            }
         )
 
     def report_text(self) -> str:
@@ -211,11 +252,71 @@ class DemoResult:
             lines.extend(f"  {i}. {action}" for i, action in enumerate(actions, start=1))
         else:
             lines.append("  (aksiyon yok)")
+        if self.law_note:
+            lines.append(f"Mevzuat    : {self.law_note}")
         lines.append("-" * 56)
         lines.append("Aşama süreleri: " + ", ".join(f"{k}={v:.1f}s" for k, v in self.timings.items()))
         if self.warnings:
             lines.append("Uyarılar: " + " | ".join(self.warnings))
         return "\n".join(lines)
+
+
+_EMERGENCY_ACT = ("sağlık", "itfaiye", "tahliye", "boşalt", "acil tıbbi")
+
+
+def polish_demo_result(result: DemoResult) -> DemoResult:
+    """Eski oturum + kural kaçaklarını ekranda düzelt: proses alevi, kopya zaman, mevzuat notu."""
+    result = DemoResult.coerce(result)
+    spec = dict(result.spec or {})
+    label = dict(result.label or {})
+    evidence = dict(result.evidence or {})
+    peak_raw = evidence.get("motion_peak_sec")
+    try:
+        peak_s = float(peak_raw) if peak_raw is not None else None
+    except (TypeError, ValueError):
+        peak_s = None
+    summary = str(spec.get("summary") or label.get("summary") or "")
+    events = collapse_cloned_events(
+        list(spec.get("events") or label.get("events") or []),
+        peak_s=peak_s,
+        summary=f"{summary} {result.answer}",
+    )
+    spec["events"] = events
+    label["events"] = events
+    if scene_is_process_routine(label, spec, result.answer):
+        label["category"] = "normal"
+        spec["risk"] = "Düşük"
+        label["risk"] = "Düşük"
+        acts = [str(a) for a in (spec.get("actions") or []) if a]
+        if any(any(key in a.casefold() for key in _EMERGENCY_ACT) for a in acts):
+            spec["actions"] = ["Rutin izlemeye devam et"]
+            label["actions"] = spec["actions"]
+    note = (result.law_note or "").strip()
+    if not note:
+        from utils.evren_rag import retrieve_mevzuat_lexical
+
+        rag = retrieve_mevzuat_lexical(
+            f"{result.answer} {summary} {spec.get('risk')} "
+            f"{' '.join(str(a) for a in (spec.get('actions') or []))}"
+        )
+        note = law_support_note(rag)
+    return DemoResult(
+        video=result.video,
+        user_prompt=result.user_prompt,
+        answer=result.answer,
+        spec=spec,
+        label=label,
+        frames=result.frames,
+        evidence=result.evidence,
+        timings=result.timings,
+        model_calls=result.model_calls,
+        provider=result.provider,
+        total_s=result.total_s,
+        fast_mode=result.fast_mode,
+        out_dir=result.out_dir,
+        warnings=result.warnings,
+        law_note=note,
+    )
 
 
 def _load(path: Path) -> str:
@@ -380,12 +481,20 @@ def wake_window(evidence: SceneEvidence, duration: float) -> tuple[float, float]
 
 
 async def _rag_context(query: str) -> str:
-    """Mevzuat referansı; paket/DB yoksa sessizce boş döner."""
+    """Mevzuat referansı; EVREN embed yoksa Chroma, o da yoksa boş."""
+    try:
+        from utils.evren_rag import retrieve_mevzuat
+
+        text = await retrieve_mevzuat(query)
+        if text:
+            return text
+    except Exception as exc:
+        print(f"  [rag] EVREN atlandı: {exc}")
     try:
         from agents.action_recommender import retrieve_isg_context
 
         return await asyncio.to_thread(retrieve_isg_context, query)
-    except Exception as exc:  # RAG demoyu düşürmesin
+    except Exception as exc:
         print(f"  [rag] atlandı: {exc}")
         return ""
 
@@ -395,7 +504,6 @@ async def _answer_step(
     label: dict[str, Any],
     evidence: SceneEvidence,
     user_prompt: str,
-    rag_text: str,
 ) -> tuple[str, list[str], str]:
     """(cevap, aksiyonlar, uyarı) döner."""
     question = user_prompt.strip() or DEFAULT_PROMPT
@@ -422,8 +530,6 @@ async def _answer_step(
         "Birden fazla olay varsa cevapta SON kaza/düşme zamanını kullan "
         "(erken sallanmayı düşme sanma).\n"
     )
-    if rag_text:
-        prompt += f"\nİlgili mevzuat (referans için, kopyalama): {rag_text[:1200]}\n"
 
     try:
         result = await chat_llm(
@@ -618,10 +724,20 @@ async def run_demo_analysis(
     say("[4/5] Kural katmanı (zaman hizalama + kanıt birleştirme)")
     step = perf_counter()
     label = refine_label(label, evidence)
-    label["events"] = dedupe_events(
-        snap_events_to_frame_times(label.get("events") or [], frame_times),
-        window_sec=2,
-        max_events=5,
+    peak_s = preferred_incident_peak_s(
+        list(evidence.motion_peaks or []),
+        evidence.motion_peak_sec,
+        duration_s=evidence.duration_sec,
+        category=str(label.get("category") or ""),
+    )
+    label["events"] = collapse_cloned_events(
+        dedupe_events(
+            snap_events_to_frame_times(label.get("events") or [], frame_times),
+            window_sec=2,
+            max_events=5,
+        ),
+        peak_s=peak_s,
+        summary=str(label.get("summary") or ""),
     )
     spec = label_to_spec(label)
     timings["kural_katmani"] = perf_counter() - step
@@ -632,7 +748,8 @@ async def run_demo_analysis(
     rag_ok = use_rag and not fast_mode and (perf_counter() - started) < time_budget_s * 0.8
     if rag_ok:
         rag_text = await _rag_context(f"{spec.get('summary')} Risk: {spec.get('risk')}")
-    answer, actions, warning = await _answer_step(spec, label, evidence, user_prompt, rag_text)
+    answer, actions, warning = await _answer_step(spec, label, evidence, user_prompt)
+    law_note = law_support_note(rag_text)
     if warning:
         warnings.append(warning)
     if actions:
@@ -658,14 +775,16 @@ async def run_demo_analysis(
         total_s=total,
         fast_mode=fast_mode,
         warnings=warnings,
+        law_note=law_note,
     )
+    result = polish_demo_result(result)
 
     if save:
         out_dir = _write_run(result, out_root or DEMO_RUNS_DIR, run_name or safe_id(video_path))
         result.out_dir = str(out_dir)
         say(f"Kaydedildi: {out_dir}")
 
-    v = verdict(label.get("category"), spec.get("risk"))
+    v = verdict(result.label.get("category"), result.spec.get("risk"))
     say(
         f"Toplam süre: {total:.1f} sn | {v['situation']} · {v['decision']} "
         f"(şartname: {v['spec_risk']}) | Cevap: {answer}"

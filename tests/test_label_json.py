@@ -6,6 +6,7 @@ import unittest
 
 from utils.label_json import (
     align_events_to_motion,
+    collapse_cloned_events,
     compress_event_text,
     dedupe_events,
     label_to_spec,
@@ -50,6 +51,41 @@ class DedupeEventTests(unittest.TestCase):
             {"time": "00:12", "event": "Forklift çalışanın çok yakınından geçti"},
         ]
         self.assertEqual(len(dedupe_events(events)), 2)
+
+    def test_cloned_fall_keeps_later_not_empty_start(self) -> None:
+        events = [
+            {"time": "00:00", "event": "Çalışan yük taşırken dengesini kaybetti ve yere düştü."},
+            {"time": "00:04", "event": "Çalışan yük taşırken dengesini kaybetti ve yere düştü."},
+        ]
+        out = collapse_cloned_events(events, peak_s=4.0, summary="Çalışan yere düştü.")
+        self.assertEqual(len(out), 1)
+        self.assertEqual(out[0]["time"], "00:04")
+
+    def test_cloned_blast_follows_summary_clock(self) -> None:
+        events = [
+            {
+                "time": "00:08",
+                "event": "Sahada çalışanların bulunduğu alanda ani patlama ve alevler oluştu.",
+            },
+            {
+                "time": "00:16",
+                "event": "Sahada çalışanların bulunduğu alanda ani patlama ve alevler oluştu.",
+            },
+        ]
+        out = collapse_cloned_events(
+            events,
+            peak_s=17.0,
+            summary="00:17'de sahada çalışanların bulunduğu alanda ani patlama ve alevler meydana geldi.",
+        )
+        self.assertEqual(len(out), 1)
+        self.assertEqual(out[0]["time"], "00:17")
+
+    def test_collapse_keeps_distinct_event_texts(self) -> None:
+        events = [
+            {"time": "00:02", "event": "Forklift çalışanın çok yakınından geçti"},
+            {"time": "00:09", "event": "Çalışan yüksekten yere düştü"},
+        ]
+        self.assertEqual(len(collapse_cloned_events(events, peak_s=9.0)), 2)
 
     def test_event_count_is_capped_and_sorted(self) -> None:
         events = [

@@ -23,14 +23,22 @@ if str(ROOT) not in sys.path:
     sys.path.insert(0, str(ROOT))
 
 from utils import config  # noqa: E402
+from utils import display as kz_display  # noqa: E402
+
+if not hasattr(kz_display, "model_source"):
+    import importlib
+
+    kz_display = importlib.reload(kz_display)
+
 from utils.demo_pipeline import (  # noqa: E402
     DEFAULT_PROMPT,
     DemoResult,
     list_saved_runs,
     load_saved_run,
+    polish_demo_result,
     run_demo_analysis_sync,
 )
-from utils.display import hard_case_note, spec_footnote, verdict  # noqa: E402
+from utils.display import hard_case_note, model_source, spec_footnote, verdict  # noqa: E402
 
 VIDEO_EXTS = (".mp4", ".mov", ".avi", ".mkv", ".webm", ".m4v")
 INCOMING_DIR = ROOT / "data" / "incoming"
@@ -97,11 +105,14 @@ class AnalysisFlowBoard:
         panel = {"running": "is-live", "done": "is-done", "fail": "is-fail"}[self.state]
         busy = "true" if self.state == "running" else "false"
         shimmer = '<span class="kz-shimmer"></span>' if self.state == "running" else ""
+        engine = "EVREN" if config.provider() == "teknofest" else (
+            "Ollama" if config.provider() == "ollama" else config.provider()
+        )
         self._slot.markdown(
             f"""
 <div class="kz-flow {panel}" role="status" aria-live="polite" aria-busy="{busy}">
   {shimmer}
-  <p class="kz-flow-kicker">Analiz akışı</p>
+  <p class="kz-flow-kicker">Analiz akışı · {html.escape(engine)}</p>
   <p class="kz-flow-title">{html.escape(title)}</p>
   <p class="kz-flow-detail">{html.escape(detail)}</p>
   <div class="kz-dots">{"".join(dots)}</div>
@@ -209,6 +220,39 @@ def save_upload(uploaded: Any) -> Path:
     return dest
 
 
+def _provider_caption(value: str) -> str:
+    return {
+        "teknofest": "EVREN (resmi API — sunum)",
+        "ollama": "Ollama (yerel yedek)",
+        "mock": "mock (modelsiz)",
+    }.get(value, value)
+
+
+def _analysis_fail_reason(exc: BaseException) -> str:
+    text = str(exc)
+    low = text.casefold()
+    locked = bool(st.session_state.get("presentation_lock", True))
+    if "401" in text or "auth_error" in low or "kimlik" in low:
+        return (
+            "EVREN anahtarı reddedildi (HTTP 401). .env dosyasında TEKNOFEST_API_KEY "
+            "maildeki LLM API Anahtarı olsun; tırnak yok, eşittirden sonra boşluk yok. "
+            "Kaydettikten sonra demo sayfasını yenileyin."
+        )
+    if "11434" in text or "ollama" in low:
+        if locked:
+            return (
+                "Ollama'ya düşülmedi (sunum kilidi açık). "
+                "EVREN yanıt vermedi; kayıtlı sahne yedeğini açın veya ağı kontrol edin."
+            )
+        return (
+            "Yerel Ollama kapalı. Kenar çubuğunda kaynak = EVREN seçili olsun."
+        )
+    if "teknofest" in low or "evren" in low or "vlm" in low:
+        suffix = " Ollama'ya geçilmedi." if locked else ""
+        return f"EVREN yanıt vermedi: {text[:280]}{suffix}"
+    return f"Analiz tamamlanamadı: {text[:280]}"
+
+
 def sidebar_settings() -> dict[str, Any]:
     st.sidebar.markdown(
         '<div class="kz-brand" style="margin-bottom:0.75rem">KAIZEN</div>',
@@ -217,13 +261,40 @@ def sidebar_settings() -> dict[str, Any]:
     st.sidebar.caption("Saha İSG karar sistemi")
     st.sidebar.markdown("---")
     st.sidebar.markdown("**Altyapı**")
-    provider = st.sidebar.selectbox(
-        "Model sağlayıcı",
-        options=list(config.PROVIDERS),
-        index=list(config.PROVIDERS).index(config.provider()),
-        help="teknofest = yarışmanın ortak API'si, ollama = yerel yedek, mock = modelsiz deneme",
+    lock = st.sidebar.toggle(
+        "Sunum kilidi: yalnız EVREN",
+        value=True,
+        key="presentation_lock",
+        help="Açıkken EVREN düşerse Ollama'ya geçilmez. Sunumda açık bırakın.",
     )
-    os.environ["PROVIDER"] = provider
+    if lock:
+        provider = "teknofest"
+        os.environ["PROVIDER"] = provider
+        os.environ["FALLBACK_PROVIDER"] = "none"
+        st.session_state["provider_choice"] = provider
+        st.sidebar.success("Kaynak kilitli: EVREN · vlm + llm-fast")
+        st.sidebar.caption("EVREN yanıt vermezse analiz durur; Ollama sessizce devreye girmez.")
+    else:
+        os.environ.pop("FALLBACK_PROVIDER", None)
+        if "provider_choice" not in st.session_state:
+            st.session_state["provider_choice"] = "teknofest"
+        provider = st.sidebar.selectbox(
+            "Model kaynağı",
+            options=list(config.PROVIDERS),
+            format_func=_provider_caption,
+            key="provider_choice",
+            help="Sunumda EVREN. Ollama yalnız laboratuvar yedeği.",
+        )
+        os.environ["PROVIDER"] = provider
+        if provider == "ollama":
+            st.sidebar.error("Ollama seçili. Sunum kalitesi değil — kilidi tekrar açın.")
+        elif provider == "teknofest":
+            st.sidebar.warning("Sunum kilidi kapalı: EVREN düşerse Ollama denenebilir.")
+        if provider == "ollama" and not config.ollama_reachable():
+            provider = "teknofest"
+            os.environ["PROVIDER"] = provider
+            st.session_state["provider_choice"] = provider
+            st.sidebar.error("Ollama bu makinede kapalı. Analiz EVREN ile yapılacak.")
 
     fast = st.sidebar.toggle(
         "Hızlı mod (süre bütçesi)",
@@ -247,15 +318,15 @@ def sidebar_settings() -> dict[str, Any]:
             st.session_state["showing_backup"] = True
             st.sidebar.success(f"Açıldı: {pick}")
 
-    if provider == "ollama":
+    if provider == "ollama" and config.ollama_reachable():
         st.sidebar.warning(
             "Yerel model 2–4 dk sürebilir. "
             "1 dk sahnede hızlı mod veya kayıtlı yedek kullanın."
         )
-    return {"fast": fast, "max_frames": max_frames, "use_rag": use_rag}
+    return {"fast": fast, "max_frames": max_frames, "use_rag": use_rag, "provider": provider}
 
 
-def verdict_card(result: DemoResult) -> dict[str, str]:
+def verdict_card(result: DemoResult, source: dict[str, str]) -> dict[str, str]:
     v = verdict(result.label.get("category"), result.spec.get("risk"))
     answer_html = html.escape(result.answer or "").replace("\n", "<br>")
     note = hard_case_note(result.label, result.spec, result.evidence)
@@ -267,9 +338,14 @@ def verdict_card(result: DemoResult) -> dict[str, str]:
             f"{html.escape(note['text'])}"
             "</div>"
         )
+    detail = html.escape(source.get("detail") or "")
     st.markdown(
         f"""
 <div class="kz-verdict {v['tone']}">
+  <div class="kz-source {html.escape(source['tone'])}">
+    Kaynak · {html.escape(source['label'])}
+    <span>{detail}</span>
+  </div>
   <div class="kz-kicker">{html.escape(v['kicker'])}</div>
   <div class="kz-title">{html.escape(v['situation'])} · {html.escape(v['decision'])}</div>
   <p class="kz-sub">{html.escape(v['subtitle'])}</p>
@@ -282,9 +358,10 @@ def verdict_card(result: DemoResult) -> dict[str, str]:
     return v
 
 
-def metrics_strip(result: DemoResult, v: dict[str, str]) -> None:
+def metrics_strip(result: DemoResult, v: dict[str, str], source: dict[str, str]) -> None:
     events = result.spec.get("events") or []
     cells = [
+        ("Kaynak", source["label"]),
         ("Saha durumu", v["situation"]),
         ("Karar", v["decision"]),
         ("Analiz süresi", f"{result.total_s:.1f} sn"),
@@ -322,12 +399,22 @@ def actions_html(actions: list[str]) -> str:
 
 
 def show_result(result: DemoResult) -> None:
+    result = polish_demo_result(result)
     spec = result.spec
     events = spec.get("events") or []
+    backup = bool(st.session_state.get("showing_backup"))
+    source = model_source(result.provider, result.model_calls, backup=backup)
     v = verdict(result.label.get("category"), spec.get("risk"))
+    if source["kind"] in {"ollama", "mixed"}:
+        st.error(
+            f"Bu sonuç {source['label']}. Sunumda EVREN kullanın — "
+            "kenarda «Sunum kilidi: yalnız EVREN» açık olsun ve Analiz et'e tekrar basın."
+        )
+    elif source["kind"] == "backup":
+        st.warning("Ekranda kayıtlı sahne yedeği var (canlı EVREN sonucu değil).")
 
-    verdict_card(result)
-    metrics_strip(result, v)
+    verdict_card(result, source)
+    metrics_strip(result, v, source)
 
     left, right = st.columns([1.1, 1], gap="large")
     with left:
@@ -354,6 +441,12 @@ def show_result(result: DemoResult) -> None:
 
         st.markdown('<div class="kz-section">Saha aksiyonları</div>', unsafe_allow_html=True)
         st.markdown(actions_html(list(spec.get("actions") or [])), unsafe_allow_html=True)
+        law_note = getattr(result, "law_note", "") or ""
+        if law_note:
+            st.markdown(
+                f'<p class="kz-law">{html.escape(law_note)}</p>',
+                unsafe_allow_html=True,
+            )
 
         with st.expander("Jüri çıktısı (şartname JSON)"):
             st.caption(spec_footnote())
@@ -463,12 +556,24 @@ def main() -> None:
             height=130,
             label_visibility="collapsed",
         )
-        run = st.button("Analiz et", type="primary", use_container_width=True)
+        busy = bool(st.session_state.get("analyzing"))
+        run = st.button(
+            "Analiz et",
+            type="primary",
+            use_container_width=True,
+            disabled=busy,
+        )
 
     if run:
         if video_path is None:
             st.error("Önce bir video yükleyin veya klasörden seçin.")
             return
+        if settings.get("provider") == "ollama" and not config.ollama_reachable():
+            st.error(
+                "Ollama çalışmıyor. Kenarda sunum kilidini açık bırakın (EVREN)."
+            )
+            return
+        st.session_state["analyzing"] = True
         flow = AnalysisFlowBoard(st.empty())
         try:
             result = run_demo_analysis_sync(
@@ -480,30 +585,35 @@ def main() -> None:
                 progress=flow.on_progress,
             )
         except Exception as exc:
-            flow.fail("Bağlantı veya model yanıtı alınamadı")
-            st.error(f"Analiz tamamlanamadı: {exc}")
+            flow.fail(_analysis_fail_reason(exc))
+            st.error(_analysis_fail_reason(exc))
             backup = list_saved_runs(limit=1)
             if backup:
                 st.session_state["last_result"] = load_saved_run(backup[0])
                 st.session_state["showing_backup"] = True
                 st.warning(
-                    f"EVREN yanıt vermedi. Kayıtlı sahne yedeği açıldı: `{backup[0].name}`."
+                    f"Canlı model yanıt vermedi. Kayıtlı sahne yedeği açıldı: `{backup[0].name}`."
                 )
             else:
                 st.info(
-                    "Kayıtlı yedek yok. Sahneden önce seçilen klibi "
-                    "`python scripts/analyze_video.py --video <klip> --fast --run-name sahne_yedek` "
-                    "ile bir kez koşun veya kenar çubuğundan ollama deneyin."
+                    "Kayıtlı yedek yok. Kenarda sunum kilidi açık olsun (EVREN). "
+                    "Sahneden önce klibi bir kez koşup `data/demo_runs/` yedeği alın."
                 )
-                return
         else:
             flow.complete(result.total_s)
             st.session_state["last_result"] = result
             st.session_state["showing_backup"] = False
+        finally:
+            st.session_state["analyzing"] = False
 
     result = st.session_state.get("last_result")
-    if isinstance(result, DemoResult):
-        show_result(result)
+    if result is not None and (isinstance(result, DemoResult) or hasattr(result, "spec")):
+        try:
+            result = polish_demo_result(DemoResult.coerce(result))
+            st.session_state["last_result"] = result
+            show_result(result)
+        except Exception as exc:
+            st.error(f"Sonuç gösterilemedi: {exc}")
     else:
         st.markdown(
             '<p class="kz-empty">Kayıt ve soruyu verip Analiz et’e basın. Karar kartı burada açılır.</p>',

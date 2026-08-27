@@ -43,5 +43,6 @@ raw_videos/
 dataset/raw_videos/*
 dataset/frames/*
 dataset/vector_db/*
+data/rag/*.json
 !dataset/raw_videos/.gitkeep
 !dataset/frames/.gitkeep
