@@ -2,11 +2,15 @@
 
 Jüriye gösterilen yüzey `app/demo_app.py` (Streamlit). Çekirdek `utils/demo_pipeline.py`;
 kopya `utils/display.py`. Etiketleme aracı `app/review_app.py` jüri sahnesi değil.
+Canlı operatör konsolu `app/live_app.py` (port 8502) — sunum şovu, jüri videosu değil.
+Karar sonrası: algılanan an, olay özeti, saha aksiyonları, kapalı mevzuat expander.
+Canlı konsolda bu blok kayıt/kartın **altında** tam genişlik; tetikte iskelet, kararda dolar.
 
 Çalıştırma:
 
 ```bash
 streamlit run app/demo_app.py
+py -m streamlit run app/live_app.py --server.port 8502
 ```
 
 Tema: `.streamlit/config.toml` (koyu zemin, altın vurgu `#C9A227`).
@@ -42,11 +46,16 @@ Kaza / ramak kalada bu satır çıkmaz — gerçek yangını proses diye yumuşa
 
 1. Üst: KAIZEN markası + başlık + tek satır iddia.
 2. Sol: video yükle / klasörden seç. Sağ: operatör sorusu + **Analiz et**.
-3. Sonuç: dört metrik (saha durumu, karar, süre, olay sayısı) + karar kartı
-   (durum · karar + alt başlık + düz Türkçe cevap; varsa **Zor sahne** satırı).
-4. Sol kolon: video + kanıt kareleri. Sağ: zaman çizelgesi, özet, aksiyonlar.
+3. Sonuç: karar kartında **Kaynak · EVREN** (veya Ollama / kayıtlı yedek) rozeti,
+   beş metrik (kaynak, saha durumu, karar, süre, olay sayısı) + düz Türkçe cevap;
+   varsa **Zor sahne** satırı.
+4. Sol kolon: video + kanıt kareleri. Sağ: zaman çizelgesi (aynı cümle tek saniye),
+   özet, model aksiyonları; **Mevzuat da benzer öneriyor** kapalı expander —
+   açılınca madde özetleri.
 5. Expander: jüri JSON'u, süreler, sensör kanıtı. İndirme düğmeleri.
-6. Kenar: sağlayıcı, hızlı mod, kare sayısı, RAG, sahne yedeği.
+6. Kenar: **Sunum kilidi: yalnız EVREN** (varsayılan açık — Ollama'ya düşmez),
+   hızlı mod, kare sayısı, RAG, sahne yedeği. Kilidi kapatınca kaynak seçilir.
+   Karar kartında **Kaynak · EVREN** / Ollama / kayıtlı yedek rozeti durur.
 
 CSS sınıfı: `.kz-verdict.{ok|watch|critical}`. Ton `verdict(...)["tone"]`.
 Zor sahne: `.kz-hard` / `.kz-hard-kicker`.

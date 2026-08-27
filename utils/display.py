@@ -7,6 +7,7 @@ Jüri çıktısı: risk ∈ {Düşük, Orta, Yüksek}, events/summary/actions.
 
 from __future__ import annotations
 
+import re
 from typing import Any
 
 from utils.spec_output import lock_pair, normalize_risk
@@ -214,3 +215,156 @@ def attach_hard_case_sentence(answer: str, note: dict[str, str] | None) -> str:
     if not body:
         return text
     return f"{body.rstrip('.')} {text}"
+
+
+def model_source(
+    provider: str = "",
+    model_calls: list[dict[str, Any]] | None = None,
+    *,
+    backup: bool = False,
+) -> dict[str, str]:
+    """Kararın hangi motorla geldiği. Ekranda ham teknofest/ollama kodu yok."""
+    if backup:
+        return {
+            "kind": "backup",
+            "label": "Kayıtlı yedek",
+            "detail": "Canlı model değil",
+            "tone": "watch",
+        }
+    names: list[str] = []
+    models: list[str] = []
+    fallback = False
+    for row in model_calls or []:
+        name = str(row.get("provider") or "").strip().lower()
+        if name and name not in names:
+            names.append(name)
+        model = str(row.get("model") or "").strip()
+        if model and model not in models:
+            models.append(model)
+        if row.get("fallback"):
+            fallback = True
+    if not names:
+        head = (provider or "").split(":")[0].strip().lower()
+        if head:
+            names = [head]
+    used_ollama = "ollama" in names or fallback
+    used_evren = "teknofest" in names
+    if used_ollama and used_evren:
+        return {
+            "kind": "mixed",
+            "label": "Karışık",
+            "detail": "EVREN düştü, Ollama devreye girdi",
+            "tone": "critical",
+        }
+    if used_ollama:
+        return {
+            "kind": "ollama",
+            "label": "Ollama",
+            "detail": "Yerel yedek — sunum kalitesi değil",
+            "tone": "critical",
+        }
+    if used_evren:
+        detail = " · ".join(models) if models else "vlm · llm-fast"
+        return {
+            "kind": "evren",
+            "label": "EVREN",
+            "detail": detail,
+            "tone": "ok",
+        }
+    return {
+        "kind": "unknown",
+        "label": "Bilinmiyor",
+        "detail": provider or "kaynak yok",
+        "tone": "watch",
+    }
+
+
+def law_support_note(rag_text: str) -> str:
+    """Model aksiyonunu ezmez; çizelgenin altında kısa mevzuat teyidi."""
+    blob = (rag_text or "").strip()
+    if not blob:
+        return ""
+    found: list[str] = []
+    for match in re.finditer(r"(?:madde|md\.?)\s*(\d+)", blob, re.IGNORECASE):
+        token = match.group(1)
+        if token not in found:
+            found.append(token)
+    if found:
+        refs = ", ".join(f"md. {item}" for item in found[:2])
+        return f"Mevzuat da benzer öneriyor ({refs})."
+    return "Mevzuat da benzer saha önlemleri öneriyor."
+
+
+def law_support_card(rag_text: str) -> dict[str, Any] | None:
+    """Kısa kicker + madde özetleri. Şartname JSON'una yazılmaz."""
+    blob = (rag_text or "").strip()
+    if not blob:
+        return None
+    articles: list[dict[str, str]] = []
+    for line in blob.splitlines():
+        row = line.strip()
+        if not row:
+            continue
+        if ": " in row:
+            title, text = row.split(": ", 1)
+        else:
+            title, text = "Mevzuat", row
+        articles.append({"title": title.strip(), "text": text.strip()})
+    if not articles:
+        return None
+    return {
+        "kicker": law_support_note(blob),
+        "body": blob,
+        "articles": articles,
+    }
+
+
+WATCH_PHASE: dict[str, dict[str, str]] = {
+    "idle": {
+        "kicker": "Operatör konsolu",
+        "title": "Kamera bekleniyor",
+        "subtitle": "Güvenlik kamerası veya webcam bağlanınca wake-up izlemeye geçer.",
+        "tone": "ok",
+    },
+    "watching": {
+        "kicker": "Canlı izleme",
+        "title": "Saha kontrol altında",
+        "subtitle": "Wake-up kareleri tarıyor; görsel model uyuyor. Her kare EVREN'e gitmez.",
+        "tone": "ok",
+    },
+    "candidate": {
+        "kicker": "Aday pencere",
+        "title": "Hareket tetiklendi",
+        "subtitle": "Kısa klip kuyruğa alındı. Akış durmadı; karar katmanı bu pencereye bakacak.",
+        "tone": "watch",
+    },
+    "analyzing": {
+        "kicker": "Karar katmanı",
+        "title": "Görsel model bakıyor",
+        "subtitle": "EVREN bu klibi okuyor. Uyarı kartı model dönünce güncellenir.",
+        "tone": "watch",
+    },
+}
+
+
+def watch_banner(
+    phase: str,
+    category: str | None = None,
+    risk: str | None = None,
+) -> dict[str, str]:
+    """Canlı konsol kopyası. Şartname token'ı ve ham accident basılmaz."""
+    key = (phase or "").strip().lower()
+    if key in {"decided", "alert"}:
+        v = verdict(category, risk)
+        return {
+            "kicker": "Saha kararı",
+            "title": f"{v['situation']} · {v['decision']}",
+            "subtitle": v["subtitle"],
+            "tone": v["tone"],
+            "situation": v["situation"],
+            "decision": v["decision"],
+        }
+    row = dict(WATCH_PHASE.get(key) or WATCH_PHASE["idle"])
+    row["situation"] = row["title"]
+    row["decision"] = ""
+    return row

@@ -11,7 +11,7 @@ Kurallar:
 - Soru bulgularla ilgisizse (örn. sayım, kişi sayısı) yine bulgulara dayanarak cevap ver, uydurma.
 - Markdown, madde imi, HTML yok; düz metin yaz.
 - actions: sahaya verilecek 2–3 kısa emir. Kaza varsa sağlık ekibi / alanı boşaltma / işi durdurma önce gelir.
-- Mevzuat metni verildiyse en fazla bir kez "Madde X uyarınca" diye referans ver; kanun metnini kopyalama.
+- Mevzuat metnini aksiyon listesine yazma; kanun kopyalama.
 
 Sadece şu JSON'u döndür, başka hiçbir şey yazma:
 {"answer": "...", "actions": ["...", "..."]}

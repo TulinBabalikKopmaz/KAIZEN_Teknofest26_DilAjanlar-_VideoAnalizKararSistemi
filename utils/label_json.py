@@ -331,6 +331,96 @@ def dedupe_events(
     return kept[:max_events] if max_events else kept
 
 
+_TIME_IN_TEXT = re.compile(r"\b(\d{1,2}):(\d{2})\b")
+
+
+def _summary_times_s(summary: str) -> list[float]:
+    found: list[float] = []
+    for minute, second in _TIME_IN_TEXT.findall(summary or ""):
+        found.append(int(minute) * 60.0 + int(second))
+    return found
+
+
+def _clone_keep_score(
+    sec: float,
+    peak_s: float | None,
+    summary_secs: list[float],
+) -> float:
+    """Yüksek skor kazanın gerçek anı; 00:00 kopyası ve boş saniye düşük."""
+    score = 0.0
+    if summary_secs:
+        score -= min(abs(sec - stamp) for stamp in summary_secs) * 8.0
+    if peak_s is not None:
+        score -= abs(sec - float(peak_s))
+    else:
+        score += sec * 0.1
+    peak_late = peak_s is None or float(peak_s) > 1.5
+    summary_not_start = not any(stamp <= 1.0 for stamp in summary_secs)
+    if sec <= 0.51 and peak_late and summary_not_start:
+        score -= 40.0
+    return score
+
+
+def collapse_cloned_events(
+    events: list[Any],
+    *,
+    peak_s: float | None = None,
+    summary: str = "",
+    overlap_min: float = 0.85,
+) -> list[Any]:
+    """Aynı kaza cümlesini alakasız saniyelere kopyalayan satırları teke indirir.
+
+    KPI yolu seed_events_from_motion ile ±2 sn aday çoğaltır; jüri zaman
+    çizelgesinde tek doğru an kalsın. Farklı olay metinlerine dokunmaz.
+    """
+    from utils.spec_output import seconds_to_mmss
+
+    cleaned = [
+        dict(event)
+        for event in events
+        if isinstance(event, dict) and str(event.get("event") or "").strip()
+    ]
+    if len(cleaned) <= 1:
+        return cleaned
+
+    summary_secs = _summary_times_s(summary)
+    used = [False] * len(cleaned)
+    out: list[Any] = []
+    for i, event in enumerate(cleaned):
+        if used[i]:
+            continue
+        words_i = _words(str(event.get("event") or ""))
+        group = [i]
+        for j in range(i + 1, len(cleaned)):
+            if used[j]:
+                continue
+            if _overlap(words_i, _words(str(cleaned[j].get("event") or ""))) >= overlap_min:
+                group.append(j)
+        if len(group) == 1:
+            used[i] = True
+            out.append(event)
+            continue
+        best_i = max(
+            group,
+            key=lambda k: _clone_keep_score(
+                float(mmss_to_seconds(str(cleaned[k].get("time") or "00:00"))),
+                peak_s,
+                summary_secs,
+            ),
+        )
+        winner = dict(cleaned[best_i])
+        win_sec = float(mmss_to_seconds(str(winner.get("time") or "00:00")))
+        if summary_secs:
+            nearest_sum = min(summary_secs, key=lambda stamp: abs(stamp - win_sec))
+            if abs(nearest_sum - win_sec) <= 2.5:
+                winner["time"] = seconds_to_mmss(nearest_sum)
+        for idx in group:
+            used[idx] = True
+        out.append(winner)
+    out.sort(key=lambda item: mmss_to_seconds(str(item.get("time") or "00:00")))
+    return out
+
+
 def _words(text: str) -> set[str]:
     return {w for w in re.findall(r"[\wçğıöşüÇĞİÖŞÜ]+", text.lower()) if len(w) >= 3}
 

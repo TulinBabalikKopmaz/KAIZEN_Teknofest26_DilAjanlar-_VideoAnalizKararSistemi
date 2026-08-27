@@ -162,6 +162,30 @@ button:focus-visible, textarea:focus-visible, input:focus-visible {
   color: var(--color-gold);
   font-weight: 600;
 }
+.kz-source {
+  display: flex;
+  width: fit-content;
+  align-items: baseline;
+  gap: 0.55rem;
+  margin: 0 auto 0.85rem;
+  padding: 0.28rem 0.7rem;
+  border: 1px solid var(--color-line);
+  border-radius: 999px;
+  font-size: 0.68rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  font-weight: 600;
+  color: var(--color-muted);
+}
+.kz-source span {
+  letter-spacing: 0.04em;
+  text-transform: none;
+  font-weight: 500;
+  opacity: 0.9;
+}
+.kz-source.ok { color: var(--color-ok); border-color: rgba(125, 155, 122, 0.45); }
+.kz-source.watch { color: var(--color-watch); border-color: rgba(201, 162, 39, 0.45); }
+.kz-source.critical { color: var(--color-critical); border-color: rgba(225, 29, 72, 0.5); }
 .kz-title {
   font-family: var(--display);
   font-size: clamp(2.2rem, 5.4vw, 3.8rem);
@@ -248,6 +272,43 @@ button:focus-visible, textarea:focus-visible, input:focus-visible {
   color: var(--color-gold);
   font-size: 1.1rem;
   font-weight: 600;
+}
+.kz-law {
+  margin: 0.55rem 0 0;
+  font-size: 0.82rem;
+  line-height: 1.45;
+  color: var(--color-muted);
+  letter-spacing: 0.01em;
+}
+.kz-law-wrap {
+  margin: 0.85rem 0 0.2rem;
+}
+.kz-law-wrap [data-testid="stExpander"] {
+  border: 1px solid var(--color-line);
+  border-radius: 12px;
+  background: rgba(12, 10, 9, 0.35);
+}
+.kz-law-wrap [data-testid="stExpander"] summary,
+.kz-law-wrap [data-testid="stExpander"] p {
+  color: var(--color-muted);
+  font-size: 0.82rem;
+  letter-spacing: 0.01em;
+}
+.kz-law-body { padding: 0.15rem 0 0.25rem; }
+.kz-law-item { padding: 0.7rem 0 0.2rem; border-top: 1px solid var(--color-line); }
+.kz-law-item:first-child { border-top: 0; padding-top: 0.2rem; }
+.kz-law-item .t {
+  font-size: 0.68rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--color-gold);
+  margin-bottom: 0.35rem;
+}
+.kz-law-item p {
+  margin: 0;
+  font-size: 0.9rem;
+  line-height: 1.5;
+  color: var(--color-fg);
 }
 
 .kz-empty {
@@ -455,6 +516,37 @@ div[data-testid="stFileUploader"] button {
   line-height: 1.55 !important;
 }
 div[data-testid="stVideo"] { border-radius: 16px; overflow: hidden; }
+
+.kz-live-feed {
+  border: 1px solid var(--color-line);
+  border-radius: 16px;
+  overflow: hidden;
+  background: #0C0A09;
+  min-height: 220px;
+}
+.kz-live-dot {
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--color-ok);
+  margin-right: 0.45rem;
+  box-shadow: 0 0 0 4px rgba(125, 155, 122, 0.25);
+}
+.kz-live-dot.is-wait { background: var(--color-gold); }
+.kz-live-dot.is-alert { background: var(--color-critical); }
+.kz-live-note {
+  color: var(--color-muted);
+  font-size: 0.82rem;
+  line-height: 1.5;
+  margin-top: 0.6rem;
+}
+.kz-brief {
+  margin-top: 1.8rem;
+  padding-top: 1.4rem;
+  border-top: 1px solid var(--color-line);
+}
+.kz-brief .kz-section:first-child { margin-top: 0; }
 
 @media (max-width: 900px) {
   .kz-hero { font-size: 2.4rem; }

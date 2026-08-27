@@ -28,6 +28,7 @@ from utils.config import (
     max_image_side,
     max_retries,
     ollama_num_ctx,
+    ollama_reachable,
     request_timeout,
     vlm_concurrency,
 )
@@ -347,6 +348,11 @@ async def _chat(
             )
         except ModelCallError as primary_error:
             fb_name = fallback_provider() if allow_fallback else ""
+            if fb_name == "ollama" and not ollama_reachable():
+                print("  [model] ollama yedeği kapalı (11434), atlanıyor")
+                raise ModelCallError(
+                    f"{primary_error} | Yerel Ollama kapalı; kenardan teknofest seçili kalsın."
+                ) from primary_error
             if not fb_name:
                 raise
             fb = endpoint(role, fb_name)
@@ -427,6 +433,39 @@ async def chat_llm(
         json_mode=json_mode,
         timeout_s=timeout_s,
     )
+
+
+async def embed_texts(texts: Sequence[str], timeout_s: float = 45.0) -> list[list[float]]:
+    """EVREN /v1/embeddings — alias bge-m3-embed. Boş liste veya hata ModelCallError."""
+    from utils.config import embed_model, llm_endpoint
+
+    clean = [str(item).strip() for item in texts if str(item).strip()]
+    if not clean:
+        return []
+    ep = llm_endpoint()
+    if ep.provider != "teknofest":
+        raise ModelCallError("EVREN embed yalnız PROVIDER=teknofest iken çalışır")
+    base = ep.base_url.rstrip("/")
+    if not base.endswith("/v1"):
+        base = f"{base}/v1"
+    url = f"{base}/embeddings"
+    headers = {"Content-Type": "application/json"}
+    if ep.api_key:
+        headers["Authorization"] = f"Bearer {ep.api_key}"
+    payload = {"model": embed_model(), "input": clean}
+    timeout = aiohttp.ClientTimeout(total=timeout_s)
+    async with aiohttp.ClientSession(timeout=timeout) as session:
+        async with session.post(url, headers=headers, json=payload) as response:
+            body = await response.text()
+            if response.status >= 400:
+                raise ModelCallError(f"HTTP {response.status} (embed): {body[:300]}")
+            data = json.loads(body)
+    rows = list(data.get("data") or [])
+    rows.sort(key=lambda item: int(item.get("index") or 0))
+    vectors = [list(item.get("embedding") or []) for item in rows]
+    if len(vectors) != len(clean) or any(not row for row in vectors):
+        raise ModelCallError("EVREN embed eksik vektör döndü")
+    return vectors
 
 
 def _run_sync(coro: Any) -> Any:

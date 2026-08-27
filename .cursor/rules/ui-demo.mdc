@@ -11,7 +11,10 @@ Kaynak kopya: `utils/display.py`. Taslak: `docs/ui_taslak.md`.
 - Ekranda `accident` / `near_miss` / "Risk: Düşük" basma
 - Şartname JSON expander'da ham token kalsın (Düşük|Orta|Yüksek)
 - Karar kartı tek: saha durumu · karar + alt metin
+- Kartta Kaynak · EVREN (veya Ollama / kayıtlı yedek) görünsün; sunum kilidi açık kalsın
 - Zor sahne satırı `display.hard_case_note`'tan gelir; şartname JSON'a yazılmaz
+- Mevzuat kapalı expander: kicker görünür; açılınca madde özetleri. Aksiyon listesini ezme
+- Canlı konsol (`app/live_app.py`) jüri videosu değil; kopya `watch_banner`. Pipeline kuralına dokunma
 - Pipeline, kural, gold'a dokunma; video etiket prompt'unu oynatma
 - React'e geçme; Streamlit cilası
 - Sahne klibini varsayılan kilitleme

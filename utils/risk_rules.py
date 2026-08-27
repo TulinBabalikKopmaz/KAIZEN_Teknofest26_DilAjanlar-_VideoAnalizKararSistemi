@@ -75,8 +75,45 @@ COMPLETED_PATTERNS = [
 ]
 _HEDGE_PREFIX = re.compile(r"(neredeyse|son\s+anda|az\s+kaldı)\s*$", re.IGNORECASE)
 _NEG_AFTER = re.compile(
-    r"^.{0,40}(gözlemlenmedi|tespit edilmedi|görülmedi|bulunmadı|"
-    r"yok(?:tur)?|ama normal|normal gözük|normal görünüm)",
+    r"^.{0,80}(gözlemlenmedi|tespit edilmedi|görülmedi|bulunmadı|"
+    r"bulunmamakta|edilmemiş|yok(?:tur)?|ama normal|normal gözük|"
+    r"normal görünüm|normal proses|prosesin(?:den|in)?|kontrol altında|olağan)",
+    re.IGNORECASE,
+)
+# Alev/duman kelimesi HIGH_PATTERNS'te; VLM "tesisin normal prosesi" deyince
+# kural katmanı kazaya çekmesin. Fiili kaçış/yaralanma varsa hedge yok.
+_FLAME_HIGH = {
+    r"yandı",
+    r"yanma",
+    r"yangın",
+    r"\bateş\b",
+    r"alev",
+    r"fire\b",
+    r"burn",
+}
+_PROCESS_ROUTINE = re.compile(
+    r"ama\s+normal|normal\s+gözük|normal\s+görün|normal\s+proses|"
+    r"prosesin(?:den|in)?|ateşleme\s+işlem|kontrol\s+altında|"
+    r"olağan\s+(proses|işlem|görünüm)|tesisin.{0,48}normal|"
+    r"rutin\s+(proses|işlem|operasyon|tespit)|proses.{0,24}(normal|kaynaklan)|"
+    r"normal.{0,24}(proses|parçası)",
+    re.IGNORECASE,
+)
+_PROCESS_HARM = [
+    r"kaçt",
+    r"yaralan",
+    r"hareketsiz",
+    r"kıyafeti",
+    r"yere\s+düş",
+    r"ezil",
+    r"altında\s+kald",
+    r"çarptı",
+    r"devril",
+    r"çökt",
+    r"enkaz",
+]
+_FLAME_CUE = re.compile(
+    r"alev|duman|\bateş\b|yangın|kıvılcım|buhar|ateşleme|yanma",
     re.IGNORECASE,
 )
 _NEG_BEFORE = re.compile(
@@ -98,12 +135,68 @@ def _joined_text(label: dict[str, Any]) -> str:
     return " ".join(parts).lower()
 
 
+def _process_flame_is_routine(text: str) -> bool:
+    """Alev/duman görünüyor ama metin proses/kontrol altı diyor, kaza yok."""
+    blob = text or ""
+    if not _FLAME_CUE.search(blob):
+        return False
+    if not _PROCESS_ROUTINE.search(blob):
+        return False
+    if _match_any(blob, _PROCESS_HARM):
+        return False
+    return True
+
+
+_DENIED_INCIDENT = re.compile(
+    r"(iş kazası|yaralanma|kaza|düşme|ramak).{0,80}"
+    r"(bulunmamakta|tespit edilmedi|gözlemlenmedi|yok(?:tur)?)",
+    re.IGNORECASE,
+)
+
+
+def scene_is_process_routine(
+    label: dict[str, Any] | None,
+    spec: dict[str, Any] | None = None,
+    answer: str = "",
+) -> bool:
+    """Cevap 'kaza yok / proses' diyorsa kart kazaya çekilmesin.
+
+    Cevap refine'dan sonra yazıldığı için kural katmanı bazen alevi hâlâ kaza sayar.
+    """
+    row = label or {}
+    spec_row = spec or {}
+    parts = [
+        answer,
+        str(spec_row.get("summary") or row.get("summary") or ""),
+    ]
+    for src in (spec_row.get("events"), row.get("events")):
+        for event in src or []:
+            if isinstance(event, dict):
+                parts.append(str(event.get("event") or ""))
+            else:
+                parts.append(str(event))
+    blob = " ".join(parts)
+    if _process_flame_is_routine(blob):
+        return True
+    if _FLAME_CUE.search(blob) and _DENIED_INCIDENT.search(answer or blob):
+        if has_unhedged_accident(answer or ""):
+            return False
+        return True
+    return False
+
+
+def _high_patterns_for(text: str) -> list[str]:
+    if not _process_flame_is_routine(text):
+        return HIGH_PATTERNS
+    return [p for p in HIGH_PATTERNS if p not in _FLAME_HIGH]
+
+
 def _match_any(text: str, patterns: list[str]) -> bool:
     """Negasyon içindeki eşleşmeyi yok say ('tehlikeli yaklaşma gözlemlenmedi')."""
     blob = text or ""
     for pattern in patterns:
         for match in re.finditer(pattern, blob, re.IGNORECASE):
-            after = blob[match.end() : match.end() + 32]
+            after = blob[match.end() : match.end() + 96]
             before = blob[max(0, match.start() - 48) : match.start()]
             if _NEG_AFTER.search(after) or _NEG_BEFORE.search(before):
                 continue
@@ -117,7 +210,7 @@ def has_unhedged_accident(text: str) -> bool:
     for pattern in COMPLETED_PATTERNS:
         for match in re.finditer(pattern, blob, re.IGNORECASE):
             prefix = blob[max(0, match.start() - 24) : match.start()]
-            after = blob[match.end() : match.end() + 32]
+            after = blob[match.end() : match.end() + 96]
             before = blob[max(0, match.start() - 48) : match.start()]
             if _NEG_AFTER.search(after) or _NEG_BEFORE.search(before):
                 continue
@@ -143,7 +236,7 @@ def text_risk_floor(label: dict[str, Any]) -> tuple[str, str | None]:
     # Önce ramak kala: "neredeyse çarpıştı" Yüksek olmasın
     if _match_any(text, NEAR_PATTERNS):
         return "Orta", "near_miss"
-    if _match_any(text, HIGH_PATTERNS):
+    if _match_any(text, _high_patterns_for(text)):
         return "Yüksek", "accident"
     return "Düşük", None
 
@@ -163,7 +256,7 @@ def _should_snap_all_clear(
     if evidence and (
         evidence.person_vehicle_close
         or evidence.person_vehicle_very_close
-        or evidence.fire_suspect
+        or (evidence.fire_suspect and not _process_flame_is_routine(text))
     ):
         return False
     if not _ALL_CLEAR.search(text or ""):
@@ -261,7 +354,8 @@ def refine_label(label: dict[str, Any], evidence: SceneEvidence | None = None) -
     out = dict(label)
     reasons: list[str] = []
     text = _joined_text(out)
-    has_high = _match_any(text, HIGH_PATTERNS)
+    routine_fire = _process_flame_is_routine(text)
+    has_high = _match_any(text, _high_patterns_for(text))
     has_near = _match_any(text, NEAR_PATTERNS)
     # Model near_miss deyip Yüksek dediyse bu anlaşmazlığı FA budaması ezmesin
     keep_hot_near = (
@@ -271,6 +365,8 @@ def refine_label(label: dict[str, Any], evidence: SceneEvidence | None = None) -
 
     text_risk, text_cat = text_risk_floor(out)
     ev_risk, ev_cat = evidence_floor(evidence)
+    if routine_fire:
+        ev_risk, ev_cat = "Düşük", None
 
     old_risk = normalize_risk(out.get("risk"))
     new_risk = _max_risk(old_risk, _max_risk(text_risk, ev_risk))
@@ -286,7 +382,8 @@ def refine_label(label: dict[str, Any], evidence: SceneEvidence | None = None) -
     # Metin/kanıt Yüksek ama kategori normal kaldıysa düzelt
     if new_risk == "Yüksek" and new_cat == "normal":
         # Metinde kaza yoksa accident dayatma (false alarm)
-        new_cat = "accident" if has_high or (evidence and evidence.fire_suspect) else "near_miss"
+        sensor_fire = bool(evidence and evidence.fire_suspect and not routine_fire)
+        new_cat = "accident" if has_high or sensor_fire else "near_miss"
     if new_risk == "Orta" and new_cat == "normal":
         new_cat = "near_miss"
     if new_cat != old_cat:
@@ -297,7 +394,7 @@ def refine_label(label: dict[str, Any], evidence: SceneEvidence | None = None) -
     weak_high = (
         normalize_risk(out.get("risk")) == "Yüksek"
         and not has_high
-        and not (evidence and evidence.fire_suspect)
+        and not (evidence and evidence.fire_suspect and not routine_fire)
         and not (evidence and evidence.person_vehicle_very_close)
     )
     if weak_high and not keep_hot_near:
@@ -318,7 +415,11 @@ def refine_label(label: dict[str, Any], evidence: SceneEvidence | None = None) -
             reasons.append("zayıf Yüksek→Orta (yalnız hareket)")
 
     # Metin tamamlanmış kazayı anlatıyorsa near_miss hedge'ini ezme
-    if has_unhedged_accident(text) and (out.get("category") or "") != "accident":
+    if (
+        has_unhedged_accident(text)
+        and not routine_fire
+        and (out.get("category") or "") != "accident"
+    ):
         reasons.append(f"category {out.get('category')}→accident (tamamlanmış sonuç)")
         out["category"] = "accident"
 
@@ -431,6 +532,8 @@ def needs_second_look(label: dict[str, Any], evidence: SceneEvidence | None) -> 
     7B kazayı sık near_miss yazıyor; hareket tepe + near_miss ise bir kez daha bak.
     """
     if evidence is None or not evidence.suggests_second_look():
+        return False
+    if _process_flame_is_routine(_joined_text(label)) and not evidence.motion_elevated:
         return False
     risk = normalize_risk(label.get("risk"))
     cat = label.get("category") or "normal"

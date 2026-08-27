@@ -53,7 +53,7 @@ Kapanış cümlesi aynı: kayıtları arşiv değil karar verici hale getiriyoru
 | 1:00–1:40 | Mimari | Wake-up, EVREN `vlm`, kural katmanı, Risk Assessor, mevzuat RAG, Action Recommender, LangGraph. |
 | 1:40–2:30 | Doğruluk kanıtı | KPI tablosu: risk doğruluğu, kritik olay yakalama, yanlış alarm. Ablasyon: kural katmanı açık/kapalı farkı. |
 | 2:30–3:05 | Veri ve metodoloji | Golden dataset dağılımı (%30 kaza, %30 normal, %20 ramak kala, %20 belirsiz), gold etiketleme süreci, teşhis aracı. |
-| 3:05–3:40 | Gerçek zamanlı yol haritası | RTSP akışında wake-up tetikli asenkron analiz; tek makinede çok kamera. |
+| 3:05–3:40 | Gerçek zamanlı | İkinci sekme: canlı izleme (8502). Wake-up aday pencere; kart modelle gelir. |
 | 3:40–4:00 | Kapanış | Tek cümle: "Kayıtları arşiv değil, karar verici hale getiriyoruz." Kendi demo klibine geçiş. |
 
 ### Konuşma notları
@@ -86,9 +86,11 @@ saha için asıl önemli olan bu iki sayı. Kural katmanı ablasyonunu göster
 (zaman kaçtı / metin kaçtı / sahne yanlış) ayırıyor; iyileştirmeleri tahminle
 değil ölçümle yaptık.
 
-**Gerçek zamanlı (3:05–3:40).** Aynı çekirdek `tools/rtsp_stream.py` ile canlı
-akışa bağlanıyor: wake-up tetiklenince kareler asenkron analiz kuyruğuna gidiyor,
-akış hiç durmuyor. Tek makine birden fazla kamerayı böyle taşıyor.
+**Gerçek zamanlı (3:05–3:40).** Aynı çekirdek canlı kameraya bağlanır. Wake-up
+yerelde aday pencereyi açar; EVREN o kısa klibe bakar, akış durmaz.
+İsterseniz bu 35 sn’de ikinci sekmede `app/live_app.py` (port 8502) açık olsun:
+oyuncak/hareket → ekranda **Aday pencere**. Kart (İş kazası · Kritik durum)
+model dönünce gelir — 1 dk jüri demosuna bağlamayın. Yoksa slaytta aynı cümle yeter.
 
 ---
 
@@ -135,8 +137,14 @@ Jüri odaya girmeden, seçilen klibi bir kez koşup `data/demo_runs/` yedeğini 
 ```powershell
 python scripts/smoke_api.py
 streamlit run app/demo_app.py
+py -m streamlit run app/live_app.py --server.port 8502
 python scripts/analyze_video.py --video <SECILEN_KLIP> --fast --run-name sahne_yedek
 ```
+
+Canlı şov (4 dk içindeki 35 sn, 1 dk demoya bağlanmaz): odaya girmeden 8502’de
+**İzlemeyi başlat**. 3:05’te sekmeyi göster, hareket/oyuncak → **Aday pencere**.
+Kartı beklemeyin; “aynı çekirdek kameraya bağlı, operatörü kaza anında uyarır”
+deyin. VLM o sırada dönerse bonus.
 
 Son başarılı koşu `data/demo_runs/` altında dursun (kayıt yedek).
 

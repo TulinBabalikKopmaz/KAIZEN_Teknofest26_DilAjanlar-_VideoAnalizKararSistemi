@@ -4,7 +4,12 @@ from __future__ import annotations
 
 import unittest
 
-from utils.risk_rules import needs_second_look, refine_label, text_risk_floor
+from utils.risk_rules import (
+    needs_second_look,
+    refine_label,
+    scene_is_process_routine,
+    text_risk_floor,
+)
 from utils.scene_evidence import SceneEvidence
 
 
@@ -80,6 +85,59 @@ class RiskRuleTests(unittest.TestCase):
         out = refine_label(label, SceneEvidence())
         self.assertEqual(out["category"], "normal")
         self.assertEqual(out["risk"], "Düşük")
+
+    def test_process_flame_normal_proses_stays_normal(self) -> None:
+        """VLM proses alevi yazar; kural 'alev' deyince kaza yapmasın."""
+        label = {
+            "summary": (
+                "Bu videoda bir iş kazası veya yaralanma olayı bulunmamaktadır. "
+                "Görüntülerdeki alevler ve duman, tesisin yüksek sıcaklıkta metal "
+                "işleme prosesinin normal bir parçasıdır ve kontrol altındadır."
+            ),
+            "events": [
+                {
+                    "time": "00:07",
+                    "event": "Alevler ve duman tesisin normal prosesinden kaynaklanıyor.",
+                }
+            ],
+            "risk": "Düşük",
+            "category": "normal",
+            "actions": ["Rutin izlemeye devam et"],
+        }
+        risk, cat = text_risk_floor(label)
+        self.assertEqual(risk, "Düşük")
+        self.assertIsNone(cat)
+        out = refine_label(
+            label,
+            SceneEvidence(fire_suspect=True, fire_like_ratio_max=0.12),
+        )
+        self.assertEqual(out["category"], "normal")
+        self.assertEqual(out["risk"], "Düşük")
+
+    def test_answer_denies_accident_counts_as_process_routine(self) -> None:
+        self.assertTrue(
+            scene_is_process_routine(
+                {
+                    "category": "accident",
+                    "summary": "Alevler görünüyor",
+                    "events": [{"time": "00:00", "event": "Alevler yükseliyor"}],
+                },
+                {"risk": "Yüksek", "summary": "Alevler görünüyor"},
+                "Bu videoda bir iş kazası bulunmamaktadır. Alevler tesisin normal prosesidir.",
+            )
+        )
+
+    def test_real_fire_with_escape_stays_accident(self) -> None:
+        label = {
+            "summary": "Forklift alev aldı. Çalışanlar kaçıyor.",
+            "events": [{"time": "00:04", "event": "Makine alev aldı, çalışanlar kaçıyor."}],
+            "risk": "Düşük",
+            "category": "normal",
+            "actions": ["Rutin izlemeye devam et"],
+        }
+        out = refine_label(label, SceneEvidence(fire_suspect=True))
+        self.assertEqual(out["category"], "accident")
+        self.assertEqual(out["risk"], "Yüksek")
 
     def test_risk_snaps_to_category_lock(self) -> None:
         """Anlaşmazlıkta daha ağır sinyal kazanır (severity_max)."""

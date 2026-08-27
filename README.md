@@ -55,11 +55,13 @@ Sunum akışı, konuşma notları, demo koreografisi ve jüri soruları:
 
 ## Gerçek zamanlı akış (RTSP / webcam)
 
-Aynı çekirdek canlı akışta da çalışır. Okuyucu ayrı iş parçacığında canlı kalır,
+Aynı çekirdek canlı akışta da çalışır. Sunum şovu `app/live_app.py` (ayrı port);
+jüri videosu `app/demo_app.py` kalır. Okuyucu ayrı iş parçacığında canlı kalır,
 hareket (wake-up) tetiklenmesinde kareler kuyruğa girer, VLM çağrıları asenkron
 tüketilir — model yavaşsa kare düşer, akış donmaz.
 
 ```bash
+py -m streamlit run app/live_app.py --server.port 8502   # sunum şovu (jüri videosu değil)
 python tools/rtsp_stream.py --source rtsp://kullanici:sifre@10.0.0.12:554/stream1
 python tools/rtsp_stream.py --source 0                       # webcam
 python tools/rtsp_stream.py --source demo.mp4 --loop         # kamera olmadan prova
