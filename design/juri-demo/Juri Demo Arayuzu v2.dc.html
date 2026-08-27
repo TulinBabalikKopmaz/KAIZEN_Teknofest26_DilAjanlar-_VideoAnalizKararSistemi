@@ -1,0 +1,959 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="anonymous">
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&amp;family=IBM+Plex+Mono:wght@400;500;600&amp;display=swap" rel="stylesheet">
+<style>
+  html, body { margin: 0; padding: 0; }
+  body { font-family: "IBM Plex Sans", "Helvetica Neue", Helvetica, sans-serif; -webkit-font-smoothing: antialiased; }
+  [data-kz-app] a { color: var(--kz-gold); text-decoration: none; }
+  [data-kz-app] a:hover { color: var(--kz-gold-deep); text-decoration: underline; }
+  [data-kz-app] input[type="range"] { accent-color: var(--kz-gold); }
+  [data-kz-app]::selection, [data-kz-app] *::selection { background: rgba(var(--kz-gold-rgb),0.3); }
+  [data-kz-app] * { transition: background-color 0.25s ease, color 0.25s ease, border-color 0.25s ease; }
+  [data-kz-app][data-theme="light"] {
+    --kz-bg: #F4EFE6; --kz-bg-glow: #FFF7E8;
+    --kz-panel-bg: rgba(255,251,245,0.95); --kz-panel-hover: #E8E0D2;
+    --kz-surface: #FFFBF5; --kz-surface-2: #FDF9F0; --kz-surface-3: #E8E0D2;
+    --kz-stripe-1: #F4EFE6; --kz-stripe-2: #EDE4D2; --kz-stripe-3: #EDE4D2; --kz-stripe-4: #E4D9C2;
+    --kz-text: #1C1917; --kz-muted: #57534E; --kz-muted-soft: #78716C; --kz-code-text: #44403C;
+    --kz-gold: #A16207; --kz-gold-deep: #7C4A05; --kz-on-gold-text: #FFFBF5;
+    --kz-ok: #3F6B4A; --kz-critical: #BE123C; --kz-critical-pulse: #FF2D2D; --kz-knob-off: #A8A29E;
+    --kz-shadow-soft: rgba(28,25,23,0.12); --kz-shadow-med: rgba(28,25,23,0.14); --kz-shadow-strong: rgba(28,25,23,0.16);
+    --kz-overlay: rgba(28,25,23,0.35); --kz-overlay-blur: 6px;
+    --kz-noise-opacity: 0.035; --kz-noise-blend: multiply;
+    --kz-line-rgb: 28,25,23; --kz-gold-rgb: 161,98,7; --kz-ok-rgb: 63,107,74; --kz-critical-rgb: 190,18,60;
+    --kz-card-ok-bg: var(--kz-surface); --kz-card-watch-bg: var(--kz-surface); --kz-card-critical-bg: var(--kz-surface);
+  }
+  [data-kz-app][data-theme="dark"] {
+    --kz-bg: #0C0A09; --kz-bg-glow: #191411;
+    --kz-panel-bg: rgba(22,17,13,0.9); --kz-panel-hover: rgba(32,25,19,0.95);
+    --kz-surface: rgba(28,25,23,0.72); --kz-surface-2: rgba(20,16,13,0.72); --kz-surface-3: rgba(12,9,7,0.8);
+    --kz-stripe-1: rgba(22,17,13,0.9); --kz-stripe-2: rgba(22,18,16,0.9); --kz-stripe-3: rgba(18,14,11,0.95); --kz-stripe-4: rgba(27,21,17,0.95);
+    --kz-text: #FAFAF9; --kz-muted: #A8A29E; --kz-muted-soft: #8F8574; --kz-code-text: #C4BAA8;
+    --kz-gold: #C9A227; --kz-gold-deep: #E0BE4E; --kz-on-gold-text: #100D0B;
+    --kz-ok: #7D9B7A; --kz-critical: #E11D48; --kz-critical-pulse: #FF5470; --kz-knob-off: #5C5548;
+    --kz-shadow-soft: rgba(0,0,0,0.9); --kz-shadow-med: rgba(0,0,0,0.95); --kz-shadow-strong: rgba(0,0,0,0.95);
+    --kz-overlay: rgba(10,8,6,0.82); --kz-overlay-blur: 9px;
+    --kz-noise-opacity: 0.045; --kz-noise-blend: overlay;
+    --kz-line-rgb: 237,230,216; --kz-gold-rgb: 201,162,39; --kz-ok-rgb: 125,155,122; --kz-critical-rgb: 225,29,72;
+    --kz-card-ok-bg: #12211C; --kz-card-watch-bg: #211C12; --kz-card-critical-bg: #231512;
+  }
+  [data-kz-app] { background: var(--kz-bg); color: var(--kz-text); }
+  @keyframes kzRise { from { opacity: 0; transform: translateY(22px); } to { opacity: 1; transform: none; } }
+  @keyframes kzRiseSm { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: none; } }
+  @keyframes kzCardIn { from { opacity: 0; transform: translateY(46px) scale(0.985); } to { opacity: 1; transform: none; } }
+  @keyframes kzFade { from { opacity: 0; } to { opacity: 1; } }
+  @keyframes kzExitUp { from { opacity: 1; transform: none; } to { opacity: 0; transform: translateY(-30px) scale(0.982); } }
+  @keyframes kzFromLeft { from { opacity: 0; transform: translateX(-20px); } to { opacity: 1; transform: none; } }
+  @keyframes kzWord { from { opacity: 0; transform: translateY(10px); filter: blur(5px); } to { opacity: 1; transform: none; filter: blur(0); } }
+  @keyframes kzSweep { 0% { transform: translateX(-130%); } 100% { transform: translateX(240%); } }
+  @keyframes kzBreath { 0%, 100% { box-shadow: 0 0 0 0 rgba(var(--kz-gold-rgb),0.45), 0 0 22px 2px rgba(var(--kz-gold-rgb),0.18); } 50% { box-shadow: 0 0 0 12px rgba(var(--kz-gold-rgb),0), 0 0 34px 6px rgba(var(--kz-gold-rgb),0.3); } }
+  @keyframes kzArc { from { stroke-dashoffset: 114; } to { stroke-dashoffset: 0; } }
+  @keyframes kzDraw { from { transform: scaleX(0); } to { transform: scaleX(1); } }
+  @keyframes kzFlare { 0% { opacity: 0; transform: scale(0.55); } 22% { opacity: 0.9; } 100% { opacity: 0; transform: scale(2.1); } }
+  @keyframes kzDrift { 0% { transform: translate3d(-5%, -3%, 0) scale(1); } 50% { transform: translate3d(6%, 4%, 0) scale(1.18); } 100% { transform: translate3d(-5%, -3%, 0) scale(1); } }
+  @keyframes kzDrift2 { 0% { transform: translate3d(6%, 2%, 0) scale(1.1); } 50% { transform: translate3d(-4%, -5%, 0) scale(1); } 100% { transform: translate3d(6%, 2%, 0) scale(1.1); } }
+  @keyframes kzPop { from { opacity: 0; transform: scale(0.9); } to { opacity: 1; transform: none; } }
+  @keyframes kzAlarmEdge { 0%, 100% { border-left-color: var(--kz-critical); border-left-width: 4px; box-shadow: 0 40px 90px -50px var(--kz-shadow-med), inset 0 0 0 0 rgba(var(--kz-critical-rgb),0), 0 0 0 0 rgba(var(--kz-critical-rgb),0); } 50% { border-left-color: var(--kz-critical-pulse); border-left-width: 7px; box-shadow: 0 40px 90px -50px var(--kz-shadow-med), inset 22px 0 74px -16px rgba(var(--kz-critical-rgb),0.78), 0 0 46px 6px rgba(var(--kz-critical-rgb),0.55); } }
+  @keyframes kzAlarmWash { 0%, 100% { opacity: 0.16; } 50% { opacity: 0.72; } }
+  @keyframes kzGlowText { 0%, 100% { text-shadow: 0 0 18px rgba(var(--kz-gold-rgb),0.12); } 50% { text-shadow: 0 0 26px rgba(var(--kz-gold-rgb),0.3); } }
+  @media (prefers-reduced-motion: reduce) {
+    * { animation-duration: 0.28s !important; animation-iteration-count: 1 !important; transition-duration: 0.12s !important; }
+  }
+</style>
+</helmet>
+<div data-kz-app="1" data-theme="{{ theme }}" style="position: relative; display: flex; align-items: stretch; min-height: 100vh; background: radial-gradient(1300px 760px at 24% -8%, var(--kz-bg-glow) 0%, var(--kz-bg) 64%); overflow-x: hidden;">
+
+  <div style="position: fixed; inset: 0; pointer-events: none; z-index: 0; opacity: var(--kz-noise-opacity); mix-blend-mode: var(--kz-noise-blend); background-image: url('data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%22140%22 height=%22140%22%3E%3Cfilter id=%22n%22%3E%3CfeTurbulence type=%22fractalNoise%22 baseFrequency=%220.85%22 numOctaves=%223%22/%3E%3C/filter%3E%3Crect width=%22140%22 height=%22140%22 filter=%22url(%23n)%22/%3E%3C/svg%3E');"></div>
+
+  <div style="position: fixed; top: 20px; right: 24px; z-index: 70; display: flex; align-items: center; gap: 2px; padding: 4px; border-radius: 999px; background: var(--kz-panel-bg); border: 1px solid rgba(var(--kz-line-rgb),0.16); box-shadow: 0 8px 22px -10px var(--kz-shadow-soft); backdrop-filter: blur(8px);">
+    <button onClick="{{ setLight }}" aria-label="Aydınlık tema" title="Aydınlık tema" style="{{ sunBtnStyle }}">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="4.2"></circle><path d="M12 2v3M12 19v3M4.2 4.2l2.1 2.1M17.7 17.7l2.1 2.1M2 12h3M19 12h3M4.2 19.8l2.1-2.1M17.7 6.3l2.1-2.1"></path></svg>
+    </button>
+    <button onClick="{{ setDark }}" aria-label="Karanlık tema" title="Karanlık tema" style="{{ moonBtnStyle }}">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" stroke="none"><path d="M20.5 14.5A8.5 8.5 0 1 1 9.5 3.5a7 7 0 0 0 11 11z"></path></svg>
+    </button>
+  </div>
+
+  <sc-if value="{{ sidebarOpen }}" hint-placeholder-val="{{ true }}">
+    <aside style="position: relative; z-index: 3; width: 288px; flex: 0 0 288px; border-right: 1px solid rgba(var(--kz-line-rgb),0.1); padding: 22px 22px 40px; background: var(--kz-panel-bg); animation: kzFade 0.45s ease-out both;">
+      <div style="display: flex; align-items: flex-start; justify-content: space-between; gap: 10px;">
+        <div>
+          <div style="letter-spacing: 0.22em; text-transform: uppercase; font-size: 12px; font-weight: 600; color: var(--kz-gold);">KAIZEN</div>
+          <div style="font-family: 'IBM Plex Mono', monospace; font-size: 12px; color: var(--kz-muted); margin-top: 6px;">Saha İSG karar sistemi</div>
+        </div>
+        <button onClick="{{ toggleSidebar }}" title="Prova panelini kapat" style="flex: 0 0 30px; width: 30px; height: 30px; border: 1px solid rgba(var(--kz-line-rgb),0.14); border-radius: 4px; background: transparent; color: var(--kz-code-text); font-family: 'IBM Plex Mono', monospace; font-size: 14px; cursor: pointer; transition: all 0.35s;" style-hover="border-color: rgba(var(--kz-gold-rgb),0.55); color: var(--kz-gold-deep);">«</button>
+      </div>
+
+      <div style="margin-top: 22px; display: grid; gap: 6px;">
+        <sc-for list="{{ views }}" as="vw" hint-placeholder-count="2">
+          <button onClick="{{ vw.onClick }}" style="{{ vw.style }}">{{ vw.label }}</button>
+        </sc-for>
+      </div>
+
+      <div style="margin-top: 26px; padding-top: 18px; border-top: 1px solid rgba(var(--kz-line-rgb),0.07);">
+        <div style="font-family: 'IBM Plex Mono', monospace; font-size: 11px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--kz-muted);">Altyapı</div>
+
+        <div style="display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-top: 18px;">
+          <div style="font-size: 13px; color: var(--kz-code-text);">Sunum kilidi: yalnız EVREN</div>
+          <button onClick="{{ toggleLock }}" style="{{ lockTrack }}"><span style="{{ lockKnob }}"></span></button>
+        </div>
+        <div style="{{ lockCaptionStyle }}">{{ lockCaption }}</div>
+
+        <sc-if value="{{ lockOff }}" hint-placeholder-val="{{ false }}">
+          <div style="margin-top: 14px; font-size: 13px; color: var(--kz-code-text);">Model kaynağı</div>
+          <div style="display: flex; gap: 6px; margin-top: 8px;">
+            <sc-for list="{{ providers }}" as="p" hint-placeholder-count="3">
+              <button onClick="{{ p.onClick }}" style="{{ p.style }}" style-hover="border-color: rgba(var(--kz-gold-rgb),0.5);">{{ p.name }}</button>
+            </sc-for>
+          </div>
+          <div style="font-family: 'IBM Plex Mono', monospace; font-size: 11px; line-height: 1.5; color: var(--kz-muted-soft); margin-top: 8px;">teknofest = ortak API · ollama = yerel yedek · mock = modelsiz</div>
+        </sc-if>
+
+        <div style="display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-top: 22px;">
+          <div style="font-size: 13px; color: var(--kz-code-text);">Hızlı mod (süre bütçesi)</div>
+          <button onClick="{{ toggleFast }}" style="{{ fastTrack }}"><span style="{{ fastKnob }}"></span></button>
+        </div>
+        <div style="font-family: 'IBM Plex Mono', monospace; font-size: 11px; line-height: 1.5; color: var(--kz-muted-soft); margin-top: 6px;">YOLO kanıtı, ikinci bakış ve mevzuat referansı kapanır</div>
+
+        <div style="display: flex; align-items: baseline; justify-content: space-between; margin-top: 22px;">
+          <div style="font-size: 13px; color: var(--kz-code-text);">Kare sayısı</div>
+          <div style="font-family: 'IBM Plex Mono', monospace; font-size: 13px; color: var(--kz-gold);">{{ frames }}</div>
+        </div>
+        <input type="range" min="4" max="12" step="1" value="{{ frames }}" onChange="{{ setFrames }}" style="width: 100%; margin-top: 10px;">
+
+        <div style="display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-top: 20px;">
+          <div style="font-size: 13px; color: var(--kz-code-text);">İSG mevzuat referansı (RAG)</div>
+          <button onClick="{{ toggleRag }}" style="{{ ragTrack }}"><span style="{{ ragKnob }}"></span></button>
+        </div>
+
+        <div style="font-family: 'IBM Plex Mono', monospace; font-size: 11px; line-height: 1.6; color: var(--kz-muted-soft); margin-top: 20px; padding: 10px 12px; border: 1px solid rgba(var(--kz-line-rgb),0.07); border-radius: 4px; background: var(--kz-surface-3);">{{ describeLine }}</div>
+      </div>
+
+      <div style="margin-top: 26px; padding-top: 18px; border-top: 1px solid rgba(var(--kz-line-rgb),0.07);">
+        <div style="font-family: 'IBM Plex Mono', monospace; font-size: 11px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--kz-muted);">Sahne yedeği</div>
+        <div style="margin-top: 14px; font-size: 13px; color: var(--kz-code-text);">Kayıtlı koşu</div>
+        <div style="margin-top: 8px; padding: 9px 11px; border: 1px solid rgba(var(--kz-line-rgb),0.12); border-radius: 4px; background: var(--kz-surface-3); font-family: 'IBM Plex Mono', monospace; font-size: 12px; color: var(--kz-code-text); display: flex; align-items: center; justify-content: space-between;">
+          <span>{{ backupPick }}</span><span style="color: var(--kz-muted-soft);">▾</span>
+        </div>
+        <button onClick="{{ loadBackup }}" style="width: 100%; margin-top: 10px; padding: 9px 12px; border: 1px solid rgba(var(--kz-line-rgb),0.14); border-radius: 4px; background: transparent; color: var(--kz-code-text); font-family: 'IBM Plex Mono', monospace; font-size: 12px; cursor: pointer; transition: all 0.35s;" style-hover="border-color: rgba(var(--kz-gold-rgb),0.5); color: var(--kz-text);">Yedeği ekrana getir</button>
+      </div>
+
+      <div style="margin-top: 26px; padding-top: 18px; border-top: 1px solid rgba(var(--kz-gold-rgb),0.22);">
+        <div style="font-family: 'IBM Plex Mono', monospace; font-size: 11px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--kz-gold);">Prova · mock sahne</div>
+        <div style="display: grid; gap: 6px; margin-top: 12px;">
+          <sc-for list="{{ tones }}" as="t" hint-placeholder-count="3">
+            <button onClick="{{ t.onClick }}" style="{{ t.style }}" style-hover="border-color: rgba(var(--kz-gold-rgb),0.5);">
+              <span style="font-family: 'IBM Plex Mono', monospace; font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase; opacity: 0.65;">{{ t.label }}</span>
+              <span style="font-size: 13px; line-height: 1.35;">{{ t.hint }}</span>
+            </button>
+          </sc-for>
+        </div>
+      </div>
+    </aside>
+  </sc-if>
+
+  <sc-if value="{{ sidebarClosed }}" hint-placeholder-val="{{ false }}">
+    <button onClick="{{ toggleSidebar }}" title="Prova panelini aç" style="position: relative; z-index: 3; width: 52px; flex: 0 0 52px; border: 0; border-right: 1px solid rgba(var(--kz-line-rgb),0.1); background: var(--kz-panel-bg); cursor: pointer; display: flex; flex-direction: column; align-items: center; justify-content: flex-start; gap: 18px; padding: 22px 0; transition: background 0.4s;" style-hover="background: var(--kz-panel-hover);">
+      <span style="font-family: 'IBM Plex Mono', monospace; font-size: 14px; color: var(--kz-gold);">»</span>
+      <span style="writing-mode: vertical-rl; letter-spacing: 0.28em; text-transform: uppercase; font-size: 11px; font-weight: 600; color: var(--kz-gold);">KAIZEN</span>
+      <span style="writing-mode: vertical-rl; letter-spacing: 0.16em; font-family: 'IBM Plex Mono', monospace; font-size: 10.5px; color: var(--kz-muted-soft);">prova</span>
+    </button>
+  </sc-if>
+
+  <sc-if value="{{ isDemoView }}" hint-placeholder-val="{{ true }}">
+  <main style="position: relative; z-index: 2; flex: 1; min-width: 0; display: flex; justify-content: center; padding: 44px 44px 80px;">
+
+    <div style="position: absolute; top: -180px; left: 4%; width: 720px; height: 620px; pointer-events: none; border-radius: 50%; background: radial-gradient(circle, rgba(var(--kz-gold-rgb),0.14) 0%, rgba(var(--kz-gold-rgb),0) 66%); animation: kzDrift 34s ease-in-out infinite; filter: blur(10px);"></div>
+    <div style="position: absolute; top: 240px; right: -120px; width: 620px; height: 560px; pointer-events: none; border-radius: 50%; background: radial-gradient(circle, rgba(var(--kz-critical-rgb),0.1) 0%, rgba(var(--kz-critical-rgb),0) 68%); animation: kzDrift2 46s ease-in-out infinite; filter: blur(14px);"></div>
+
+    <div style="position: relative; width: 100%; max-width: 1280px;">
+      <div style="letter-spacing: 0.22em; text-transform: uppercase; font-size: 12px; font-weight: 600; color: var(--kz-gold);">KAIZEN · TEKNOFEST 2026</div>
+      <h1 style="font-size: 50px; line-height: 1.06; font-weight: 600; letter-spacing: -0.02em; margin: 12px 0 0; animation: kzGlowText 9s ease-in-out infinite;">Saha İSG Karar Sistemi</h1>
+      <p style="max-width: 780px; margin: 16px 0 0; font-size: 15.5px; line-height: 1.65; color: var(--kz-muted); text-wrap: pretty;">Kamera kaydını arşiv değil karar haline getirir. Sahne (1 dk): ekibin seçtiği kısa klip veya kayıtlı yedek. Jüri videosu: yükle, soruyu yapıştır, hızlı mod kapalı.</p>
+
+      <div style="display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.4fr); gap: 22px; margin-top: 34px; align-items: stretch;">
+
+        <section style="position: relative; overflow: hidden; border: 1px solid rgba(var(--kz-line-rgb),0.08); border-radius: 8px; background: linear-gradient(158deg, var(--kz-surface) 0%, var(--kz-surface-2) 100%); width: 100%; height: 100%; min-width: 0; box-sizing: border-box; padding: 22px; box-shadow: 0 24px 60px -34px var(--kz-shadow-soft);">
+          <div style="font-family: 'IBM Plex Mono', monospace; font-size: 11px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--kz-muted);">Girdi</div>
+          <div style="margin-top: 14px; font-size: 13.5px; color: var(--kz-code-text);">Jürinin videosu</div>
+          <div style="margin-top: 8px; padding: 26px 16px; border: 1px dashed rgba(var(--kz-line-rgb),0.16); border-radius: 6px; background: repeating-linear-gradient(135deg, var(--kz-stripe-1) 0 8px, var(--kz-stripe-2) 8px 16px); text-align: center; transition: transform 0.6s cubic-bezier(0.22,0.61,0.36,1), border-color 0.4s; width: 356px; max-width: 339px; min-height: 142px; box-sizing: border-box; height: 117px" style-hover="transform: scale(1.025); border-color: rgba(var(--kz-gold-rgb),0.45);">
+            <div style="font-family: 'IBM Plex Mono', monospace; font-size: 12px; color: var(--kz-muted);">dosyayı sürükleyin</div>
+            <div style="font-family: 'IBM Plex Mono', monospace; font-size: 11px; color: var(--kz-muted-soft); margin-top: 6px;">mp4 · mov · avi · mkv · webm · m4v</div><div style="display: inline-block; margin-top: 14px; padding: 7px 14px; border: 1px solid rgba(var(--kz-line-rgb),0.16); border-radius: 4px; font-family: 'IBM Plex Mono', monospace; font-size: 12px; color: var(--kz-code-text);">Gözat</div>
+          </div>
+        </section>
+
+        <section style="position: relative; overflow: hidden; border: 1px solid rgba(var(--kz-line-rgb),0.08); border-radius: 8px; background: linear-gradient(158deg, var(--kz-surface) 0%, var(--kz-surface-2) 100%); width: 100%; max-width: 558px; min-height: 298px; min-width: 0; box-sizing: border-box; padding: 22px; display: flex; flex-direction: column; box-shadow: 0 24px 60px -34px var(--kz-shadow-soft);">
+          <div style="font-family: 'IBM Plex Mono', monospace; font-size: 11px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--kz-muted);">Operatör</div>
+          <div style="margin-top: 14px; font-size: 13.5px; color: var(--kz-code-text);">Operatör sorusu</div>
+          <textarea value="{{ prompt }}" onChange="{{ setPrompt }}" spellcheck="false" style="margin-top: 8px; flex: 1; min-height: 138px; resize: none; width: 100%; box-sizing: border-box; padding: 15px 16px; border: 1px solid rgba(var(--kz-line-rgb),0.13); border-radius: 6px; background: var(--kz-surface-3); color: var(--kz-text); font-family: 'IBM Plex Sans', sans-serif; font-size: 15.5px; line-height: 1.55; outline: none; transition: border-color 0.35s, box-shadow 0.35s;" style-focus="border-color: rgba(var(--kz-gold-rgb),0.55); box-shadow: 0 0 0 3px rgba(var(--kz-gold-rgb),0.08);"></textarea>
+          <button onClick="{{ runAnalysis }}" style="{{ runButtonStyle }}" style-hover="transform: scale(1.03); box-shadow: 0 0 38px -6px rgba(var(--kz-gold-rgb),0.55);">{{ runLabel }}</button>
+        </section>
+      </div>
+
+      <sc-if value="{{ isDone }}" hint-placeholder-val="{{ false }}">
+        <section ref="{{ resultRef }}" style="position: relative; width: 100%; margin-top: 30px; border: 1px solid rgba(var(--kz-line-rgb),0.08); border-radius: 12px; background: linear-gradient(158deg, var(--kz-surface) 0%, var(--kz-surface-2) 100%); box-shadow: 0 34px 80px -50px var(--kz-shadow-soft); animation: kzRise 0.65s cubic-bezier(0.22,0.61,0.36,1) both;">
+
+          <header style="display: flex; align-items: center; justify-content: space-between; gap: 18px; padding: 18px 26px; border-bottom: 1px solid rgba(var(--kz-line-rgb),0.08); background: var(--kz-surface-3);">
+            <div style="display: flex; align-items: baseline; gap: 16px; min-width: 0;">
+              <span style="font-family: 'IBM Plex Mono', monospace; font-size: 11px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--kz-gold);">Analiz sonucu</span>
+              <span style="font-family: 'IBM Plex Mono', monospace; font-size: 12px; color: var(--kz-muted-soft); overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">{{ videoName }} · {{ statusLine }}</span>
+            </div>
+          </header>
+
+          <div style="padding: 26px 26px 34px;">
+            <sc-if value="{{ showingBackup }}" hint-placeholder-val="{{ false }}">
+              <div style="margin-bottom: 18px; padding: 12px 16px; border: 1px solid rgba(var(--kz-gold-rgb),0.3); border-left: 3px solid var(--kz-gold); border-radius: 5px; background: linear-gradient(100deg, rgba(var(--kz-gold-rgb),0.1), rgba(var(--kz-gold-rgb),0.02)); font-size: 13.5px; line-height: 1.55; color: var(--kz-gold-deep); animation: kzRiseSm 0.5s ease-out both;">Ekranda <strong>kayıtlı sahne yedeği</strong> var (canlı API sonucu değil). Jüri videosunda Analiz Et ile taze koşu alın.</div>
+            </sc-if>
+
+            <div style="{{ verdictCardStyle }}">
+              <div style="{{ verdictGlowStyle }}"></div>
+              <div style="position: relative;">
+                <div style="{{ v.sourceBadgeStyle }}">Kaynak · {{ v.sourceLabel }}<span style="font-weight: 500; opacity: 0.85; text-transform: none; letter-spacing: 0.02em;">{{ v.sourceDetail }}</span></div>
+                <div style="font-size: 12px; letter-spacing: 0.2em; text-transform: uppercase; opacity: 0.7; font-weight: 600; animation: kzRiseSm 0.5s ease-out both;">{{ v.kicker }}</div>
+                <div style="display: flex; flex-wrap: wrap; gap: 0 14px; margin: 14px 0 10px;">
+                  <sc-for list="{{ headWords }}" as="w" hint-placeholder-count="4">
+                    <span style="{{ w.style }}">{{ w.text }}</span>
+                  </sc-for>
+                </div>
+                <p style="margin: 0; font-size: 17px; line-height: 1.5; opacity: 0.9; animation: kzRiseSm 0.6s ease-out 0.55s both;">{{ v.subtitle }}</p>
+                <div style="margin-top: 22px; font-size: 20px; line-height: 1.5; max-width: 920px; text-wrap: pretty; animation: kzRiseSm 0.7s ease-out 0.7s both;">{{ v.answer }}</div>
+                <sc-if value="{{ v.hasHard }}" hint-placeholder-val="{{ false }}">
+                  <div style="margin-top: 22px; padding-top: 16px; border-top: 1px solid rgba(var(--kz-gold-rgb),0.38); color: var(--kz-gold-deep); animation: kzRiseSm 0.7s ease-out 0.9s both;">
+                    <div style="font-size: 11px; letter-spacing: 0.16em; text-transform: uppercase; opacity: 0.7; font-weight: 600;">{{ v.hardKicker }}</div>
+                    <div style="margin-top: 7px; font-size: 15.5px; line-height: 1.5;">{{ v.hardText }}</div>
+                  </div>
+                </sc-if>
+              </div>
+            </div>
+
+            <div style="display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 14px; margin-top: 20px;">
+              <sc-for list="{{ metrics }}" as="m" hint-placeholder-count="4">
+                <div style="{{ m.cardStyle }}">
+                  <div style="font-family: 'IBM Plex Mono', monospace; font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--kz-muted);">{{ m.label }}</div>
+                  <div style="{{ m.valueStyle }}">{{ m.value }}</div>
+                </div>
+              </sc-for>
+            </div>
+
+            <div style="display: grid; grid-template-columns: 1.1fr 1fr; gap: 22px; margin-top: 22px; align-items: start;">
+
+              <section style="border: 1px solid rgba(var(--kz-line-rgb),0.08); border-radius: 8px; background: linear-gradient(158deg, var(--kz-surface), var(--kz-surface-2)); padding: 22px; animation: kzRise 0.8s cubic-bezier(0.22,0.61,0.36,1) 0.75s both;">
+                <h2 style="font-size: 17px; font-weight: 600; margin: 0;">Kayıt ve kanıt kareleri</h2>
+                <div style="margin-top: 15px; aspect-ratio: 16 / 9; border: 1px solid rgba(var(--kz-line-rgb),0.09); border-radius: 6px; background: repeating-linear-gradient(135deg, var(--kz-stripe-3) 0 10px, var(--kz-stripe-4) 10px 20px); display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 9px; transition: transform 0.7s cubic-bezier(0.22,0.61,0.36,1);" style-hover="transform: scale(1.012);">
+                  <div style="font-family: 'IBM Plex Mono', monospace; font-size: 12px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--kz-muted);">kayıt · oynatıcı</div>
+                  <div style="font-family: 'IBM Plex Mono', monospace; font-size: 12px; color: var(--kz-muted-soft);">{{ videoName }}</div>
+                </div>
+                <div style="display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 10px; margin-top: 15px;">
+                  <sc-for list="{{ frameList }}" as="f" hint-placeholder-count="4">
+                    <div style="{{ f.style }}">
+                      <div style="aspect-ratio: 4 / 3; border: 1px solid rgba(var(--kz-line-rgb),0.09); border-radius: 5px; background: repeating-linear-gradient(135deg, var(--kz-stripe-3) 0 6px, var(--kz-stripe-4) 6px 12px); transition: transform 0.5s ease, border-color 0.4s;" style-hover="transform: translateY(-3px); border-color: rgba(var(--kz-gold-rgb),0.4);"></div>
+                      <div style="font-family: 'IBM Plex Mono', monospace; font-size: 11.5px; color: var(--kz-muted); margin-top: 7px; text-align: center;">{{ f.time }}</div>
+                    </div>
+                  </sc-for>
+                </div>
+                <div style="font-family: 'IBM Plex Mono', monospace; font-size: 11px; line-height: 1.6; color: var(--kz-muted-soft); margin-top: 13px;">kanıt kareleri: hareket (wake-up) tepesi çevresinden seçildi</div>
+              </section>
+
+              <section style="display: grid; gap: 22px;">
+                <div style="border: 1px solid rgba(var(--kz-line-rgb),0.08); border-radius: 8px; background: linear-gradient(158deg, var(--kz-surface), var(--kz-surface-2)); padding: 22px; animation: kzRise 0.8s cubic-bezier(0.22,0.61,0.36,1) 0.85s both;">
+                  <h2 style="font-size: 17px; font-weight: 600; margin: 0;">Olay zaman çizelgesi</h2>
+                  <sc-if value="{{ hasEvents }}" hint-placeholder-val="{{ true }}">
+                    <div style="display: grid; gap: 0; margin-top: 14px;">
+                      <sc-for list="{{ events }}" as="e" hint-placeholder-count="3">
+                        <div style="{{ e.rowStyle }}">
+                          <span style="font-family: 'IBM Plex Mono', monospace; font-size: 16px; font-weight: 500; color: var(--kz-gold); min-width: 48px;">{{ e.time }}</span>
+                          <span style="font-size: 15.5px; line-height: 1.5; color: var(--kz-text);">{{ e.event }}</span>
+                        </div>
+                      </sc-for>
+                    </div>
+                  </sc-if>
+                  <sc-if value="{{ noEvents }}" hint-placeholder-val="{{ false }}">
+                    <div style="margin-top: 14px; font-size: 14.5px; color: var(--kz-muted);">Ayrı bir olay satırı işaretlenmedi; rutin akış.</div>
+                  </sc-if>
+                </div>
+
+                <div style="border: 1px solid rgba(var(--kz-line-rgb),0.08); border-radius: 8px; background: linear-gradient(158deg, var(--kz-surface), var(--kz-surface-2)); padding: 22px; animation: kzRise 0.8s cubic-bezier(0.22,0.61,0.36,1) 0.95s both;">
+                  <h2 style="font-size: 17px; font-weight: 600; margin: 0;">Özet</h2>
+                  <p style="margin: 12px 0 0; font-size: 15.5px; line-height: 1.65; color: var(--kz-code-text); text-wrap: pretty;">{{ summary }}</p>
+                </div>
+
+                <div style="border: 1px solid rgba(var(--kz-line-rgb),0.08); border-radius: 8px; background: linear-gradient(158deg, var(--kz-surface), var(--kz-surface-2)); padding: 22px; animation: kzRise 0.8s cubic-bezier(0.22,0.61,0.36,1) 1.05s both;">
+                  <h2 style="font-size: 17px; font-weight: 600; margin: 0;">Saha aksiyonları</h2>
+                  <div style="display: grid; gap: 12px; margin-top: 15px;">
+                    <sc-for list="{{ actions }}" as="a" hint-placeholder-count="3">
+                      <div style="{{ a.rowStyle }}">
+                        <span style="font-family: 'IBM Plex Mono', monospace; font-size: 12px; color: var(--kz-gold); min-width: 24px; letter-spacing: 0.04em;">{{ a.no }}</span>
+                        <span style="font-size: 15.5px; line-height: 1.5; color: var(--kz-text);">{{ a.text }}</span>
+                      </div>
+                    </sc-for>
+                  </div>
+                </div>
+
+                <div style="display: grid; gap: 8px; animation: kzRise 0.8s cubic-bezier(0.22,0.61,0.36,1) 1.15s both;">
+                  <div style="border: 1px solid rgba(var(--kz-line-rgb),0.08); border-radius: 8px; background: var(--kz-surface-3);">
+                    <button onClick="{{ toggleJson }}" style="width: 100%; display: flex; align-items: center; gap: 10px; padding: 14px 18px; background: transparent; border: 0; color: var(--kz-text); font-family: 'IBM Plex Sans', sans-serif; font-size: 14px; cursor: pointer; text-align: left;">
+                      <span style="{{ jsonCaret }}">▸</span><span>Jüri çıktısı (şartname JSON)</span>
+                    </button>
+                    <sc-if value="{{ jsonOpen }}" hint-placeholder-val="{{ false }}">
+                      <div style="padding: 0 18px 18px; animation: kzRiseSm 0.4s ease-out both;">
+                        <div style="font-family: 'IBM Plex Mono', monospace; font-size: 11px; line-height: 1.6; color: var(--kz-muted-soft); padding-bottom: 12px;">Jüri JSON'unda risk alanı şartname token'ıdır: Düşük, Orta, Yüksek. Ekrandaki 'Kontrol altında / Yüksek dikkat / Kritik durum' aynı skaladır.</div>
+                        <pre style="margin: 0; padding: 14px; border: 1px solid rgba(var(--kz-line-rgb),0.08); border-radius: 5px; background: var(--kz-surface-3); font-family: 'IBM Plex Mono', monospace; font-size: 12px; line-height: 1.6; color: var(--kz-code-text); overflow-x: auto;">{{ specJson }}</pre>
+                      </div>
+                    </sc-if>
+                  </div>
+
+                  <div style="border: 1px solid rgba(var(--kz-line-rgb),0.08); border-radius: 8px; background: var(--kz-surface-3);">
+                    <button onClick="{{ toggleTimings }}" style="width: 100%; display: flex; align-items: center; gap: 10px; padding: 14px 18px; background: transparent; border: 0; color: var(--kz-text); font-family: 'IBM Plex Sans', sans-serif; font-size: 14px; cursor: pointer; text-align: left;">
+                      <span style="{{ timeCaret }}">▸</span><span>Aşama süreleri ve model çağrıları</span>
+                    </button>
+                    <sc-if value="{{ timingsOpen }}" hint-placeholder-val="{{ false }}">
+                      <div style="padding: 0 18px 18px; animation: kzRiseSm 0.4s ease-out both;">
+                        <sc-for list="{{ timingRows }}" as="r" hint-placeholder-count="4">
+                          <div style="display: flex; justify-content: space-between; gap: 12px; padding: 8px 0; border-bottom: 1px solid rgba(var(--kz-line-rgb),0.06); font-family: 'IBM Plex Mono', monospace; font-size: 12px;">
+                            <span style="color: var(--kz-muted);">{{ r.key }}</span><span style="color: var(--kz-text);">{{ r.value }}</span>
+                          </div>
+                        </sc-for>
+                        <div style="font-family: 'IBM Plex Mono', monospace; font-size: 11px; color: var(--kz-muted-soft); padding-top: 12px;">{{ modelCallLine }}</div>
+                      </div>
+                    </sc-if>
+                  </div>
+
+                  <div style="border: 1px solid rgba(var(--kz-line-rgb),0.08); border-radius: 8px; background: var(--kz-surface-3);">
+                    <button onClick="{{ toggleEvidence }}" style="width: 100%; display: flex; align-items: center; gap: 10px; padding: 14px 18px; background: transparent; border: 0; color: var(--kz-text); font-family: 'IBM Plex Sans', sans-serif; font-size: 14px; cursor: pointer; text-align: left;">
+                      <span style="{{ evCaret }}">▸</span><span>Sensör kanıtı (hareket / yakınlık / yangın)</span>
+                    </button>
+                    <sc-if value="{{ evidenceOpen }}" hint-placeholder-val="{{ false }}">
+                      <div style="padding: 0 18px 18px; animation: kzRiseSm 0.4s ease-out both;">
+                        <pre style="margin: 0; padding: 14px; border: 1px solid rgba(var(--kz-line-rgb),0.08); border-radius: 5px; background: var(--kz-surface-3); font-family: 'IBM Plex Mono', monospace; font-size: 12px; line-height: 1.6; color: var(--kz-code-text); overflow-x: auto;">{{ evidenceJson }}</pre>
+                      </div>
+                    </sc-if>
+                  </div>
+
+                  <div style="border: 1px solid rgba(var(--kz-gold-rgb),0.22); border-radius: 8px; background: var(--kz-surface-3);">
+                    <button onClick="{{ toggleLaw }}" style="width: 100%; display: flex; align-items: center; gap: 10px; padding: 14px 18px; background: transparent; border: 0; color: var(--kz-gold-deep); font-family: 'IBM Plex Sans', sans-serif; font-size: 14px; font-weight: 600; cursor: pointer; text-align: left;">
+                      <span style="{{ lawCaret }}">▸</span><span>{{ lawKicker }}</span>
+                    </button>
+                    <sc-if value="{{ lawOpen }}" hint-placeholder-val="{{ false }}">
+                      <div style="padding: 0 18px 18px; animation: kzRiseSm 0.4s ease-out both;">
+                        <sc-for list="{{ lawArticles }}" as="la" hint-placeholder-count="2">
+                          <div style="{{ la.wrapStyle }}">
+                            <div style="font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--kz-gold); margin-bottom: 6px;">{{ la.title }}</div>
+                            <p style="margin: 0; font-size: 13.5px; line-height: 1.55; color: var(--kz-text);">{{ la.text }}</p>
+                          </div>
+                        </sc-for>
+                      </div>
+                    </sc-if>
+                  </div>
+                </div>
+
+                <div style="display: flex; gap: 10px; animation: kzRise 0.8s cubic-bezier(0.22,0.61,0.36,1) 1.25s both;">
+                  <button style="flex: 1; padding: 12px 14px; border: 1px solid rgba(var(--kz-gold-rgb),0.36); border-radius: 5px; background: transparent; color: var(--kz-gold-deep); font-family: 'IBM Plex Mono', monospace; font-size: 12px; cursor: pointer; transition: background 0.35s, box-shadow 0.35s;" style-hover="background: rgba(var(--kz-gold-rgb),0.12); box-shadow: 0 0 26px -10px rgba(var(--kz-gold-rgb),0.7);">Şartname JSON indir</button>
+                  <button style="flex: 1; padding: 12px 14px; border: 1px solid rgba(var(--kz-line-rgb),0.13); border-radius: 5px; background: transparent; color: var(--kz-code-text); font-family: 'IBM Plex Mono', monospace; font-size: 12px; cursor: pointer; transition: border-color 0.35s, color 0.35s;" style-hover="border-color: rgba(var(--kz-gold-rgb),0.5); color: var(--kz-text);">Tam sonuç JSON indir</button>
+                </div>
+              </section>
+            </div>
+          </div>
+        </section>
+      </sc-if>
+
+    </div>
+  </main>
+  </sc-if>
+
+  <sc-if value="{{ isLiveView }}" hint-placeholder-val="{{ false }}">
+    <main style="position: relative; z-index: 2; flex: 1; min-width: 0; display: flex; justify-content: center; padding: 44px 44px 80px;">
+      <div style="position: relative; width: 100%; max-width: 1120px;">
+        <div style="letter-spacing: 0.22em; text-transform: uppercase; font-size: 12px; font-weight: 600; color: var(--kz-gold);">KAIZEN</div>
+        <h1 style="font-size: 42px; line-height: 1.08; font-weight: 600; letter-spacing: -0.015em; margin: 12px 0 0;">Canlı saha izleme</h1>
+        <p style="max-width: 700px; margin: 14px 0 0; font-size: 15px; line-height: 1.6; color: var(--kz-muted);">Ekran gerçek kamera akışı. Analiz arkada çalışır; her kare modele gitmez. Jüri videosu değil — sunumdaki kısa canlı izleme şovu.</p>
+
+        <div style="display: flex; gap: 10px; margin-top: 22px;">
+          <button onClick="{{ startLive }}" style="{{ liveStartStyle }}">İzlemeyi başlat</button>
+          <button onClick="{{ stopLive }}" style="{{ liveStopStyle }}">Durdur</button>
+        </div>
+        <div style="margin-top: 10px; font-family: 'IBM Plex Mono', monospace; font-size: 12px; color: var(--kz-muted-soft);">{{ liveRunCaption }}</div>
+
+        <div style="display: grid; grid-template-columns: 1.15fr 1fr; gap: 22px; margin-top: 26px; align-items: start;">
+          <section style="border: 1px solid rgba(var(--kz-line-rgb),0.08); border-radius: 8px; background: linear-gradient(158deg, var(--kz-surface), var(--kz-surface-2)); padding: 20px; overflow: hidden;">
+            <div style="font-family: 'IBM Plex Mono', monospace; font-size: 11px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--kz-muted);">Kayıt</div>
+            <div style="position: relative; margin-top: 14px; aspect-ratio: 16 / 9; border-radius: 6px; overflow: hidden; background: repeating-linear-gradient(135deg, var(--kz-stripe-3) 0 10px, var(--kz-stripe-4) 10px 20px); display: flex; align-items: center; justify-content: center;">
+              <sc-if value="{{ liveRunning }}" hint-placeholder-val="{{ false }}">
+                <div style="position: absolute; top: 12px; left: 12px; display: flex; align-items: center; gap: 6px; padding: 5px 10px; border-radius: 999px; background: rgba(0,0,0,0.45); font-family: 'IBM Plex Mono', monospace; font-size: 11px; color: #fff; letter-spacing: 0.08em;">
+                  <span style="width: 7px; height: 7px; border-radius: 50%; background: var(--kz-critical); animation: kzBreath 1.4s ease-in-out infinite;"></span>CANLI
+                </div>
+              </sc-if>
+              <div style="font-family: 'IBM Plex Mono', monospace; font-size: 12px; color: var(--kz-muted-soft);">{{ feedCaption }}</div>
+            </div>
+          </section>
+
+          <section style="{{ liveBannerStyle }}">
+            <div style="{{ v.sourceBadgeStyle }}">Kaynak · EVREN<span style="font-weight: 500; opacity: 0.85; text-transform: none;"> vlm · gerçek zamanlı</span></div>
+            <div style="display: flex; align-items: center; gap: 8px;">
+              <span style="{{ liveDotStyle }}"></span>
+              <span style="font-size: 11px; letter-spacing: 0.16em; text-transform: uppercase; opacity: 0.7; font-weight: 600;">{{ liveKicker }}</span>
+            </div>
+            <div style="font-size: 26px; font-weight: 600; letter-spacing: -0.01em; margin: 10px 0 6px; line-height: 1.15;">{{ liveTitle }}</div>
+            <p style="margin: 0; font-size: 14.5px; line-height: 1.5; opacity: 0.9;">{{ liveSubtitle }}</p>
+
+            <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; margin-top: 18px;">
+              <sc-for list="{{ liveMetrics }}" as="lm" hint-placeholder-count="4">
+                <div>
+                  <div style="font-family: 'IBM Plex Mono', monospace; font-size: 10.5px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--kz-muted);">{{ lm.label }}</div>
+                  <div style="font-size: 16px; font-weight: 600; margin-top: 4px;">{{ lm.value }}</div>
+                </div>
+              </sc-for>
+            </div>
+          </section>
+        </div>
+
+        <div style="margin-top: 26px; padding-top: 20px; border-top: 1px solid rgba(var(--kz-line-rgb),0.08);">
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 22px;">
+            <div>
+              <div style="font-family: 'IBM Plex Mono', monospace; font-size: 11px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--kz-gold); margin-bottom: 12px;">Olay zamanı</div>
+              <sc-if value="{{ liveHasEvent }}" hint-placeholder-val="{{ false }}">
+                <div style="display: flex; align-items: baseline; gap: 14px; padding: 10px 0; border-bottom: 1px solid rgba(var(--kz-line-rgb),0.07);">
+                  <span style="font-family: 'IBM Plex Mono', monospace; font-size: 15px; font-weight: 500; color: var(--kz-gold);">{{ liveEventTime }}</span>
+                  <span style="font-size: 14.5px; color: var(--kz-text);">{{ liveEventText }}</span>
+                </div>
+              </sc-if>
+              <sc-if value="{{ liveNoEvent }}" hint-placeholder-val="{{ true }}">
+                <div style="font-size: 14px; color: var(--kz-muted);">Henüz tetik yok. Hareket olunca saniye burada durur.</div>
+              </sc-if>
+            </div>
+            <div>
+              <div style="font-family: 'IBM Plex Mono', monospace; font-size: 11px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--kz-gold); margin-bottom: 12px;">Olay özeti</div>
+              <div style="font-size: 14px; line-height: 1.55; color: var(--kz-muted);">{{ liveSummary }}</div>
+            </div>
+          </div>
+
+          <div style="margin-top: 22px;">
+            <div style="font-family: 'IBM Plex Mono', monospace; font-size: 11px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--kz-gold); margin-bottom: 12px;">Saha aksiyonları</div>
+            <sc-if value="{{ liveHasActions }}" hint-placeholder-val="{{ false }}">
+              <div style="display: grid; gap: 10px;">
+                <sc-for list="{{ liveActions }}" as="la2" hint-placeholder-count="3">
+                  <div style="display: flex; align-items: baseline; gap: 12px;">
+                    <span style="font-family: 'IBM Plex Mono', monospace; font-size: 12px; color: var(--kz-gold); min-width: 22px;">{{ la2.no }}</span>
+                    <span style="font-size: 14.5px; color: var(--kz-text);">{{ la2.text }}</span>
+                  </div>
+                </sc-for>
+              </div>
+            </sc-if>
+            <sc-if value="{{ liveNoActions }}" hint-placeholder-val="{{ true }}">
+              <div style="font-size: 14px; color: var(--kz-muted);">Aksiyon önerisi karar ile birlikte gelir.</div>
+            </sc-if>
+          </div>
+        </div>
+      </div>
+    </main>
+  </sc-if>
+
+  <sc-if value="{{ flowOn }}" hint-placeholder-val="{{ false }}">
+    <div style="position: fixed; inset: 0; z-index: 60; display: flex; align-items: center; justify-content: center; padding: 34px; background: var(--kz-overlay); backdrop-filter: blur(var(--kz-overlay-blur)); animation: kzFade 0.5s ease-out both;">
+
+      <section style="{{ flowCardStyle }}">
+        <sc-if value="{{ isRunning }}" hint-placeholder-val="{{ false }}">
+          <div style="position: absolute; inset: 0; pointer-events: none; overflow: hidden; border-radius: 12px;">
+            <div style="position: absolute; top: 0; bottom: 0; width: 26%; background: linear-gradient(100deg, rgba(var(--kz-gold-rgb),0) 0%, rgba(var(--kz-gold-rgb),0.09) 50%, rgba(var(--kz-gold-rgb),0) 100%); animation: kzSweep 2.1s linear infinite;"></div>
+          </div>
+        </sc-if>
+
+        <div style="position: relative; display: flex; align-items: baseline; justify-content: space-between; gap: 16px;">
+          <div style="font-family: 'IBM Plex Mono', monospace; font-size: 11px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--kz-muted);">Analiz akışı</div>
+          <div style="{{ statusStyle }}">{{ statusLine }}</div>
+        </div>
+
+        <div style="position: relative; display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); grid-auto-rows: auto; row-gap: 12px; column-gap: 0; margin-top: 34px; align-items: start;">
+          <sc-for list="{{ steps }}" as="s" hint-placeholder-count="5">
+            <div style="{{ s.ringCellStyle }}">
+              <div style="{{ s.lineStyle }}"></div>
+              <div style="position: relative; width: 52px; height: 52px; margin: 0 auto; z-index: 1;">
+                <div style="{{ s.haloStyle }}"></div>
+                <svg width="52" height="52" viewBox="0 0 52 52" style="display: block; transform: rotate(-90deg);">
+                  <circle cx="26" cy="26" r="18" fill="none" stroke="rgba(var(--kz-line-rgb),0.1)" stroke-width="2"></circle>
+                  <circle cx="26" cy="26" r="18" fill="none" stroke="{{ s.arcColor }}" stroke-width="2" stroke-linecap="round" stroke-dasharray="114" style="{{ s.arcStyle }}"></circle>
+                </svg>
+                <div style="{{ s.centerStyle }}">
+                  <sc-if value="{{ s.showForklift }}" hint-placeholder-val="{{ false }}">
+                    <svg width="26" height="20" viewBox="0 0 48 40" fill="none" stroke="currentColor" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round" style="animation: kzPop 0.4s cubic-bezier(0.22,0.61,0.36,1) both;">
+                      <rect x="6" y="14" width="22" height="11" rx="2"></rect>
+                      <rect x="8" y="5" width="10" height="9" rx="1"></rect>
+                      <circle cx="12" cy="29" r="5"></circle>
+                      <circle cx="25" cy="29" r="5"></circle>
+                      <line x1="31" y1="6" x2="31" y2="29"></line>
+                      <line x1="31" y1="22" x2="41" y2="22"></line>
+                      <line x1="31" y1="27" x2="41" y2="27"></line>
+                    </svg>
+                  </sc-if>
+                  {{ s.centerText }}
+                </div>
+              </div>
+            </div>
+          </sc-for>
+          <sc-for list="{{ steps }}" as="s" hint-placeholder-count="5">
+            <div style="{{ s.labelStyle }}">{{ s.label }}</div>
+          </sc-for>
+          <sc-for list="{{ steps }}" as="s" hint-placeholder-count="5">
+            <div style="{{ s.detailStyle }}">{{ s.detail }}</div>
+          </sc-for>
+          <sc-for list="{{ steps }}" as="s" hint-placeholder-count="5">
+            <div style="{{ s.timeStyle }}">{{ s.time }}</div>
+          </sc-for>
+        </div>
+
+        <sc-if value="{{ isHandoff }}" hint-placeholder-val="{{ false }}">
+          <div style="position: absolute; left: 50%; top: 122px; width: 520px; height: 520px; margin-left: -260px; margin-top: -260px; pointer-events: none; border-radius: 50%; background: radial-gradient(circle, rgba(var(--kz-gold-rgb),0.42) 0%, rgba(var(--kz-gold-rgb),0.08) 42%, rgba(var(--kz-gold-rgb),0) 70%); animation: kzFlare 1.4s cubic-bezier(0.22,0.61,0.36,1) both;"></div>
+        </sc-if>
+      </section>
+    </div>
+  </sc-if>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;tone&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;rutin&quot;,&quot;ramak&quot;,&quot;kaza&quot;],&quot;default&quot;:&quot;ramak&quot;,&quot;tsType&quot;:&quot;'rutin' | 'ramak' | 'kaza'&quot;,&quot;section&quot;:&quot;Prova&quot;},&quot;fastMode&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:false,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;Altyapı&quot;},&quot;kareSayisi&quot;:{&quot;editor&quot;:&quot;range&quot;,&quot;default&quot;:8,&quot;min&quot;:4,&quot;max&quot;:12,&quot;step&quot;:1,&quot;tsType&quot;:&quot;number&quot;,&quot;section&quot;:&quot;Altyapı&quot;}}">
+class Component extends DCLogic {
+  state = {
+    theme: (typeof localStorage !== "undefined" && localStorage.getItem("kz-theme")) || "light",
+    view: "demo", presentationLock: true,
+    tone: null, phase: "idle", doneSteps: 0, provider: "teknofest", fast: null, frames: null, rag: true,
+    sidebarOpen: true, jsonOpen: false, timingsOpen: false, evidenceOpen: false, lawOpen: false, showingBackup: false,
+    countP: 1, prompt: "Bu videoda bir iş kazası var mı? Varsa ne olduğunu ve kaçıncı saniyede olduğunu söyle.",
+    liveRunning: false, livePhase: "idle"
+  };
+
+  resultRef = React.createRef();
+
+  componentWillUnmount() { clearTimeout(this._t); clearTimeout(this._h); clearTimeout(this._s); clearTimeout(this._lt); cancelAnimationFrame(this._raf); }
+
+  componentDidUpdate(prevProps, prevState) {
+    if (!prevState) return;
+    if (prevState.phase !== "done" && this.state.phase === "done") this.revealResult();
+  }
+
+  setTheme(theme) {
+    try { localStorage.setItem("kz-theme", theme); } catch (e) {}
+    this.setState({ theme });
+  }
+
+  startLive = () => {
+    clearTimeout(this._lt);
+    this.setState({ liveRunning: true, livePhase: "candidate" });
+    this._lt = setTimeout(() => {
+      this.setState({ livePhase: "analyzing" });
+      this._lt = setTimeout(() => this.setState({ livePhase: "decided" }), 1300);
+    }, 1200);
+  };
+
+  stopLive = () => {
+    clearTimeout(this._lt);
+    this.setState({ liveRunning: false, livePhase: "idle" });
+  };
+
+  sourceInfo() {
+    if (this.state.showingBackup) return { label: "Kayıtlı yedek", tone: "watch", detail: "canlı EVREN sonucu değil" };
+    if (this.state.provider === "ollama") return { label: "Ollama", tone: "critical", detail: "yerel yedek — sunum kalitesi değil" };
+    if (this.state.provider === "mock") return { label: "mock", tone: "watch", detail: "modelsiz deneme" };
+    return { label: "EVREN", tone: "ok", detail: "resmi API — sunum" };
+  }
+
+  lawData() {
+    const byTone = {
+      ok: { kicker: "İSG mevzuat desteği · 2 madde", articles: [
+        { title: "İSG Kanunu 6331 · Md. 22", text: "Sıcak iş / proses ateşi bulunan alanlarda yangın söndürme ekipmanına erişim sürekli açık tutulur." },
+        { title: "Kaynak İşleri Yönetmeliği", text: "Kaynak istasyonunda KKD kullanımı ve havalandırma her vardiyada kontrol edilir." }
+      ]},
+      watch: { kicker: "İSG mevzuat desteği · 2 madde", articles: [
+        { title: "İSG Kanunu 6331 · Md. 4", text: "İşveren, araç ve yaya güzergâhlarını fiziksel olarak ayırmakla yükümlüdür." },
+        { title: "Ramak Kala Bildirim Prosedürü", text: "Ramak kala olayları 24 saat içinde kayda geçirilir ve saha turu ile doğrulanır." }
+      ]},
+      critical: { kicker: "İSG mevzuat desteği · 2 madde", articles: [
+        { title: "İSG Kanunu 6331 · Md. 26", text: "İş kazası halinde alan derhal güvenlik altına alınır, sağlık ekibi ve yetkili merciler bilgilendirilir." },
+        { title: "Kaza Bildirim Yükümlülüğü", text: "İş kazası en geç 3 iş günü içinde SGK'ya bildirilir; kanıt kareleri arşivlenir." }
+      ]}
+    };
+    return byTone[this.data.tone];
+  }
+
+  revealResult() {
+    clearTimeout(this._s);
+    this._s = setTimeout(() => {
+      const node = this.resultRef.current;
+      if (!node) return;
+      const targets = [];
+      let el = node.parentElement;
+      while (el) {
+        if (el.scrollHeight > el.clientHeight + 4) targets.push(el);
+        el = el.parentElement;
+      }
+      targets.push(document.scrollingElement || document.documentElement, document.body);
+      targets.forEach((host) => {
+        if (!host || typeof host.scrollTop !== "number") return;
+        const top = host.scrollTop + node.getBoundingClientRect().top - host.getBoundingClientRect().top;
+        if (top <= 1) return;
+        try { host.scrollTo({ top: top, behavior: "smooth" }); } catch (e) { host.scrollTop = top; }
+      });
+      const winTop = node.getBoundingClientRect().top + window.pageYOffset;
+      if (winTop > 1) window.scrollTo({ top: winTop, behavior: "smooth" });
+      if (window.parent && window.parent !== window) {
+        try { window.parent.postMessage({ type: "om-scroll-to", top: winTop }, "*"); } catch (e) {}
+      }
+    }, 120);
+  }
+
+  get DATA() {
+    return {
+      rutin: {
+        label: "rutin", hint: "Rutin operasyon · Kontrol altında",
+        video: "data/videos/normal/hat_02_kaynak.mp4",
+        category: "normal", risk: "Düşük", situation: "Rutin operasyon", decision: "Kontrol altında",
+        subtitle: "Acil müdahale gerekmez; izlemeye devam.", tone: "ok",
+        answer: "Videoda iş kazası yok. 00:06'da kaynak istasyonunda proses ateşi ve duman görülüyor, çalışanlar KKD ile görevde. Ortamda alev görünüyor; bu makinenin olağan proses ateşi, kaçış veya zarar yok.",
+        hard: { kicker: "Zor sahne", text: "Ortamda alev görünüyor; bu makinenin olağan proses ateşi, kaçış veya zarar yok." },
+        summary: "Üretim hattında rutin operasyon; kaynak istasyonunda proses ateşi ve dumanı var, çalışanlar koruyucu donanımla görevde.",
+        events: [
+          { time: "00:04", event: "Çalışanlar KKD ile kaynak istasyonunda" },
+          { time: "00:06", event: "Kaynak kıvılcımı ve proses dumanı" },
+          { time: "00:12", event: "Vinç yükünü kontrollü indirdi" }
+        ],
+        actions: ["Proses ateşi bölgesinde yangın tüpü erişimini teyit et", "Kaynak alanı havalandırmasını vardiya sonunda kontrol et", "Rutin İSG turunu planlandığı gibi sürdür"],
+        frames: ["00:02", "00:06", "00:09", "00:12"],
+        secondLook: false,
+        timings: { kare_ve_kanit: 6.2, vlm: 14.8, kural_katmani: 0.3, cevap: 5.1 },
+        total: 26.4,
+        evidence: { motion_peak_sec: 6.4, motion_peaks: [6.4, 11.8], person_vehicle_very_close: false, fire_suspect: true }
+      },
+      ramak: {
+        label: "ramak", hint: "Ramak kala · Yüksek dikkat",
+        video: "data/videos/near_miss/depo_koridor_03.mp4",
+        category: "near_miss", risk: "Orta", situation: "Ramak kala", decision: "Yüksek dikkat",
+        subtitle: "Kaza olmadı ama eşiğe gelindi; sahayı sıkılaştırın.", tone: "watch",
+        answer: "Videoda iş kazası yok, ancak 00:14'te forklift yürüyüş yolundaki çalışanın çok yakınından geçti. Temas olmadı; çalışan 00:18'de geri çekildi.",
+        hard: null,
+        summary: "Forklift yük taşırken yürüyüş yoluna girdi ve çalışanın çok yakınından geçti; temas olmadı, ramak kala kaydı gerekiyor.",
+        events: [
+          { time: "00:11", event: "Forklift yürüyüş yoluna girdi" },
+          { time: "00:14", event: "Forklift çalışanın çok yakınından geçti" },
+          { time: "00:18", event: "Çalışan geri çekildi" }
+        ],
+        actions: ["Forklift güzergâhı ile yürüyüş yolunu fiziksel bariyerle ayır", "Operatöre kör nokta ve hız kuralını aynı vardiyada hatırlat", "Ramak kala kaydını aç ve 24 saat içinde saha turu yap"],
+        frames: ["00:08", "00:11", "00:14", "00:18"],
+        secondLook: true,
+        timings: { kare_ve_kanit: 6.8, vlm: 15.4, ikinci_bakis: 9.6, kural_katmani: 0.4, cevap: 5.3 },
+        total: 37.5,
+        evidence: { motion_peak_sec: 14.2, motion_peaks: [14.2, 11.0, 18.4], person_vehicle_very_close: true, fire_suspect: false }
+      },
+      kaza: {
+        label: "kaza", hint: "İş kazası · Kritik durum",
+        video: "data/incoming/juri_video.mp4",
+        category: "accident", risk: "Yüksek", situation: "İş kazası", decision: "Kritik durum",
+        subtitle: "Fiili kaza veya zarar; derhal müdahale.", tone: "critical",
+        answer: "Evet, videoda iş kazası var. 00:15'te forklift devrildi ve taşıdığı yük düştü; 00:20'de yerde hareketsiz bir çalışan görülüyor.",
+        hard: null,
+        summary: "Forklift devrildi ve taşıdığı yük düştü; 00:20'de yerde hareketsiz çalışan görülüyor, acil müdahale gerekiyor.",
+        events: [
+          { time: "00:15", event: "Forklift devrildi" },
+          { time: "00:20", event: "Yerde hareketsiz kişi" }
+        ],
+        actions: ["Sağlık ekibini çağır", "Alanı güvenlik altına al", "Forklift operasyonunu durdur ve sahayı izole et", "İş kazası bildirimini başlat, kanıt karelerini arşivle"],
+        frames: ["00:09", "00:15", "00:18", "00:20"],
+        secondLook: true,
+        timings: { kare_ve_kanit: 7.1, vlm: 16.2, ikinci_bakis: 10.4, kural_katmani: 0.5, cevap: 5.6 },
+        total: 39.8,
+        evidence: { motion_peak_sec: 15.1, motion_peaks: [15.1, 19.8, 9.6], person_vehicle_very_close: true, fire_suspect: false }
+      }
+    };
+  }
+
+  get toneKey() { return this.state.tone || this.props.tone || "ramak"; }
+  get fast() { return this.state.fast === null ? (this.props.fastMode ?? false) : this.state.fast; }
+  get frames() { return this.state.frames === null ? (this.props.kareSayisi ?? 8) : this.state.frames; }
+  get data() { return this.DATA[this.toneKey]; }
+  get skipSecond() { return !(this.data.secondLook && !this.fast); }
+  stepMs(i) { return [820, 1080, this.skipSecond && i === 2 ? 420 : 900, 760, 1020][i]; }
+
+  run = () => {
+    clearTimeout(this._t); clearTimeout(this._h); cancelAnimationFrame(this._raf);
+    this.setState({ phase: "running", doneSteps: 0, showingBackup: false, countP: 0 }, () => this.tick());
+  };
+
+  tick() {
+    this._t = setTimeout(() => {
+      const next = this.state.doneSteps + 1;
+      if (next >= 5) {
+        this.setState({ doneSteps: 5, phase: "handoff" });
+        this._h = setTimeout(() => this.setState({ phase: "done" }, () => { this.countUp(); this.revealResult(); }), 900);
+      } else this.setState({ doneSteps: next }, () => this.tick());
+    }, this.stepMs(this.state.doneSteps));
+  }
+
+  countUp() {
+    cancelAnimationFrame(this._raf);
+    const t0 = performance.now(), dur = 1100;
+    const frame = () => {
+      const p = Math.min(1, (performance.now() - t0) / dur);
+      this.setState({ countP: 1 - Math.pow(1 - p, 3) });
+      if (p < 1) this._raf = requestAnimationFrame(frame);
+    };
+    this._raf = requestAnimationFrame(frame);
+  }
+
+  stepRows() {
+    const d = this.data, phase = this.state.phase, done = this.state.doneSteps;
+    const skip = this.skipSecond, t = d.timings;
+    const defs = [
+      { label: "Kare çıkarma ve sensör kanıtı", detail: this.frames + " kare hedefi", secs: t.kare_ve_kanit },
+      { label: "Görsel model analizi", detail: "etiket + olaylar", secs: t.vlm },
+      skip
+        ? { label: "İkinci bakış", detail: "kanıt sakin, atlandı", secs: 0, skipped: true }
+        : { label: "İkinci bakış", detail: "sensör şüpheli", secs: t.ikinci_bakis || 0 },
+      { label: "Kural ve birleştirme", detail: "zaman hizalama", secs: t.kural_katmani },
+      { label: "Cevap ve saha aksiyonları", detail: this.state.rag && !this.fast ? "LLM · RAG açık" : "LLM · RAG kapalı", secs: t.cevap }
+    ];
+    return defs.map((s, i) => {
+      let status = "pending";
+      if (phase === "running") status = i < done ? "done" : i === done ? "active" : "pending";
+      else if (phase === "handoff" || phase === "done") status = "done";
+      const isActive = status === "active", isDone = status === "done", isPending = status === "pending";
+      const gold = "var(--kz-gold)", green = "var(--kz-ok)", faint = "var(--kz-knob-off)";
+      const ringCol = isActive ? gold : isDone ? (s.skipped ? faint : green) : "rgba(var(--kz-line-rgb),0.12)";
+      return {
+        isActive: isActive,
+        label: s.label,
+        detail: s.detail,
+        time: isDone && s.secs ? s.secs.toFixed(1) + " sn" : isActive ? "çalışıyor" : s.skipped && isDone ? "atlandı" : "",
+        ringCellStyle: "position: relative; min-width: 0; text-align: center; padding: 0 8px; transition: opacity 0.7s cubic-bezier(0.22,0.61,0.36,1), transform 0.7s cubic-bezier(0.22,0.61,0.36,1);" +
+          " opacity: " + (isPending ? "0.34" : isActive ? "1" : "0.92") + "; transform: scale(" + (isPending ? "0.92" : isActive ? "1.06" : "1") + ");",
+        lineStyle: "position: absolute; top: 26px; left: calc(50% + 30px); right: calc(-50% + 30px); height: 1px; transform-origin: left center; z-index: 0;" +
+          " background: linear-gradient(90deg, " + (isDone ? "rgba(var(--kz-ok-rgb),0.85)" : "rgba(var(--kz-line-rgb),0.14)") + ", rgba(var(--kz-line-rgb),0.08));" +
+          (i === 4 ? " display: none;" : "") + (isDone ? " animation: kzDraw 0.6s cubic-bezier(0.22,0.61,0.36,1) both;" : ""),
+        haloStyle: "position: absolute; inset: 8px; border-radius: 50%; background: radial-gradient(circle, rgba(var(--kz-gold-rgb),0.22), rgba(var(--kz-gold-rgb),0) 70%);" +
+          (isActive ? " animation: kzBreath 2.1s ease-in-out infinite;" : " opacity: 0;"),
+        arcColor: ringCol,
+        arcStyle: isActive ? "animation: kzArc " + (this.stepMs(i) / 1000).toFixed(2) + "s linear both;"
+                           : "stroke-dashoffset: " + (isDone ? "0" : "114") + ";",
+        centerStyle: "position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; font-family: 'IBM Plex Mono', monospace;" +
+          " font-size: " + (isDone && !s.skipped ? "17px" : "13.5px") + "; font-weight: 500; color: " + (isActive ? gold : isDone ? (s.skipped ? faint : green) : "var(--kz-muted-soft)") + ";" +
+          (isDone ? " animation: kzPop 0.45s cubic-bezier(0.22,0.61,0.36,1) both;" : ""),
+        showForklift: isActive,
+        centerText: isActive ? "" : isDone && !s.skipped ? "✓" : isDone && s.skipped ? "–" : String(i + 1),
+        labelStyle: "min-width: 0; padding: 0 6px; text-align: center; font-size: 14.5px; line-height: 1.32; transition: color 0.6s, opacity 0.7s; opacity: " + (isPending ? "0.4" : "1") +
+          "; font-weight: " + (isActive ? "600" : "500") + "; color: " + (isPending ? "var(--kz-muted)" : "var(--kz-text)") + ";" +
+          (isActive ? " animation: kzRiseSm 0.45s ease-out both;" : ""),
+        detailStyle: "min-width: 0; padding: 0 6px; text-align: center; font-family: 'IBM Plex Mono', monospace; font-size: 12px; line-height: 1.4; transition: color 0.5s, opacity 0.7s;" +
+          " color: " + (isActive ? "var(--kz-gold)" : "var(--kz-muted-soft)") + "; opacity: " + (isPending ? "0.4" : "1") + ";" +
+          (isActive || isDone ? " animation: kzRiseSm 0.5s ease-out 0.12s both;" : ""),
+        timeStyle: "min-width: 0; text-align: center; font-family: 'IBM Plex Mono', monospace; font-size: 12px; transition: color 0.5s, opacity 0.7s; opacity: " + (isPending ? "0.4" : "1") +
+          "; color: " + (isActive ? gold : "var(--kz-muted)") + ";"
+      };
+    });
+  }
+
+  renderVals() {
+    const d = this.data, phase = this.state.phase, p = this.state.countP;
+    const isRunning = phase === "running", isHandoff = phase === "handoff", isDone = phase === "done";
+    const toneStyles = { ok: { border: "var(--kz-ok)", bg: "var(--kz-card-ok-bg)", glow: "rgba(var(--kz-ok-rgb),0.14)" },
+                         watch: { border: "var(--kz-gold)", bg: "var(--kz-card-watch-bg)", glow: "rgba(var(--kz-gold-rgb),0.13)" },
+                         critical: { border: "var(--kz-critical)", bg: "var(--kz-card-critical-bg)", glow: "rgba(var(--kz-critical-rgb),0.16)" } }[d.tone];
+    const spec = { summary: d.summary, events: d.events, risk: d.risk, actions: d.actions };
+    const pill = (a) => "flex: 1; padding: 7px 6px; border-radius: 4px; cursor: pointer; font-family: 'IBM Plex Mono', monospace; font-size: 11.5px; transition: all 0.35s; border: 1px solid " +
+      (a ? "rgba(var(--kz-gold-rgb),0.55)" : "rgba(var(--kz-line-rgb),0.12)") + "; background: " + (a ? "rgba(var(--kz-gold-rgb),0.12)" : "transparent") + "; color: " + (a ? "var(--kz-gold-deep)" : "var(--kz-muted)") + ";";
+    const track = (on) => "width: 40px; height: 22px; flex: 0 0 40px; border-radius: 11px; cursor: pointer; padding: 2px; transition: all 0.35s; border: 1px solid " +
+      (on ? "rgba(var(--kz-gold-rgb),0.5)" : "rgba(var(--kz-line-rgb),0.14)") + "; background: " + (on ? "rgba(var(--kz-gold-rgb),0.22)" : "var(--kz-surface-3)") + "; display: flex; justify-content: " + (on ? "flex-end" : "flex-start") + ";";
+    const knob = (on) => "width: 16px; height: 16px; border-radius: 50%; display: block; transition: background 0.35s; background: " + (on ? "var(--kz-gold)" : "var(--kz-knob-off)") + ";";
+    const caret = (open) => "font-family: 'IBM Plex Mono', monospace; font-size: 11px; color: var(--kz-gold); display: inline-block; transition: transform 0.35s cubic-bezier(0.22,0.61,0.36,1); transform: rotate(" + (open ? "90deg" : "0deg") + ");";
+    const themeBtn = (active) => "width: 30px; height: 30px; border: 0; border-radius: 999px; display: flex; align-items: center; justify-content: center; cursor: pointer; transition: all 0.3s;" +
+      " background: " + (active ? "var(--kz-gold)" : "transparent") + "; color: " + (active ? "var(--kz-on-gold-text)" : "var(--kz-muted-soft)") + ";";
+
+    return {
+      theme: this.state.theme,
+      setLight: () => this.setTheme("light"),
+      setDark: () => this.setTheme("dark"),
+      sunBtnStyle: themeBtn(this.state.theme === "light"),
+      moonBtnStyle: themeBtn(this.state.theme === "dark"),
+      views: [
+        { key: "demo", label: "Jüri demosu" },
+        { key: "live", label: "Canlı izleme · 8502" }
+      ].map((vw) => ({
+        label: vw.label,
+        style: "width: 100%; text-align: left; padding: 8px 10px; border-radius: 4px; cursor: pointer; font-family: 'IBM Plex Mono', monospace; font-size: 11.5px; letter-spacing: 0.02em; transition: all 0.3s; border: 1px solid " +
+          (this.state.view === vw.key ? "rgba(var(--kz-gold-rgb),0.5)" : "rgba(var(--kz-line-rgb),0.12)") + "; background: " + (this.state.view === vw.key ? "rgba(var(--kz-gold-rgb),0.1)" : "transparent") + "; color: " + (this.state.view === vw.key ? "var(--kz-gold-deep)" : "var(--kz-muted)") + ";",
+        onClick: () => this.setState({ view: vw.key })
+      })),
+      isDemoView: this.state.view === "demo",
+      isLiveView: this.state.view === "live",
+      sidebarOpen: this.state.sidebarOpen,
+      sidebarClosed: !this.state.sidebarOpen,
+      toggleSidebar: () => this.setState({ sidebarOpen: !this.state.sidebarOpen }),
+      toggleLock: () => this.setState({ presentationLock: !this.state.presentationLock }),
+      lockOff: !this.state.presentationLock,
+      lockTrack: track(this.state.presentationLock),
+      lockKnob: knob(this.state.presentationLock),
+      lockCaptionStyle: "margin-top: 8px; font-family: 'IBM Plex Mono', monospace; font-size: 11px; line-height: 1.5; color: " + (this.state.presentationLock ? "var(--kz-ok)" : "var(--kz-critical)") + ";",
+      lockCaption: this.state.presentationLock
+        ? "Kaynak kilitli: EVREN · vlm + llm-fast — Ollama'ya düşülmez"
+        : "Sunum kilidi kapalı: EVREN düşerse Ollama denenebilir",
+      toggleLaw: () => this.setState({ lawOpen: !this.state.lawOpen }),
+      lawOpen: this.state.lawOpen,
+      lawCaret: caret(this.state.lawOpen),
+      lawKicker: this.lawData().kicker,
+      lawCount: this.lawData().articles.length + " madde",
+      lawArticles: this.lawData().articles.map((a, i) => ({
+        title: a.title, text: a.text,
+        wrapStyle: "padding: " + (i === 0 ? "0" : "10px") + " 0 0; " + (i > 0 ? "border-top: 1px solid rgba(var(--kz-line-rgb),0.08); margin-top: 10px;" : "")
+      })),
+      providers: ["teknofest", "ollama", "mock"].map((name) => ({ name, style: pill(this.state.provider === name), onClick: () => this.setState({ provider: name }) })),
+      tones: Object.keys(this.DATA).map((key) => ({
+        label: this.DATA[key].label, hint: this.DATA[key].hint,
+        style: "display: flex; flex-direction: column; align-items: flex-start; gap: 3px; width: 100%; text-align: left; padding: 9px 11px; border-radius: 4px; cursor: pointer; transition: all 0.35s; font-family: 'IBM Plex Sans', sans-serif; border: 1px solid " +
+          (this.toneKey === key ? "rgba(var(--kz-gold-rgb),0.55)" : "rgba(var(--kz-line-rgb),0.12)") + "; background: " + (this.toneKey === key ? "rgba(var(--kz-gold-rgb),0.1)" : "transparent") + "; color: " + (this.toneKey === key ? "var(--kz-gold-deep)" : "var(--kz-muted)") + ";",
+        onClick: () => this.setState({ tone: key }, () => { if (this.state.phase === "done") this.countUp(); })
+      })),
+      toggleFast: () => this.setState({ fast: !this.fast }),
+      fastTrack: track(this.fast), fastKnob: knob(this.fast),
+      toggleRag: () => this.setState({ rag: !this.state.rag }),
+      ragTrack: track(this.state.rag && !this.fast), ragKnob: knob(this.state.rag && !this.fast),
+      frames: this.frames,
+      setFrames: (e) => this.setState({ frames: Number(e.target.value) }),
+      describeLine: "sağlayıcı=" + this.state.provider + " · vlm=evren/vlm · llm=evren/llm-fast · hızlı mod=" + (this.fast ? "açık" : "kapalı"),
+      backupPick: "sahne_yedek_forklift",
+      loadBackup: () => { clearTimeout(this._t); clearTimeout(this._h);
+        this.setState({ phase: "done", doneSteps: 5, showingBackup: true, countP: 0 }, () => { this.countUp(); this.revealResult(); }); },
+      closeOverlay: () => { clearTimeout(this._t); clearTimeout(this._h); cancelAnimationFrame(this._raf);
+        this.setState({ phase: "idle", doneSteps: 0, showingBackup: false, jsonOpen: false, timingsOpen: false, evidenceOpen: false }); },
+      showingBackup: this.state.showingBackup,
+      videoRel: d.video,
+      videoName: d.video.split("/").pop(),
+      prompt: this.state.prompt,
+      setPrompt: (e) => this.setState({ prompt: e.target.value }),
+      runAnalysis: this.run,
+      runLabel: isRunning || isHandoff ? "Analiz çalışıyor..." : "Analiz et",
+      runButtonStyle: "margin-top: 15px; width: 100%; padding: 15px 18px; border: 0; border-radius: 999px; font-family: 'IBM Plex Sans', sans-serif; font-size: 16px; font-weight: 600; letter-spacing: 0.01em;" +
+        " transition: transform 0.4s cubic-bezier(0.22,0.61,0.36,1), box-shadow 0.5s, background 0.4s; cursor: pointer;" +
+        " background: linear-gradient(100deg, var(--kz-gold-deep), var(--kz-gold)); color: var(--kz-on-gold-text); box-shadow: 0 10px 26px -10px rgba(var(--kz-gold-rgb),0.55);",
+      resultRef: this.resultRef,
+      flowOn: isRunning || isHandoff,
+      isRunning: isRunning,
+      isHandoff: isHandoff,
+      isDone: isDone,
+      flowCardStyle: "position: relative; overflow: hidden; width: 100%; max-width: 1000px; border-radius: 12px; padding: 28px 30px 26px;" +
+        " border: 1px solid rgba(var(--kz-gold-rgb),0.28); background: linear-gradient(158deg, var(--kz-surface) 0%, var(--kz-surface-2) 100%);" +
+        " box-shadow: 0 44px 100px -46px var(--kz-shadow-strong), 0 0 60px -30px rgba(var(--kz-gold-rgb),0.22);" +
+        (isHandoff ? " animation: kzExitUp 0.85s cubic-bezier(0.22,0.61,0.36,1) 0.15s both;"
+                   : " animation: kzRise 0.7s cubic-bezier(0.22,0.61,0.36,1) both;"),
+      statusLine: isRunning ? "Analiz çalışıyor... (" + this.state.doneSteps + "/5)" : "Tamamlandı (" + d.total.toFixed(1) + " sn)",
+      statusStyle: "font-family: 'IBM Plex Mono', monospace; transition: font-size 0.6s, color 0.6s; font-size: " + (isRunning ? "12px" : "17px") +
+        "; color: " + (isRunning ? "var(--kz-gold)" : "var(--kz-gold-deep)") + ";" + (isHandoff ? " animation: kzPop 0.6s cubic-bezier(0.22,0.61,0.36,1) both;" : ""),
+      steps: this.stepRows(),
+
+      verdictCardStyle: "position: relative; overflow: hidden; border: 1px solid rgba(var(--kz-line-rgb),0.07); border-left: 4px solid " + toneStyles.border +
+        "; background: " + toneStyles.bg + "; border-radius: 10px; padding: 30px 32px 32px; box-shadow: 0 40px 90px -50px var(--kz-shadow-med);" +
+        " animation: kzCardIn 0.75s cubic-bezier(0.22,0.61,0.36,1) both" + (d.tone === "critical" ? ", kzAlarmEdge 0.7s ease-in-out 0.75s infinite" : "") + ";",
+      verdictGlowStyle: "position: absolute; left: -8%; top: -60%; width: 70%; height: 240%; pointer-events: none; border-radius: 50%;" +
+        " background: radial-gradient(circle, " + toneStyles.glow + " 0%, rgba(0,0,0,0) 62%);" +
+        (d.tone === "critical"
+          ? " animation: kzFlare 2.4s cubic-bezier(0.22,0.61,0.36,1) 0.2s both, kzAlarmWash 0.7s ease-in-out 2.2s infinite;"
+          : " animation: kzFlare 2.4s cubic-bezier(0.22,0.61,0.36,1) 0.2s both;"),
+      v: (() => {
+        const src = this.sourceInfo();
+        const srcColor = src.tone === "ok" ? "var(--kz-ok)" : src.tone === "critical" ? "var(--kz-critical)" : "var(--kz-gold)";
+        return {
+          kicker: "Saha kararı", subtitle: d.subtitle, answer: d.answer,
+          hasHard: !!d.hard, hardKicker: d.hard ? d.hard.kicker : "", hardText: d.hard ? d.hard.text : "",
+          sourceLabel: src.label, sourceDetail: " " + src.detail,
+          sourceBadgeStyle: "display: inline-flex; align-items: baseline; gap: 6px; margin-bottom: 14px; padding: 5px 12px; border-radius: 999px; font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase; font-weight: 600;" +
+            " border: 1px solid " + srcColor + "; color: " + srcColor + "; opacity: 0.92; animation: kzRiseSm 0.4s ease-out both;"
+        };
+      })(),
+      headWords: (d.situation + " · " + d.decision).split(" ").map((text, i) => ({
+        text,
+        style: "font-size: 40px; font-weight: 600; letter-spacing: -0.015em; line-height: 1.12; display: inline-block; color: var(--kz-text);" +
+          " animation: kzWord 0.7s cubic-bezier(0.22,0.61,0.36,1) " + (0.12 + i * 0.11).toFixed(2) + "s both;"
+      })),
+      metrics: [
+        { label: "Saha durumu", value: d.situation, big: false },
+        { label: "Karar", value: d.decision, big: false },
+        { label: "Analiz süresi", value: (d.total * p).toFixed(1) + " sn", big: true },
+        { label: "İşaretlenen olay", value: String(Math.round(d.events.length * p)), big: true }
+      ].map((m, i) => ({
+        label: m.label, value: m.value,
+        cardStyle: "border: 1px solid rgba(var(--kz-line-rgb),0.08); border-radius: 8px; background: linear-gradient(158deg, var(--kz-surface), var(--kz-surface-2));" +
+          " padding: 16px 18px 18px; animation: kzRise 0.75s cubic-bezier(0.22,0.61,0.36,1) " + (0.5 + i * 0.08).toFixed(2) + "s both;",
+        valueStyle: "margin-top: 11px; font-weight: 600; line-height: 1.12; letter-spacing: -0.01em; font-size: " + (m.big ? "30px" : "22px") +
+          "; font-family: " + (m.big ? "'IBM Plex Mono', monospace" : "'IBM Plex Sans', sans-serif") +
+          "; color: " + (i === 1 ? "var(--kz-gold-deep)" : "var(--kz-text)") + ";"
+      })),
+      frameList: d.frames.map((time, i) => ({ time, style: "animation: kzPop 0.6s cubic-bezier(0.22,0.61,0.36,1) " + (0.95 + i * 0.09).toFixed(2) + "s both;" })),
+      events: d.events.map((e, i) => ({
+        time: e.time, event: e.event,
+        rowStyle: "display: flex; align-items: baseline; gap: 14px; padding: 12px 0; border-bottom: 1px solid rgba(var(--kz-line-rgb),0.06);" +
+          " animation: kzFromLeft 0.65s cubic-bezier(0.22,0.61,0.36,1) " + (1 + i * 0.14).toFixed(2) + "s both;"
+      })),
+      hasEvents: d.events.length > 0,
+      noEvents: d.events.length === 0,
+      summary: d.summary,
+      actions: d.actions.map((text, i) => ({
+        no: String(i + 1).padStart(2, "0"), text,
+        rowStyle: "display: flex; align-items: baseline; gap: 13px; animation: kzFromLeft 0.65s cubic-bezier(0.22,0.61,0.36,1) " + (1.15 + i * 0.12).toFixed(2) + "s both;"
+      })),
+      jsonOpen: this.state.jsonOpen,
+      toggleJson: () => this.setState({ jsonOpen: !this.state.jsonOpen }),
+      jsonCaret: caret(this.state.jsonOpen),
+      specJson: JSON.stringify(spec, null, 2),
+      timingsOpen: this.state.timingsOpen,
+      toggleTimings: () => this.setState({ timingsOpen: !this.state.timingsOpen }),
+      timeCaret: caret(this.state.timingsOpen),
+      timingRows: Object.keys(d.timings).map((key) => ({ key, value: d.timings[key].toFixed(2) + " sn" })),
+      modelCallLine: "model çağrıları: " + (this.skipSecond ? "2" : "3") + " · sağlayıcı=" + this.state.provider,
+      evidenceOpen: this.state.evidenceOpen,
+      toggleEvidence: () => this.setState({ evidenceOpen: !this.state.evidenceOpen }),
+      evCaret: caret(this.state.evidenceOpen),
+      evidenceJson: JSON.stringify(d.evidence, null, 2),
+      ...this.liveVals(d)
+    };
+  }
+
+  liveVals(d) {
+    const lp = this.state.livePhase, running = this.state.liveRunning;
+    const decided = lp === "decided";
+    const toneColor = decided ? (d.tone === "ok" ? "var(--kz-ok)" : d.tone === "critical" ? "var(--kz-critical)" : "var(--kz-gold)") : "var(--kz-gold)";
+    const banner = {
+      idle: { kicker: "Bekleniyor", title: "Akış kapalı", subtitle: "Kenardan kaynak seçip izlemeyi başlatın." },
+      candidate: { kicker: "Hareket algılandı", title: "Aday pencere açıldı", subtitle: "Model bu pencereyi arkada okuyor; akış donmadı." },
+      analyzing: { kicker: "Model okuyor", title: "EVREN sahneyi değerlendiriyor", subtitle: "Kısa klip üzerinden yapılandırılmış etiket üretiliyor." },
+      decided: { kicker: "Saha kararı", title: d.situation + " · " + d.decision, subtitle: d.subtitle }
+    }[lp];
+    return {
+      startLive: this.startLive, stopLive: this.stopLive,
+      liveRunning: running,
+      liveRunCaption: running ? "Akış açık — soldaki görüntü canlı; model kısa klibi arkada okur." : "Akış kapalı. Kenardan dosya seçin veya video bırakın, sonra başlatın.",
+      liveStartStyle: "flex: 1; padding: 13px 16px; border: 0; border-radius: 999px; font-family: 'IBM Plex Sans', sans-serif; font-size: 14.5px; font-weight: 600; cursor: pointer; transition: all 0.3s;" +
+        " background: linear-gradient(100deg, var(--kz-gold-deep), var(--kz-gold)); color: var(--kz-on-gold-text);",
+      liveStopStyle: "flex: 1; padding: 13px 16px; border: 1px solid rgba(var(--kz-line-rgb),0.16); border-radius: 999px; background: transparent; color: var(--kz-code-text); font-family: 'IBM Plex Sans', sans-serif; font-size: 14.5px; font-weight: 600; cursor: pointer; transition: all 0.3s;",
+      feedCaption: running ? "kayıt · gerçek zamanlı akış (~18 fps)" : "Kayıt henüz kare göndermedi. İzlemeyi başlatın.",
+      liveBannerStyle: "position: relative; overflow: hidden; border: 1px solid rgba(var(--kz-line-rgb),0.08); border-left: 4px solid " + toneColor +
+        "; border-radius: 8px; background: linear-gradient(158deg, var(--kz-surface), var(--kz-surface-2)); padding: 20px 22px; transition: border-color 0.4s;",
+      liveDotStyle: "width: 8px; height: 8px; border-radius: 50%; background: " + toneColor + ";" + (lp === "analyzing" || lp === "candidate" ? " animation: kzBreath 1.6s ease-in-out infinite;" : ""),
+      liveKicker: banner.kicker, liveTitle: banner.title, liveSubtitle: banner.subtitle,
+      liveMetrics: decided
+        ? [{ label: "Algılanan an", value: d.events[0].time }, { label: "Saha durumu", value: d.situation }, { label: "Karar", value: d.decision }, { label: "Model", value: (d.timings.vlm).toFixed(0) + " sn" }]
+        : [{ label: "Durum", value: banner.kicker }, { label: "Hareket", value: lp === "idle" ? "0" : "17" }, { label: "Tetik", value: lp === "idle" ? "0" : "1" }, { label: "Algılanan an", value: lp === "idle" ? "—" : d.events[0].time }],
+      liveHasEvent: lp !== "idle", liveNoEvent: lp === "idle",
+      liveEventTime: d.events[0] ? d.events[0].time : "00:00",
+      liveEventText: decided ? d.events[0].event : (lp === "idle" ? "" : "Hareket tetiklendi — model bu pencereyi okuyor"),
+      liveSummary: decided ? d.summary : (lp === "idle" ? "Tetik yok. Olay özeti burada durur." : "Özet model dönünce yazılır. Akış durmadı."),
+      liveHasActions: decided, liveNoActions: !decided,
+      liveActions: d.actions.slice(0, 3).map((text, i) => ({ no: String(i + 1).padStart(2, "0"), text }))
+    };
+  }
+}
+</script>
+</body>
+</html>

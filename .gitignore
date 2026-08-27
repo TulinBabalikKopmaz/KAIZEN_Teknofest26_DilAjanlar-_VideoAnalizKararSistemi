@@ -31,6 +31,7 @@ raw_videos/
 *.jpg
 *.jpeg
 *.png
+!design/juri-demo/**/*.png
 
 # Model ağırlıkları
 *.pt
