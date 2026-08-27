@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Cormorant:ital,wght@0,500;0,600;0,700;1,500&family=Montserrat:wght@400;500;600&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap');
 
 :root {
   --color-bg: #0C0A09;
@@ -11,8 +11,9 @@
   --color-ok: #7D9B7A;
   --color-watch: #C9A227;
   --color-critical: #E11D48;
-  --font: "Montserrat", "Segoe UI", sans-serif;
-  --display: "Cormorant", Georgia, serif;
+  --font: "IBM Plex Sans", "Segoe UI", sans-serif;
+  --mono: "IBM Plex Mono", ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace;
+  --display: var(--font);
   --ease: cubic-bezier(0.16, 1, 0.3, 1);
   --radius: 20px;
   --kz-bg: var(--color-bg);
@@ -29,6 +30,9 @@
 
 html, body, [class*="css"], .stApp, .stMarkdown, p, label, input, textarea, button {
   font-family: var(--font) !important;
+}
+code, pre, kbd, samp, [data-testid="stJson"], [data-testid="stCode"] {
+  font-family: var(--mono) !important;
 }
 #MainMenu, footer, [data-testid="stToolbar"] { visibility: hidden; }
 header { background: transparent; }
@@ -76,8 +80,8 @@ button:focus-visible, textarea:focus-visible, input:focus-visible {
   margin-bottom: 1.6rem;
 }
 .kz-brand {
-  font-family: var(--font);
-  letter-spacing: 0.42em;
+  font-family: var(--mono);
+  letter-spacing: 0.28em;
   text-transform: uppercase;
   font-size: 0.72rem;
   font-weight: 600;
@@ -102,6 +106,7 @@ button:focus-visible, textarea:focus-visible, input:focus-visible {
 }
 
 .kz-panel-label {
+  font-family: var(--mono);
   font-size: 0.7rem;
   letter-spacing: 0.22em;
   text-transform: uppercase;
@@ -125,6 +130,7 @@ button:focus-visible, textarea:focus-visible, input:focus-visible {
   min-height: 0;
 }
 .kz-metric .l {
+  font-family: var(--mono);
   font-size: 0.65rem;
   letter-spacing: 0.18em;
   text-transform: uppercase;
@@ -132,8 +138,8 @@ button:focus-visible, textarea:focus-visible, input:focus-visible {
   margin-bottom: 0.35rem;
 }
 .kz-metric .v {
-  font-family: var(--display);
-  font-size: 1.35rem;
+  font-family: var(--mono);
+  font-size: 1.15rem;
   font-weight: 600;
   color: var(--color-fg);
 }
@@ -156,6 +162,7 @@ button:focus-visible, textarea:focus-visible, input:focus-visible {
   background: linear-gradient(180deg, rgba(225, 29, 72, 0.12), rgba(12, 10, 9, 0.45));
 }
 .kz-kicker {
+  font-family: var(--mono);
   font-size: 0.68rem;
   letter-spacing: 0.28em;
   text-transform: uppercase;
@@ -222,6 +229,7 @@ button:focus-visible, textarea:focus-visible, input:focus-visible {
   text-align: left;
 }
 .kz-hard-kicker {
+  font-family: var(--mono);
   font-size: 0.65rem;
   letter-spacing: 0.2em;
   text-transform: uppercase;
@@ -231,6 +239,7 @@ button:focus-visible, textarea:focus-visible, input:focus-visible {
 }
 
 .kz-section {
+  font-family: var(--mono);
   font-size: 0.7rem;
   letter-spacing: 0.22em;
   text-transform: uppercase;
@@ -248,8 +257,8 @@ button:focus-visible, textarea:focus-visible, input:focus-visible {
   border-bottom: 1px solid var(--color-line);
 }
 .kz-time {
-  font-family: var(--display);
-  font-size: 1.15rem;
+  font-family: var(--mono);
+  font-size: 0.95rem;
   font-weight: 600;
   color: var(--color-gold);
 }
@@ -268,7 +277,7 @@ button:focus-visible, textarea:focus-visible, input:focus-visible {
 }
 .kz-actions li::before {
   content: counter(act, decimal-leading-zero);
-  font-family: var(--display);
+  font-family: var(--mono);
   color: var(--color-gold);
   font-size: 1.1rem;
   font-weight: 600;
@@ -335,6 +344,7 @@ button:focus-visible, textarea:focus-visible, input:focus-visible {
 .kz-flow.is-done { border-color: rgba(125, 155, 122, 0.4); }
 .kz-flow.is-fail { border-color: rgba(225, 29, 72, 0.45); }
 .kz-flow-kicker {
+  font-family: var(--mono);
   font-size: 0.65rem;
   letter-spacing: 0.28em;
   text-transform: uppercase;
@@ -462,7 +472,7 @@ div[data-testid="stFileUploader"] button {
 [data-testid="stColumn"]:has([data-testid="stFileUploader"]):has([data-testid="stVideo"]) [data-testid="stFileUploaderDropzone"]::after {
   content: "Videoyu değiştir";
   color: #C9A227;
-  font-family: Montserrat, sans-serif;
+  font-family: var(--font);
   font-size: 0.82rem;
   font-weight: 600;
   letter-spacing: 0.08em;

@@ -262,6 +262,7 @@ def sidebar_settings() -> dict[str, Any]:
         unsafe_allow_html=True,
     )
     st.sidebar.caption("Saha İSG karar sistemi")
+    st.sidebar.caption("Canlı izleme: `streamlit run app/live_app.py --server.port 8502`")
     st.sidebar.markdown("---")
     st.sidebar.markdown("**Altyapı**")
     lock = st.sidebar.toggle(

@@ -57,8 +57,12 @@ def list_local_videos() -> list[Path]:
 
 
 def sidebar() -> StreamConfig:
-    st.sidebar.markdown('<p class="kz-brand">KAIZEN</p>', unsafe_allow_html=True)
+    st.sidebar.markdown(
+        '<div class="kz-brand" style="margin-bottom:0.75rem">KAIZEN</div>',
+        unsafe_allow_html=True,
+    )
     st.sidebar.caption("Canlı saha izleme — jüri videosu değil. Kayıt gerçek zamanlı oynar.")
+    st.sidebar.caption("Jüri demosu: `streamlit run app/demo_app.py` (8501).")
     source_kind = st.sidebar.radio(
         "Kaynak",
         ("dosya", "webcam"),
@@ -297,7 +301,7 @@ def main() -> None:
 <div class="kz-top">
   <p class="kz-brand">KAIZEN</p>
   <h1 class="kz-hero">Canlı saha izleme</h1>
-  <p class="kz-lead">Ekran gerçek kamera akışı. Analiz arkada; her kare modele gitmez.</p>
+  <p class="kz-lede">Ekran gerçek kamera akışı. Analiz arkada; her kare modele gitmez.</p>
 </div>
 """,
         unsafe_allow_html=True,
@@ -319,7 +323,9 @@ def main() -> None:
 
         @st.fragment(run_every=0.12)
         def preview_panel() -> None:
+            st.markdown('<div class="kz-live-feed">', unsafe_allow_html=True)
             render_feed(hub)
+            st.markdown("</div>", unsafe_allow_html=True)
 
         preview_panel()
     with col_b:
