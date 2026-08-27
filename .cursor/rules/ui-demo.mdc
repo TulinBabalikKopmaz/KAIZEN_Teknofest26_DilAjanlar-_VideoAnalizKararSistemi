@@ -16,6 +16,7 @@ Kaynak kopya: `utils/display.py`. Taslak: `docs/ui_taslak.md`.
 - Mevzuat kapalı expander: kicker görünür; açılınca madde özetleri. Aksiyon listesini ezme
 - Canlı konsol (`app/live_app.py`) jüri videosu değil; kopya `watch_banner`. Pipeline kuralına dokunma
 - Pipeline, kural, gold'a dokunma; video etiket prompt'unu oynatma
-- React'e geçme; Streamlit cilası
+- Jüri yüzü `app/jury_ui/` + `py app/jury_server.py` (:8503). Streamlit `demo_app.py` yedek.
+- Claude Design HTML makettir; indirilen dosya `/claude-mock`. Pipeline `jury_ui` üzerinden bağlanır.
 - Sahne klibini varsayılan kilitleme
 - `.env` ve video/frame commit etme

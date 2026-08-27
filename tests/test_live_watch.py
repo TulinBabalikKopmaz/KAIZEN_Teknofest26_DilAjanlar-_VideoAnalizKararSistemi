@@ -32,11 +32,38 @@ class LiveWatchTests(unittest.TestCase):
     def test_motion_wakeup_fires_on_large_frame_change(self) -> None:
         wake = MotionWakeUp(8.0)
         dark = np.zeros((90, 160, 3), dtype=np.uint8)
-        bright = np.full((90, 160, 3), 255, dtype=np.uint8)
         self.assertEqual(wake.score(dark), 0.0)
+        for _ in range(12):
+            jitter = dark.copy()
+            jitter[0, 0] = 4
+            wake.score(jitter)
+        bright = np.full((90, 160, 3), 255, dtype=np.uint8)
         score = wake.score(bright)
         self.assertGreater(score, 8.0)
         self.assertTrue(wake.triggered(score))
+
+    def test_motion_wakeup_ignores_opening_spike(self) -> None:
+        wake = MotionWakeUp(8.0)
+        dark = np.zeros((90, 160, 3), dtype=np.uint8)
+        bright = np.full((90, 160, 3), 255, dtype=np.uint8)
+        wake.score(dark)
+        spike = wake.score(bright)
+        self.assertGreater(spike, 8.0)
+        self.assertFalse(wake.triggered(spike))
+        self.assertFalse(wake.triggered(spike, file_mode=True))
+
+    def test_file_mode_fires_after_short_warmup(self) -> None:
+        wake = MotionWakeUp(8.0)
+        dark = np.zeros((90, 160, 3), dtype=np.uint8)
+        wake.score(dark)
+        for _ in range(3):
+            jitter = dark.copy()
+            jitter[0, 0] = 4
+            wake.score(jitter)
+        bright = np.full((90, 160, 3), 255, dtype=np.uint8)
+        score = wake.score(bright)
+        self.assertTrue(wake.triggered(score, file_mode=True))
+        self.assertFalse(wake.triggered(score))
 
     def test_frames_to_clip_writes_mp4(self) -> None:
         import cv2
@@ -125,6 +152,19 @@ class LiveWatchTests(unittest.TestCase):
         self.assertEqual(upgraded["category"], "accident")
         self.assertEqual(upgraded["risk"], "Yüksek")
 
+    def test_live_lock_escape_text_stays_near_miss(self) -> None:
+        locked = lock_live_label(
+            {
+                "category": "accident",
+                "risk": "Yüksek",
+                "summary": "Yük devrilirken çalışan son anda kaçındı.",
+                "events": [{"time": "00:04", "event": "Çalışan devrilen yükten kaçındı"}],
+                "actions": ["Alanı ayır"],
+            }
+        )
+        self.assertEqual(locked["category"], "near_miss")
+        self.assertEqual(locked["risk"], "Orta")
+
     def test_live_support_fills_event_time_and_law_note(self) -> None:
         spec = {
             "summary": "Çalışan yüksekten düştü ve yerde hareketsiz.",
@@ -137,6 +177,18 @@ class LiveWatchTests(unittest.TestCase):
         }
         self.assertEqual(pick_event_time(spec, "00:12"), "00:12")
         self.assertEqual(pick_event_time(spec, "00:09"), "00:12")
+        self.assertEqual(
+            pick_event_time(
+                {
+                    "events": [
+                        {"time": "00:00", "event": "Sahne açılıyor"},
+                        {"time": "00:04", "event": "Yük devrildi"},
+                    ]
+                },
+                "00:00",
+            ),
+            "00:04",
+        )
         support = attach_live_support(spec, "00:12")
         self.assertEqual(support["event_time"], "00:12")
         self.assertIn("Mevzuat", support["law_note"])
@@ -159,6 +211,69 @@ class LiveWatchTests(unittest.TestCase):
         self.assertTrue(snap["law_note"])
         self.assertNotIn("accident", snap["banner"]["title"])
         self.assertIn("İş kazası", snap["banner"]["title"])
+
+    def test_idle_keeps_last_briefing_banner(self) -> None:
+        hub = LiveHub()
+        hub.mark_decided(
+            {
+                "spec": {
+                    "summary": "Çalışan yüksekten düştü.",
+                    "events": [{"time": "00:12", "event": "Düşme"}],
+                    "risk": "Yüksek",
+                    "actions": ["Sağlık ekibini çağır"],
+                },
+                "label": {"category": "accident", "risk": "Yüksek"},
+                "trigger_time": "00:12",
+                "event_time": "00:12",
+            }
+        )
+        hub.status.phase = "idle"
+        snap = hub.snapshot()
+        self.assertTrue(snap["has_brief"])
+        self.assertIn("İş kazası", snap["banner"]["title"])
+        self.assertEqual(snap["event_time"], "00:12")
+
+    def test_new_candidate_clears_previous_spec(self) -> None:
+        hub = LiveHub()
+        hub.mark_decided(
+            {
+                "spec": {"summary": "eski", "events": [{"time": "00:01", "event": "eski"}], "risk": "Yüksek"},
+                "label": {"category": "accident"},
+                "event_time": "00:01",
+            }
+        )
+        hub.mark_candidate(8.0, 20.0, 2)
+        snap = hub.snapshot()
+        self.assertEqual(snap["phase"], "candidate")
+        self.assertEqual(snap["spec"], {})
+        self.assertEqual(snap["event_time"], "")
+        self.assertEqual(snap["trigger_time"], "00:08")
+
+    def test_stale_generation_does_not_overwrite(self) -> None:
+        hub = LiveHub()
+        hub._generation = 2
+        hub.mark_decided(
+            {
+                "generation": 1,
+                "spec": {"summary": "eski video", "events": [{"time": "00:03", "event": "eski"}]},
+                "event_time": "00:03",
+            }
+        )
+        self.assertEqual(hub.snapshot()["spec"], {})
+        hub.mark_decided(
+            {
+                "generation": 2,
+                "spec": {
+                    "summary": "yeni video düşme",
+                    "events": [{"time": "00:11", "event": "Düşme"}],
+                    "risk": "Yüksek",
+                },
+                "label": {"category": "accident", "risk": "Yüksek"},
+                "event_time": "00:11",
+            }
+        )
+        self.assertEqual(hub.snapshot()["event_time"], "00:11")
+        self.assertIn("yeni", hub.snapshot()["spec"]["summary"])
 
 
 if __name__ == "__main__":

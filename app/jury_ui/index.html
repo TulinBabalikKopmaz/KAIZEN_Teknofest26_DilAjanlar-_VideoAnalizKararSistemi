@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>KAIZEN · Saha İSG</title>
+  <link rel="stylesheet" href="/styles.css">
+  <link rel="stylesheet" href="/layout.css">
+</head>
+<body>
+<div id="app" class="kz-shell" data-kz-app="1" data-theme="light">
+  <div class="kz-noise"></div>
+
+  <div class="kz-theme">
+    <button type="button" data-act="theme" data-val="light" title="Aydınlık tema" aria-label="Aydınlık tema">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="4.2"></circle><path d="M12 2v3M12 19v3M4.2 4.2l2.1 2.1M17.7 17.7l2.1 2.1M2 12h3M19 12h3M4.2 19.8l2.1-2.1M17.7 6.3l2.1-2.1"></path></svg>
+    </button>
+    <button type="button" data-act="theme" data-val="dark" title="Karanlık tema" aria-label="Karanlık tema">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M20.5 14.5A8.5 8.5 0 1 1 9.5 3.5a7 7 0 0 0 11 11z"></path></svg>
+    </button>
+  </div>
+
+  <aside class="kz-side" id="sidebar">
+    <div class="kz-side-head">
+      <div>
+        <div class="kz-brand">KAIZEN</div>
+        <div class="kz-mono-muted">Saha İSG karar sistemi</div>
+      </div>
+      <button type="button" class="kz-icon-btn" data-act="sidebar" title="Paneli kapat">«</button>
+    </div>
+    <div class="kz-nav">
+      <button type="button" data-act="view" data-val="demo" class="on">Jüri demosu</button>
+      <button type="button" data-act="view" data-val="live">Canlı izleme</button>
+    </div>
+
+    <div class="kz-block">
+      <div class="kz-kicker-sm">Altyapı</div>
+      <div class="kz-row">
+        <div>Sunum kilidi: yalnız EVREN</div>
+        <button type="button" class="kz-track on" data-act="lock" aria-label="Sunum kilidi"><span class="kz-knob"></span></button>
+      </div>
+      <div class="kz-help ok" id="lock-cap">Kaynak kilitli: EVREN · vlm + llm-fast — Ollama'ya düşülmez</div>
+      <div id="provider-box" class="is-off">
+        <div class="kz-field" style="margin-top:14px">Model kaynağı</div>
+        <div class="kz-pills">
+          <button type="button" class="kz-pill on" data-act="provider" data-val="teknofest">teknofest</button>
+          <button type="button" class="kz-pill" data-act="provider" data-val="ollama">ollama</button>
+          <button type="button" class="kz-pill" data-act="provider" data-val="mock">mock</button>
+        </div>
+      </div>
+      <div class="kz-row">
+        <div>Hızlı mod (süre bütçesi)</div>
+        <button type="button" class="kz-track" data-act="fast" aria-label="Hızlı mod"><span class="kz-knob"></span></button>
+      </div>
+      <div class="kz-help">YOLO kanıtı, ikinci bakış ve mevzuat referansı kapanır</div>
+      <div class="kz-row" style="align-items:baseline">
+        <div>Kare sayısı</div>
+        <div id="frames-val" style="font-family:'IBM Plex Mono',monospace;color:var(--kz-gold)">8</div>
+      </div>
+      <input class="kz-range" id="frames" type="range" min="4" max="12" step="1" value="8">
+      <div class="kz-row">
+        <div>İSG mevzuat referansı (RAG)</div>
+        <button type="button" class="kz-track on" data-act="rag" aria-label="RAG"><span class="kz-knob"></span></button>
+      </div>
+      <div class="kz-codebox" id="describe">sağlayıcı=teknofest</div>
+    </div>
+
+    <div class="kz-block">
+      <div class="kz-kicker-sm">Sahne yedeği</div>
+      <div class="kz-field">Kayıtlı koşu</div>
+      <select class="kz-select" id="runs"><option value="">(canlı analiz)</option></select>
+      <button type="button" class="kz-ghost" data-act="backup">Yedeği ekrana getir</button>
+    </div>
+
+  </aside>
+
+  <button type="button" class="kz-rail is-off" id="rail" data-act="sidebar" title="Paneli aç">
+    <span>»</span><span class="v">KAIZEN</span>
+  </button>
+
+  <main class="kz-main" id="demo-view">
+    <div class="kz-glow-a"></div>
+    <div class="kz-glow-b"></div>
+    <div class="kz-wrap">
+      <div class="kz-brand">KAIZEN · TEKNOFEST 2026</div>
+      <h1 class="kz-hero">Saha İSG Karar Sistemi</h1>
+      <p class="kz-lede">Kamera kaydını arşiv değil karar haline getirir. Sahne (1 dk): ekibin seçtiği kısa klip veya kayıtlı yedek. Jüri videosu: yükle, soruyu yapıştır, hızlı mod kapalı.</p>
+
+      <div class="kz-grid">
+        <section class="kz-card">
+          <div class="kz-kicker-sm">Girdi</div>
+          <div class="kz-field">Jürinin videosu</div>
+          <div class="kz-drop" id="drop">
+            <input id="file" class="kz-file" type="file" accept="video/mp4,video/quicktime,video/webm,.mp4,.mov,.avi,.mkv,.webm,.m4v">
+            <div id="drop-empty">
+              <div class="kz-mono-muted">Videoyu buraya bırakın</div>
+              <div class="kz-help">mp4 · mov · avi · mkv · webm · m4v</div>
+              <span class="kz-browse">Gözat</span>
+            </div>
+            <div id="drop-loaded" class="is-off">
+              <video id="preview" controls muted></video>
+              <div class="kz-drop-name" id="drop-name"></div>
+              <span class="kz-browse">Videoyu değiştir</span>
+            </div>
+          </div>
+        </section>
+        <section class="kz-card" style="display:flex;flex-direction:column">
+          <div class="kz-kicker-sm">Operatör</div>
+          <div class="kz-field">Operatör sorusu</div>
+          <textarea id="prompt">Bu videoda bir iş kazası var mı? Varsa ne olduğunu ve kaçıncı saniyede olduğunu söyle.</textarea>
+          <button type="button" class="kz-run" id="run" data-act="analyze">Analiz et</button>
+          <div class="kz-err is-off" id="err"></div>
+        </section>
+      </div>
+      <div id="result"></div>
+    </div>
+  </main>
+
+  <main class="kz-main is-off" id="live-view">
+    <div class="kz-wrap live">
+      <div class="kz-brand">KAIZEN</div>
+      <h1 class="kz-hero" style="font-size:42px">Canlı saha izleme</h1>
+      <p class="kz-lede" style="max-width:700px">Ekran gerçek kamera akışı. Analiz arkada çalışır; her kare modele gitmez. Jüri videosu değil — sunumdaki kısa canlı izleme şovu.</p>
+
+      <section class="kz-card" style="margin-top:26px">
+        <div class="kz-kicker-sm">Kaynak</div>
+        <div class="kz-pills" style="margin-top:12px">
+          <button type="button" class="kz-pill on" data-act="live-kind" data-val="dosya">dosya</button>
+          <button type="button" class="kz-pill" data-act="live-kind" data-val="webcam">webcam</button>
+        </div>
+        <div id="live-file-box">
+          <div class="kz-field">Kayıt (döngü)</div>
+          <div class="kz-drop" id="live-drop">
+            <input id="live-file" class="kz-file" type="file" accept="video/mp4,video/quicktime,video/webm,.mp4,.mov,.avi,.mkv,.webm,.m4v">
+            <div id="live-drop-empty">
+              <div class="kz-mono-muted">Videoyu buraya bırakın</div>
+              <div class="kz-help">mp4 · mov · avi · mkv · webm · m4v</div>
+              <span class="kz-browse">Gözat</span>
+            </div>
+            <div id="live-drop-loaded" class="is-off">
+              <video id="live-preview" controls muted></video>
+              <div class="kz-drop-name" id="live-file-name"></div>
+              <span class="kz-browse">Videoyu değiştir</span>
+            </div>
+          </div>
+        </div>
+        <div id="live-cam-box" class="is-off">
+          <div class="kz-row" style="align-items:baseline">
+            <div>Kamera indeksi</div>
+            <input class="kz-select" id="live-cam" type="number" min="0" max="8" value="0" style="width:72px;margin:0">
+          </div>
+        </div>
+        <div class="kz-row" style="align-items:baseline">
+          <div>Hareket eşiği</div>
+          <div id="live-motion-val" style="font-family:'IBM Plex Mono',monospace;color:var(--kz-gold)">12</div>
+        </div>
+        <input class="kz-range" id="live-motion" type="range" min="4" max="40" step="1" value="12">
+        <div class="kz-row" style="align-items:baseline">
+          <div>Tetik sonrası sessizlik (sn)</div>
+          <div id="live-cd-val" style="font-family:'IBM Plex Mono',monospace;color:var(--kz-gold)">8</div>
+        </div>
+        <input class="kz-range" id="live-cooldown" type="range" min="4" max="20" step="1" value="8">
+      </section>
+
+      <div class="kz-live-btns">
+        <button type="button" class="go" data-act="live-start">İzlemeyi başlat</button>
+        <button type="button" class="stop" data-act="live-stop">Durdur</button>
+      </div>
+      <div class="kz-help" id="live-cap" style="margin-top:10px">Akış kapalı. Video seçin veya webcam açın, sonra başlatın.</div>
+      <div class="kz-err is-off" id="live-err"></div>
+      <div id="live-body"></div>
+    </div>
+  </main>
+
+  <div class="kz-overlay is-off" id="overlay"></div>
+</div>
+<script src="/app.js"></script>
+</body>
+</html>

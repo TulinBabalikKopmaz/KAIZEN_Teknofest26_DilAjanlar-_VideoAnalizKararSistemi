@@ -17,9 +17,12 @@ from typing import Any
 import streamlit as st
 
 ROOT = Path(__file__).resolve().parents[1]
-if str(ROOT) not in sys.path:
-    sys.path.insert(0, str(ROOT))
+APP_DIR = Path(__file__).resolve().parent
+for _path in (ROOT, APP_DIR):
+    if str(_path) not in sys.path:
+        sys.path.insert(0, str(_path))
 
+from ui_chrome import inject_chrome, theme_toggle  # noqa: E402
 from utils import config  # noqa: E402
 from utils import display as kz_display  # noqa: E402
 from utils.live_watch import StreamConfig, get_hub, looks_like_jpeg  # noqa: E402
@@ -34,18 +37,12 @@ model_source = kz_display.model_source
 law_support_card = kz_display.law_support_card
 
 VIDEO_EXTS = (".mp4", ".mov", ".avi", ".mkv", ".webm", ".m4v")
-_THEME_PATH = Path(__file__).resolve().parent / "demo_theme.css"
-_UI_CSS = f"<style>{_THEME_PATH.read_text(encoding='utf-8')}</style>"
 
 st.set_page_config(
     page_title="KAIZEN · Canlı izleme",
     layout="wide",
     initial_sidebar_state="expanded",
 )
-
-
-def inject_chrome() -> None:
-    st.markdown(_UI_CSS, unsafe_allow_html=True)
 
 
 def list_local_videos() -> list[Path]:
@@ -59,6 +56,8 @@ def list_local_videos() -> list[Path]:
 def sidebar() -> StreamConfig:
     st.sidebar.markdown('<p class="kz-brand">KAIZEN</p>', unsafe_allow_html=True)
     st.sidebar.caption("Canlı saha izleme — jüri videosu değil. Kayıt gerçek zamanlı oynar.")
+    theme_toggle()
+    st.sidebar.markdown("---")
     source_kind = st.sidebar.radio(
         "Kaynak",
         ("dosya", "webcam"),
@@ -114,6 +113,7 @@ def banner_html(snap: dict[str, Any]) -> str:
     err_html = f'<p class="kz-sub">{html.escape(err)}</p>' if err else ""
     return f"""
 <div class="kz-verdict {tone}">
+  <div class="kz-glow"></div>
   <div class="kz-source {html.escape(source['tone'])}">
     Kaynak · {html.escape(source['label'])}
     <span>{html.escape(source.get('detail') or '')}</span>
@@ -297,7 +297,7 @@ def main() -> None:
 <div class="kz-top">
   <p class="kz-brand">KAIZEN</p>
   <h1 class="kz-hero">Canlı saha izleme</h1>
-  <p class="kz-lead">Ekran gerçek kamera akışı. Analiz arkada; her kare modele gitmez.</p>
+  <p class="kz-lede">Ekran gerçek kamera akışı. Analiz arkada çalışır; her kare modele gitmez. Jüri videosu değil — sunumdaki kısa canlı izleme şovu.</p>
 </div>
 """,
         unsafe_allow_html=True,
@@ -315,15 +315,15 @@ def main() -> None:
 
     col_a, col_b = st.columns([1.15, 1], gap="large")
     with col_a:
-        st.markdown('<div class="kz-section">Kayıt</div>', unsafe_allow_html=True)
+        with st.container(border=True):
+            st.markdown('<div class="kz-section">Kayıt</div>', unsafe_allow_html=True)
 
-        @st.fragment(run_every=0.12)
-        def preview_panel() -> None:
-            render_feed(hub)
+            @st.fragment(run_every=0.12)
+            def preview_panel() -> None:
+                render_feed(hub)
 
-        preview_panel()
+            preview_panel()
     with col_b:
-
         @st.fragment(run_every=0.5)
         def status_panel() -> None:
             snap = hub.snapshot()
@@ -332,11 +332,12 @@ def main() -> None:
 
         status_panel()
 
-    @st.fragment(run_every=0.7)
-    def briefing_panel() -> None:
-        render_briefing(hub.snapshot())
+    with st.container(border=True):
+        @st.fragment(run_every=0.7)
+        def briefing_panel() -> None:
+            render_briefing(hub.snapshot())
 
-    briefing_panel()
+        briefing_panel()
 
 
 main()

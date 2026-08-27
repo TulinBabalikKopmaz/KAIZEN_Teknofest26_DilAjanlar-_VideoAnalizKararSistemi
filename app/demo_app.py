@@ -20,9 +20,12 @@ from typing import Any
 import streamlit as st
 
 ROOT = Path(__file__).resolve().parents[1]
-if str(ROOT) not in sys.path:
-    sys.path.insert(0, str(ROOT))
+APP_DIR = Path(__file__).resolve().parent
+for _path in (ROOT, APP_DIR):
+    if str(_path) not in sys.path:
+        sys.path.insert(0, str(_path))
 
+from ui_chrome import inject_chrome, theme_toggle  # noqa: E402
 from utils import config  # noqa: E402
 from utils import demo_pipeline as kz_pipeline  # noqa: E402
 from utils import display as kz_display  # noqa: E402
@@ -47,18 +50,11 @@ VIDEO_EXTS = (".mp4", ".mov", ".avi", ".mkv", ".webm", ".m4v")
 INCOMING_DIR = ROOT / "data" / "incoming"
 VIDEO_DIRS = (ROOT / "data" / "videos", INCOMING_DIR)
 
-_THEME_PATH = Path(__file__).resolve().parent / "demo_theme.css"
-_UI_CSS = f"<style>{_THEME_PATH.read_text(encoding='utf-8')}</style>"
-
 st.set_page_config(
     page_title="KAIZEN · Saha İSG",
     layout="wide",
     initial_sidebar_state="expanded",
 )
-
-
-def inject_chrome() -> None:
-    st.markdown(_UI_CSS, unsafe_allow_html=True)
 
 
 # Jüri yüzü: sabit 5 adım (pipeline [n/5] mesajlarına kilitli)
@@ -83,19 +79,15 @@ class AnalysisFlowBoard:
         self.render()
 
     def render(self) -> None:
-        current_idx = max(self.current, 1) if self.state != "done" else 5
         if self.state == "done":
-            title = "Tamamlandı"
-            detail = self.meta
+            status = self.meta
         elif self.state == "fail":
-            title = "Analiz kesildi"
-            detail = self.details.get(max(self.current, 1), self.meta)
+            status = "Kesildi"
         else:
-            step = _FLOW_STEPS[min(current_idx, 5) - 1]
-            title = step["title"]
-            detail = self.details.get(current_idx) or step["idle"]
-        dots: list[str] = []
+            status = f"Analiz çalışıyor... ({self.current or 1}/5)"
+        steps_html: list[str] = []
         for index in range(1, 6):
+            spec = _FLOW_STEPS[index - 1]
             if self.state == "fail" and index == max(self.current, 1):
                 klass = "bad"
             elif self.state == "done" or index < self.current:
@@ -104,7 +96,15 @@ class AnalysisFlowBoard:
                 klass = "now"
             else:
                 klass = ""
-            dots.append(f'<span class="{klass}"></span>')
+            detail = self.details.get(index) or spec["idle"]
+            mark = "✓" if klass == "on" else str(index)
+            steps_html.append(
+                f'<div class="kz-step {klass}">'
+                f'<div class="kz-ring">{mark}</div>'
+                f'<div class="kz-step-label">{html.escape(spec["title"])}</div>'
+                f'<div class="kz-step-detail">{html.escape(detail)}</div>'
+                "</div>"
+            )
         panel = {"running": "is-live", "done": "is-done", "fail": "is-fail"}[self.state]
         busy = "true" if self.state == "running" else "false"
         shimmer = '<span class="kz-shimmer"></span>' if self.state == "running" else ""
@@ -115,10 +115,11 @@ class AnalysisFlowBoard:
             f"""
 <div class="kz-flow {panel}" role="status" aria-live="polite" aria-busy="{busy}">
   {shimmer}
-  <p class="kz-flow-kicker">Analiz akışı · {html.escape(engine)}</p>
-  <p class="kz-flow-title">{html.escape(title)}</p>
-  <p class="kz-flow-detail">{html.escape(detail)}</p>
-  <div class="kz-dots">{"".join(dots)}</div>
+  <div class="kz-flow-top">
+    <p class="kz-flow-kicker">Analiz akışı · {html.escape(engine)}</p>
+    <p class="kz-flow-meta">{html.escape(status)}</p>
+  </div>
+  <div class="kz-steps">{"".join(steps_html)}</div>
 </div>
 """,
             unsafe_allow_html=True,
@@ -262,6 +263,7 @@ def sidebar_settings() -> dict[str, Any]:
         unsafe_allow_html=True,
     )
     st.sidebar.caption("Saha İSG karar sistemi")
+    theme_toggle()
     st.sidebar.markdown("---")
     st.sidebar.markdown("**Altyapı**")
     lock = st.sidebar.toggle(
@@ -329,6 +331,11 @@ def sidebar_settings() -> dict[str, Any]:
     return {"fast": fast, "max_frames": max_frames, "use_rag": use_rag, "provider": provider}
 
 
+def _title_words(situation: str, decision: str) -> str:
+    words = f"{situation} · {decision}".split(" ")
+    return "".join(f"<span>{html.escape(word)}</span>" for word in words if word)
+
+
 def verdict_card(result: DemoResult, source: dict[str, str]) -> dict[str, str]:
     v = verdict(result.label.get("category"), result.spec.get("risk"))
     answer_html = html.escape(result.answer or "").replace("\n", "<br>")
@@ -345,12 +352,13 @@ def verdict_card(result: DemoResult, source: dict[str, str]) -> dict[str, str]:
     st.markdown(
         f"""
 <div class="kz-verdict {v['tone']}">
+  <div class="kz-glow"></div>
   <div class="kz-source {html.escape(source['tone'])}">
     Kaynak · {html.escape(source['label'])}
     <span>{detail}</span>
   </div>
   <div class="kz-kicker">{html.escape(v['kicker'])}</div>
-  <div class="kz-title">{html.escape(v['situation'])} · {html.escape(v['decision'])}</div>
+  <div class="kz-title">{_title_words(v['situation'], v['decision'])}</div>
   <p class="kz-sub">{html.escape(v['subtitle'])}</p>
   <div class="kz-answer">{answer_html}</div>
   {hard_html}
@@ -362,20 +370,21 @@ def verdict_card(result: DemoResult, source: dict[str, str]) -> dict[str, str]:
 
 
 def metrics_strip(result: DemoResult, v: dict[str, str], source: dict[str, str]) -> None:
+    del source
     events = result.spec.get("events") or []
     cells = [
-        ("Kaynak", source["label"]),
-        ("Saha durumu", v["situation"]),
-        ("Karar", v["decision"]),
-        ("Analiz süresi", f"{result.total_s:.1f} sn"),
-        ("İşaretlenen olay", str(len(events))),
+        ("Saha durumu", v["situation"], False),
+        ("Karar", v["decision"], False),
+        ("Analiz süresi", f"{result.total_s:.1f} sn", True),
+        ("İşaretlenen olay", str(len(events)), True),
     ]
     parts = ['<div class="kz-metrics">']
-    for label, value in cells:
+    for label, value, mono in cells:
+        klass = "v mono" if mono else "v"
         parts.append(
             "<div class='kz-metric'>"
             f"<div class='l'>{html.escape(label)}</div>"
-            f"<div class='v'>{html.escape(value)}</div>"
+            f"<div class='{klass}'>{html.escape(value)}</div>"
             "</div>"
         )
     parts.append("</div>")
@@ -439,37 +448,56 @@ def show_result(result: DemoResult) -> None:
             "kenarda «Sunum kilidi: yalnız EVREN» açık olsun ve Analiz et'e tekrar basın."
         )
     elif source["kind"] == "backup":
-        st.warning("Ekranda kayıtlı sahne yedeği var (canlı EVREN sonucu değil).")
+        st.markdown(
+            '<div class="kz-banner">Ekranda <strong>kayıtlı sahne yedeği</strong> var '
+            "(canlı API sonucu değil). Jüri videosunda Analiz et ile taze koşu alın.</div>",
+            unsafe_allow_html=True,
+        )
+
+    video_name = Path(result.video).name if result.video else "kayıt"
+    st.markdown(
+        f"""
+<div class="kz-result-head">
+  <span class="kz-result-kicker">Analiz sonucu</span>
+  <span class="kz-result-meta">{html.escape(video_name)} · Tamamlandı ({result.total_s:.1f} sn)</span>
+</div>
+""",
+        unsafe_allow_html=True,
+    )
 
     verdict_card(result, source)
     metrics_strip(result, v, source)
 
     left, right = st.columns([1.1, 1], gap="large")
     with left:
-        st.markdown('<div class="kz-section">Kayıt ve kanıt</div>', unsafe_allow_html=True)
-        video_path = Path(result.video)
-        if video_path.exists():
-            st.video(str(video_path))
-        frames = result.frames
-        if frames:
-            grid = st.columns(min(4, len(frames)))
-            for i, frame in enumerate(frames):
-                path = frame.get("demo_path") or frame.get("path")
-                if path and Path(path).exists():
-                    grid[i % len(grid)].image(path, caption=frame.get("time", ""))
-        elif not video_path.exists():
-            st.caption("Bu koşuda kayıt veya kare yok.")
+        with st.container(border=True):
+            st.markdown('<div class="kz-section">Kayıt ve kanıt kareleri</div>', unsafe_allow_html=True)
+            video_path = Path(result.video)
+            if video_path.exists():
+                st.video(str(video_path))
+            frames = result.frames
+            if frames:
+                grid = st.columns(min(4, len(frames)))
+                for i, frame in enumerate(frames):
+                    path = frame.get("demo_path") or frame.get("path")
+                    if path and Path(path).exists():
+                        grid[i % len(grid)].image(path, caption=frame.get("time", ""))
+            elif not video_path.exists():
+                st.caption("Bu koşuda kayıt veya kare yok.")
 
     with right:
-        st.markdown('<div class="kz-section">Olay zaman çizelgesi</div>', unsafe_allow_html=True)
-        st.markdown(timeline_html(events), unsafe_allow_html=True)
+        with st.container(border=True):
+            st.markdown('<div class="kz-section">Olay zaman çizelgesi</div>', unsafe_allow_html=True)
+            st.markdown(timeline_html(events), unsafe_allow_html=True)
 
-        st.markdown('<div class="kz-section">Özet</div>', unsafe_allow_html=True)
-        st.write(spec.get("summary") or "—")
+        with st.container(border=True):
+            st.markdown('<div class="kz-section">Özet</div>', unsafe_allow_html=True)
+            st.write(spec.get("summary") or "—")
 
-        st.markdown('<div class="kz-section">Saha aksiyonları</div>', unsafe_allow_html=True)
-        st.markdown(actions_html(list(spec.get("actions") or [])), unsafe_allow_html=True)
-        show_law_support(result)
+        with st.container(border=True):
+            st.markdown('<div class="kz-section">Saha aksiyonları</div>', unsafe_allow_html=True)
+            st.markdown(actions_html(list(spec.get("actions") or [])), unsafe_allow_html=True)
+            show_law_support(result)
 
         with st.expander("Jüri çıktısı (şartname JSON)"):
             st.caption(spec_footnote())
@@ -515,77 +543,75 @@ def main() -> None:
   <div class="kz-brand">KAIZEN · TEKNOFEST 2026</div>
   <h1 class="kz-hero">Saha İSG Karar Sistemi</h1>
   <p class="kz-lede">
-    Kamera kaydını arşiv değil karar haline getirir.
-    Sahne için kısa klip veya kayıtlı yedek; jüri videosunda yükle, soruyu yapıştır, analiz et.
+    Kamera kaydını arşiv değil karar haline getirir. Sahne (1 dk): ekibin seçtiği kısa klip
+    veya kayıtlı yedek. Jüri videosu: yükle, soruyu yapıştır, hızlı mod kapalı.
   </p>
 </div>
 """,
         unsafe_allow_html=True,
     )
 
-    if st.session_state.get("showing_backup"):
-        st.warning(
-            "Ekranda kayıtlı sahne yedeği var (canlı API sonucu değil). "
-            "Jüri videosunda Analiz et ile taze koşu alın."
-        )
-
     source_col, prompt_col = st.columns([1, 1.35], gap="large")
+    video_path: Path | None = None
+    prompt = DEFAULT_PROMPT
+    run = False
     with source_col:
-        st.markdown('<div class="kz-panel-label">Girdi</div>', unsafe_allow_html=True)
+        with st.container(border=True):
+            st.markdown('<div class="kz-panel-label">Girdi</div>', unsafe_allow_html=True)
 
-        preview = st.session_state.get("girdi_video")
-        preview_path = Path(preview) if preview else None
-        if preview_path is not None and preview_path.exists():
-            st.video(str(preview_path))
+            preview = st.session_state.get("girdi_video")
+            preview_path = Path(preview) if preview else None
+            if preview_path is not None and preview_path.exists():
+                st.video(str(preview_path))
 
-        upload_n = int(st.session_state.get("girdi_upload_n", 0))
-        uploaded = st.file_uploader(
-            "Jürinin videosu",
-            type=[e.strip(".") for e in VIDEO_EXTS],
-            label_visibility="collapsed",
-            key=f"girdi_upload_{upload_n}",
-        )
-        if uploaded is not None:
-            dest = save_upload(uploaded)
-            st.session_state["girdi_video"] = str(dest)
-            st.session_state["girdi_upload_n"] = upload_n + 1
-            st.rerun()
+            upload_n = int(st.session_state.get("girdi_upload_n", 0))
+            uploaded = st.file_uploader(
+                "Jürinin videosu",
+                type=[e.strip(".") for e in VIDEO_EXTS],
+                label_visibility="collapsed",
+                key=f"girdi_upload_{upload_n}",
+            )
+            if uploaded is not None:
+                dest = save_upload(uploaded)
+                st.session_state["girdi_video"] = str(dest)
+                st.session_state["girdi_upload_n"] = upload_n + 1
+                st.rerun()
 
-        local_videos = list_local_videos()
-        picked = None
-        if local_videos:
-            names = ["(yüklenen dosyayı kullan)"] + [
-                str(p.relative_to(ROOT)) for p in local_videos[:40]
-            ]
-            choice = st.selectbox("veya klasörden seç", names)
-            if choice != names[0]:
-                picked = ROOT / choice
-                if st.session_state.get("girdi_video") != str(picked):
-                    st.session_state["girdi_video"] = str(picked)
-                    st.rerun()
+            local_videos = list_local_videos()
+            picked = None
+            if local_videos:
+                names = ["(yüklenen dosyayı kullan)"] + [
+                    str(p.relative_to(ROOT)) for p in local_videos[:40]
+                ]
+                choice = st.selectbox("veya klasörden seç", names)
+                if choice != names[0]:
+                    picked = ROOT / choice
+                    if st.session_state.get("girdi_video") != str(picked):
+                        st.session_state["girdi_video"] = str(picked)
+                        st.rerun()
 
-        video_path: Path | None = None
-        stored = st.session_state.get("girdi_video")
-        if stored and Path(stored).exists():
-            video_path = Path(stored)
-        elif preview_path is None:
-            st.caption("mp4, mov, avi, mkv")
+            stored = st.session_state.get("girdi_video")
+            if stored and Path(stored).exists():
+                video_path = Path(stored)
+            elif preview_path is None:
+                st.caption("mp4 · mov · avi · mkv · webm · m4v")
 
     with prompt_col:
-        st.markdown('<div class="kz-panel-label">Operatör</div>', unsafe_allow_html=True)
-        prompt = st.text_area(
-            "Operatör sorusu",
-            value=DEFAULT_PROMPT,
-            height=130,
-            label_visibility="collapsed",
-        )
-        busy = bool(st.session_state.get("analyzing"))
-        run = st.button(
-            "Analiz et",
-            type="primary",
-            use_container_width=True,
-            disabled=busy,
-        )
+        with st.container(border=True):
+            st.markdown('<div class="kz-panel-label">Operatör</div>', unsafe_allow_html=True)
+            prompt = st.text_area(
+                "Operatör sorusu",
+                value=DEFAULT_PROMPT,
+                height=138,
+                label_visibility="collapsed",
+            )
+            busy = bool(st.session_state.get("analyzing"))
+            run = st.button(
+                "Analiz et",
+                type="primary",
+                use_container_width=True,
+                disabled=busy,
+            )
 
     if run:
         if video_path is None:

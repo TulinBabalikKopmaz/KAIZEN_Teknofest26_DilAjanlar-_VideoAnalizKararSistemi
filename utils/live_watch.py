@@ -8,6 +8,7 @@ from __future__ import annotations
 
 import asyncio
 import json
+import re
 import sys
 import threading
 from collections import deque
@@ -30,6 +31,16 @@ ALERTS_DIR = ROOT / "data" / "stream_alerts"
 STATUS_PATH = ALERTS_DIR / "live_status.json"
 
 RISK_MARK = {"Yüksek": "[KRİTİK]", "Orta": "[ORTA]  ", "Düşük": "[DÜŞÜK] "}
+
+# Canlı özet "kaçındı" derken kartı kaza yapma. Jüri kural dosyasına dokunulmaz.
+_LIVE_NEAR = re.compile(
+    r"kaçınd|kaçınarak|kaçt[ıi]|neredeyse|son\s+anda|ramak|az\s+kaldı|yakınından",
+    re.IGNORECASE,
+)
+_LIVE_COMPLETED = re.compile(
+    r"hareketsiz|yerde\s+yat|yere\s+seril|yaralan|enkaz|altında\s+kald",
+    re.IGNORECASE,
+)
 
 
 def encode_jpeg(frame: Any, quality: int = 70, max_width: int = 0) -> bytes:
@@ -113,11 +124,17 @@ class LiveStatus:
     law_detail: str = ""
 
     def to_dict(self) -> dict[str, Any]:
-        banner = watch_banner(
-            self.phase,
-            (self.label or {}).get("category"),
-            (self.spec or {}).get("risk"),
+        category = (self.label or {}).get("category")
+        risk = (self.spec or {}).get("risk")
+        has_brief = bool(
+            (self.spec or {}).get("summary")
+            or (self.spec or {}).get("actions")
+            or (self.spec or {}).get("events")
         )
+        banner_phase = self.phase
+        if banner_phase == "idle" and has_brief:
+            banner_phase = "decided"
+        banner = watch_banner(banner_phase, category, risk)
         return {
             "phase": self.phase,
             "source": self.source,
@@ -138,6 +155,7 @@ class LiveStatus:
             "event_time": self.event_time,
             "law_note": self.law_note,
             "law_detail": self.law_detail,
+            "has_brief": has_brief,
         }
 
 
@@ -162,8 +180,12 @@ class MotionWakeUp:
         self.scores.append(value)
         return value
 
-    def triggered(self, value: float) -> bool:
-        if len(self.scores) < 10:
+    def triggered(self, value: float, *, file_mode: bool = False) -> bool:
+        # Dosya: kısa ısınma, ham eşik. Webcam: daha uzun baz + medyan çarpanı.
+        need = 3 if file_mode else 10
+        if len(self.scores) < need:
+            return False
+        if file_mode:
             return value >= self.threshold
         ordered = sorted(self.scores)
         median = ordered[len(ordered) // 2]
@@ -198,6 +220,7 @@ class StreamReader(threading.Thread):
         self.loop = loop
         self.queue = queue
         self.hub = hub
+        self.generation = hub._generation if hub else 0
         self.stop_event = threading.Event()
         self.frames_seen = 0
         self.triggers = 0
@@ -217,7 +240,7 @@ class StreamReader(threading.Thread):
         if not cap.isOpened():
             print(f"Akış açılamadı: {self.cfg.source}")
             if self.hub:
-                self.hub.set_error(f"Kaynak açılamadı: {self.cfg.source}")
+                self.hub.set_error(f"Kaynak açılamadı: {self.cfg.source}", generation=self.generation)
             self.stop_event.set()
             return
 
@@ -241,7 +264,7 @@ class StreamReader(threading.Thread):
             + (" | dosya gerçek zaman" if is_file else "")
         )
         if self.hub:
-            self.hub.set_phase("watching")
+            self.hub.set_phase("watching", generation=self.generation)
 
         while not self.stop_event.is_set():
             ok, frame = cap.read()
@@ -251,6 +274,7 @@ class StreamReader(threading.Thread):
                     cap.set(cv2.CAP_PROP_POS_FRAMES, 0)
                     index = 0
                     wake._prev = None
+                    wake.scores.clear()
                     continue
                 break
             index += 1
@@ -270,7 +294,7 @@ class StreamReader(threading.Thread):
             self.frames_seen += 1
             value = wake.score(frame)
             if self.hub:
-                self.hub.touch_motion(value, self.frames_seen)
+                self.hub.touch_motion(value, self.frames_seen, generation=self.generation)
 
             if pending is not None:
                 pending.frames.append(self._save(frame, t_sec))
@@ -280,7 +304,12 @@ class StreamReader(threading.Thread):
                 continue
 
             buffer.append((t_sec, frame.copy()))
-            if wake.triggered(value) and (t_sec - last_trigger) >= self.cfg.cooldown_s:
+            past_open = (not is_file) or ((t_sec - loop_base) >= 0.4)
+            if (
+                past_open
+                and wake.triggered(value, file_mode=is_file)
+                and (t_sec - last_trigger) >= self.cfg.cooldown_s
+            ):
                 last_trigger = t_sec
                 self.triggers += 1
                 pending = Incident(trigger_t=t_sec, motion_score=value)
@@ -288,7 +317,9 @@ class StreamReader(threading.Thread):
                 buffer.clear()
                 print(f"  ~ hareket tetiklendi  t={seconds_to_mmss(t_sec)}  skor={value:.1f}")
                 if self.hub:
-                    self.hub.mark_candidate(t_sec, value, self.triggers)
+                    self.hub.mark_candidate(
+                        t_sec, value, self.triggers, generation=self.generation
+                    )
 
         cap.release()
         if pending is not None and pending.frames:
@@ -299,7 +330,10 @@ class StreamReader(threading.Thread):
     def _preview(self, frame) -> None:
         if not self.hub:
             return
-        self.hub.set_preview_jpeg(encode_jpeg(frame, quality=52, max_width=480))
+        self.hub.set_preview_jpeg(
+            encode_jpeg(frame, quality=52, max_width=480),
+            generation=self.generation,
+        )
 
     def _save(self, frame, t_sec: float) -> dict[str, Any]:
         import cv2
@@ -325,7 +359,11 @@ class StreamReader(threading.Thread):
 
 
 def lock_live_label(raw: dict[str, Any]) -> dict[str, Any]:
-    """Canlı etiket: kilitli çift. Jüri FA budaması (yalnız hareket → near_miss) yok."""
+    """Canlı etiket: kilitli çift. Jüri FA budaması (yalnız hareket → near_miss) yok.
+
+    Özet kaçındı / neredeyse diyorsa kart ramak kala kalır; yerde hareketsiz
+    gibi fiili sonuç varsa kaza yükselmesi durur.
+    """
     out = {
         "summary": str(raw.get("summary") or ""),
         "events": dedupe_events(raw.get("events") or []),
@@ -334,6 +372,12 @@ def lock_live_label(raw: dict[str, Any]) -> dict[str, Any]:
         "actions": list(raw.get("actions") or []),
     }
     blob = f"{out['summary']} {' '.join(str(item.get('event') or '') for item in out['events'])}"
+    near = bool(_LIVE_NEAR.search(blob))
+    completed = bool(_LIVE_COMPLETED.search(blob))
+    if near and not completed:
+        out["category"] = "near_miss"
+        lock_category_risk(out, policy="category")
+        return out
     if has_unhedged_accident(blob) and out["category"] != "accident":
         out["category"] = "accident"
     lock_category_risk(out)
@@ -341,14 +385,19 @@ def lock_live_label(raw: dict[str, Any]) -> dict[str, Any]:
 
 
 def pick_event_time(spec: dict[str, Any], trigger_time: str) -> str:
-    """Operatör saati: modelin olay saniyesi, yoksa wake-up tetik anı."""
+    """Operatör saati: asıl olay saniyesi. Açılış 00:00 tetiklerini ezmez."""
     trigger = (trigger_time or "").strip()
     times = [
         str(item.get("time") or "").strip()
         for item in (spec.get("events") or [])
         if str(item.get("time") or "").strip()
     ]
-    if trigger in times:
+    later = [item for item in times if item not in {"00:00", "0:00"}]
+    if trigger in later:
+        return trigger
+    if later:
+        return later[-1]
+    if trigger and trigger not in {"00:00", "0:00"}:
         return trigger
     if times:
         return times[-1]
@@ -384,7 +433,8 @@ def _incident_prompt(incident: Incident, frames: list[dict[str, Any]] | None = N
         "SON KARELERE BAK. İlk kare sakin olabilir; asıl olay genelde sonra biter "
         "(düşme, devrilme, çarpışma, ezilme, yerde kişi, tutuşma).\n"
         "Fiili sonuç görüyorsan category=accident ve risk=Yüksek. "
-        "Kaza olmadı ama neredeyse olduysa near_miss / Orta. "
+        "Kaza olmadı ama neredeyse olduysa (kaçındı, son anda) near_miss / Orta. "
+        "Özet ile category çelişmesin. "
         "Net kaza yoksa normal / Düşük. Uydurma; görünür kazayı küçümseme.\n"
         "Hareket tetiklenmesi tek başına kaza değildir.\n"
         "Özet düz Türkçe, 1-2 cümle. Sadece JSON:\n"
@@ -458,6 +508,19 @@ async def analyze_incident(
     }
 
 
+async def _analyze_tagged(
+    incident: Incident,
+    index: int,
+    vlm_frames: int,
+    generation: int,
+) -> dict[str, Any] | None:
+    record = await analyze_incident(incident, index, vlm_frames)
+    if record is None:
+        return {"generation": generation, "_failed": True}
+    record["generation"] = generation
+    return record
+
+
 async def consume(
     queue: asyncio.Queue,
     cfg: StreamConfig,
@@ -471,12 +534,18 @@ async def consume(
     async def finish(tasks: set[asyncio.Task]) -> None:
         for task in tasks:
             record = await task
-            if record:
-                alerts.append(record)
+            if not record:
+                continue
+            if record.get("_failed"):
                 if hub:
-                    hub.mark_decided(record)
-            elif hub:
-                hub.set_error("Görsel model bu pencereyi okuyamadı")
+                    hub.set_error(
+                        "Görsel model bu pencereyi okuyamadı",
+                        generation=record.get("generation") if isinstance(record.get("generation"), int) else None,
+                    )
+                continue
+            alerts.append(record)
+            if hub:
+                hub.mark_decided(record)
 
     while not (reader.stop_event.is_set() and queue.empty() and not inflight):
         try:
@@ -488,9 +557,12 @@ async def consume(
             continue
 
         index += 1
+        started_gen = hub._generation if hub else 0
         if hub:
-            hub.set_phase("analyzing")
-        inflight.add(asyncio.create_task(analyze_incident(incident, index, cfg.vlm_frames)))
+            hub.set_phase("analyzing", generation=started_gen)
+        inflight.add(
+            asyncio.create_task(_analyze_tagged(incident, index, cfg.vlm_frames, started_gen))
+        )
         while len(inflight) >= cfg.max_workers:
             done, inflight = await asyncio.wait(inflight, return_when=asyncio.FIRST_COMPLETED)
             await finish(done)
@@ -537,6 +609,10 @@ class LiveHub:
         self._thread: threading.Thread | None = None
         self._reader: StreamReader | None = None
         self._loop: asyncio.AbstractEventLoop | None = None
+        self._generation = 0
+
+    def _accept(self, generation: int | None) -> bool:
+        return generation is None or generation == self._generation
 
     def attach_reader(self, reader: StreamReader) -> None:
         self._reader = reader
@@ -549,7 +625,9 @@ class LiveHub:
         with self._lock:
             return self._jpeg
 
-    def set_preview_jpeg(self, data: bytes) -> None:
+    def set_preview_jpeg(self, data: bytes, generation: int | None = None) -> None:
+        if not self._accept(generation):
+            return
         if not looks_like_jpeg(data):
             return
         with self._lock:
@@ -561,7 +639,9 @@ class LiveHub:
         payload = self.snapshot()
         STATUS_PATH.write_text(json.dumps(payload, ensure_ascii=False, indent=2), encoding="utf-8")
 
-    def set_phase(self, phase: str) -> None:
+    def set_phase(self, phase: str, generation: int | None = None) -> None:
+        if not self._accept(generation):
+            return
         with self._lock:
             if phase == "watching" and self.status.phase in {"decided", "analyzing", "candidate"}:
                 return
@@ -571,22 +651,42 @@ class LiveHub:
                 self.status.error = ""
         self.write()
 
-    def touch_motion(self, score: float, frames_seen: int) -> None:
+    def touch_motion(self, score: float, frames_seen: int, generation: int | None = None) -> None:
+        if not self._accept(generation):
+            return
         with self._lock:
             self.status.motion_score = score
             self.status.frames_seen = frames_seen
 
-    def mark_candidate(self, t_sec: float, score: float, triggers: int) -> None:
+    def mark_candidate(
+        self,
+        t_sec: float,
+        score: float,
+        triggers: int,
+        generation: int | None = None,
+    ) -> None:
+        if not self._accept(generation):
+            return
         with self._lock:
             self.status.phase = "candidate"
             self.status.trigger_time = seconds_to_mmss(t_sec)
+            self.status.event_time = ""
             self.status.motion_score = score
             self.status.triggers = triggers
             self.status.analyzing = True
+            self.status.spec = {}
+            self.status.label = {}
+            self.status.law_note = ""
+            self.status.law_detail = ""
+            self.status.latency_s = 0.0
+            self.status.error = ""
             self.status.updated = strftime("%H:%M:%S")
         self.write()
 
     def mark_decided(self, record: dict[str, Any]) -> None:
+        generation = record.get("generation")
+        if isinstance(generation, int) and not self._accept(generation):
+            return
         with self._lock:
             self.status.phase = "decided"
             self.status.analyzing = False
@@ -602,7 +702,9 @@ class LiveHub:
             self.status.updated = strftime("%H:%M:%S")
         self.write()
 
-    def set_error(self, message: str) -> None:
+    def set_error(self, message: str, generation: int | None = None) -> None:
+        if not self._accept(generation):
+            return
         with self._lock:
             self.status.error = message
             self.status.analyzing = False
@@ -615,13 +717,20 @@ class LiveHub:
         return bool(self._thread and self._thread.is_alive())
 
     def start(self, cfg: StreamConfig) -> None:
+        self._generation += 1
+        gen = self._generation
         if self.running():
-            return
+            self.stop()
+        if self.running():
+            self._thread = None
+            self._reader = None
+            self._loop = None
         self.status = LiveStatus(
             phase="watching",
             source=cfg.source,
             provider=config.vlm_endpoint().provider,
         )
+        self._generation = gen
         with self._lock:
             self._jpeg = b""
         self._thread = threading.Thread(target=self._run_thread, args=(cfg,), daemon=True)
@@ -630,11 +739,14 @@ class LiveHub:
     def stop(self) -> None:
         if self._reader:
             self._reader.stop_event.set()
+        thread = self._thread
         with self._lock:
             self.status.phase = "idle"
             self.status.analyzing = False
             self.status.updated = strftime("%H:%M:%S")
         self.write()
+        if thread is not None and thread.is_alive() and thread is not threading.current_thread():
+            thread.join(timeout=2.5)
 
     def _run_thread(self, cfg: StreamConfig) -> None:
         loop = asyncio.new_event_loop()

@@ -1,19 +1,19 @@
 # UI taslağı (demo ekranı)
 
-Jüriye gösterilen yüzey `app/demo_app.py` (Streamlit). Çekirdek `utils/demo_pipeline.py`;
-kopya `utils/display.py`. Etiketleme aracı `app/review_app.py` jüri sahnesi değil.
-Canlı operatör konsolu `app/live_app.py` (port 8502) — sunum şovu, jüri videosu değil.
-Karar sonrası: algılanan an, olay özeti, saha aksiyonları, kapalı mevzuat expander.
-Canlı konsolda bu blok kayıt/kartın **altında** tam genişlik; tetikte iskelet, kararda dolar.
+Jüri yüzü: `py app/jury_server.py` → http://127.0.0.1:8503 (`app/jury_ui/`, Claude Design birebir).
+Çekirdek `utils/demo_pipeline.py`; kopya `utils/display.py`. Streamlit yedek `app/demo_app.py` :8501.
+Canlı kamera `app/live_app.py` :8502. Etiketleme `app/review_app.py` jüri sahnesi değil.
+
+Claude Design: tıklanabilir maket. İndirilen HTML tarayıcıda açılır veya `/claude-mock`.
+GitHub'a yapıştırılmaz. Analiz et gerçek pipeline'ı `jury_ui` üzerinden çağırır.
 
 Çalıştırma:
 
 ```bash
-streamlit run app/demo_app.py
+py app/jury_server.py
+py -m streamlit run app/demo_app.py
 py -m streamlit run app/live_app.py --server.port 8502
 ```
-
-Tema: `.streamlit/config.toml` (koyu zemin, altın vurgu `#C9A227`).
 
 ---
 

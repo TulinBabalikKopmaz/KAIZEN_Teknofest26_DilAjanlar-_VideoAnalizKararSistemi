@@ -11,7 +11,7 @@ yazma (paylaşma).
 
 | Rol | Belgeler | Çalıştır |
 |---|---|---|
-| UI | `docs/ui_taslak.md`, `app/demo_app.py`, `app/live_app.py` | `streamlit run app/demo_app.py` · canlı şov: port 8502 |
+| UI | `docs/ui_taslak.md`, `app/jury_ui/`, `app/demo_app.py` | `py app/jury_server.py` → :8503 · Streamlit yedek :8501 · canlı :8502 |
 | Sunum | `docs/sunum_akisi.md` | slayt + 1 dk demo prova; canlı izleme ayrı sekme |
 | Pipeline | `utils/demo_pipeline.py`, `utils/risk_rules.py` | donduruldu — yarışmadan önce kural oynatma |
 
