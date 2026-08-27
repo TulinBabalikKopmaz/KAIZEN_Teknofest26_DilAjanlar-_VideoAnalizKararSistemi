@@ -11,6 +11,7 @@ from __future__ import annotations
 import html
 import json
 import os
+import re
 import sys
 from pathlib import Path
 from typing import Any
@@ -35,267 +36,8 @@ VIDEO_EXTS = (".mp4", ".mov", ".avi", ".mkv", ".webm", ".m4v")
 INCOMING_DIR = ROOT / "data" / "incoming"
 VIDEO_DIRS = (ROOT / "data" / "videos", INCOMING_DIR)
 
-_UI_CSS = """
-<style>
-@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Serif:wght@600&display=swap');
-
-:root {
-  --kz-bg: #0C1014;
-  --kz-panel: #141A21;
-  --kz-panel-2: #1A222C;
-  --kz-line: #2A3542;
-  --kz-text: #E8EEF4;
-  --kz-muted: #8B9AAB;
-  --kz-brass: #B8952E;
-  --kz-ok: #3D7A62;
-  --kz-watch: #B8952E;
-  --kz-critical: #A84A3C;
-  --kz-font: "IBM Plex Sans", "Segoe UI", sans-serif;
-  --kz-display: "IBM Plex Serif", Georgia, serif;
-}
-
-html, body, [class*="css"] {
-  font-family: var(--kz-font) !important;
-}
-
-#MainMenu, footer, [data-testid="stToolbar"] { visibility: hidden; }
-header { background: transparent; }
-
-.stApp {
-  background:
-    radial-gradient(1200px 500px at 12% -10%, rgba(184, 149, 46, 0.07), transparent 55%),
-    radial-gradient(900px 420px at 100% 0%, rgba(61, 122, 98, 0.05), transparent 50%),
-    var(--kz-bg);
-}
-
-.block-container {
-  padding-top: 1.6rem;
-  padding-bottom: 3rem;
-  max-width: 1240px;
-}
-
-[data-testid="stSidebar"] {
-  background: #0A0E12;
-  border-right: 1px solid var(--kz-line);
-}
-[data-testid="stSidebar"] * { color: var(--kz-text); }
-
-.kz-top {
-  display: flex;
-  flex-direction: column;
-  gap: 0.55rem;
-  margin-bottom: 1.35rem;
-  padding-bottom: 1.15rem;
-  border-bottom: 1px solid var(--kz-line);
-}
-.kz-brand {
-  letter-spacing: 0.28em;
-  text-transform: uppercase;
-  font-size: 0.68rem;
-  font-weight: 600;
-  color: var(--kz-brass);
-}
-.kz-hero {
-  font-family: var(--kz-display);
-  font-size: 2rem;
-  font-weight: 600;
-  line-height: 1.15;
-  color: var(--kz-text);
-  margin: 0;
-}
-.kz-lede {
-  max-width: 42rem;
-  color: var(--kz-muted);
-  font-size: 0.98rem;
-  line-height: 1.55;
-  margin: 0;
-}
-
-.kz-panel {
-  background: var(--kz-panel);
-  border: 1px solid var(--kz-line);
-  border-radius: 4px;
-  padding: 1rem 1.1rem 1.15rem;
-  margin-bottom: 0.85rem;
-}
-.kz-panel-label {
-  font-size: 0.68rem;
-  letter-spacing: 0.16em;
-  text-transform: uppercase;
-  color: var(--kz-muted);
-  margin-bottom: 0.65rem;
-  font-weight: 600;
-}
-
-.kz-metrics {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 0.65rem;
-  margin: 0.2rem 0 1rem;
-}
-.kz-metric {
-  background: var(--kz-panel);
-  border: 1px solid var(--kz-line);
-  border-radius: 4px;
-  padding: 0.85rem 0.95rem;
-}
-.kz-metric .l {
-  font-size: 0.65rem;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-  color: var(--kz-muted);
-  margin-bottom: 0.35rem;
-}
-.kz-metric .v {
-  font-family: var(--kz-display);
-  font-size: 1.15rem;
-  font-weight: 600;
-  color: var(--kz-text);
-  line-height: 1.25;
-}
-
-.kz-verdict {
-  border: 1px solid var(--kz-line);
-  border-left-width: 3px;
-  padding: 1.15rem 1.3rem 1.25rem;
-  border-radius: 4px;
-  margin: 0 0 1.15rem;
-  background: var(--kz-panel);
-}
-.kz-verdict.ok { border-left-color: var(--kz-ok); }
-.kz-verdict.watch { border-left-color: var(--kz-watch); }
-.kz-verdict.critical {
-  border-left-color: var(--kz-critical);
-  background: linear-gradient(90deg, rgba(168, 74, 60, 0.12), var(--kz-panel) 42%);
-}
-.kz-kicker {
-  font-size: 0.65rem;
-  letter-spacing: 0.18em;
-  text-transform: uppercase;
-  color: var(--kz-muted);
-  font-weight: 600;
-}
-.kz-title {
-  font-family: var(--kz-display);
-  font-size: 1.55rem;
-  font-weight: 600;
-  margin: 0.35rem 0 0.25rem;
-  line-height: 1.2;
-  color: var(--kz-text);
-}
-.kz-sub { color: var(--kz-muted); margin: 0; font-size: 0.92rem; line-height: 1.45; }
-.kz-answer {
-  margin-top: 0.95rem;
-  padding-top: 0.85rem;
-  border-top: 1px solid var(--kz-line);
-  font-size: 1.02rem;
-  line-height: 1.5;
-  color: var(--kz-text);
-}
-.kz-hard {
-  margin-top: 0.85rem;
-  padding-top: 0.75rem;
-  border-top: 1px solid rgba(184, 149, 46, 0.28);
-  font-size: 0.92rem;
-  line-height: 1.45;
-  color: var(--kz-text);
-}
-.kz-hard-kicker {
-  font-size: 0.65rem;
-  letter-spacing: 0.16em;
-  text-transform: uppercase;
-  color: var(--kz-brass);
-  font-weight: 600;
-  margin-bottom: 0.2rem;
-}
-
-.kz-section {
-  font-size: 0.68rem;
-  letter-spacing: 0.16em;
-  text-transform: uppercase;
-  color: var(--kz-muted);
-  font-weight: 600;
-  margin: 0.2rem 0 0.7rem;
-}
-
-.kz-timeline { list-style: none; padding: 0; margin: 0 0 1rem; }
-.kz-timeline li {
-  display: grid;
-  grid-template-columns: 4.2rem 1fr;
-  gap: 0.75rem;
-  padding: 0.55rem 0;
-  border-bottom: 1px solid rgba(42, 53, 66, 0.85);
-}
-.kz-timeline li:last-child { border-bottom: none; }
-.kz-time {
-  font-variant-numeric: tabular-nums;
-  font-weight: 600;
-  color: var(--kz-brass);
-  font-size: 0.9rem;
-}
-.kz-event { color: var(--kz-text); line-height: 1.4; font-size: 0.95rem; }
-
-.kz-actions { list-style: none; padding: 0; margin: 0; counter-reset: act; }
-.kz-actions li {
-  counter-increment: act;
-  display: grid;
-  grid-template-columns: 1.6rem 1fr;
-  gap: 0.65rem;
-  padding: 0.5rem 0;
-  border-bottom: 1px solid rgba(42, 53, 66, 0.7);
-  color: var(--kz-text);
-  line-height: 1.4;
-}
-.kz-actions li::before {
-  content: counter(act, decimal-leading-zero);
-  color: var(--kz-brass);
-  font-weight: 600;
-  font-variant-numeric: tabular-nums;
-  font-size: 0.85rem;
-}
-
-.kz-empty {
-  color: var(--kz-muted);
-  font-size: 0.92rem;
-  padding: 0.35rem 0 0.6rem;
-}
-
-div[data-testid="stMetric"] {
-  background: var(--kz-panel);
-  border: 1px solid var(--kz-line);
-  border-radius: 4px;
-  padding: 0.65rem 0.8rem;
-}
-div[data-testid="stMetricLabel"] { color: var(--kz-muted) !important; }
-div[data-testid="stFileUploader"] {
-  background: var(--kz-panel);
-  border: 1px dashed var(--kz-line);
-  border-radius: 4px;
-  padding: 0.4rem 0.6rem;
-}
-.stButton > button[kind="primary"] {
-  background: var(--kz-brass) !important;
-  color: #11161c !important;
-  border: none !important;
-  font-weight: 600 !important;
-  letter-spacing: 0.04em;
-  border-radius: 3px !important;
-}
-.stButton > button[kind="primary"]:hover {
-  filter: brightness(1.06);
-}
-.stTextArea textarea {
-  background: var(--kz-panel-2) !important;
-  border-color: var(--kz-line) !important;
-  color: var(--kz-text) !important;
-}
-
-@media (max-width: 900px) {
-  .kz-metrics { grid-template-columns: 1fr 1fr; }
-  .kz-hero { font-size: 1.55rem; }
-}
-</style>
-"""
+_THEME_PATH = Path(__file__).resolve().parent / "demo_theme.css"
+_UI_CSS = f"<style>{_THEME_PATH.read_text(encoding='utf-8')}</style>"
 
 st.set_page_config(
     page_title="KAIZEN · Saha İSG",
@@ -306,6 +48,150 @@ st.set_page_config(
 
 def inject_chrome() -> None:
     st.markdown(_UI_CSS, unsafe_allow_html=True)
+
+
+# Jüri yüzü: sabit 5 adım (pipeline [n/5] mesajlarına kilitli)
+_FLOW_STEPS: tuple[dict[str, str], ...] = (
+    {"title": "Kare çıkarma ve sensör kanıtı", "idle": "Hareket, yakınlık ve yangın sinyalleri"},
+    {"title": "Görsel model analizi", "idle": "Kısa klip üzerinden sahne okuması"},
+    {"title": "İkinci bakış", "idle": "Şüpheli kanıtta odaklanmış yeniden okuma"},
+    {"title": "Kural ve birleştirme", "idle": "Zaman hizalama ve kanıt birleştirme"},
+    {"title": "Cevap ve saha aksiyonları", "idle": "Operatör cevabı ve aksiyon listesi"},
+)
+
+
+class AnalysisFlowBoard:
+    """Analiz sırasında jüriye adım adım ilerleme paneli gösterir."""
+
+    def __init__(self, slot: Any) -> None:
+        self._slot = slot
+        self.current = 0  # 1..5 aktif; 0 henüz başlamadı
+        self.details: dict[int, str] = {}
+        self.state = "running"  # running | done | fail
+        self.meta = "Çalışıyor"
+        self.render()
+
+    def render(self) -> None:
+        current_idx = max(self.current, 1) if self.state != "done" else 5
+        if self.state == "done":
+            title = "Tamamlandı"
+            detail = self.meta
+        elif self.state == "fail":
+            title = "Analiz kesildi"
+            detail = self.details.get(max(self.current, 1), self.meta)
+        else:
+            step = _FLOW_STEPS[min(current_idx, 5) - 1]
+            title = step["title"]
+            detail = self.details.get(current_idx) or step["idle"]
+        dots: list[str] = []
+        for index in range(1, 6):
+            if self.state == "fail" and index == max(self.current, 1):
+                klass = "bad"
+            elif self.state == "done" or index < self.current:
+                klass = "on"
+            elif index == self.current:
+                klass = "now"
+            else:
+                klass = ""
+            dots.append(f'<span class="{klass}"></span>')
+        panel = {"running": "is-live", "done": "is-done", "fail": "is-fail"}[self.state]
+        busy = "true" if self.state == "running" else "false"
+        shimmer = '<span class="kz-shimmer"></span>' if self.state == "running" else ""
+        self._slot.markdown(
+            f"""
+<div class="kz-flow {panel}" role="status" aria-live="polite" aria-busy="{busy}">
+  {shimmer}
+  <p class="kz-flow-kicker">Analiz akışı</p>
+  <p class="kz-flow-title">{html.escape(title)}</p>
+  <p class="kz-flow-detail">{html.escape(detail)}</p>
+  <div class="kz-dots">{"".join(dots)}</div>
+</div>
+""",
+            unsafe_allow_html=True,
+        )
+
+    def _human_detail(self, message: str) -> str | None:
+        text = message.strip()
+        if text.startswith("Kaydedildi:"):
+            return "Koşu arşive alındı"
+        if text.startswith("Toplam süre:"):
+            # "Toplam süre: 8.3 sn | İş kazası · Kritik durum (şartname: Yüksek) | Cevap: ..."
+            head = text.split("|", 2)
+            if len(head) >= 2:
+                return f"{head[0].strip()} · {head[1].split('(')[0].strip()}"
+            return head[0].strip()
+        risk = re.search(r"risk=([^\s]+)\s+kategori=([^\s(]+)", text)
+        if risk:
+            v = verdict(risk.group(2), risk.group(1))
+            timing = re.search(r"\(([\d.]+s)\)", text)
+            suffix = f" · {timing.group(1)}" if timing else ""
+            return f"{v['situation']} · {v['decision']}{suffix}"
+        if "EVREN klibi" in text or "klibi" in text.lower():
+            return "Kısa analiz klibi hazır"
+        if re.match(r"\d+ kare:", text):
+            count = text.split(" ", 1)[0]
+            return f"{count} kanıt karesi seçildi"
+        if "wake-up" in text.lower() or "uzun video" in text.lower():
+            return "Uzun kayıtta odak penceresi belirlendi"
+        if "metin eleştirmeni" in text.lower():
+            return "Metin tutarlılığı kontrol edildi"
+        if "gerekmedi" in text.lower():
+            return "Kanıt sakin — atlandı"
+        if text.lower().startswith("ikinci bakış"):
+            return "Odak karelerde yeniden okuma"
+        if text.lower().startswith("vlm") or "vlm analizi" in text.lower():
+            return "Sahne okunuyor"
+        if "kare çıkarma" in text.lower() or "sensör" in text.lower():
+            return "Kareler ve kanıt toplanıyor"
+        if "kural" in text.lower():
+            return "Kurallar uygulanıyor"
+        if "cevap" in text.lower() or "aksiyon" in text.lower():
+            return "Cevap ve aksiyonlar yazılıyor"
+        # Ham teknik satırlar jüriye gitmesin
+        if re.match(r"\[\d/5\]", text):
+            return None
+        if text.startswith("/") or "demo_runs" in text:
+            return None
+        if len(text) > 120:
+            return text[:110].rstrip() + "…"
+        return text
+
+    def on_progress(self, message: str) -> None:
+        raw = message.strip()
+        match = re.match(r"\[(\d)/5\]\s*(.*)$", raw)
+        if match:
+            step = int(match.group(1))
+            self.current = step
+            rest = match.group(2).strip()
+            detail = self._human_detail(rest) if rest else None
+            if detail:
+                self.details[step] = detail
+            elif step not in self.details:
+                self.details[step] = "Devam ediyor…"
+            self.meta = f"Adım {step} / 5"
+            self.render()
+            return
+        detail = self._human_detail(raw)
+        if detail and self.current:
+            self.details[self.current] = detail
+            if raw.startswith("Toplam süre:"):
+                self.meta = detail
+            self.render()
+
+    def complete(self, total_s: float) -> None:
+        self.state = "done"
+        self.current = 6
+        self.meta = f"Tamamlandı · {total_s:.1f} sn"
+        for index in range(1, 6):
+            self.details.setdefault(index, _FLOW_STEPS[index - 1]["idle"])
+        self.render()
+
+    def fail(self, reason: str = "Analiz tamamlanamadı") -> None:
+        self.state = "fail"
+        self.meta = "Kesildi"
+        if self.current:
+            self.details[self.current] = reason[:140]
+        self.render()
 
 
 def list_local_videos() -> list[Path]:
@@ -440,8 +326,8 @@ def show_result(result: DemoResult) -> None:
     events = spec.get("events") or []
     v = verdict(result.label.get("category"), spec.get("risk"))
 
-    metrics_strip(result, v)
     verdict_card(result)
+    metrics_strip(result, v)
 
     left, right = st.columns([1.1, 1], gap="large")
     with left:
@@ -456,6 +342,8 @@ def show_result(result: DemoResult) -> None:
                 path = frame.get("demo_path") or frame.get("path")
                 if path and Path(path).exists():
                     grid[i % len(grid)].image(path, caption=frame.get("time", ""))
+        elif not video_path.exists():
+            st.caption("Bu koşuda kayıt veya kare yok.")
 
     with right:
         st.markdown('<div class="kz-section">Olay zaman çizelgesi</div>', unsafe_allow_html=True)
@@ -528,12 +416,25 @@ def main() -> None:
     source_col, prompt_col = st.columns([1, 1.35], gap="large")
     with source_col:
         st.markdown('<div class="kz-panel-label">Girdi</div>', unsafe_allow_html=True)
+
+        preview = st.session_state.get("girdi_video")
+        preview_path = Path(preview) if preview else None
+        if preview_path is not None and preview_path.exists():
+            st.video(str(preview_path))
+
+        upload_n = int(st.session_state.get("girdi_upload_n", 0))
         uploaded = st.file_uploader(
             "Jürinin videosu",
             type=[e.strip(".") for e in VIDEO_EXTS],
             label_visibility="collapsed",
+            key=f"girdi_upload_{upload_n}",
         )
-        st.caption("Video yükle (mp4, mov, …)")
+        if uploaded is not None:
+            dest = save_upload(uploaded)
+            st.session_state["girdi_video"] = str(dest)
+            st.session_state["girdi_upload_n"] = upload_n + 1
+            st.rerun()
+
         local_videos = list_local_videos()
         picked = None
         if local_videos:
@@ -543,6 +444,16 @@ def main() -> None:
             choice = st.selectbox("veya klasörden seç", names)
             if choice != names[0]:
                 picked = ROOT / choice
+                if st.session_state.get("girdi_video") != str(picked):
+                    st.session_state["girdi_video"] = str(picked)
+                    st.rerun()
+
+        video_path: Path | None = None
+        stored = st.session_state.get("girdi_video")
+        if stored and Path(stored).exists():
+            video_path = Path(stored)
+        elif preview_path is None:
+            st.caption("mp4, mov, avi, mkv")
 
     with prompt_col:
         st.markdown('<div class="kz-panel-label">Operatör</div>', unsafe_allow_html=True)
@@ -554,17 +465,11 @@ def main() -> None:
         )
         run = st.button("Analiz et", type="primary", use_container_width=True)
 
-    video_path: Path | None = None
-    if uploaded is not None:
-        video_path = save_upload(uploaded)
-    elif picked is not None:
-        video_path = picked
-
     if run:
         if video_path is None:
             st.error("Önce bir video yükleyin veya klasörden seçin.")
             return
-        status = st.status("Analiz çalışıyor…", expanded=True)
+        flow = AnalysisFlowBoard(st.empty())
         try:
             result = run_demo_analysis_sync(
                 video_path,
@@ -572,10 +477,10 @@ def main() -> None:
                 max_frames=settings["max_frames"],
                 fast=settings["fast"],
                 use_rag=settings["use_rag"],
-                progress=status.write,
+                progress=flow.on_progress,
             )
         except Exception as exc:
-            status.update(label="Analiz başarısız", state="error")
+            flow.fail("Bağlantı veya model yanıtı alınamadı")
             st.error(f"Analiz tamamlanamadı: {exc}")
             backup = list_saved_runs(limit=1)
             if backup:
@@ -592,7 +497,7 @@ def main() -> None:
                 )
                 return
         else:
-            status.update(label=f"Tamamlandı ({result.total_s:.1f} sn)", state="complete")
+            flow.complete(result.total_s)
             st.session_state["last_result"] = result
             st.session_state["showing_backup"] = False
 
