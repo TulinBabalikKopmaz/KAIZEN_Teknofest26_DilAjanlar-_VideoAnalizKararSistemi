@@ -108,7 +108,7 @@ def _apply_provider(lock: bool, provider: str) -> None:
 
 
 async def index(_request: web.Request) -> web.FileResponse:
-    return web.FileResponse(UI / "index.html")
+    return web.FileResponse(UI / "index.html", headers={"Cache-Control": "no-store"})
 
 
 async def asset(request: web.Request) -> web.FileResponse:
@@ -116,7 +116,7 @@ async def asset(request: web.Request) -> web.FileResponse:
     allowed = {"styles.css", "layout.css", "app.js"}
     if name not in allowed:
         raise web.HTTPNotFound()
-    return web.FileResponse(UI / name)
+    return web.FileResponse(UI / name, headers={"Cache-Control": "no-store"})
 
 
 async def claude_mock(_request: web.Request) -> web.StreamResponse:

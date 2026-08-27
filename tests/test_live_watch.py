@@ -19,6 +19,7 @@ from utils.live_watch import (
     StreamConfig,
     attach_live_support,
     _incident_prompt,
+    _LIVE_ACTIONS,
     encode_jpeg,
     lock_live_label,
     looks_like_jpeg,
@@ -151,6 +152,20 @@ class LiveWatchTests(unittest.TestCase):
         )
         self.assertEqual(upgraded["category"], "accident")
         self.assertEqual(upgraded["risk"], "Yüksek")
+        self.assertTrue(upgraded["actions"])
+
+    def test_live_lock_fills_actions_when_model_omits_them(self) -> None:
+        locked = lock_live_label(
+            {
+                "category": "accident",
+                "risk": "Yüksek",
+                "summary": "Çalışan yüksekten düştü ve yerde hareketsiz.",
+                "events": [{"time": "00:08", "event": "Çalışan yere düştü"}],
+                "actions": [],
+            }
+        )
+        self.assertGreaterEqual(len(locked["actions"]), 2)
+        self.assertTrue(any("Sağlık" in item for item in locked["actions"]))
 
     def test_live_lock_escape_text_stays_near_miss(self) -> None:
         locked = lock_live_label(
@@ -164,6 +179,7 @@ class LiveWatchTests(unittest.TestCase):
         )
         self.assertEqual(locked["category"], "near_miss")
         self.assertEqual(locked["risk"], "Orta")
+        self.assertEqual(locked["actions"], list(_LIVE_ACTIONS["near_miss"]))
 
     def test_live_support_fills_event_time_and_law_note(self) -> None:
         spec = {

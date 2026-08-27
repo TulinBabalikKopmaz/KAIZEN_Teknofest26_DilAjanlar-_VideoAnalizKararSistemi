@@ -66,7 +66,7 @@ def verdict(category: str | None, risk: str | None) -> dict[str, str]:
 
 def spec_footnote() -> str:
     return (
-        "Jüri JSON'unda risk alanı şartname token'ıdır: Düşük, Orta, Yüksek. "
+        "JSON'daki risk alanı: Düşük, Orta, Yüksek. "
         "Ekrandaki 'Kontrol altında / Yüksek dikkat / Kritik durum' aynı skaladır."
     )
 
@@ -227,7 +227,7 @@ def model_source(
     if backup:
         return {
             "kind": "backup",
-            "label": "Kayıtlı yedek",
+            "label": "Kayıtlı analiz",
             "detail": "Canlı model değil",
             "tone": "watch",
         }
@@ -260,7 +260,7 @@ def model_source(
         return {
             "kind": "ollama",
             "label": "Ollama",
-            "detail": "Yerel yedek — sunum kalitesi değil",
+            "detail": "Yerel yedek",
             "tone": "critical",
         }
     if used_evren:

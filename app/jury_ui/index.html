@@ -29,21 +29,21 @@
       <button type="button" class="kz-icon-btn" data-act="sidebar" title="Paneli kapat">«</button>
     </div>
     <div class="kz-nav">
-      <button type="button" data-act="view" data-val="demo" class="on">Jüri demosu</button>
+      <button type="button" data-act="view" data-val="demo" class="on">Kayıt analizi</button>
       <button type="button" data-act="view" data-val="live">Canlı izleme</button>
     </div>
 
     <div class="kz-block">
       <div class="kz-kicker-sm">Altyapı</div>
       <div class="kz-row">
-        <div>Sunum kilidi: yalnız EVREN</div>
-        <button type="button" class="kz-track on" data-act="lock" aria-label="Sunum kilidi"><span class="kz-knob"></span></button>
+        <div>Model kilidi: yalnız EVREN</div>
+        <button type="button" class="kz-track on" data-act="lock" aria-label="Model kilidi"><span class="kz-knob"></span></button>
       </div>
-      <div class="kz-help ok" id="lock-cap">Kaynak kilitli: EVREN · vlm + llm-fast — Ollama'ya düşülmez</div>
+      <div class="kz-help ok" id="lock-cap">Kaynak kilitli: EVREN · vlm + llm-fast</div>
       <div id="provider-box" class="is-off">
         <div class="kz-field" style="margin-top:14px">Model kaynağı</div>
         <div class="kz-pills">
-          <button type="button" class="kz-pill on" data-act="provider" data-val="teknofest">teknofest</button>
+          <button type="button" class="kz-pill on" data-act="provider" data-val="teknofest">EVREN</button>
           <button type="button" class="kz-pill" data-act="provider" data-val="ollama">ollama</button>
           <button type="button" class="kz-pill" data-act="provider" data-val="mock">mock</button>
         </div>
@@ -66,10 +66,10 @@
     </div>
 
     <div class="kz-block">
-      <div class="kz-kicker-sm">Sahne yedeği</div>
-      <div class="kz-field">Kayıtlı koşu</div>
-      <select class="kz-select" id="runs"><option value="">(canlı analiz)</option></select>
-      <button type="button" class="kz-ghost" data-act="backup">Yedeği ekrana getir</button>
+      <div class="kz-kicker-sm">Kayıtlı analiz</div>
+      <div class="kz-field">Önceki koşu</div>
+      <select class="kz-select" id="runs"><option value="">(yeni analiz)</option></select>
+      <button type="button" class="kz-ghost" data-act="backup">Kayıdı aç</button>
     </div>
 
   </aside>
@@ -82,14 +82,14 @@
     <div class="kz-glow-a"></div>
     <div class="kz-glow-b"></div>
     <div class="kz-wrap">
-      <div class="kz-brand">KAIZEN · TEKNOFEST 2026</div>
+      <div class="kz-brand">KAIZEN</div>
       <h1 class="kz-hero">Saha İSG Karar Sistemi</h1>
-      <p class="kz-lede">Kamera kaydını arşiv değil karar haline getirir. Sahne (1 dk): ekibin seçtiği kısa klip veya kayıtlı yedek. Jüri videosu: yükle, soruyu yapıştır, hızlı mod kapalı.</p>
+      <p class="kz-lede">Kamera kaydını izler, saha durumunu belirler ve uygulanabilir aksiyon önerir.</p>
 
       <div class="kz-grid">
         <section class="kz-card">
           <div class="kz-kicker-sm">Girdi</div>
-          <div class="kz-field">Jürinin videosu</div>
+          <div class="kz-field">Saha kaydı</div>
           <div class="kz-drop" id="drop">
             <input id="file" class="kz-file" type="file" accept="video/mp4,video/quicktime,video/webm,.mp4,.mov,.avi,.mkv,.webm,.m4v">
             <div id="drop-empty">
@@ -120,16 +120,16 @@
     <div class="kz-wrap live">
       <div class="kz-brand">KAIZEN</div>
       <h1 class="kz-hero" style="font-size:42px">Canlı saha izleme</h1>
-      <p class="kz-lede" style="max-width:700px">Ekran gerçek kamera akışı. Analiz arkada çalışır; her kare modele gitmez. Jüri videosu değil — sunumdaki kısa canlı izleme şovu.</p>
+      <p class="kz-lede" style="max-width:700px">Canlı akışta her kare modele gitmez. Hareket algılanınca kısa klip arka planda okunur, operatör kartı güncellenir.</p>
 
       <section class="kz-card" style="margin-top:26px">
         <div class="kz-kicker-sm">Kaynak</div>
         <div class="kz-pills" style="margin-top:12px">
-          <button type="button" class="kz-pill on" data-act="live-kind" data-val="dosya">dosya</button>
-          <button type="button" class="kz-pill" data-act="live-kind" data-val="webcam">webcam</button>
+          <button type="button" class="kz-pill on" data-act="live-kind" data-val="dosya">Dosya</button>
+          <button type="button" class="kz-pill" data-act="live-kind" data-val="webcam">Kamera</button>
         </div>
         <div id="live-file-box">
-          <div class="kz-field">Kayıt (döngü)</div>
+          <div class="kz-field">Saha kaydı</div>
           <div class="kz-drop" id="live-drop">
             <input id="live-file" class="kz-file" type="file" accept="video/mp4,video/quicktime,video/webm,.mp4,.mov,.avi,.mkv,.webm,.m4v">
             <div id="live-drop-empty">
@@ -166,13 +166,22 @@
         <button type="button" class="go" data-act="live-start">İzlemeyi başlat</button>
         <button type="button" class="stop" data-act="live-stop">Durdur</button>
       </div>
-      <div class="kz-help" id="live-cap" style="margin-top:10px">Akış kapalı. Video seçin veya webcam açın, sonra başlatın.</div>
+      <div class="kz-help" id="live-cap" style="margin-top:10px">Akış kapalı. Video seçin veya kamerayı açın, sonra başlatın.</div>
       <div class="kz-err is-off" id="live-err"></div>
       <div id="live-body"></div>
     </div>
   </main>
 
-  <div class="kz-overlay is-off" id="overlay"></div>
+  <div class="kz-overlay is-off" id="overlay" aria-hidden="true">
+    <section class="kz-flow" id="flow-card">
+      <div class="kz-sweep" id="flow-sweep"><span></span></div>
+      <div class="kz-flow-top">
+        <div class="kz-kicker-sm">Analiz akışı</div>
+        <div class="kz-flow-status" id="flow-status">Analiz çalışıyor…</div>
+      </div>
+      <div class="kz-steps" id="flow-steps"></div>
+    </section>
+  </div>
 </div>
 <script src="/app.js"></script>
 </body>

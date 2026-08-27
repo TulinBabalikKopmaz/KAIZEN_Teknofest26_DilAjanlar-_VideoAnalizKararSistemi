@@ -222,7 +222,7 @@ class DisplayTests(unittest.TestCase):
         self.assertEqual(mixed["kind"], "mixed")
         backup = model_source("teknofest:vlm", backup=True)
         self.assertEqual(backup["kind"], "backup")
-        self.assertIn("yedek", backup["label"].casefold())
+        self.assertIn("analiz", backup["label"].casefold())
 
     def test_law_note_is_small_and_keeps_model_actions_untouched(self) -> None:
         self.assertEqual(law_support_note(""), "")

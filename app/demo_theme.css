@@ -459,7 +459,6 @@ div[data-testid="stVerticalBlockBorderWrapper"] {
   box-shadow: 0 44px 100px -46px var(--kz-shadow-strong), 0 0 60px -30px rgba(var(--kz-gold-rgb), 0.22);
   overflow: hidden;
   position: relative;
-  animation: kzRise 0.7s var(--kz-ease) both;
 }
 .kz-flow.is-done { border-color: rgba(var(--kz-ok-rgb), 0.4); }
 .kz-flow.is-fail { border-color: rgba(var(--kz-critical-rgb), 0.45); }

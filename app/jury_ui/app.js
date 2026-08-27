@@ -67,10 +67,10 @@ function sleep(ms) { return new Promise((resolve) => setTimeout(resolve, ms)); }
 function clearTimers() { timers.forEach(clearTimeout); timers = []; }
 
 function sourceInfo() {
-  if (S.backup) return { label: "Kayıtlı yedek", tone: "watch", detail: "canlı EVREN sonucu değil" };
-  if (S.provider === "ollama") return { label: "Ollama", tone: "critical", detail: "yerel yedek — sunum kalitesi değil" };
+  if (S.backup) return { label: "Kayıtlı analiz", tone: "watch", detail: "canlı model sonucu değil" };
+  if (S.provider === "ollama") return { label: "Ollama", tone: "critical", detail: "yerel yedek" };
   if (S.provider === "mock") return { label: "mock", tone: "watch", detail: "modelsiz deneme" };
-  return { label: "EVREN", tone: "ok", detail: "resmi API — sunum" };
+  return { label: "EVREN", tone: "ok", detail: "vlm · llm-fast" };
 }
 
 function setTheme(theme) {
@@ -93,8 +93,8 @@ function paintChrome() {
   const lockBtn = document.querySelector("[data-act=lock]");
   lockBtn.classList.toggle("on", S.lock);
   $("lock-cap").textContent = S.lock
-    ? "Kaynak kilitli: EVREN · vlm + llm-fast — Ollama'ya düşülmez"
-    : "Sunum kilidi kapalı: EVREN düşerse Ollama denenebilir";
+    ? "Kaynak kilitli: EVREN · vlm + llm-fast"
+    : "Kilit kapalı: ana API düşerse yerel yedek denenebilir";
   $("lock-cap").className = "kz-help " + (S.lock ? "ok" : "bad");
   $("provider-box").classList.toggle("is-off", S.lock);
   document.querySelectorAll("[data-act=provider]").forEach((btn) => {
@@ -104,8 +104,8 @@ function paintChrome() {
   document.querySelector("[data-act=rag]").classList.toggle("on", S.rag && !S.fast);
   $("frames-val").textContent = String(S.frames);
   $("describe").textContent =
-    "sağlayıcı=" + (S.lock ? "teknofest" : S.provider) +
-    " · vlm=evren/vlm · llm=evren/llm-fast · hızlı mod=" + (S.fast ? "açık" : "kapalı");
+    (S.lock ? "EVREN" : (S.provider === "teknofest" ? "EVREN" : S.provider)) +
+    " · vlm + llm-fast · hızlı mod " + (S.fast ? "açık" : "kapalı");
   const running = S.phase === "running" || S.waitingResult;
   $("run").disabled = running;
   $("run").textContent = running ? "Analiz çalışıyor..." : "Analiz et";
@@ -129,61 +129,135 @@ function stepDefs() {
   ];
 }
 
-function renderOverlay() {
-  const overlay = $("overlay");
-  const on = S.phase === "running" || S.phase === "handoff";
-  overlay.classList.toggle("is-off", !on);
-  overlay.classList.remove("leaving");
-  if (!on) {
-    overlay.innerHTML = "";
-    return;
-  }
-  const defs = stepDefs();
-  const done = S.doneSteps;
-  const rings = defs.map((step, index) => {
-    let status = "pending";
-    if (S.phase === "running") status = index < done ? "done" : index === done ? "active" : "pending";
-    else status = "done";
-    const offset = status === "done" ? "0" : "114";
-    const color = status === "active" ? "var(--kz-gold)" : status === "done" ? (step.skipped ? "var(--kz-knob-off)" : "var(--kz-ok)") : "rgba(var(--kz-line-rgb),0.1)";
-    const center = status === "active" ? FORKLIFT : (status === "done" && !step.skipped ? "✓" : status === "done" ? "–" : String(index + 1));
-    const time = status === "done" && step.secs ? Number(step.secs).toFixed(1) + " sn" : status === "active" ? "çalışıyor" : (step.skipped && status === "done" ? "atlandı" : "");
-    return `<div class="kz-ring-cell ${status}">
+let overlayArcStep = -1;
+let overlayEnterTimer = 0;
+
+function ensureFlowSteps() {
+  const host = $("flow-steps");
+  if (!host || host.querySelector("[data-step]")) return;
+  const cells = [];
+  const labs = [];
+  const dets = [];
+  const times = [];
+  for (let i = 0; i < 5; i += 1) {
+    cells.push(`<div class="kz-ring-cell pending" data-step="${i}">
       <div class="kz-line"></div>
       <div class="kz-ring">
         <div class="kz-halo"></div>
         <svg width="52" height="52" viewBox="0 0 52 52">
           <circle cx="26" cy="26" r="18" fill="none" stroke="rgba(var(--kz-line-rgb),0.1)" stroke-width="2"></circle>
-          <circle cx="26" cy="26" r="18" fill="none" stroke="${color}" stroke-width="2" stroke-linecap="round" stroke-dasharray="114" stroke-dashoffset="${status === "active" ? 0 : offset}" style="${status === "active" ? "animation:kzArc " + (stepMs(index) / 1000).toFixed(2) + "s linear both" : ""}"></circle>
+          <circle class="kz-arc" cx="26" cy="26" r="18" fill="none" stroke="rgba(var(--kz-line-rgb),0.1)" stroke-width="2" stroke-linecap="round" stroke-dasharray="114" stroke-dashoffset="114"></circle>
         </svg>
-        <div class="kz-center">${center}</div>
+        <div class="kz-center">${i + 1}</div>
       </div>
-    </div>`;
-  }).join("");
-  const labels = defs.map((step) => `<div class="kz-step-lab">${esc(step.label)}</div>`).join("");
-  const details = defs.map((step, index) => {
-    const status = S.phase === "running" ? (index < done ? "done" : index === done ? "active" : "pending") : "done";
-    return `<div class="kz-step-det">${esc(status === "active" ? step.detail : step.detail)}</div>`;
-  }).join("");
-  const times = defs.map((step, index) => {
-    const status = S.phase === "running" ? (index < done ? "done" : index === done ? "active" : "pending") : "done";
-    const time = status === "done" && step.secs ? Number(step.secs).toFixed(1) + " sn" : status === "active" ? "çalışıyor" : "";
-    return `<div class="kz-step-time">${esc(time)}</div>`;
-  }).join("");
-  const statusLine = S.holdOverlay
-    ? "Model yanıtı bekleniyor…"
-    : S.phase === "running"
-      ? "Analiz çalışıyor... (" + done + "/5)"
-      : "Tamamlandı (" + ((S.result && S.result.total_s) || 0).toFixed(1) + " sn)";
-  overlay.innerHTML = `<section class="kz-flow ${S.phase === "handoff" ? "handoff" : ""}">
-    ${S.phase === "running" ? '<div class="kz-sweep"><span></span></div>' : ""}
-    <div class="kz-flow-top">
-      <div class="kz-kicker-sm">Analiz akışı</div>
-      <div class="kz-flow-status">${esc(statusLine)}</div>
-    </div>
-    <div class="kz-steps">${rings}${labels}${details}${times}</div>
-    ${S.phase === "handoff" ? '<div class="kz-flare"></div>' : ""}
-  </section>`;
+    </div>`);
+    labs.push(`<div class="kz-step-lab" data-step-lab="${i}"></div>`);
+    dets.push(`<div class="kz-step-det" data-step-det="${i}"></div>`);
+    times.push(`<div class="kz-step-time" data-step-time="${i}"></div>`);
+  }
+  host.innerHTML = cells.join("") + labs.join("") + dets.join("") + times.join("");
+}
+
+function restartArc(cell, durationMs) {
+  const arc = cell.querySelector(".kz-arc");
+  if (!arc) return;
+  arc.style.animation = "none";
+  arc.style.strokeDashoffset = "114";
+  void arc.getBoundingClientRect();
+  arc.style.stroke = "var(--kz-gold)";
+  arc.style.strokeDashoffset = "0";
+  arc.style.animation = "kzArc " + (durationMs / 1000).toFixed(2) + "s linear both";
+}
+
+function paintOverlay() {
+  const overlay = $("overlay");
+  if (!overlay) return;
+  ensureFlowSteps();
+  const on = S.phase === "running" || S.phase === "handoff";
+  const wasOff = overlay.classList.contains("is-off");
+  overlay.classList.toggle("is-off", !on);
+  overlay.setAttribute("aria-hidden", on ? "false" : "true");
+  if (!on) {
+    overlay.classList.remove("is-enter", "leaving");
+    overlayArcStep = -1;
+    return;
+  }
+  if (wasOff) {
+    overlay.classList.remove("leaving", "is-enter");
+    void overlay.getBoundingClientRect();
+    overlay.classList.add("is-enter");
+    if (overlayEnterTimer) window.clearTimeout(overlayEnterTimer);
+    overlayEnterTimer = window.setTimeout(() => {
+      overlay.classList.remove("is-enter");
+      overlayEnterTimer = 0;
+    }, 560);
+  }
+  overlay.classList.remove("leaving");
+  const defs = stepDefs();
+  const done = S.doneSteps;
+  const statusEl = $("flow-status");
+  const sweep = $("flow-sweep");
+  const card = $("flow-card");
+  if (card) card.classList.toggle("handoff", S.phase === "handoff");
+  if (sweep) sweep.classList.toggle("is-off", S.phase !== "running");
+  if (statusEl) {
+    statusEl.textContent = S.holdOverlay
+      ? "Model yanıtı bekleniyor…"
+      : S.phase === "running"
+        ? "Analiz çalışıyor… (" + done + "/5)"
+        : "Tamamlandı (" + ((S.result && S.result.total_s) || 0).toFixed(1) + " sn)";
+  }
+  defs.forEach((step, index) => {
+    let status = "pending";
+    if (S.phase === "running") status = index < done ? "done" : index === done ? "active" : "pending";
+    else status = "done";
+    const token = status + (step.skipped ? "-skip" : "");
+    const cell = overlay.querySelector('[data-step="' + index + '"]');
+    const lab = overlay.querySelector('[data-step-lab="' + index + '"]');
+    const det = overlay.querySelector('[data-step-det="' + index + '"]');
+    const timeEl = overlay.querySelector('[data-step-time="' + index + '"]');
+    if (lab) lab.textContent = step.label;
+    if (det) det.textContent = step.detail;
+    if (timeEl) {
+      timeEl.textContent = status === "done" && step.secs
+        ? Number(step.secs).toFixed(1) + " sn"
+        : status === "active"
+          ? "çalışıyor"
+          : (step.skipped && status === "done" ? "atlandı" : "");
+    }
+    if (!cell) return;
+    if (cell.dataset.token !== token) {
+      cell.dataset.token = token;
+      cell.className = "kz-ring-cell " + status;
+      const arc = cell.querySelector(".kz-arc");
+      const center = cell.querySelector(".kz-center");
+      const color = status === "active"
+        ? "var(--kz-gold)"
+        : status === "done"
+          ? (step.skipped ? "var(--kz-knob-off)" : "var(--kz-ok)")
+          : "rgba(var(--kz-line-rgb),0.1)";
+      if (arc) {
+        arc.style.stroke = color;
+        if (status !== "active") {
+          arc.style.animation = "none";
+          arc.style.strokeDashoffset = status === "done" ? "0" : "114";
+        }
+      }
+      if (center) {
+        center.innerHTML = status === "active"
+          ? FORKLIFT
+          : (status === "done" && !step.skipped ? "✓" : status === "done" ? "–" : String(index + 1));
+      }
+    }
+    if (status === "active" && overlayArcStep !== index) {
+      overlayArcStep = index;
+      restartArc(cell, stepMs(index));
+    }
+  });
+}
+
+function renderOverlay() {
+  paintOverlay();
 }
 
 function renderResult() {
@@ -216,7 +290,7 @@ function renderResult() {
       <span class="m" style="margin-left:16px">${esc(d.video_name || "kayıt")} · Tamamlandı (${(d.total_s * p).toFixed(1)} sn)</span></div>
     </header>
     <div class="kz-result-b">
-      ${d.backup ? '<div class="kz-banner">Ekranda <strong>kayıtlı sahne yedeği</strong> var (canlı API sonucu değil). Jüri videosunda Analiz Et ile taze koşu alın.</div>' : ""}
+      ${d.backup ? '<div class="kz-banner">Ekranda <strong>kayıtlı bir analiz</strong> var (canlı model sonucu değil). Güncel sonuç için Analiz et’e basın.</div>' : ""}
       <div class="kz-verdict ${esc(d.tone)}">
         <div class="kz-vglow"></div>
         <div class="kz-source ${esc(src.tone)}">Kaynak · ${esc(src.label)}<span> ${esc(src.detail || "")}</span></div>
@@ -252,7 +326,7 @@ function renderResult() {
             <div class="kz-acts">${actions.map((text, i) => `<div><i>${String(i + 1).padStart(2, "0")}</i><span>${esc(text)}</span></div>`).join("")}</div>
           </div>
           <div class="kz-acc" data-acc="json">
-            <button type="button"><span class="kz-caret ${S.jsonOpen ? "open" : ""}">▸</span> Jüri çıktısı (şartname JSON)</button>
+            <button type="button"><span class="kz-caret ${S.jsonOpen ? "open" : ""}">▸</span> Karar çıktısı (JSON)</button>
             <div class="kz-acc-body ${S.jsonOpen ? "" : "is-off"}">
               <div class="kz-help" style="padding-bottom:12px">${esc(d.spec_footnote || "")}</div>
               <pre>${esc(JSON.stringify(d.spec || { summary: d.summary, events, risk: d.tone, actions }, null, 2))}</pre>
@@ -275,7 +349,7 @@ function renderResult() {
             </div>
           </div>
           <div class="kz-dl">
-            <a href="#" data-dl="spec">Şartname JSON indir</a>
+            <a href="#" data-dl="spec">Karar JSON indir</a>
             <a class="sec" href="#" data-dl="full">Tam sonuç JSON indir</a>
           </div>
         </section>
@@ -300,42 +374,15 @@ function hideOverlay() {
     overlay.classList.add("leaving");
     setTimeout(() => {
       overlay.classList.add("is-off");
-      overlay.classList.remove("leaving");
-      overlay.innerHTML = "";
+      overlay.classList.remove("leaving", "is-enter");
+      overlay.setAttribute("aria-hidden", "true");
+      overlay.querySelectorAll("[data-step]").forEach((cell) => {
+        cell.dataset.token = "";
+      });
+      overlayArcStep = -1;
       resolve();
     }, 160);
   });
-}
-
-function liveEvents(snap, phase) {
-  const spec = (snap && snap.spec) || {};
-  const raw = spec.events || [];
-  const stamp = String((snap && (snap.event_time || snap.trigger_time)) || "").trim();
-  const summary = String(spec.summary || "").trim();
-  const rows = [];
-  const seen = new Set();
-  const push = (time, event) => {
-    const t = String(time || "").trim();
-    const e = String(event || "").trim();
-    if (!e) return;
-    const key = t + "|" + e;
-    if (seen.has(key)) return;
-    seen.add(key);
-    rows.push({ time: t || "00:00", event: e });
-  };
-  if (!raw.length && stamp && summary) push(stamp, summary);
-  raw.forEach((ev) => push(ev && ev.time, ev && ev.event));
-  if (!rows.length && stamp && (phase === "candidate" || phase === "analyzing")) {
-    push(stamp, "Hareket tetiklendi — model bu pencereyi okuyor");
-  }
-  if (stamp && rows.length && rows[0].time !== stamp) {
-    const idx = rows.findIndex((row) => row.time === stamp);
-    if (idx > 0) {
-      const hit = rows.splice(idx, 1)[0];
-      rows.unshift(hit);
-    }
-  }
-  return rows;
 }
 
 function renderLive(snap) {
@@ -348,13 +395,8 @@ function renderLive(snap) {
   const tone = banner.tone || "ok";
   $("live-cap").textContent = running
     ? "Akış açık — soldaki görüntü canlı; model kısa klibi arkada okur."
-    : "Akış kapalı. Video seçin veya webcam açın, sonra başlatın.";
+    : "Akış kapalı. Video seçin veya kamerayı açın, sonra başlatın.";
   const decided = phase === "decided" || !!(snap && snap.has_brief) || !!(spec.summary || actions.length || (spec.events || []).length);
-  const events = liveEvents(snap, phase);
-  let eventHtml = '<div class="kz-help">Henüz tetik yok. Hareket olunca saniye burada durur.</div>';
-  if (events.length) {
-    eventHtml = `<div class="kz-tl">${events.map((ev) => `<div><time>${esc(ev.time)}</time><span>${esc(ev.event)}</span></div>`).join("")}</div>`;
-  }
   let summaryHtml = "Tetik yok. Olay özeti burada durur.";
   if (decided && spec.summary) summaryHtml = spec.summary;
   else if (phase === "candidate" || phase === "analyzing") summaryHtml = "Özet model dönünce yazılır. Akış durmadı.";
@@ -399,16 +441,8 @@ function renderLive(snap) {
     </section>
   </div>
   <div class="kz-brief">
-    <div class="kz-split">
-      <div>
-        <div class="kz-kicker-sm" style="color:var(--kz-gold);margin-bottom:12px">Olay zamanı${snap && snap.event_time ? " · " + esc(snap.event_time) : ""}</div>
-        ${eventHtml}
-      </div>
-      <div>
-        <div class="kz-kicker-sm" style="color:var(--kz-gold);margin-bottom:12px">Olay özeti</div>
-        <div style="font-size:14px;line-height:1.55;color:var(--kz-muted)">${esc(summaryHtml)}</div>
-      </div>
-    </div>
+    <div class="kz-kicker-sm" style="color:var(--kz-gold);margin-bottom:12px">Olay özeti</div>
+    <div style="font-size:15px;line-height:1.65;color:var(--kz-muted)">${esc(summaryHtml)}</div>
     <div style="margin-top:22px">
       <div class="kz-kicker-sm" style="color:var(--kz-gold);margin-bottom:12px">Saha aksiyonları</div>
       ${actionHtml}
@@ -424,6 +458,10 @@ async function playFlow(resultPromise) {
   S.holdOverlay = false;
   S.doneSteps = 0;
   S.countP = 1;
+  overlayArcStep = -1;
+  document.querySelectorAll("#overlay [data-step]").forEach((cell) => {
+    cell.dataset.token = "";
+  });
   $("result").innerHTML = "";
   paintChrome();
   renderOverlay();
@@ -567,7 +605,7 @@ async function startLive() {
     renderLive(data);
     startLivePoll();
   } catch (_err) {
-    showLiveErr("Sunucuya bağlanılamadı. jury_server.py çalışıyor olsun.");
+    showLiveErr("Sunucuya bağlanılamadı. Analiz servisi çalışıyor olsun.");
   }
 }
 
@@ -638,14 +676,14 @@ async function runReal() {
     } catch (_err) {
       return {
         ok: false,
-        error: "Sunucu analiz yanıtını gönderemedi. http://127.0.0.1:8503 üzerinden açın; jury_server.py çalışıyor olsun.",
+        error: "Sunucu analiz yanıtını gönderemedi. Sayfayı yenileyip tekrar deneyin.",
       };
     }
     if (!res.ok && !data.error) data.error = "HTTP " + res.status;
     return data;
   }).catch(() => ({
     ok: false,
-    error: "Sunucuya bağlanılamadı. Tarayıcıda http://127.0.0.1:8503 açık olsun ve `py app/jury_server.py` çalışsın.",
+    error: "Sunucuya bağlanılamadı. Analiz servisi çalışıyor olsun.",
   }));
   await playFlow(pending);
 }
@@ -684,6 +722,7 @@ async function boot() {
   }
   paintChrome();
   setTheme(S.theme);
+  ensureFlowSteps();
 }
 
 document.addEventListener("click", (event) => {

@@ -41,6 +41,22 @@ _LIVE_COMPLETED = re.compile(
     r"hareketsiz|yerde\s+yat|yere\s+seril|yaralan|enkaz|altında\s+kald",
     re.IGNORECASE,
 )
+_LIVE_ACTIONS = {
+    "accident": [
+        "Sağlık ekibini çağır",
+        "Alanı güvenlik altına al",
+        "İş kazasını kayda geçir",
+    ],
+    "near_miss": [
+        "Çalışmayı durdur, alanı ayır",
+        "Ramak kalayı 24 saat içinde kayda geçir",
+        "Saha turu ile doğrula",
+    ],
+    "normal": [
+        "İzlemeye devam et",
+        "Rutin kontrolü sürdür",
+    ],
+}
 
 
 def encode_jpeg(frame: Any, quality: int = 70, max_width: int = 0) -> bytes:
@@ -358,6 +374,29 @@ class StreamReader(threading.Thread):
             pass
 
 
+def _normalize_live_actions(raw: Any) -> list[str]:
+    if isinstance(raw, str) and raw.strip():
+        return [raw.strip()]
+    if not isinstance(raw, list):
+        return []
+    out: list[str] = []
+    for item in raw:
+        if isinstance(item, str) and item.strip():
+            out.append(item.strip())
+        elif isinstance(item, dict):
+            text = str(item.get("action") or item.get("text") or "").strip()
+            if text:
+                out.append(text)
+    return out[:6]
+
+
+def _ensure_live_actions(out: dict[str, Any]) -> dict[str, Any]:
+    """VLM actions'a olay cümlesi yazıyor; canlı kartta yalnız saha emri durur."""
+    key = str(out.get("category") or "normal")
+    out["actions"] = list(_LIVE_ACTIONS.get(key) or _LIVE_ACTIONS["normal"])
+    return out
+
+
 def lock_live_label(raw: dict[str, Any]) -> dict[str, Any]:
     """Canlı etiket: kilitli çift. Jüri FA budaması (yalnız hareket → near_miss) yok.
 
@@ -369,7 +408,7 @@ def lock_live_label(raw: dict[str, Any]) -> dict[str, Any]:
         "events": dedupe_events(raw.get("events") or []),
         "risk": raw.get("risk") or "Düşük",
         "category": raw.get("category") or "normal",
-        "actions": list(raw.get("actions") or []),
+        "actions": _normalize_live_actions(raw.get("actions")),
     }
     blob = f"{out['summary']} {' '.join(str(item.get('event') or '') for item in out['events'])}"
     near = bool(_LIVE_NEAR.search(blob))
@@ -377,11 +416,11 @@ def lock_live_label(raw: dict[str, Any]) -> dict[str, Any]:
     if near and not completed:
         out["category"] = "near_miss"
         lock_category_risk(out, policy="category")
-        return out
+        return _ensure_live_actions(out)
     if has_unhedged_accident(blob) and out["category"] != "accident":
         out["category"] = "accident"
     lock_category_risk(out)
-    return out
+    return _ensure_live_actions(out)
 
 
 def pick_event_time(spec: dict[str, Any], trigger_time: str) -> str:
@@ -437,10 +476,11 @@ def _incident_prompt(incident: Incident, frames: list[dict[str, Any]] | None = N
         "Özet ile category çelişmesin. "
         "Net kaza yoksa normal / Düşük. Uydurma; görünür kazayı küçümseme.\n"
         "Hareket tetiklenmesi tek başına kaza değildir.\n"
-        "Özet düz Türkçe, 1-2 cümle. Sadece JSON:\n"
+        "Özet düz Türkçe, 1-2 cümle. actions'a 2-3 kısa saha cümlesi yaz, boş bırakma.\n"
+        "Sadece JSON:\n"
         '{"category":"normal|near_miss|accident","summary":"...",'
-        '"events":[{"time":"MM:SS","event":"..."}],'
-        '"risk":"Düşük|Orta|Yüksek","actions":["..."]}'
+        '"risk":"Düşük|Orta|Yüksek","actions":["...","..."],'
+        '"events":[{"time":"MM:SS","event":"..."}]}'
     )
 
 
@@ -467,7 +507,7 @@ async def analyze_incident(
             image_paths,
             video_path=video_path,
             json_mode=True,
-            max_tokens=420,
+            max_tokens=520,
         )
     except ModelCallError as exc:
         print(f"  x analiz başarısız (t={seconds_to_mmss(incident.trigger_t)}): {exc}")

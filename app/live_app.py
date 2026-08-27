@@ -55,7 +55,7 @@ def list_local_videos() -> list[Path]:
 
 def sidebar() -> StreamConfig:
     st.sidebar.markdown('<p class="kz-brand">KAIZEN</p>', unsafe_allow_html=True)
-    st.sidebar.caption("Canlı saha izleme — jüri videosu değil. Kayıt gerçek zamanlı oynar.")
+    st.sidebar.caption("Canlı saha izleme. Kayıt gerçek zamanlı oynar.")
     theme_toggle()
     st.sidebar.markdown("---")
     source_kind = st.sidebar.radio(
@@ -172,37 +172,6 @@ def render_feed(hub: Any) -> None:
     )
 
 
-def timeline_html(snap: dict[str, Any]) -> str:
-    spec = snap.get("spec") or {}
-    events = list(spec.get("events") or [])
-    phase = str(snap.get("phase") or "")
-    if not events:
-        stamp = str(snap.get("event_time") or snap.get("trigger_time") or "")
-        summary = str(spec.get("summary") or "").strip()
-        if stamp and summary:
-            events = [{"time": stamp, "event": summary}]
-        elif stamp and phase in {"candidate", "analyzing"}:
-            events = [{"time": stamp, "event": "Hareket tetiklendi — model bu pencereyi okuyor"}]
-    if not events:
-        return '<p class="kz-empty">Henüz tetik yok. Hareket olunca saniye burada durur.</p>'
-    items: list[str] = []
-    seen: set[tuple[str, str]] = set()
-    for item in events:
-        t = str(item.get("time") or "00:00")
-        e = str(item.get("event") or "").strip()
-        key = (t, e)
-        if not e or key in seen:
-            continue
-        seen.add(key)
-        items.append(
-            f'<li><span class="kz-time">{html.escape(t)}</span>'
-            f'<span class="kz-event">{html.escape(e)}</span></li>'
-        )
-    if not items:
-        return '<p class="kz-empty">Henüz tetik yok. Hareket olunca saniye burada durur.</p>'
-    return f'<ul class="kz-timeline">{"".join(items)}</ul>'
-
-
 def actions_html(actions: list[str]) -> str:
     clean = [item for item in actions if item]
     if not clean:
@@ -245,9 +214,6 @@ def render_briefing(snap: dict[str, Any]) -> None:
     summary = str(spec.get("summary") or "").strip()
     actions = list(spec.get("actions") or [])
     st.markdown('<div class="kz-brief">', unsafe_allow_html=True)
-    st.markdown('<div class="kz-section">Olay zamanı</div>', unsafe_allow_html=True)
-    st.markdown(timeline_html(snap), unsafe_allow_html=True)
-
     st.markdown('<div class="kz-section">Olay özeti</div>', unsafe_allow_html=True)
     if decided and summary:
         st.write(summary)
@@ -297,7 +263,7 @@ def main() -> None:
 <div class="kz-top">
   <p class="kz-brand">KAIZEN</p>
   <h1 class="kz-hero">Canlı saha izleme</h1>
-  <p class="kz-lede">Ekran gerçek kamera akışı. Analiz arkada çalışır; her kare modele gitmez. Jüri videosu değil — sunumdaki kısa canlı izleme şovu.</p>
+  <p class="kz-lede">Canlı akışta her kare modele gitmez. Hareket algılanınca kısa klip arka planda okunur, operatör kartı güncellenir.</p>
 </div>
 """,
         unsafe_allow_html=True,

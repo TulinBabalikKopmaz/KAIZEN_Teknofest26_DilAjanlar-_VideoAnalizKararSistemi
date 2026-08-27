@@ -226,7 +226,7 @@ def save_upload(uploaded: Any) -> Path:
 
 def _provider_caption(value: str) -> str:
     return {
-        "teknofest": "EVREN (resmi API — sunum)",
+        "teknofest": "EVREN (resmi API)",
         "ollama": "Ollama (yerel yedek)",
         "mock": "mock (modelsiz)",
     }.get(value, value)
@@ -245,8 +245,8 @@ def _analysis_fail_reason(exc: BaseException) -> str:
     if "11434" in text or "ollama" in low:
         if locked:
             return (
-                "Ollama'ya düşülmedi (sunum kilidi açık). "
-                "EVREN yanıt vermedi; kayıtlı sahne yedeğini açın veya ağı kontrol edin."
+                "Ollama'ya düşülmedi (model kilidi açık). "
+                "EVREN yanıt vermedi; kayıtlı analizi açın veya ağı kontrol edin."
             )
         return (
             "Yerel Ollama kapalı. Kenar çubuğunda kaynak = EVREN seçili olsun."
@@ -267,10 +267,10 @@ def sidebar_settings() -> dict[str, Any]:
     st.sidebar.markdown("---")
     st.sidebar.markdown("**Altyapı**")
     lock = st.sidebar.toggle(
-        "Sunum kilidi: yalnız EVREN",
+        "Model kilidi: yalnız EVREN",
         value=True,
         key="presentation_lock",
-        help="Açıkken EVREN düşerse Ollama'ya geçilmez. Sunumda açık bırakın.",
+        help="Açıkken EVREN düşerse Ollama'ya geçilmez.",
     )
     if lock:
         provider = "teknofest"
@@ -288,13 +288,13 @@ def sidebar_settings() -> dict[str, Any]:
             options=list(config.PROVIDERS),
             format_func=_provider_caption,
             key="provider_choice",
-            help="Sunumda EVREN. Ollama yalnız laboratuvar yedeği.",
+            help="Üretimde EVREN. Ollama yalnız laboratuvar yedeği.",
         )
         os.environ["PROVIDER"] = provider
         if provider == "ollama":
-            st.sidebar.error("Ollama seçili. Sunum kalitesi değil — kilidi tekrar açın.")
+            st.sidebar.error("Ollama seçili. Üretim kaynağı değil — kilidi tekrar açın.")
         elif provider == "teknofest":
-            st.sidebar.warning("Sunum kilidi kapalı: EVREN düşerse Ollama denenebilir.")
+            st.sidebar.warning("Model kilidi kapalı: EVREN düşerse Ollama denenebilir.")
         if provider == "ollama" and not config.ollama_reachable():
             provider = "teknofest"
             os.environ["PROVIDER"] = provider
@@ -314,10 +314,10 @@ def sidebar_settings() -> dict[str, Any]:
     saved = list_saved_runs()
     if saved:
         st.sidebar.markdown("---")
-        st.sidebar.markdown("**Sahne yedeği**")
+        st.sidebar.markdown("**Kayıtlı analiz**")
         labels = [p.name for p in saved]
-        pick = st.sidebar.selectbox("Kayıtlı koşu", ["(canlı analiz)"] + labels)
-        if pick != "(canlı analiz)" and st.sidebar.button("Yedeği ekrana getir"):
+        pick = st.sidebar.selectbox("Önceki koşu", ["(yeni analiz)"] + labels)
+        if pick != "(yeni analiz)" and st.sidebar.button("Kayıdı aç"):
             chosen = next(p for p in saved if p.name == pick)
             st.session_state["last_result"] = load_saved_run(chosen)
             st.session_state["showing_backup"] = True
@@ -326,7 +326,7 @@ def sidebar_settings() -> dict[str, Any]:
     if provider == "ollama" and config.ollama_reachable():
         st.sidebar.warning(
             "Yerel model 2–4 dk sürebilir. "
-            "1 dk sahnede hızlı mod veya kayıtlı yedek kullanın."
+            "Hızlı mod veya kayıtlı analiz kullanın."
         )
     return {"fast": fast, "max_frames": max_frames, "use_rag": use_rag, "provider": provider}
 
@@ -444,13 +444,13 @@ def show_result(result: DemoResult) -> None:
     v = verdict(result.label.get("category"), spec.get("risk"))
     if source["kind"] in {"ollama", "mixed"}:
         st.error(
-            f"Bu sonuç {source['label']}. Sunumda EVREN kullanın — "
-            "kenarda «Sunum kilidi: yalnız EVREN» açık olsun ve Analiz et'e tekrar basın."
+            f"Bu sonuç {source['label']}. EVREN kullanın — "
+            "kenarda «Model kilidi: yalnız EVREN» açık olsun ve Analiz et'e tekrar basın."
         )
     elif source["kind"] == "backup":
         st.markdown(
-            '<div class="kz-banner">Ekranda <strong>kayıtlı sahne yedeği</strong> var '
-            "(canlı API sonucu değil). Jüri videosunda Analiz et ile taze koşu alın.</div>",
+            '<div class="kz-banner">Ekranda <strong>kayıtlı bir analiz</strong> var '
+            "(canlı model sonucu değil). Güncel sonuç için Analiz et’e basın.</div>",
             unsafe_allow_html=True,
         )
 
@@ -499,7 +499,7 @@ def show_result(result: DemoResult) -> None:
             st.markdown(actions_html(list(spec.get("actions") or [])), unsafe_allow_html=True)
             show_law_support(result)
 
-        with st.expander("Jüri çıktısı (şartname JSON)"):
+        with st.expander("Karar çıktısı (JSON)"):
             st.caption(spec_footnote())
             st.json(spec)
 
@@ -515,7 +515,7 @@ def show_result(result: DemoResult) -> None:
 
         d1, d2 = st.columns(2)
         d1.download_button(
-            "Şartname JSON",
+            "Karar JSON",
             data=json.dumps(spec, ensure_ascii=False, indent=2),
             file_name=f"{Path(result.video).stem}_spec.json",
             mime="application/json",
@@ -540,11 +540,10 @@ def main() -> None:
     st.markdown(
         """
 <div class="kz-top">
-  <div class="kz-brand">KAIZEN · TEKNOFEST 2026</div>
+  <div class="kz-brand">KAIZEN</div>
   <h1 class="kz-hero">Saha İSG Karar Sistemi</h1>
   <p class="kz-lede">
-    Kamera kaydını arşiv değil karar haline getirir. Sahne (1 dk): ekibin seçtiği kısa klip
-    veya kayıtlı yedek. Jüri videosu: yükle, soruyu yapıştır, hızlı mod kapalı.
+    Kamera kaydını izler, saha durumunu belirler ve uygulanabilir aksiyon önerir.
   </p>
 </div>
 """,
@@ -566,9 +565,9 @@ def main() -> None:
 
             upload_n = int(st.session_state.get("girdi_upload_n", 0))
             uploaded = st.file_uploader(
-                "Jürinin videosu",
+                "Saha kaydı",
                 type=[e.strip(".") for e in VIDEO_EXTS],
-                label_visibility="collapsed",
+                label_visibility="visible",
                 key=f"girdi_upload_{upload_n}",
             )
             if uploaded is not None:
@@ -619,7 +618,7 @@ def main() -> None:
             return
         if settings.get("provider") == "ollama" and not config.ollama_reachable():
             st.error(
-                "Ollama çalışmıyor. Kenarda sunum kilidini açık bırakın (EVREN)."
+                "Ollama çalışmıyor. Kenarda model kilidini açık bırakın (EVREN)."
             )
             return
         st.session_state["analyzing"] = True
@@ -641,12 +640,11 @@ def main() -> None:
                 st.session_state["last_result"] = load_saved_run(backup[0])
                 st.session_state["showing_backup"] = True
                 st.warning(
-                    f"Canlı model yanıt vermedi. Kayıtlı sahne yedeği açıldı: `{backup[0].name}`."
+                    f"Canlı model yanıt vermedi. Kayıtlı analiz açıldı: `{backup[0].name}`."
                 )
             else:
                 st.info(
-                    "Kayıtlı yedek yok. Kenarda sunum kilidi açık olsun (EVREN). "
-                    "Sahneden önce klibi bir kez koşup `data/demo_runs/` yedeği alın."
+                    "Kayıtlı analiz yok. Kenarda model kilidi açık olsun (EVREN)."
                 )
         else:
             flow.complete(result.total_s)

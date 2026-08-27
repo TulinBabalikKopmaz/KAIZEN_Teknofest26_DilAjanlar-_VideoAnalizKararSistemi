@@ -708,9 +708,9 @@ textarea:focus, input:focus, button:focus-visible {
   padding: 34px;
   background: var(--kz-overlay);
   backdrop-filter: blur(3px);
-  animation: kzFade 0.22s ease-out both;
   transition: opacity 0.16s ease;
 }
+.kz-overlay.is-enter { animation: kzFade 0.22s ease-out both; }
 .kz-overlay.leaving { opacity: 0; pointer-events: none; }
 .kz-flow {
   position: relative;
@@ -722,7 +722,9 @@ textarea:focus, input:focus, button:focus-visible {
   border: 1px solid rgba(var(--kz-gold-rgb), 0.28);
   background: linear-gradient(158deg, var(--kz-surface) 0%, var(--kz-surface-2) 100%);
   box-shadow: 0 44px 100px -46px var(--kz-shadow-strong), 0 0 60px -30px rgba(var(--kz-gold-rgb), 0.22);
-  animation: kzRise 0.7s cubic-bezier(0.22, 0.61, 0.36, 1) both;
+}
+.kz-overlay.is-enter .kz-flow {
+  animation: kzRise 0.55s cubic-bezier(0.22, 0.61, 0.36, 1) both;
 }
 .kz-flow.handoff { animation: kzExitUp 0.28s cubic-bezier(0.22, 0.61, 0.36, 1) both; }
 .kz-sweep {
@@ -759,7 +761,13 @@ textarea:focus, input:focus, button:focus-visible {
   row-gap: 12px;
   margin-top: 34px;
 }
-.kz-ring-cell { position: relative; min-width: 0; text-align: center; padding: 0 8px; }
+.kz-ring-cell {
+  position: relative;
+  min-width: 0;
+  text-align: center;
+  padding: 0 8px;
+  transition: opacity 0.28s ease, transform 0.28s ease;
+}
 .kz-ring-cell.pending { opacity: 0.34; transform: scale(0.92); }
 .kz-ring-cell.active { transform: scale(1.06); }
 .kz-line {
